@@ -35,3 +35,13 @@ config :phoenix, :plug_init_mode, :runtime
 # Enable helpful, but potentially expensive runtime checks
 config :phoenix_live_view,
   enable_expensive_runtime_checks: true
+
+config :junit_formatter,
+  report_dir: "/tmp",
+  # Save output to "/tmp/junit.xml"
+  report_file: "junit.xml",
+  # Adds information about file location when suite finishes
+  print_report_file: true,
+  # Include filename and file number for more insights
+  include_filename?: true,
+  include_file_line?: true

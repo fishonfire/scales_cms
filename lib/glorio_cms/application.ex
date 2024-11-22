@@ -8,16 +8,13 @@ defmodule GlorioCms.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      GlorioCmsWeb.Telemetry,
-      GlorioCms.Repo,
       {DNSCluster, query: Application.get_env(:glorio_cms, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: GlorioCms.PubSub},
       # Start the Finch HTTP client for sending emails
-      {Finch, name: GlorioCms.Finch},
+      {Finch, name: GlorioCms.Finch}
       # Start a worker by calling: GlorioCms.Worker.start_link(arg)
       # {GlorioCms.Worker, arg},
       # Start to serve requests, typically the last entry
-      GlorioCmsWeb.Endpoint
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

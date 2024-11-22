@@ -71,15 +71,7 @@ config :glorio_cms, GlorioCms.Repo,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
-config :junit_formatter,
-  report_dir: "/tmp",
-  # Save output to "/tmp/junit.xml"
-  report_file: "junit.xml",
-  # Adds information about file location when suite finishes
-  print_report_file: true,
-  # Include filename and file number for more insights
-  include_filename?: true,
-  include_file_line?: true
+config :glorio_cms, GlorioCms, repo: GlorioCms.Repo
 
 if config_env() == :test do
   # Import environment specific config. This must remain at the bottom
