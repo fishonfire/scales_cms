@@ -10,7 +10,11 @@ defmodule GlorioCms.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       package: package(),
-      deps: deps()
+      deps: deps(),
+      dialyzer: [
+        plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
+      ],
+      docs: docs()
     ]
   end
 
@@ -19,7 +23,11 @@ defmodule GlorioCms.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      extra_applications: [:logger, :runtime_tools]
+      mod: {GlorioCms.Application, []},
+      extra_applications: [
+        :logger,
+        :runtime_tools
+      ]
     ]
   end
 
@@ -57,6 +65,8 @@ defmodule GlorioCms.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
+      {:junit_formatter, "~> 3.3", only: [:test]},
+      {:dialyxir, "~> 1.3", only: [:dev], runtime: false},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
       {:hackney, "~> 1.9"}
@@ -91,6 +101,12 @@ defmodule GlorioCms.MixProject do
       licenses: ["MIT"],
       links: %{github: "https://github.com/fishonfire/glorio_cms"},
       files: ~w(dist lib CHANGELOG.md LICENSE.md mix.exs README.md)
+    ]
+  end
+
+  defp docs do
+    [
+      extras: ["README.md"]
     ]
   end
 end
