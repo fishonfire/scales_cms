@@ -11,6 +11,9 @@ defmodule GlorioCms.MixProject do
       aliases: aliases(),
       package: package(),
       deps: deps(),
+      elixirc_options: [
+        warnings_as_errors: true
+      ],
       dialyzer: [
         plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
       ],

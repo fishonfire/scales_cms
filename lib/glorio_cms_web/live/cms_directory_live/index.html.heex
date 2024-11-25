@@ -1,0 +1,64 @@
+<.header>
+  Listing Cms directories
+  <:actions>
+    <.link :if={@current_directory == nil} patch={~p"/cms/cms_directories/new"}>
+      <.button>New Cms directory</.button>
+    </.link>
+    <.link
+      :if={@current_directory != nil && @current_directory.id != nil}
+      patch={~p"/cms/cms_directories/#{@current_directory.id}/new"}
+    >
+      <.button>New Cms directory</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<%= if @current_directory do %>
+  <%= if @current_directory.cms_directory_id == nil do %>
+    <.link patch={~p"/cms/cms_directories"}>Up</.link>
+  <% else %>
+    <.link patch={~p"/cms/cms_directories/#{@current_directory.cms_directory_id}"}>Up</.link>
+  <% end %>
+<% end %>
+
+<.table
+  id="cms_directories"
+  rows={@streams.cms_directories}
+  row_click={
+    fn {_id, cms_directory} -> JS.navigate(~p"/cms/cms_directories/#{cms_directory}") end
+  }
+>
+  <:col :let={{_id, cms_directory}} label="Title"><%= cms_directory.title %></:col>
+  <:col :let={{_id, cms_directory}} label="Slug"><%= cms_directory.slug %></:col>
+  <:col :let={{_id, cms_directory}} label="Deleted at"><%= cms_directory.deleted_at %></:col>
+  <:action :let={{_id, cms_directory}}>
+    <div class="sr-only">
+      <.link navigate={~p"/cms/cms_directories/#{cms_directory}"}>Show</.link>
+    </div>
+    <.link patch={~p"/cms/cms_directories/#{cms_directory}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, cms_directory}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: cms_directory.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="cms_directory-modal"
+  show
+  on_cancel={JS.patch(~p"/cms/cms_directories")}
+>
+  <.live_component
+    module={GlorioCmsWeb.CmsDirectoryLive.FormComponent}
+    id={@cms_directory.id || :new}
+    title={@page_title}
+    action={@live_action}
+    cms_directory={@cms_directory}
+    patch={~p"/cms/cms_directories"}
+  />
+</.modal>

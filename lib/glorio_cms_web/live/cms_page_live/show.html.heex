@@ -1,0 +1,33 @@
+<.header>
+  Cms page <%= @cms_page.id %>
+  <:subtitle>This is a cms_page record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/cms/cms_pages/#{@cms_page}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit cms_page</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Title"><%= @cms_page.title %></:item>
+  <:item title="Slug"><%= @cms_page.slug %></:item>
+  <:item title="Deleted at"><%= @cms_page.deleted_at %></:item>
+</.list>
+
+<.back navigate={~p"/cms/cms_pages"}>Back to cms_pages</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="cms_page-modal"
+  show
+  on_cancel={JS.patch(~p"/cms/cms_pages/#{@cms_page}")}
+>
+  <.live_component
+    module={GlorioCmsWeb.CmsPageLive.FormComponent}
+    id={@cms_page.id}
+    title={@page_title}
+    action={@live_action}
+    cms_page={@cms_page}
+    patch={~p"/cms/cms_pages/#{@cms_page}"}
+  />
+</.modal>
