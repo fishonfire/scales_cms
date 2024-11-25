@@ -23,9 +23,18 @@ defmodule GlorioCms.Cms.CmsPages do
     |> Repo.all()
   end
 
-  def list_pages_for_directory_id(id) do
+  @doc """
+  Returns the list of cms_pages within a directory.
+
+  ## Examples
+
+      iex> list_pages_for_directory_id(23)
+      [%CmsPage{}, ...]
+
+  """
+  def list_pages_for_directory_id(directory_id) do
     CmsPage
-    |> where([cp], cp.cms_directory_id == ^id)
+    |> where([cp], cp.cms_directory_id == ^directory_id)
     |> Repo.all()
   end
 

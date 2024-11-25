@@ -31,6 +31,7 @@ defmodule GlorioCmsWeb.Router do
 
       live "/cms_pages", CmsPageLive.Index, :index
       live "/cms_pages/new", CmsPageLive.Index, :new
+      live "/cms_pages/:id/new", CmsPageLive.Index, :new
       live "/cms_pages/:id/edit", CmsPageLive.Index, :edit
 
       live "/cms_pages/:id", CmsPageLive.Show, :show

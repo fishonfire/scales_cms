@@ -22,6 +22,21 @@ defmodule GlorioCms.Cms.CmsPageVariants do
   end
 
   @doc """
+  Returns the list of cms_page_variants for a page.
+
+  ## Examples
+
+      iex> list_cms_page_variants_for_page(232)
+      [%CmsPageVariant{}, ...]
+
+  """
+  def list_cms_page_variants_for_page(page_id) do
+    CmsPageVariant
+    |> where([cpv], cpv.cms_page_id == ^page_id)
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single cms_page_variant.
 
   Raises `Ecto.NoResultsError` if the Cms page variant does not exist.

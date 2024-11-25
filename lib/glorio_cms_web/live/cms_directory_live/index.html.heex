@@ -47,6 +47,48 @@
   </:action>
 </.table>
 
+<.header>
+Pages
+  <:actions>
+    <.link :if={@current_directory == nil} patch={~p"/cms/cms_pages/new"}>
+      <.button>New Cms Page</.button>
+    </.link>
+    <.link
+      :if={@current_directory != nil && @current_directory.id != nil}
+      patch={~p"/cms/cms_pages/#{@current_directory.id}/new"}
+    >
+      <.button>New Cms Page</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="cms_pages"
+  rows={@streams.cms_pages}
+  row_click={
+    fn {_id, cms_page} -> JS.navigate(~p"/cms/cms_pages/#{cms_page}") end
+  }
+>
+  <:col :let={{_id, cms_page}} label="Title"><%= cms_page.title %></:col>
+  <:col :let={{_id, cms_page}} label="Slug"><%= cms_page.slug %></:col>
+  <:col :let={{_id, cms_page}} label="Deleted at"><%= cms_page.deleted_at %></:col>
+
+  <:action :let={{_id, cms_page}}>
+    <div class="sr-only">
+      <.link navigate={~p"/cms/cms_pages/#{cms_page}"}>Show</.link>
+    </div>
+    <.link patch={~p"/cms/cms_pages/#{cms_page}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, cms_page}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: cms_page.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
 <.modal
   :if={@live_action in [:new, :edit]}
   id="cms_directory-modal"

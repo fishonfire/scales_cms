@@ -2,11 +2,16 @@ defmodule GlorioCmsWeb.CmsDirectoryLive.Index do
   use GlorioCmsWeb, :live_view
 
   alias GlorioCms.Cms.CmsDirectories
+  alias GlorioCms.Cms.CmsPages
+
   alias GlorioCms.Cms.CmsDirectory
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :cms_directories, [])}
+    socket
+    |> stream(:cms_directories, [])
+    |> stream(:cms_pages, [])
+    |> then(&{:ok, &1})
   end
 
   @impl true
@@ -43,6 +48,11 @@ defmodule GlorioCmsWeb.CmsDirectoryLive.Index do
       CmsDirectories.list_cms_directories_for_parent_id(id),
       reset: true
     )
+    |> stream(
+      :cms_pages,
+      CmsPages.list_pages_for_directory_id(id),
+      reset: true
+    )
     |> assign(:current_directory, CmsDirectories.get_cms_directory!(id))
     |> assign(:page_title, "Listing Cms directories")
     |> assign(:cms_directory, nil)
@@ -53,6 +63,11 @@ defmodule GlorioCmsWeb.CmsDirectoryLive.Index do
     |> stream(
       :cms_directories,
       CmsDirectories.list_cms_directories(),
+      reset: true
+    )
+    |> stream(
+      :cms_pages,
+      CmsPages.list_cms_pages(),
       reset: true
     )
     |> assign(:current_directory, nil)
