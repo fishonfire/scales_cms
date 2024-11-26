@@ -14,7 +14,13 @@ defmodule GlorioCms.Cms.CmsPageVariantBlock do
   @doc false
   def changeset(cms_page_variant_block, attrs) do
     cms_page_variant_block
-    |> cast(attrs, [:sort_order, :component_type, :properties])
+    |> cast(attrs, [:sort_order, :component_type, :properties, :cms_page_variant_id])
     |> validate_required([:sort_order, :component_type])
+  end
+
+  def change_order_changeset(cms_page_variant_block, attrs) do
+    cms_page_variant_block
+    |> cast(attrs, [:sort_order])
+    |> validate_required([:sort_order])
   end
 end

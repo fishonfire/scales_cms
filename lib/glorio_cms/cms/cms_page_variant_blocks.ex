@@ -21,6 +21,13 @@ defmodule GlorioCms.Cms.CmsPageVariantBlocks do
     Repo.all(CmsPageVariantBlock)
   end
 
+  def list_blocks_for_page_variant(page_variant_id) do
+    CmsPageVariantBlock
+    |> where([pvb], pvb.cms_page_variant_id == ^page_variant_id)
+    |> order_by([pvb], asc: pvb.sort_order)
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single cms_page_variant_block.
 

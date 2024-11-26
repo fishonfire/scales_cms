@@ -1,0 +1,24 @@
+<div class="w-full flex flex-row content-between		">
+  <div class="flex-auto w-[400px] min-h-16 border-2 border-red-300">
+    <div class="drop-zone w-[400px] min-h-16 pb-12" id="page-drop-zone" phx-hook="Drag">
+      <%= for {id, block} <- @streams.blocks do %>
+        <.render_preview id={id} block={block} />
+      <% end %>
+    </div>
+  </div>
+
+  <div class="border-2 drop-zone flex-end">
+    <div id="drawer" class="drawer " phx-hook="Drag">
+      <%= for {type, component} <- GlorioCmsWeb.Components.CmsComponents.get_components() do %>
+        <div
+          id={type}
+          class="draggable border-2 p-4 m-2 h-[96px] max-h-[96px]"
+          draggable="true"
+          data-id={type}
+        >
+          <%= component.render_draweritem(%{type: type, component: component}) %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

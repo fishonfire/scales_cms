@@ -43,6 +43,8 @@ defmodule GlorioCmsWeb.Router do
 
       live "/cms_page_variants/:id", CmsPageVariantLive.Show, :show
       live "/cms_page_variants/:id/show/edit", CmsPageVariantLive.Show, :edit
+
+      live "/cms_page_builder/:id", PageBuilderLive.Edit, :edit
     end
   end
 
