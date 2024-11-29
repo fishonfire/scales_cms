@@ -1,24 +1,27 @@
-<div class="w-full flex flex-row content-between		">
-  <div class="flex-auto w-[400px] min-h-16 border-2 border-red-300">
-    <div class="drop-zone w-[400px] min-h-16 pb-12" id="page-drop-zone" phx-hook="Drag">
+<div class="">
+  <div class="w-[calc(100%-400px)]">
+    <div class="drop-zone w-full min-h-16 pb-12" id="page-drop-zone" phx-hook="Drag">
       <%= for {id, block} <- @streams.blocks do %>
         <.render_preview id={id} block={block} />
       <% end %>
     </div>
   </div>
+</div>
 
-  <div class="border-2 drop-zone flex-end">
-    <div id="drawer" class="drawer " phx-hook="Drag">
+<aside
+  id="drawer-sidebar"
+  class="fixed top-0 right-0 z-40 w-[380px] h-screen transition-transform -translate-x-full sm:translate-x-0 bg-slate-100"
+  aria-label="Sidebar"
+>
+  <div class="relative">
+    <h2 class="mt-[48px] ml-[4px] mb-[32px]">Component library</h2>
+
+    <div id="drawer" class="drawer pr-[24px]" phx-hook="Drag">
       <%= for {type, component} <- GlorioCmsWeb.Components.CmsComponents.get_components() do %>
-        <div
-          id={type}
-          class="draggable border-2 p-4 m-2 h-[96px] max-h-[96px]"
-          draggable="true"
-          data-id={type}
-        >
+        <div id={type} class="draggable p-2 rounded-s m-2 bg-white" data-id={type}>
           <%= component.render_draweritem(%{type: type, component: component}) %>
         </div>
       <% end %>
     </div>
   </div>
-</div>
+</aside>

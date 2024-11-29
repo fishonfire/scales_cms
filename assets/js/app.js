@@ -22,8 +22,9 @@ import { Socket } from "phoenix"
 import { LiveSocket } from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 import sortable from "./hooks/sortable"
+import markdown from "./hooks/markdown"
 
-const Hooks = { Drag: sortable }
+const Hooks = { Drag: sortable, Markdown: markdown }
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {

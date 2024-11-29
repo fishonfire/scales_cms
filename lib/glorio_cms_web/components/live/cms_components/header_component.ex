@@ -1,6 +1,7 @@
 defmodule GlorioCmsWeb.Components.CmsComponents.Header do
   use GlorioCmsWeb, :live_component
 
+  alias GlorioCmsWeb.Components.HelperComponents.BlockWrapper
   def title(), do: "Header"
 
   defmodule HeaderPreview do
@@ -9,7 +10,9 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Header do
     def render(assigns) do
       ~H"""
       <div>
-        Header
+        <.live_component id={"head-#{@block.id}"} module={BlockWrapper} type={@block.component_type}>
+          Header
+        </.live_component>
       </div>
       """
     end
@@ -23,7 +26,9 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Header do
 
   def render_preview(assigns) do
     ~H"""
-    <.live_component module={HeaderPreview} id={assigns.block.id} assigns={assigns} />
+    <div>
+      <.live_component module={HeaderPreview} id={assigns.block.id} {assigns} />
+    </div>
     """
   end
 end

@@ -85,6 +85,7 @@ defmodule GlorioCmsWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import GlorioCmsWeb.CoreComponents
+      import GlorioCmsWeb.SvgComponents
       import GlorioCmsWeb.Gettext
 
       # Shortcut for generating JS commands

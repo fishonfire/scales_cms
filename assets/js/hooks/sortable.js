@@ -2,21 +2,6 @@ import Sortable from 'sortablejs'
 
 export default {
   mounted() {
-    // const hook = this;
-    // const selector = '#' + this.el.id;
-
-    // this.el.addEventListener('change', (evt) => {
-    //   console.log(evt);
-    //   console.log('hi I am changing')
-    //   event.preventDefault()
-    // });
-
-
-    // console.log('mounted')
-
-    // document.querySelectorAll('.drop-zone').forEach((dropzone) => {
-
-
     const sortable = new Sortable(this.el, {
       animation: 1,
       delay: 4,
@@ -24,6 +9,7 @@ export default {
       group: 'shared',
       draggable: '.draggable',
       ghostClass: 'sortable-ghost',
+      handle: ".drag-handle",
       onEnd: (evt) => {
         // console.log(sortable.toArray())
         evt.preventDefault()

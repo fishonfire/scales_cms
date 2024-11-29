@@ -1,7 +1,8 @@
 defmodule GlorioCmsWeb.Components.CmsComponents do
   @component_list %{
     "header" => GlorioCmsWeb.Components.CmsComponents.Header,
-    "test" => GlorioCmsWeb.Components.CmsComponents.Test
+    "test" => GlorioCmsWeb.Components.CmsComponents.Test,
+    "md" => GlorioCmsWeb.Components.CmsComponents.Md
   }
 
   def get_components(), do: @component_list

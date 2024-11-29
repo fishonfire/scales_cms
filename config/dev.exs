@@ -29,7 +29,7 @@ config :glorio_cms, GlorioCmsWeb.Endpoint,
     tailwind: {Tailwind, :install_and_run, [:glorio_cms, ~w(--watch)]}
   ]
 
-IO.inspect("DEV MODE ENABLED")
+# IO.inspect("DEV MODE ENABLED")
 
 # ## SSL Support
 #
