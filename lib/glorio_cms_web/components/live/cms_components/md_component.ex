@@ -2,25 +2,66 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Md do
   use GlorioCmsWeb, :live_component
 
   alias GlorioCmsWeb.Components.HelperComponents.BlockWrapper
+  alias GlorioCmsWeb.Components.CmsComponents.Md.MdProperties
+
+  import GlorioCmsWeb.Components.HelperComponents.DrawerComponents
+
   def title(), do: "Header"
 
-  defmodule HeaderPreview do
+  def properties_changeset(properties, attrs) do
+    properties
+    |> Ecto.Changeset.cast(attrs, [:content])
+    |> Ecto.Changeset.validate_required([:content])
+  end
+
+  defmodule MdPreview do
     use GlorioCmsWeb, :live_component
+
+    def update(assigns, socket) do
+      form =
+        to_form(
+          MdProperties.changeset(
+            struct(
+              GlorioCmsWeb.Components.CmsComponents.Md.MdProperties,
+              assigns.block.properties
+            ),
+            assigns.block.properties
+          )
+        )
+
+      socket
+      |> assign(assigns)
+      |> assign(form: form)
+      |> then(&{:ok, &1})
+    end
+
+    def handle_event("store-properties", %{"md_properties" => properties}, socket) do
+      with GlorioCms.Cms.CmsPageVariantBlocks.update_cms_page_variant_block(
+             socket.assigns.block,
+             %{properties: properties}
+           ) do
+        {:noreply, socket}
+      end
+    end
 
     def render(assigns) do
       ~H"""
       <div>
-        <.live_component id={"head-#{@block.id}"} module={BlockWrapper} type={@block.component_type}>
-          <div id={"markdown-#{@block.id}"} phx-hook="Markdown" phx-target={@myself}>
-            <div type="text" id={"markdown-#{@block.id}-editor"} class="wysiwyg" phx-update="ignore" />
+        <.live_component id={"head-#{@block.id}"} module={BlockWrapper} block={@block}>
+          <div id={"markdown-#{@block.id}"} phx-hook="Markdown" phx-block-id={@block.id}>
+            <trix-toolbar id={"markdown-#{@block.id}-toolbar"} phx-update="ignore"></trix-toolbar>
+            <trix-editor
+              class="trix-editor"
+              id={"markdown-#{@block.id}-editor"}
+              toolbar={"markdown-#{@block.id}-toolbar"}
+              phx-update="ignore"
+            >
+            </trix-editor>
           </div>
 
-          <input
-            type="hidden"
-            id={"markdown-#{@block.id}-content"}
-            phx-change="change-content"
-            phx-target={@myself}
-          />
+          <.simple_form for={@form} phx-change="store-properties" phx-target={@myself}>
+            <.input type="hidden" field={@form[:content]} id={"markdown-#{@block.id}-content"} />
+          </.simple_form>
         </.live_component>
       </div>
       """
@@ -29,27 +70,18 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Md do
 
   def render_draweritem(assigns) do
     ~H"""
-    <div class="flex flex-row">
-      <div class="icon mr-4">
-        <.svg type="cms_rich_text" class="w-[24px] h-[24px]" />
-      </div>
-
-      <div class="grow">
-        <p><%= @type %></p>
-        <p>Small or lang text like title or description</p>
-      </div>
-
-      <div class="drag-handle">
-        <.svg type="drag_handle" class="w-[24px] h-[24px]" />
-      </div>
-    </div>
+    <.drawer_preview
+      icon_type="cms_rich_text"
+      title="Markdown"
+      description="Small or lang text like title or description"
+    />
     """
   end
 
   def render_preview(assigns) do
     ~H"""
     <div>
-      <.live_component module={HeaderPreview} id={assigns.block.id} {assigns} />
+      <.live_component module={MdPreview} id={assigns.block.id} {assigns} />
     </div>
     """
   end

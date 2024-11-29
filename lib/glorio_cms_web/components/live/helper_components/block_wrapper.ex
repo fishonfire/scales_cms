@@ -14,7 +14,7 @@ defmodule GlorioCmsWeb.Components.HelperComponents.BlockWrapper do
   end
 
   slot :inner_block, required: true
-  attr :type, :string, required: true
+  attr :block, GlorioCms.Cms.CmsPageVariantBlock
 
   def render(assigns) do
     ~H"""
@@ -24,13 +24,16 @@ defmodule GlorioCmsWeb.Components.HelperComponents.BlockWrapper do
           <.svg type="drag_handle" class="w-[24px] h-[24px]" />
         </div>
         <div>
-          <%= @type %>
+          <%= @block.component_type %>
         </div>
         <div>
-          delete
+          <span phx-click="delete" phx-value-id={@block.id}>delete</span>
         </div>
         <div phx-click="toggle-open" phx-target={@myself} class="w-[24px] h-[24px] justify-self-end">
-          <.svg type="toggle_up" class="w-[16px] h-[16px] mt-[4px]" />
+          <.svg
+            type="toggle_up"
+            class={"w-[16px] h-[16px] mt-[4px] transition-all	 #{if @closed, do: "rotate-180", else: ""}"}
+          />
         </div>
       </div>
       <div :if={!@closed} class="border-2">

@@ -368,7 +368,7 @@ defmodule GlorioCmsWeb.CoreComponents do
 
   def input(%{type: "hidden"} = assigns) do
     ~H"""
-    <input type="hidden" name={@name} value={@value} disabled={@rest[:disabled]} />
+    <input id={@id} type="hidden" name={@name} value={@value} disabled={@rest[:disabled]} />
     """
   end
 

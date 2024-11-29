@@ -32,11 +32,9 @@ defmodule GlorioCmsWeb.PageBuilderLive.Edit do
           "newOrder" => new_order,
           "fromDropzoneId" => "page-drop-zone",
           "toDropzoneId" => "page-drop-zone"
-        } = info,
+        },
         socket
       ) do
-    IO.inspect(info)
-
     case reorder_blocks(new_order) do
       {:ok, _} ->
         socket
@@ -87,13 +85,10 @@ defmodule GlorioCmsWeb.PageBuilderLive.Edit do
 
   def handle_event(
         "dropped",
-        %{"fromDropzoneId" => "page-drop-zone", "toDropzoneId" => "drawer", "draggedId" => id} =
-          params,
+        %{"fromDropzoneId" => "page-drop-zone", "toDropzoneId" => "drawer", "draggedId" => id},
         socket
       ) do
     pv_id = socket.assigns.cms_page_variant.id
-
-    IO.inspect(params)
 
     [_, id] = String.split(id, "-")
     {id, _} = Integer.parse(id)
@@ -115,6 +110,27 @@ defmodule GlorioCmsWeb.PageBuilderLive.Edit do
         socket
       ),
       do: {:noreply, socket}
+
+  def handle_event("delete", %{"id" => id}, socket) do
+    CmsPageVariantBlocks.get_cms_page_variant_block!(id)
+    |> CmsPageVariantBlocks.delete_cms_page_variant_block()
+
+    socket
+    |> stream(
+      :blocks,
+      CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id),
+      reset: true
+    )
+    |> then(&{:noreply, &1})
+  rescue
+    Ecto.NoResultsError ->
+      socket
+      |> stream(
+        :blocks,
+        CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
+      )
+      |> then(&{:noreply, &1})
+  end
 
   defp page_title(:edit), do: "Show Cms page"
 
