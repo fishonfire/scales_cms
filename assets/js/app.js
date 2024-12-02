@@ -23,6 +23,7 @@ import { LiveSocket } from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 import sortable from "./hooks/sortable"
 import markdown from "./hooks/markdown"
+import S3Uploader from './uploaders/s3'
 
 const Hooks = { Drag: sortable, Markdown: markdown }
 
@@ -30,6 +31,7 @@ let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("
 let liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
   params: { _csrf_token: csrfToken },
+  uploaders: { S3: S3Uploader },
   hooks: Hooks,
 })
 

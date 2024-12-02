@@ -72,7 +72,9 @@ defmodule GlorioCms.MixProject do
       {:dialyxir, "~> 1.3", only: [:dev], runtime: false},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
-      {:hackney, "~> 1.9"}
+      {:hackney, "~> 1.9"},
+      {:ex_aws, "~> 2.5"},
+      {:ex_aws_s3, "~> 2.5"}
     ]
   end
 

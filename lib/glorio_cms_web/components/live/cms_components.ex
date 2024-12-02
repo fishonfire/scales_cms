@@ -1,8 +1,16 @@
 defmodule GlorioCmsWeb.Components.CmsComponents do
+  alias GlorioCmsWeb.Components.CmsComponents.{
+    Header,
+    Test,
+    Md,
+    Image
+  }
+
   @component_list %{
-    "header" => GlorioCmsWeb.Components.CmsComponents.Header,
-    "test" => GlorioCmsWeb.Components.CmsComponents.Test,
-    "md" => GlorioCmsWeb.Components.CmsComponents.Md
+    "header" => Header,
+    "test" => Test,
+    "md" => Md,
+    "image" => Image
   }
 
   def get_components(), do: @component_list

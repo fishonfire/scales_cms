@@ -6,6 +6,8 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Header do
 
   def title(), do: "Header"
 
+  def category(), do: "Content"
+
   defmodule HeaderPreview do
     use GlorioCmsWeb, :live_component
 

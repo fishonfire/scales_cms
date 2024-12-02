@@ -63,6 +63,12 @@ config :phoenix, :json_library, Jason
 
 config :glorio_cms, GlorioCms, repo: GlorioCms.Repo
 
+config :glorio_cms,
+  access_key_id: System.fetch_env!("AWS_ACCESS_KEY_ID"),
+  secret_access_key: System.fetch_env!("AWS_SECRET_ACCESS_KEY"),
+  bucket: System.fetch_env!("S3_BUCKET_NAME"),
+  region: System.fetch_env!("AWS_REGION")
+
 if config_env() == :test || config_env() == :dev do
   # Import environment specific config. This must remain at the bottom
   # of this file so it overrides the configuration defined above.
