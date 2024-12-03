@@ -146,7 +146,7 @@ defmodule GlorioCmsWeb.PageBuilderLive.Edit do
         multi,
         {:cms_page_variant_block, block_id},
         CmsPageVariantBlock.change_order_changeset(%CmsPageVariantBlock{id: block_id}, %{
-          sort_order: new_order + 1
+          sort_order: new_order
         })
       )
     end)

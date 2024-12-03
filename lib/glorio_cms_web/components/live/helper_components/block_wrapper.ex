@@ -19,7 +19,7 @@ defmodule GlorioCmsWeb.Components.HelperComponents.BlockWrapper do
   def render(assigns) do
     ~H"""
     <div>
-      <div class="w-full flex justify-between bg-lightGrey py-[8px]  transition-all ">
+      <div class="w-full flex justify-between bg-lightGrey py-[8px] transition-all ease-in-out delay-150 duration-300">
         <div class="ml-[12px] text-lg	font-bold">
           <%= @block.component_type %>
         </div>
@@ -39,7 +39,7 @@ defmodule GlorioCmsWeb.Components.HelperComponents.BlockWrapper do
             >
               <.svg
                 type="toggle_up"
-                class={"w-[16px] h-[16px] mt-[4px] transition-all	 #{if @closed, do: "rotate-180", else: ""}"}
+                class={"w-[16px] h-[16px] mt-[6px] transition-all ease-in-out delay-150 duration-300 #{if @closed, do: "rotate-180", else: ""}"}
               />
             </div>
           </div>

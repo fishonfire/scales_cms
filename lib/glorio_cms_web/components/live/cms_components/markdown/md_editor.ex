@@ -39,7 +39,12 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Md.MdEditor do
     ~H"""
     <div>
       <.live_component id={"head-#{@block.id}"} module={BlockWrapper} block={@block}>
-        <div id={"markdown-#{@block.id}"} phx-hook="Markdown" phx-block-id={@block.id}>
+        <div
+          id={"markdown-#{@block.id}"}
+          phx-hook="Markdown"
+          phx-block-id={@block.id}
+          class="m-[16px]"
+        >
           <trix-toolbar id={"markdown-#{@block.id}-toolbar"} phx-update="ignore"></trix-toolbar>
           <trix-editor
             class="trix-editor"
