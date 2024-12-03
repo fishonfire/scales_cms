@@ -8,7 +8,7 @@ export default {
       delayOnTouchOnly: true,
       group: 'shared',
       draggable: '.draggable',
-      ghostClass: 'sortable-ghost',
+      ghostClass: '.sortable-ghost',
       handle: ".drag-handle",
       onEnd: (evt) => {
         // console.log(sortable.toArray())

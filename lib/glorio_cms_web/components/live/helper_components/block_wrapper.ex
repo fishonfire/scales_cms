@@ -19,25 +19,42 @@ defmodule GlorioCmsWeb.Components.HelperComponents.BlockWrapper do
   def render(assigns) do
     ~H"""
     <div>
-      <div class="w-full flex justify-between">
-        <div class="drag-handle w-[24px] h-[24px]">
-          <.svg type="drag_handle" class="w-[24px] h-[24px]" />
-        </div>
-        <div>
+      <div class="w-full flex justify-between bg-lightGrey py-[8px]  transition-all ">
+        <div class="ml-[12px] text-lg	font-bold">
           <%= @block.component_type %>
         </div>
-        <div>
-          <span phx-click="delete" phx-value-id={@block.id}>delete</span>
-        </div>
-        <div phx-click="toggle-open" phx-target={@myself} class="w-[24px] h-[24px] justify-self-end">
-          <.svg
-            type="toggle_up"
-            class={"w-[16px] h-[16px] mt-[4px] transition-all	 #{if @closed, do: "rotate-180", else: ""}"}
-          />
+        <div class="flex">
+          <div class="mr-[8px] bg-white rounded-lg flex">
+            <div
+              phx-click="delete"
+              phx-value-id={@block.id}
+              class="mx-[8px] pr-[4px] py-[4px] border-r-2"
+            >
+              <.icon name="hero-trash" />
+            </div>
+            <div
+              phx-click="toggle-open"
+              phx-target={@myself}
+              class="w-[24px] h-[24px] mx-[8px] py-[4px]"
+            >
+              <.svg
+                type="toggle_up"
+                class={"w-[16px] h-[16px] mt-[4px] transition-all	 #{if @closed, do: "rotate-180", else: ""}"}
+              />
+            </div>
+          </div>
+
+          <div class="drag-handle w-[24px] h-[24px] mr-[12px] ml-[8px] my-[4px]">
+            <.icon name="hero-arrows-pointing-out" />
+          </div>
         </div>
       </div>
-      <div :if={!@closed} class="border-2">
-        <%= render_slot(@inner_block) %>
+      <div class={" grid #{if @closed, do: "grid-rows-[0fr]", else: "grid-rows-[1fr]"} transition-all ease-in-out delay-150 duration-300"}>
+        <ul class="grid gap-2 overflow-hidden">
+          <li>
+            <%= render_slot(@inner_block) %>
+          </li>
+        </ul>
       </div>
     </div>
     """

@@ -13,7 +13,11 @@ defmodule GlorioCmsWeb.Components.CmsComponentsRenderer do
       )
 
     ~H"""
-    <div id={@id} data-id={@block.id} class="p-4 border-2 mb-4 draggable">
+    <div
+      id={@id}
+      data-id={@block.id}
+      class="draggable border-[1px] mb-8 rounded-xl bg-white overflow-hidden"
+    >
       <%= if @component do %>
         <%= @component.render_preview(assigns) %>
       <% else %>

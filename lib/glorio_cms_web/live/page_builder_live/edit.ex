@@ -18,9 +18,12 @@ defmodule GlorioCmsWeb.PageBuilderLive.Edit do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
+    pv = CmsPageVariants.get_cms_page_variant!(id)
+
     socket
     |> assign(:page_title, page_title(socket.assigns.live_action))
-    |> assign(:cms_page_variant, CmsPageVariants.get_cms_page_variant!(id))
+    |> assign(:cms_page_variant, pv)
+    |> assign(:form, to_form(CmsPageVariants.change_cms_page_variant(pv)))
     |> stream(:blocks, CmsPageVariantBlocks.list_blocks_for_page_variant(id))
     |> then(&{:noreply, &1})
   end
