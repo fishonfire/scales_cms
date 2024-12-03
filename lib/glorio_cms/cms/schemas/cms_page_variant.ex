@@ -16,6 +16,6 @@ defmodule GlorioCms.Cms.CmsPageVariant do
   def changeset(cms_page_variant, attrs) do
     cms_page_variant
     |> cast(attrs, [:title, :published_at, :locale, :version])
-    |> validate_required([:title, :published_at, :locale, :version])
+    |> validate_required([:title, :locale, :version])
   end
 end

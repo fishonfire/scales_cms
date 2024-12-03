@@ -4,13 +4,14 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Image.ImageProperties do
 
   embedded_schema do
     field :image_url, :string
+    field :image_path, :string
     field :filename, :string
   end
 
   @doc false
   def changeset(properties, attrs) do
     properties
-    |> cast(attrs, [:image_url])
+    |> cast(attrs, [:image_url, :image_path])
     |> validate_required([])
   end
 end

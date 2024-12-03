@@ -4,6 +4,7 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Md.MdEditor do
 
   use GlorioCmsWeb, :live_component
 
+  @impl Phoenix.LiveComponent
   def update(assigns, socket) do
     form =
       to_form(
@@ -22,6 +23,8 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Md.MdEditor do
     |> then(&{:ok, &1})
   end
 
+  @impl Phoenix.LiveComponent
+
   def handle_event("store-properties", %{"md_properties" => properties}, socket) do
     with GlorioCms.Cms.CmsPageVariantBlocks.update_cms_page_variant_block(
            socket.assigns.block,
@@ -31,6 +34,7 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Md.MdEditor do
     end
   end
 
+  @impl Phoenix.LiveComponent
   def render(assigns) do
     ~H"""
     <div>

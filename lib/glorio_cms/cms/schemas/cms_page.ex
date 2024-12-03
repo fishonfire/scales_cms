@@ -15,6 +15,6 @@ defmodule GlorioCms.Cms.CmsPage do
   def changeset(cms_page, attrs) do
     cms_page
     |> cast(attrs, [:title, :slug, :deleted_at])
-    |> validate_required([:title, :slug, :deleted_at])
+    |> validate_required([:title, :slug])
   end
 end

@@ -11,13 +11,31 @@ defmodule GlorioCmsWeb.CmsPageLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    socket
-    |> assign(:page_title, page_title(socket.assigns.live_action))
-    |> assign(:cms_page, CmsPages.get_cms_page!(id))
-    |> stream(:variants, CmsPageVariants.list_cms_page_variants_for_page(id))
-    |> then(&{:noreply, &1})
-  end
+    default_locale =
+      Application.get_env(:glorio_cms, :cms)[:default_locale] || "en-US"
 
-  defp page_title(:show), do: "Show Cms page"
-  defp page_title(:edit), do: "Edit Cms page"
+    case CmsPageVariants.get_latest_cms_page_variant_for_locale(
+           id,
+           default_locale
+         ) do
+      nil ->
+        with page <- CmsPages.get_cms_page!(id),
+             {:ok, pv} <-
+               CmsPageVariants.create_cms_page_variant(%{
+                 cms_page_id: id,
+                 locale: default_locale,
+                 title: page.title,
+                 version: 1
+               }) do
+          socket
+          |> push_navigate(to: ~p"/cms/cms_page_builder/#{pv.id}")
+          |> then(&{:noreply, &1})
+        end
+
+      pv ->
+        socket
+        |> push_navigate(to: ~p"/cms/cms_page_builder/#{pv.id}")
+        |> then(&{:noreply, &1})
+    end
+  end
 end

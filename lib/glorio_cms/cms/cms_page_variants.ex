@@ -52,6 +52,14 @@ defmodule GlorioCms.Cms.CmsPageVariants do
   """
   def get_cms_page_variant!(id), do: Repo.get!(CmsPageVariant, id)
 
+  def get_latest_cms_page_variant_for_locale(id, locale) do
+    CmsPageVariant
+    |> where([cpv], cpv.cms_page_id == ^id and cpv.locale == ^locale)
+    |> order_by([cpv], desc: cpv.version)
+    |> limit(1)
+    |> Repo.one()
+  end
+
   @doc """
   Creates a cms_page_variant.
 

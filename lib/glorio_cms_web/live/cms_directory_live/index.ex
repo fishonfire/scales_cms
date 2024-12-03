@@ -3,8 +3,9 @@ defmodule GlorioCmsWeb.CmsDirectoryLive.Index do
 
   alias GlorioCms.Cms.CmsDirectories
   alias GlorioCms.Cms.CmsPages
-
   alias GlorioCms.Cms.CmsDirectory
+
+  alias GlorioCmsWeb.Components.LocaleSwitcher
 
   @impl true
   def mount(_params, _session, socket) do

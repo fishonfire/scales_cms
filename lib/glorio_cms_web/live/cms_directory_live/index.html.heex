@@ -1,6 +1,8 @@
 <.header>
   Listing Cms directories
   <:actions>
+    <.live_component id="locale_switcher" module={LocaleSwitcher} />
+
     <.link :if={@current_directory == nil} patch={~p"/cms/cms_directories/new"}>
       <.button>New Cms directory</.button>
     </.link>
