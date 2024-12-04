@@ -1,5 +1,5 @@
 <.header>
-  Cms directory <%= @cms_directory.id %>
+  Cms directory {@cms_directory.id}
   <:subtitle>This is a cms_directory record from your database.</:subtitle>
   <:actions>
     <.link
@@ -12,9 +12,9 @@
 </.header>
 
 <.list>
-  <:item title="Title"><%= @cms_directory.title %></:item>
-  <:item title="Slug"><%= @cms_directory.slug %></:item>
-  <:item title="Deleted at"><%= @cms_directory.deleted_at %></:item>
+  <:item title="Title">{@cms_directory.title}</:item>
+  <:item title="Slug">{@cms_directory.slug}</:item>
+  <:item title="Deleted at">{@cms_directory.deleted_at}</:item>
 </.list>
 
 <.back navigate={~p"/cms/cms_directories"}>Back to cms_directories</.back>

@@ -30,9 +30,9 @@
     fn {_id, cms_directory} -> JS.navigate(~p"/cms/cms_directories/#{cms_directory}") end
   }
 >
-  <:col :let={{_id, cms_directory}} label="Title"><%= cms_directory.title %></:col>
-  <:col :let={{_id, cms_directory}} label="Slug"><%= cms_directory.slug %></:col>
-  <:col :let={{_id, cms_directory}} label="Deleted at"><%= cms_directory.deleted_at %></:col>
+  <:col :let={{_id, cms_directory}} label="Title">{cms_directory.title}</:col>
+  <:col :let={{_id, cms_directory}} label="Slug">{cms_directory.slug}</:col>
+  <:col :let={{_id, cms_directory}} label="Deleted at">{cms_directory.deleted_at}</:col>
   <:action :let={{_id, cms_directory}}>
     <div class="sr-only">
       <.link navigate={~p"/cms/cms_directories/#{cms_directory}"}>Show</.link>
@@ -65,9 +65,9 @@
 </.header>
 
 <.table id="cms_pages" rows={@streams.cms_pages}>
-  <:col :let={{_id, cms_page}} label="Title"><%= cms_page.title %></:col>
-  <:col :let={{_id, cms_page}} label="Slug"><%= cms_page.slug %></:col>
-  <:col :let={{_id, cms_page}} label="Deleted at"><%= cms_page.deleted_at %></:col>
+  <:col :let={{_id, cms_page}} label="Title">{cms_page.title}</:col>
+  <:col :let={{_id, cms_page}} label="Slug">{cms_page.slug}</:col>
+  <:col :let={{_id, cms_page}} label="Deleted at">{cms_page.deleted_at}</:col>
 
   <:action :let={{id, cms_page}}>
     <.link

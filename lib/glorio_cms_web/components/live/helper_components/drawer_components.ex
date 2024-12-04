@@ -13,8 +13,8 @@ defmodule GlorioCmsWeb.Components.HelperComponents.DrawerComponents do
       </div>
 
       <div class="grow">
-        <p><%= @title %></p>
-        <p><%= @description %></p>
+        <p>{@title}</p>
+        <p>{@description}</p>
       </div>
 
       <div class="drag-handle">

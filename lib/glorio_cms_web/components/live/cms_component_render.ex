@@ -19,12 +19,12 @@ defmodule GlorioCmsWeb.Components.CmsComponentsRenderer do
       class="draggable border-[1px] mb-8 rounded-xl bg-white overflow-hidden"
     >
       <%= if @component do %>
-        <%= @component.render_preview(assigns) %>
+        {@component.render_preview(assigns)}
       <% else %>
         <!-- Component not found -->
-        <p>ID: <%= @block.id %></p>
-        <p>Type: <%= @block.component_type %></p>
-        <p>Sort order: <%= @block.sort_order %></p>
+        <p>ID: {@block.id}</p>
+        <p>Type: {@block.component_type}</p>
+        <p>Sort order: {@block.sort_order}</p>
       <% end %>
     </div>
     """

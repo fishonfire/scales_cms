@@ -21,7 +21,7 @@ defmodule GlorioCmsWeb.Components.HelperComponents.BlockWrapper do
     <div>
       <div class="w-full flex justify-between bg-lightGrey py-[8px] transition-all ease-in-out delay-150 duration-300">
         <div class="ml-[12px] text-lg	font-bold">
-          <%= @block.component_type %>
+          {@block.component_type}
         </div>
         <div class="flex">
           <div class="mr-[8px] bg-white rounded-lg flex">
@@ -52,7 +52,7 @@ defmodule GlorioCmsWeb.Components.HelperComponents.BlockWrapper do
       <div class={" grid #{if @closed, do: "grid-rows-[0fr]", else: "grid-rows-[1fr]"} transition-all ease-in-out delay-150 duration-300"}>
         <ul class="grid gap-2 overflow-hidden">
           <li>
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </li>
         </ul>
       </div>

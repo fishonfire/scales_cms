@@ -8,7 +8,7 @@ defmodule GlorioCmsWeb.CmsDirectoryLive.FormComponent do
     ~H"""
     <div>
       <.header>
-        <%= @title %>
+        {@title}
         <:subtitle>Use this form to manage cms_directory records in your database.</:subtitle>
       </.header>
 

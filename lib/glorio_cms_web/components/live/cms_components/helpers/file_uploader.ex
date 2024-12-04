@@ -24,11 +24,11 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Helpers.FileUploader do
             <article class="upload-entry">
               <figure>
                 <.live_img_preview entry={entry} />
-                <figcaption><%= entry.client_name %></figcaption>
+                <figcaption>{entry.client_name}</figcaption>
               </figure>
 
               <%!-- entry.progress will update automatically for in-flight entries --%>
-              <progress value={entry.progress} max="100"><%= entry.progress %>%</progress>
+              <progress value={entry.progress} max="100">{entry.progress}%</progress>
 
               <%!-- a regular click event whose handler will invoke Phoenix.LiveView.cancel_upload/3 --%>
               <button
@@ -42,13 +42,13 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Helpers.FileUploader do
 
               <%!-- Phoenix.Component.upload_errors/2 returns a list of error atoms --%>
               <%= for err <- upload_errors(@uploads.image, entry) do %>
-                <p class="alert alert-danger"><%= inspect(err) %></p>
+                <p class="alert alert-danger">{inspect(err)}</p>
               <% end %>
             </article>
           <% end %>
 
           <%= for err <- upload_errors(@uploads.image) do %>
-            <p class="alert alert-danger"><%= inspect(err) %></p>
+            <p class="alert alert-danger">{inspect(err)}</p>
           <% end %>
         </section>
         """

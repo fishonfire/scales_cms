@@ -12,9 +12,9 @@
   rows={@streams.cms_pages}
   row_click={fn {_id, cms_page} -> JS.navigate(~p"/cms/cms_pages/#{cms_page}") end}
 >
-  <:col :let={{_id, cms_page}} label="Title"><%= cms_page.title %></:col>
-  <:col :let={{_id, cms_page}} label="Slug"><%= cms_page.slug %></:col>
-  <:col :let={{_id, cms_page}} label="Deleted at"><%= cms_page.deleted_at %></:col>
+  <:col :let={{_id, cms_page}} label="Title">{cms_page.title}</:col>
+  <:col :let={{_id, cms_page}} label="Slug">{cms_page.slug}</:col>
+  <:col :let={{_id, cms_page}} label="Deleted at">{cms_page.deleted_at}</:col>
   <:action :let={{_id, cms_page}}>
     <div class="sr-only">
       <.link navigate={~p"/cms/cms_pages/#{cms_page}"}>Show</.link>

@@ -1,5 +1,5 @@
 <.header>
-  Cms page variant <%= @cms_page_variant.id %>
+  Cms page variant {@cms_page_variant.id}
   <:subtitle>This is a cms_page_variant record from your database.</:subtitle>
   <:actions>
     <.link
@@ -12,10 +12,10 @@
 </.header>
 
 <.list>
-  <:item title="Title"><%= @cms_page_variant.title %></:item>
-  <:item title="Published at"><%= @cms_page_variant.published_at %></:item>
-  <:item title="Locale"><%= @cms_page_variant.locale %></:item>
-  <:item title="Version"><%= @cms_page_variant.version %></:item>
+  <:item title="Title">{@cms_page_variant.title}</:item>
+  <:item title="Published at">{@cms_page_variant.published_at}</:item>
+  <:item title="Locale">{@cms_page_variant.locale}</:item>
+  <:item title="Version">{@cms_page_variant.version}</:item>
 </.list>
 
 <.back navigate={~p"/cms/cms_page_variants"}>Back to cms_page_variants</.back>

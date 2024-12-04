@@ -8,7 +8,7 @@ defmodule GlorioCmsWeb.CmsPageLive.FormComponent do
     ~H"""
     <div>
       <.header>
-        <%= @title %>
+        {@title}
         <:subtitle>Use this form to manage cms_page records in your database.</:subtitle>
       </.header>
 

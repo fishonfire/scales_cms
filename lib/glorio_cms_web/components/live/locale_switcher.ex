@@ -15,7 +15,7 @@ defmodule GlorioCmsWeb.Components.LocaleSwitcher do
       <form>
         <select name="locale" id="locale" phx-change="switch-locale" phx-target={@myself}>
           <%= for %{code: code, name: name} <- locales() do %>
-            <option value={code} selected={code == @locale}><%= name %></option>
+            <option value={code} selected={code == @locale}>{name}</option>
           <% end %>
         </select>
       </form>

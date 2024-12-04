@@ -8,7 +8,7 @@ defmodule GlorioCmsWeb.CmsPageVariantLive.FormComponent do
     ~H"""
     <div>
       <.header>
-        <%= @title %>
+        {@title}
         <:subtitle>Use this form to manage cms_page_variant records in your database.</:subtitle>
       </.header>
 
