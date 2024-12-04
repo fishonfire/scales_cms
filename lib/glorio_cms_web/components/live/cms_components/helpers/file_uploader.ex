@@ -60,7 +60,7 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Helpers.FileUploader do
       @doc """
       Adds the uploaded file URLs to the block params
       """
-      defp put_file_urls(socket, block) do
+      def put_file_urls(socket, block) do
         uploaded_file_urls =
           consume_uploaded_entries(socket, :image, fn _, entry ->
             {:ok, S3Upload.entry_url(entry)}
@@ -86,7 +86,7 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Helpers.FileUploader do
       @doc """
       Presigns the S3 upload and returns the key and URL so the user can start the upload
       """
-      defp presign_entry(entry, %{assigns: %{uploads: uploads}} = socket) do
+      def presign_entry(entry, %{assigns: %{uploads: uploads}} = socket) do
         {:ok, {key, url}} = S3Upload.presigned_url(entry)
 
         {:ok, %{uploader: "S3", key: key, url: url}, socket}

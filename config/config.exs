@@ -64,15 +64,15 @@ config :phoenix, :json_library, Jason
 config :glorio_cms, GlorioCms, repo: GlorioCms.Repo
 
 config :ex_aws, :s3,
-  access_key_id: System.fetch_env!("AWS_ACCESS_KEY_ID"),
-  secret_access_key: System.fetch_env!("AWS_SECRET_ACCESS_KEY"),
-  bucket_name: System.fetch_env!("S3_BUCKET_NAME"),
+  access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
+  secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY"),
+  bucket_name: System.get_env("S3_BUCKET_NAME"),
   region: System.fetch_env!("AWS_REGION")
 
 config :glorio_cms,
-  access_key_id: System.fetch_env!("AWS_ACCESS_KEY_ID"),
-  secret_access_key: System.fetch_env!("AWS_SECRET_ACCESS_KEY"),
-  bucket: System.fetch_env!("S3_BUCKET_NAME"),
+  access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
+  secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY"),
+  bucket: System.get_env("S3_BUCKET_NAME"),
   region: System.fetch_env!("AWS_REGION")
 
 config :glorio_cms, :cms, default_locale: "nl-NL"
