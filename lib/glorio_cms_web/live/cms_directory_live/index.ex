@@ -6,16 +6,19 @@ defmodule GlorioCmsWeb.CmsDirectoryLive.Index do
   alias GlorioCms.Cms.CmsDirectory
 
   alias GlorioCmsWeb.Components.LocaleSwitcher
+  alias GlorioCms.Constants.Topics
 
-  @impl true
+  @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
+    Phoenix.PubSub.subscribe(GlorioCms.PubSub, Topics.get_set_locale_topic())
+
     socket
     |> stream(:cms_directories, [])
     |> stream(:cms_pages, [])
     |> then(&{:ok, &1})
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
@@ -76,12 +79,20 @@ defmodule GlorioCmsWeb.CmsDirectoryLive.Index do
     |> assign(:cms_directory, nil)
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_info({GlorioCmsWeb.CmsDirectoryLive.FormComponent, {:saved, cms_directory}}, socket) do
     {:noreply, stream_insert(socket, :cms_directories, cms_directory)}
   end
 
-  @impl true
+  @impl Phoenix.LiveView
+  def handle_info(
+        {:set_locale, locale},
+        socket
+      ) do
+    {:noreply, assign(socket, locale: locale)}
+  end
+
+  @impl Phoenix.LiveView
   def handle_event("delete", %{"id" => id}, socket) do
     cms_directory = CmsDirectories.get_cms_directory!(id)
     {:ok, _} = CmsDirectories.delete_cms_directory(cms_directory)

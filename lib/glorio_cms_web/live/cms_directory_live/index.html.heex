@@ -64,21 +64,11 @@
   </:actions>
 </.header>
 
-<.table
-  id="cms_pages"
-  rows={@streams.cms_pages}
-  row_click={fn {_id, cms_page} -> JS.navigate(~p"/cms/cms_pages/#{cms_page}") end}
->
+<.table id="cms_pages" rows={@streams.cms_pages}>
   <:col :let={{_id, cms_page}} label="Title"><%= cms_page.title %></:col>
   <:col :let={{_id, cms_page}} label="Slug"><%= cms_page.slug %></:col>
   <:col :let={{_id, cms_page}} label="Deleted at"><%= cms_page.deleted_at %></:col>
 
-  <:action :let={{_id, cms_page}}>
-    <div class="sr-only">
-      <.link navigate={~p"/cms/cms_pages/#{cms_page}"}>Show</.link>
-    </div>
-    <.link patch={~p"/cms/cms_pages/#{cms_page}/edit"}>Edit</.link>
-  </:action>
   <:action :let={{id, cms_page}}>
     <.link
       phx-click={JS.push("delete", value: %{id: cms_page.id}) |> hide("##{id}")}

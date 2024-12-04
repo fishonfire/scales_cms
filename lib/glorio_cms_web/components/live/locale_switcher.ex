@@ -1,6 +1,8 @@
 defmodule GlorioCmsWeb.Components.LocaleSwitcher do
   use GlorioCmsWeb, :live_component
 
+  alias GlorioCms.Constants.Topics
+
   @impl Phoenix.LiveComponent
   def mount(socket) do
     {:ok, assign(socket, locale: default_locale())}
@@ -22,13 +24,25 @@ defmodule GlorioCmsWeb.Components.LocaleSwitcher do
   end
 
   @impl Phoenix.LiveComponent
-  def handle_event("got-locale", params, socket) do
+  def handle_event("got-locale", %{"locale" => locale}, socket) do
+    Phoenix.PubSub.broadcast(
+      GlorioCms.PubSub,
+      Topics.get_set_locale_topic(),
+      {:set_locale, locale}
+    )
+
     {:noreply,
      socket
-     |> assign(locale: params["locale"])}
+     |> assign(locale: locale)}
   end
 
   def handle_event("switch-locale", %{"locale" => locale}, socket) do
+    Phoenix.PubSub.broadcast(
+      GlorioCms.PubSub,
+      Topics.get_set_locale_topic(),
+      {:set_locale, locale}
+    )
+
     socket
     |> push_event("set-locale", %{locale: locale})
     |> assign(locale: locale)

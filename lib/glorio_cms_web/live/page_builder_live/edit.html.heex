@@ -1,6 +1,22 @@
-<h2 class="text-2xl"><%= @cms_page_variant.title %></h2>
-
 <div class="w-[calc(100%-400px)]">
+  <div class="flex space-between border-2">
+    <h2 class="text-2xl flex-1">
+      <%= @cms_page_variant.title %>
+    </h2>
+
+    <div class="flex">
+      <.live_component id="locale_switcher" module={LocaleSwitcher} />
+
+      <.button>
+        <%= gettext("Save") %>
+      </.button>
+
+      <.button>
+        <%= gettext("Publish") %>
+      </.button>
+    </div>
+  </div>
+
   <.simple_form for={@form} class="mb-[24px]">
     <.input field={@form[:title]} label={gettext("Title")} />
   </.simple_form>
