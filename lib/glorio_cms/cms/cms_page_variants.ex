@@ -37,6 +37,21 @@ defmodule GlorioCms.Cms.CmsPageVariants do
   end
 
   @doc """
+  Returns the list of cms_page_variants for a page and a specified locale.
+
+  ## Examples
+
+      iex> list_cms_page_variants_for_page_and_locale(232, "nl-NL")
+      [%CmsPageVariant{}, ...]
+
+  """
+  def list_cms_page_variants_for_page_and_locale(page_id, locale) do
+    CmsPageVariant
+    |> where([cpv], cpv.cms_page_id == ^page_id and cpv.locale == ^locale)
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single cms_page_variant.
 
   Raises `Ecto.NoResultsError` if the Cms page variant does not exist.

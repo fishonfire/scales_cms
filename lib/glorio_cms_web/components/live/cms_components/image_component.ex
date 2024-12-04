@@ -1,4 +1,7 @@
 defmodule GlorioCmsWeb.Components.CmsComponents.Image do
+  @moduledoc """
+  An upload to s3 image component
+  """
   use GlorioCmsWeb, :live_component
 
   import GlorioCmsWeb.Components.HelperComponents.DrawerComponents

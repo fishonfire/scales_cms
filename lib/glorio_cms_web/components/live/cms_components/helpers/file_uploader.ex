@@ -1,4 +1,7 @@
 defmodule GlorioCmsWeb.Components.CmsComponents.Helpers.FileUploader do
+  @moduledoc """
+  A multi use Phoenix LiveView file uploader ready for direct to S3 uploading
+  """
   defmacro __using__(opts) do
     entity_name = Keyword.fetch!(opts, :entity_name)
 
@@ -54,6 +57,9 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Helpers.FileUploader do
         """
       end
 
+      @doc """
+      Adds the uploaded file URLs to the block params
+      """
       defp put_file_urls(socket, block) do
         uploaded_file_urls =
           consume_uploaded_entries(socket, :image, fn _, entry ->
@@ -77,6 +83,9 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Helpers.FileUploader do
         )
       end
 
+      @doc """
+      Presigns the S3 upload and returns the key and URL so the user can start the upload
+      """
       defp presign_entry(entry, %{assigns: %{uploads: uploads}} = socket) do
         {:ok, {key, url}} = S3Upload.presigned_url(entry)
 

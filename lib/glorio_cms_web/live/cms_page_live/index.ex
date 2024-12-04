@@ -16,25 +16,39 @@ defmodule GlorioCmsWeb.CmsPageLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Cms page")
+    |> assign(:page_title, gettext("Edit page"))
     |> assign(:cms_page, CmsPages.get_cms_page!(id))
   end
 
-  defp apply_action(socket, :new, _params) do
+  defp apply_action(socket, :new, %{"id" => cms_directory_id})
+       when is_binary(cms_directory_id) do
     socket
-    |> assign(:page_title, "New Cms page")
+    |> assign(:page_title, gettext("New page"))
+    |> assign(:cms_page, %CmsPage{cms_directory_id: cms_directory_id})
+  end
+
+  defp apply_action(socket, :new, _) do
+    socket
+    |> assign(:page_title, gettext("New page"))
     |> assign(:cms_page, %CmsPage{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Cms pages")
+    |> assign(:page_title, gettext("List pages"))
     |> assign(:cms_page, nil)
   end
 
   @impl true
   def handle_info({GlorioCmsWeb.CmsPageLive.FormComponent, {:saved, cms_page}}, socket) do
-    {:noreply, stream_insert(socket, :cms_pages, cms_page)}
+    url =
+      if is_nil(cms_page.cms_directory_id),
+        do: ~p"/cms/cms_directories",
+        else: ~p"/cms/cms_directories/#{cms_page.cms_directory_id}"
+
+    socket
+    |> push_navigate(to: url)
+    |> then(&{:noreply, &1})
   end
 
   @impl true

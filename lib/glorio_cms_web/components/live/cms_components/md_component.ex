@@ -1,4 +1,7 @@
 defmodule GlorioCmsWeb.Components.CmsComponents.Md do
+  @moduledoc """
+  The markdown component, allowing the user to use a HTML WYSIWYG editor, transforming that HTML back to MD
+  """
   use GlorioCmsWeb, :live_component
 
   import GlorioCmsWeb.Components.HelperComponents.DrawerComponents

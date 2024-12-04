@@ -1,4 +1,7 @@
 defmodule GlorioCmsWeb.Components.CmsComponents.Md.MdEditor do
+  @moduledoc """
+  The MD editor, rendering the Trix WYSIWYG editor for the MD component
+  """
   alias GlorioCmsWeb.Components.HelperComponents.BlockWrapper
   alias GlorioCmsWeb.Components.CmsComponents.Md.MdProperties
 
@@ -26,10 +29,11 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Md.MdEditor do
   @impl Phoenix.LiveComponent
 
   def handle_event("store-properties", %{"md_properties" => properties}, socket) do
-    with GlorioCms.Cms.CmsPageVariantBlocks.update_cms_page_variant_block(
-           socket.assigns.block,
-           %{properties: properties}
-         ) do
+    with _block <-
+           GlorioCms.Cms.CmsPageVariantBlocks.update_cms_page_variant_block(
+             socket.assigns.block,
+             %{properties: properties}
+           ) do
       {:noreply, socket}
     end
   end

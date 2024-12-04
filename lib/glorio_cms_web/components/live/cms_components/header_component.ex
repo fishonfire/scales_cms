@@ -1,4 +1,7 @@
 defmodule GlorioCmsWeb.Components.CmsComponents.Header do
+  @moduledoc """
+  A header component for the CMS
+  """
   use GlorioCmsWeb, :live_component
 
   alias GlorioCmsWeb.Components.HelperComponents.BlockWrapper
@@ -9,6 +12,7 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Header do
   def category(), do: "Content"
 
   defmodule HeaderPreview do
+    @moduledoc false
     use GlorioCmsWeb, :live_component
 
     def render(assigns) do

@@ -1,4 +1,7 @@
 defmodule GlorioCms.Cms.Helpers.S3Upload do
+  @moduledoc """
+  A set of helper functions to aid the AWS S3 usage throughout the application
+  """
   def entry_filename(entry), do: "#{entry.uuid}_#{entry.client_name}"
 
   def entry_url(entry),

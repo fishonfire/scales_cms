@@ -1,4 +1,7 @@
 defmodule GlorioCmsWeb.Components.HelperComponents.DrawerComponents do
+  @moduledoc """
+  A drawer preview for the component library
+  """
   use GlorioCmsWeb, :live_component
 
   attr :description, :string

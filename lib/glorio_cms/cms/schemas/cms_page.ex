@@ -1,4 +1,5 @@
 defmodule GlorioCms.Cms.CmsPage do
+  @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -14,7 +15,7 @@ defmodule GlorioCms.Cms.CmsPage do
   @doc false
   def changeset(cms_page, attrs) do
     cms_page
-    |> cast(attrs, [:title, :slug, :deleted_at])
+    |> cast(attrs, [:title, :slug, :cms_directory_id, :deleted_at])
     |> validate_required([:title, :slug])
   end
 end

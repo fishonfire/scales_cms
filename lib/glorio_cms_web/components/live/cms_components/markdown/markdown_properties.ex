@@ -1,4 +1,7 @@
 defmodule GlorioCmsWeb.Components.CmsComponents.Md.MdProperties do
+  @moduledoc """
+  The schema for the MD component
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

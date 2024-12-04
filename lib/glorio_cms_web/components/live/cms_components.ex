@@ -1,4 +1,7 @@
 defmodule GlorioCmsWeb.Components.CmsComponents do
+  @moduledoc """
+  An index of all components
+  """
   alias GlorioCmsWeb.Components.CmsComponents.{
     Header,
     Test,

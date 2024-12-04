@@ -1,4 +1,7 @@
 defmodule GlorioCmsWeb.Components.CmsComponentsRenderer do
+  @moduledoc """
+  The renderer of all the blocks, linking them to the right components
+  """
   use GlorioCmsWeb, :live_component
 
   attr :id, :string, required: true

@@ -15,7 +15,7 @@ defmodule GlorioCms.CmsFixtures do
         slug: "some slug",
         title: "some title"
       })
-      |> GlorioCms.Cms.create_cms_directory()
+      |> GlorioCms.Cms.CmsDirectories.create_cms_directory()
 
     cms_directory
   end
@@ -31,7 +31,7 @@ defmodule GlorioCms.CmsFixtures do
         slug: "some slug",
         title: "some title"
       })
-      |> GlorioCms.Cms.create_cms_page()
+      |> GlorioCms.Cms.CmsPages.create_cms_page()
 
     cms_page
   end
@@ -48,7 +48,7 @@ defmodule GlorioCms.CmsFixtures do
         title: "some title",
         version: 42
       })
-      |> GlorioCms.Cms.create_cms_page_variant()
+      |> GlorioCms.Cms.CmsPageVariants.create_cms_page_variant()
 
     cms_page_variant
   end
@@ -64,7 +64,7 @@ defmodule GlorioCms.CmsFixtures do
         properties: %{},
         sort_order: 42
       })
-      |> GlorioCms.Cms.create_cms_page_variant_block()
+      |> GlorioCms.Cms.CmsPageVariantBlocks.create_cms_page_variant_block()
 
     cms_page_variant_block
   end

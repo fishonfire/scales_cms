@@ -1,20 +1,27 @@
 defmodule GlorioCmsWeb.Components.LocaleSwitcher do
+  @moduledoc """
+  A locale switcher component, that provides a PubSub feature throughout the whole
+  application so they can tag along with locale changes
+  """
   use GlorioCmsWeb, :live_component
 
   alias GlorioCms.Constants.Topics
+  alias GlorioCms.Cms.Helpers.Locales
 
   @impl Phoenix.LiveComponent
   def mount(socket) do
-    {:ok, assign(socket, locale: default_locale())}
+    {:ok, assign(socket, locale: Locales.default_locale())}
   end
+
+  attr :class, :string, default: nil
 
   @impl Phoenix.LiveComponent
   def render(assigns) do
     ~H"""
-    <div id="locale-switcher" phx-hook="LocalLocaleStorage" phx-target={@myself}>
+    <div id="locale-switcher" phx-hook="LocalLocaleStorage" phx-target={@myself} class={@class}>
       <form>
         <select name="locale" id="locale" phx-change="switch-locale" phx-target={@myself}>
-          <%= for %{code: code, name: name} <- locales() do %>
+          <%= for %{code: code, name: name} <- Locales.all() do %>
             <option value={code} selected={code == @locale}>{name}</option>
           <% end %>
         </select>
@@ -47,17 +54,5 @@ defmodule GlorioCmsWeb.Components.LocaleSwitcher do
     |> push_event("set-locale", %{locale: locale})
     |> assign(locale: locale)
     |> then(&{:noreply, &1})
-  end
-
-  defp locales() do
-    [
-      %{code: "nl-NL", name: "Dutch"},
-      %{code: "en-US", name: "English"},
-      %{code: "fr-FR", name: "Français"}
-    ]
-  end
-
-  defp default_locale() do
-    Application.get_env(:glorio_cms, :cms)[:default_locale] || "en-US"
   end
 end

@@ -1,4 +1,7 @@
 defmodule GlorioCmsWeb.Components.HelperComponents.BlockWrapper do
+  @moduledoc """
+  The wrapper that goes around a block that is rendered in the WYSIWYG editor
+  """
   use GlorioCmsWeb, :live_component
 
   @impl true

@@ -1,4 +1,5 @@
 defmodule GlorioCmsWeb.Components.CmsComponents.Test do
+  @moduledoc false
   use GlorioCmsWeb, :live_component
   alias GlorioCmsWeb.Components.HelperComponents.BlockWrapper
   import GlorioCmsWeb.Components.HelperComponents.DrawerComponents
@@ -8,6 +9,8 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Test do
   def category(), do: "Content"
 
   defmodule HeaderPreview do
+    @moduledoc false
+
     use GlorioCmsWeb, :live_component
 
     def render(assigns) do

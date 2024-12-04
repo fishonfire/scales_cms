@@ -19,9 +19,8 @@ defmodule GlorioCmsWeb.CmsPageLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
+        <.input type="hidden" field={@form[:cms_directory_id]} />
         <.input field={@form[:title]} type="text" label="Title" />
-        <.input field={@form[:slug]} type="text" label="Slug" />
-        <.input field={@form[:deleted_at]} type="datetime-local" label="Deleted at" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Cms page</.button>
         </:actions>
@@ -66,14 +65,26 @@ defmodule GlorioCmsWeb.CmsPageLive.FormComponent do
   end
 
   defp save_cms_page(socket, :new, cms_page_params) do
+    cms_page_params =
+      Map.put(
+        cms_page_params,
+        "slug",
+        GlorioCms.Cms.Helpers.Slugify.slugify(cms_page_params["title"])
+      )
+
     case CmsPages.create_cms_page(cms_page_params) do
       {:ok, cms_page} ->
         notify_parent({:saved, cms_page})
 
-        {:noreply,
-         socket
-         |> put_flash(:info, "Cms page created successfully")
-         |> push_patch(to: socket.assigns.patch)}
+        url =
+          if cms_page.cms_directory_id,
+            do: ~p"/cms/cms_directories/#{cms_page.cms_directory_id}",
+            else: ~p"/cms/cms_directories"
+
+        socket
+        |> put_flash(:info, gettext("Page created successfully"))
+        |> push_navigate(to: url)
+        |> then(&{:noreply, &1})
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}

@@ -1,4 +1,7 @@
 defmodule GlorioCmsWeb.Components.CmsComponents.Image.ImageEditor do
+  @moduledoc """
+  An image components editor
+  """
   alias GlorioCmsWeb.Components.HelperComponents.BlockWrapper
   alias GlorioCmsWeb.Components.CmsComponents.Image.ImageProperties
 

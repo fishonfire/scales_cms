@@ -1,4 +1,7 @@
 defmodule GlorioCmsWeb.Components.CmsComponents.Image.ImageProperties do
+  @moduledoc """
+  The image upload component schema
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

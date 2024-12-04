@@ -1,41 +1,45 @@
 defmodule GlorioCmsWeb.CmsPageLive.Show do
+  alias GlorioCms.Cms.CmsPageVariants
   use GlorioCmsWeb, :live_view
 
   alias GlorioCms.Cms.CmsPages
-  alias GlorioCms.Cms.CmsPageVariants
+  alias GlorioCmsWeb.Components.LocaleSwitcher
+  alias GlorioCms.Constants.Topics
 
-  @impl true
+  @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    Phoenix.PubSub.subscribe(GlorioCms.PubSub, Topics.get_set_locale_topic())
+
+    {:ok, assign(socket, locale: GlorioCms.Cms.Helpers.Locales.default_locale())}
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_params(%{"id" => id}, _, socket) do
-    default_locale =
-      Application.get_env(:glorio_cms, :cms)[:default_locale] || "en-US"
+    socket
+    |> assign(:cms_page, CmsPages.get_cms_page!(id))
+    |> stream(
+      :variants,
+      CmsPageVariants.list_cms_page_variants_for_page_and_locale(id, socket.assigns.locale),
+      reset: true
+    )
+    |> then(&{:noreply, &1})
+  end
 
-    case CmsPageVariants.get_latest_cms_page_variant_for_locale(
-           id,
-           default_locale
-         ) do
-      nil ->
-        with page <- CmsPages.get_cms_page!(id),
-             {:ok, pv} <-
-               CmsPageVariants.create_cms_page_variant(%{
-                 cms_page_id: id,
-                 locale: default_locale,
-                 title: page.title,
-                 version: 1
-               }) do
-          socket
-          |> push_navigate(to: ~p"/cms/cms_page_builder/#{pv.id}")
-          |> then(&{:noreply, &1})
-        end
-
-      pv ->
+  @impl Phoenix.LiveView
+  def handle_info(
+        {:set_locale, locale},
         socket
-        |> push_navigate(to: ~p"/cms/cms_page_builder/#{pv.id}")
-        |> then(&{:noreply, &1})
-    end
+      ) do
+    socket
+    |> assign(:locale, locale)
+    |> stream(
+      :variants,
+      CmsPageVariants.list_cms_page_variants_for_page_and_locale(
+        socket.assigns.cms_page.id,
+        locale
+      ),
+      reset: true
+    )
+    |> then(&{:noreply, &1})
   end
 end
