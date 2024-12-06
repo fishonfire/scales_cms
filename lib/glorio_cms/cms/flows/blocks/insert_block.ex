@@ -1,16 +1,15 @@
-defmodule GlorioCms.Cms.Flows.BlocksFlows do
+defmodule GlorioCms.Cms.Flows.Blocks.InsertBlock do
   @moduledoc """
-  Flows for working with the building blocks
+  Insert a block in a list and fix the sorting of that list of blocks
   """
   alias GlorioCms.Cms.CmsPageVariantBlock
   alias GlorioCms.Cms.CmsPageVariantBlocks
 
-  alias Ecto.Multi
   import Ecto.Query, warn: false
 
   use GlorioCms.RepoOverride
 
-  def insert_block(block_index, type, page_variant_id) do
+  def perform(block_index, type, page_variant_id) do
     with {:ok, _result} <-
            Repo.transaction(fn ->
              CmsPageVariantBlock
@@ -27,21 +26,5 @@ defmodule GlorioCms.Cms.Flows.BlocksFlows do
         cms_page_variant_id: page_variant_id
       })
     end
-  end
-
-  def reorder_blocks(new_order) do
-    Enum.with_index(new_order)
-    |> Enum.reduce(Multi.new(), fn {block_id, new_order}, multi ->
-      {block_id, _} = Integer.parse(block_id)
-
-      Multi.update(
-        multi,
-        {:cms_page_variant_block, block_id},
-        CmsPageVariantBlock.change_order_changeset(%CmsPageVariantBlock{id: block_id}, %{
-          sort_order: new_order
-        })
-      )
-    end)
-    |> Repo.transaction()
   end
 end

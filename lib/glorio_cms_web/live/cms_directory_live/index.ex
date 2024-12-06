@@ -4,7 +4,6 @@ defmodule GlorioCmsWeb.CmsDirectoryLive.Index do
   alias GlorioCms.Cms.CmsDirectories
   alias GlorioCms.Cms.CmsPages
   alias GlorioCms.Cms.CmsDirectory
-  alias GlorioCms.Cms.CmsPageVariants
 
   alias GlorioCmsWeb.Components.LocaleSwitcher
   alias GlorioCms.Constants.Topics
@@ -26,15 +25,13 @@ defmodule GlorioCmsWeb.CmsDirectoryLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Cms directory")
+    |> assign(:page_title, gettext("Edit directory"))
     |> assign(:cms_directory, CmsDirectories.get_cms_directory!(id))
   end
 
   defp apply_action(socket, :new, %{"id" => id}) do
-    IO.puts("new directory for parent #{id}")
-
     socket
-    |> assign(:page_title, "New Cms directory")
+    |> assign(:page_title, gettext("New directory"))
     |> assign(:current_directory, nil)
     |> assign(:cms_directory, %CmsDirectory{
       cms_directory_id: id
@@ -43,14 +40,12 @@ defmodule GlorioCmsWeb.CmsDirectoryLive.Index do
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Cms directory")
+    |> assign(:page_title, gettext("New directory"))
     |> assign(:current_directory, nil)
     |> assign(:cms_directory, %CmsDirectory{})
   end
 
   defp apply_action(socket, :index, %{"id" => id}) do
-    IO.puts("applying action index for id #{id}")
-
     socket
     |> assign(
       :cms_directories,
@@ -61,13 +56,11 @@ defmodule GlorioCmsWeb.CmsDirectoryLive.Index do
       CmsPages.list_pages_for_directory_id(id)
     )
     |> assign(:current_directory, CmsDirectories.get_cms_directory!(id))
-    |> assign(:page_title, "Listing Cms directories")
+    |> assign(:page_title, gettext("Directories"))
     |> assign(:cms_directory, nil)
   end
 
   defp apply_action(socket, :index, _params) do
-    IO.puts("applying action index for no id")
-
     socket
     |> assign(
       :cms_directories,
@@ -78,7 +71,7 @@ defmodule GlorioCmsWeb.CmsDirectoryLive.Index do
       CmsPages.list_cms_pages()
     )
     |> assign(:current_directory, nil)
-    |> assign(:page_title, "Listing Cms directories")
+    |> assign(:page_title, gettext("Directories"))
     |> assign(:cms_directory, nil)
   end
 
@@ -137,29 +130,11 @@ defmodule GlorioCmsWeb.CmsDirectoryLive.Index do
   end
 
   def handle_event("open-page", %{"id" => id}, %{assigns: %{locale: locale}} = socket) do
-    case CmsPageVariants.get_latest_cms_page_variant_for_locale(
-           id,
-           locale
-         ) do
-      nil ->
-        with page <- CmsPages.get_cms_page!(id),
-             {:ok, pv} <-
-               CmsPageVariants.create_cms_page_variant(%{
-                 cms_page_id: id,
-                 locale: locale,
-                 title: page.title,
-                 version: 1
-               }) do
-          socket
-          |> push_navigate(to: ~p"/cms/cms_page_builder/#{pv.id}")
-          |> then(&{:noreply, &1})
-        end
+    pv = GlorioCms.Cms.Flows.Pages.FindCorrectVariant.perform(id, locale)
 
-      pv ->
-        socket
-        |> push_navigate(to: ~p"/cms/cms_page_builder/#{pv.id}")
-        |> then(&{:noreply, &1})
-    end
+    socket
+    |> push_navigate(to: ~p"/cms/cms_page_builder/#{pv.id}")
+    |> then(&{:noreply, &1})
   end
 
   def get_new_directory_path(nil), do: ~p"/cms/cms_directories/new"

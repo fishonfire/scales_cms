@@ -1,5 +1,4 @@
 defmodule GlorioCmsWeb.PageBuilderLive.Edit do
-  alias GlorioCms.Cms.Flows.PublishingFlows
   use GlorioCmsWeb, :live_view
 
   require Logger
@@ -8,10 +7,12 @@ defmodule GlorioCmsWeb.PageBuilderLive.Edit do
   alias GlorioCms.Cms.CmsPageVariantBlocks
 
   alias GlorioCms.Constants.Topics
-  alias GlorioCms.Cms.Flows.BlocksFlows
 
   import GlorioCmsWeb.Components.CmsComponentsRenderer
   alias GlorioCmsWeb.Components.LocaleSwitcher
+
+  alias GlorioCms.Cms.Flows.Pages.{SelectVersion, Publish, StartVersion}
+  alias GlorioCms.Cms.Flows.Blocks.{ReorderBlocks, InsertBlock}
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
@@ -42,7 +43,7 @@ defmodule GlorioCmsWeb.PageBuilderLive.Edit do
         },
         socket
       ) do
-    case BlocksFlows.reorder_blocks(new_order) do
+    case ReorderBlocks.perform(new_order) do
       {:ok, _} ->
         socket
         |> stream(
@@ -68,7 +69,7 @@ defmodule GlorioCmsWeb.PageBuilderLive.Edit do
     type = params["draggedId"]
 
     with {:ok, _block} <-
-           BlocksFlows.insert_block(new_block_index, type, page_variant_id) do
+           InsertBlock.perform(new_block_index, type, page_variant_id) do
       socket
       |> stream(
         :blocks,
@@ -129,7 +130,7 @@ defmodule GlorioCmsWeb.PageBuilderLive.Edit do
 
   def handle_event("start-new-version", _, socket) do
     with {:ok, new_page_variant} <-
-           GlorioCms.Cms.Flows.PublishingFlows.start_new_version(socket.assigns.cms_page_variant) do
+           StartVersion.perform(socket.assigns.cms_page_variant) do
       socket
       |> push_navigate(to: ~p"/cms/cms_page_builder/#{new_page_variant.id}")
       |> then(&{:noreply, &1})
@@ -142,7 +143,7 @@ defmodule GlorioCmsWeb.PageBuilderLive.Edit do
 
   def handle_event("publish", _, socket) do
     with {:ok, page_variant} <-
-           GlorioCms.Cms.Flows.PublishingFlows.publish(socket.assigns.cms_page_variant) do
+           Publish.perform(socket.assigns.cms_page_variant) do
       socket
       |> assign(:cms_page_variant, page_variant)
       |> put_flash(:info, gettext("Page published"))
@@ -163,7 +164,7 @@ defmodule GlorioCmsWeb.PageBuilderLive.Edit do
       ) do
     if socket.assigns.cms_page_variant.locale != locale do
       new_cms_page_variant =
-        PublishingFlows.select_version_based_on_locale(cms_page_variant, locale)
+        SelectVersion.perform(cms_page_variant, locale)
 
       socket
       |> push_navigate(to: ~p"/cms/cms_page_builder/#{new_cms_page_variant.id}")
