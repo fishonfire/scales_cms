@@ -162,10 +162,10 @@ defmodule GlorioCmsWeb.CmsDirectoryLive.Index do
     end
   end
 
-  def get_new_directory_path(nil), do: ~p"/cms/cms_pages/new"
+  def get_new_directory_path(nil), do: ~p"/cms/cms_directories/new"
 
   def get_new_directory_path(current_directory),
-    do: ~p"/cms/cms_pages/#{current_directory.id}/new"
+    do: ~p"/cms/cms_directories/#{current_directory.id}/new"
 
   def get_new_page_path(nil), do: ~p"/cms/cms_pages/new"
 
