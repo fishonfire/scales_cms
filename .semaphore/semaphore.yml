@@ -29,6 +29,7 @@ blocks:
           - mix local.rebar --force
           - cache restore
           - cache restore dialyzer-plt
+          - mix deps.get
       jobs:
         - name: credo
           commands:
@@ -45,6 +46,7 @@ blocks:
           - checkout
           - cache restore
           - sem-service start postgis 14-3.1
+          - mix deps.get
       jobs:
         - name: ex_unit
           commands:
