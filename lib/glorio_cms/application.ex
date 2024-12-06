@@ -17,6 +17,16 @@ defmodule GlorioCms.Application do
       # Start to serve requests, typically the last entry
     ]
 
+    children =
+      if Mix.env() == :dev,
+        do:
+          children ++
+            [
+              GlorioCms.Repo,
+              GlorioCmsWeb.Endpoint
+            ],
+        else: children
+
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: GlorioCms.Supervisor]

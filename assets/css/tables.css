@@ -1,0 +1,15 @@
+@layer components {
+  .cms-table {
+    thead {
+      @apply bg-gray-100;
+      th {
+        @apply px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-left;
+      }
+    }
+    tbody {
+      td {
+        @apply px-3 py-3  font-medium text-black text-sm;
+      }
+    }
+  }
+}

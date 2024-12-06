@@ -10,14 +10,14 @@ blocks:
       jobs:
         - name: compile and build plts
           commands:
-            - checkout
             - sem-version elixir 1.16
+            - checkout
             - cache restore
             - cache restore dialyzer-plt
             - mix deps.get
             - mix local.rebar --force
             - "mix do compile, dialyzer --plt"
-            - MIX_ENV=test mix compile
+            - mix compile
             - cache store
             - cache store dialyzer-plt priv/plts/
   - name: Analyze code
@@ -26,6 +26,7 @@ blocks:
         commands:
           - checkout
           - sem-version elixir 1.16
+          - mix local.rebar --force
           - cache restore
           - cache restore dialyzer-plt
       jobs:
@@ -39,12 +40,11 @@ blocks:
     task:
       prologue:
         commands:
-          - sudo apt-get -y install inotify-tools
           - sem-version elixir 1.16
+          - mix local.rebar --force
           - checkout
           - cache restore
-          - sem-service start postgres
-          - mix clean
+          - sem-service start postgis 14-3.1
       jobs:
         - name: ex_unit
           commands:

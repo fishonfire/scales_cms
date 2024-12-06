@@ -1,0 +1,72 @@
+<div class="w-[calc(100%-400px)]">
+  <div class="flex space-between border-2">
+    <h2 class="text-2xl flex-1">
+      {@cms_page_variant.title}
+    </h2>
+
+    <div class="flex space-x-4">
+      <.live_component id="locale_switcher" module={LocaleSwitcher} />
+
+      <.button>
+        {gettext("Save")}
+      </.button>
+
+      <.button :if={@cms_page_variant.published_at == nil} phx-click="publish">
+        {gettext("Publish")}
+      </.button>
+
+      <.button :if={@cms_page_variant.published_at != nil} phx-click="start-new-version">
+        {gettext("Start new version")}
+      </.button>
+    </div>
+  </div>
+
+  <.simple_form for={@form} class="mb-[24px]">
+    <.input field={@form[:title]} label={gettext("Title")} />
+  </.simple_form>
+
+  <div
+    :if={@cms_page_variant.published_at != nil}
+    class="w-3/4 border-2 p-8 bg-gray-500 rounded-xl"
+  >
+    <p class="mb-5 text-white">
+      {gettext("This page has been published. You can not edit this page anymore")}
+      {gettext("If you want to keep editing this page please start a new version")}
+    </p>
+    <p>
+      <.button phx-click="start-new-version">
+        {gettext("Start new version")}
+      </.button>
+    </p>
+  </div>
+
+  <div class="drop-zone  min-h-16 " id="page-drop-zone" phx-hook="Drag">
+    <%= for {id, block} <- @streams.blocks do %>
+      <.render_preview id={id} block={block} published={@cms_page_variant.published_at != nil} />
+    <% end %>
+
+    <%= if Enum.count(@streams.blocks) == 0 do %>
+      <div class="min-h-6 sortable-ghost">
+        <.icon name="hero-ellipsis-horizontal" />
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<aside
+  id="drawer-sidebar"
+  class="fixed top-0 right-0 z-40 w-[380px] h-screen transition-transform -translate-x-full sm:translate-x-0 bg-slate-100"
+  aria-label="Sidebar"
+>
+  <div class="relative">
+    <h2 class="mt-[48px] ml-[4px] mb-[32px]">Component library</h2>
+
+    <div id="drawer" class="drawer pr-[24px]" phx-hook="Drag">
+      <%= for {type, component} <- GlorioCmsWeb.Components.CmsComponents.get_components() do %>
+        <div id={type} class="draggable p-2 rounded-s m-2 bg-white" data-id={type}>
+          {component.render_draweritem(%{type: type, component: component})}
+        </div>
+      <% end %>
+    </div>
+  </div>
+</aside>

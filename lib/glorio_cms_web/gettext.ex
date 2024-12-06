@@ -20,5 +20,9 @@ defmodule GlorioCmsWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext, otp_app: :glorio_cms
+  use Gettext.Backend, otp_app: :glorio_cms
+
+  def gettext(msg) do
+    Gettext.gettext(GlorioCmsWeb.Gettext, msg)
+  end
 end

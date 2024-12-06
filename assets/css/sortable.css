@@ -1,0 +1,5 @@
+@layer components {
+  .sortable-chosen {
+    @apply shadow-sm;
+  }
+}

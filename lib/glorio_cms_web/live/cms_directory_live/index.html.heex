@@ -1,0 +1,122 @@
+<div class="container">
+  <.header>
+    Listing Cms directories
+    <:actions>
+      <div class="flex">
+        <.live_component id="locale_switcher" module={LocaleSwitcher} class="flex" />
+
+        <.link patch={get_new_directory_path(@current_directory)}>
+          <.button><.icon name="hero-plus" /> New Cms directory</.button>
+        </.link>
+
+        <.link patch={get_new_page_path(@current_directory)}>
+          <.button><.icon name="hero-plus" /> New Cms Page</.button>
+        </.link>
+      </div>
+    </:actions>
+  </.header>
+
+  <table class="cms-table w-full">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Title</th>
+        <th>{gettext("Created")}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr :if={@current_directory}>
+        <tr>
+          <%= if @current_directory.cms_directory_id == nil do %>
+            <td
+              phx-click="open-directory"
+              phx-value-id={@current_directory.cms_directory_id}
+              class="w-12 cursor-pointer"
+            >
+              <.link patch={~p"/cms/cms_directories"}>
+                <.icon name="hero-arrow-up" />
+              </.link>
+            </td>
+            <td>
+              <.link patch={~p"/cms/cms_directories"}>
+                {gettext("Up")}
+              </.link>
+            </td>
+            <td>&nbsp;</td>
+          <% else %>
+            <td
+              phx-click="open-directory"
+              phx-value-id={@current_directory.cms_directory_id}
+              class="w-12 cursor-pointer"
+            >
+              <.icon name="hero-arrow-up" />
+            </td>
+            <td
+              phx-click="open-directory"
+              phx-value-id={@current_directory.cms_directory_id}
+              class="cursor-pointer"
+            >
+              {gettext("Up")}
+            </td>
+            <td>&nbsp;</td>
+          <% end %>
+        </tr>
+      </tr>
+
+      <tr :for={directory <- @cms_directories}>
+        <td phx-click="open-directory" phx-value-id={directory.id} class="w-12 cursor-pointer">
+          <.icon name="hero-folder" />
+        </td>
+        <td phx-click="open-directory" phx-value-id={directory.id} class="cursor-pointer">
+          {directory.title}
+        </td>
+        <td>
+          {directory.inserted_at}
+        </td>
+        <td class="text-right">
+          <.link patch={~p"/cms/cms_directories/#{directory.id}/edit"}>
+            <.icon name="hero-pencil" />
+          </.link>
+
+          <span phx-click="delete" phx-data-id={directory.id}>
+            <.icon name="hero-trash" />
+          </span>
+        </td>
+      </tr>
+
+      <tr :for={cms_page <- @cms_pages}>
+        <td phx-click="open-page" phx-value-id={cms_page.id} class="w-12 cursor-pointer">
+          <.icon name="hero-document" />
+        </td>
+        <td phx-click="open-page" phx-value-id={cms_page.id} class="cursor-pointer">
+          {cms_page.title}
+        </td>
+        <td>
+          {cms_page.inserted_at}
+        </td>
+        <td class="text-right">
+          <.link patch={~p"/cms/cms_pages/#{cms_page.id}"}>
+            <.icon name="hero-wrench-screwdriver" />
+          </.link>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <.modal
+    :if={@live_action in [:new, :edit]}
+    id="cms_directory-modal"
+    show
+    on_cancel={JS.patch(~p"/cms/cms_directories")}
+  >
+    <.live_component
+      module={GlorioCmsWeb.CmsDirectoryLive.FormComponent}
+      id={@cms_directory.id || :new}
+      title={@page_title}
+      action={@live_action}
+      cms_directory={@cms_directory}
+      patch={~p"/cms/cms_directories"}
+    />
+  </.modal>
+</div>

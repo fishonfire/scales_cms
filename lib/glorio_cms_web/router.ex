@@ -18,6 +18,34 @@ defmodule GlorioCmsWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    scope "/cms" do
+      live "/cms_directories", CmsDirectoryLive.Index, :index
+      live "/cms_directories/new", CmsDirectoryLive.Index, :new
+      live "/cms_directories/:id", CmsDirectoryLive.Index, :index
+      live "/cms_directories/:id/new", CmsDirectoryLive.Index, :new
+
+      live "/cms_directories/:id/edit", CmsDirectoryLive.Index, :edit
+
+      live "/cms_directories/:id/show/edit", CmsDirectoryLive.Show, :edit
+
+      live "/cms_pages", CmsPageLive.Index, :index
+      live "/cms_pages/new", CmsPageLive.Index, :new
+      live "/cms_pages/:id/new", CmsPageLive.Index, :new
+      live "/cms_pages/:id/edit", CmsPageLive.Index, :edit
+
+      live "/cms_pages/:id", CmsPageLive.Show, :show
+      live "/cms_pages/:id/show/edit", CmsPageLive.Show, :edit
+
+      live "/cms_page_variants", CmsPageVariantLive.Index, :index
+      live "/cms_page_variants/new", CmsPageVariantLive.Index, :new
+      live "/cms_page_variants/:id/edit", CmsPageVariantLive.Index, :edit
+
+      live "/cms_page_variants/:id", CmsPageVariantLive.Show, :show
+      live "/cms_page_variants/:id/show/edit", CmsPageVariantLive.Show, :edit
+
+      live "/cms_page_builder/:id", PageBuilderLive.Edit, :edit
+    end
   end
 
   # Other scopes may use custom stacks.

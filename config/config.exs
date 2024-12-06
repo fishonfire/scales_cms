@@ -61,19 +61,23 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-# Configure your database
-config :glorio_cms, GlorioCms.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  database: "glorio_cms_dev",
-  stacktrace: true,
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
-
 config :glorio_cms, GlorioCms, repo: GlorioCms.Repo
 
-if config_env() == :test do
+config :ex_aws, :s3,
+  access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
+  secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY"),
+  bucket_name: System.get_env("S3_BUCKET_NAME"),
+  region: System.get_env("AWS_REGION")
+
+config :glorio_cms,
+  access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
+  secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY"),
+  bucket: System.get_env("S3_BUCKET_NAME"),
+  region: System.get_env("AWS_REGION")
+
+config :glorio_cms, :cms, default_locale: "nl-NL"
+
+if config_env() == :test || config_env() == :dev do
   # Import environment specific config. This must remain at the bottom
   # of this file so it overrides the configuration defined above.
   import_config "#{config_env()}.exs"
