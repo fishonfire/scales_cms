@@ -4,7 +4,7 @@ defmodule GlorioCms.Cms.CmsPageVariants do
   """
 
   import Ecto.Query, warn: false
-  alias GlorioCms.Repo
+  use GlorioCms.RepoOverride
 
   alias GlorioCms.Cms.CmsPageVariant
 

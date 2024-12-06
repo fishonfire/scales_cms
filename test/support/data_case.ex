@@ -18,7 +18,7 @@ defmodule GlorioCms.DataCase do
 
   using do
     quote do
-      alias GlorioCms.Repo
+      use GlorioCms.RepoOverride
 
       import Ecto
       import Ecto.Changeset
