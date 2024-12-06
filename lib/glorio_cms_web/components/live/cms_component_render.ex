@@ -5,6 +5,7 @@ defmodule GlorioCmsWeb.Components.CmsComponentsRenderer do
   use GlorioCmsWeb, :live_component
 
   attr :id, :string, required: true
+  attr :published, :boolean, required: true
   attr :block, GlorioCms.Cms.CmsPageVariantBlock
 
   def render_preview(assigns) do

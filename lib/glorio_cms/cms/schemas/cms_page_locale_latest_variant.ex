@@ -5,9 +5,13 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariant do
 
   schema "cms_page_locale_latest_variants" do
     field :locale, :string
-    field :cms_page_latest_published_variant_id, :id
-    field :cms_page_latest_variant_id, :id
     field :cms_page_id, :id
+
+    belongs_to :latest_published_page, GlorioCms.Cms.CmsPageVariant,
+      foreign_key: :cms_page_latest_published_variant_id
+
+    belongs_to :latest_page, GlorioCms.Cms.CmsPageVariant,
+      foreign_key: :cms_page_latest_variant_id
 
     timestamps(type: :utc_datetime)
   end
@@ -23,9 +27,7 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariant do
     ])
     |> validate_required([
       :cms_page_id,
-      :locale,
-      :cms_page_latest_published_variant_id,
-      :cms_page_latest_variant_id
+      :locale
     ])
   end
 end

@@ -4,15 +4,19 @@
       {@cms_page_variant.title}
     </h2>
 
-    <div class="flex">
+    <div class="flex space-x-4">
       <.live_component id="locale_switcher" module={LocaleSwitcher} />
 
       <.button>
         {gettext("Save")}
       </.button>
 
-      <.button>
+      <.button :if={@cms_page_variant.published_at == nil} phx-click="publish">
         {gettext("Publish")}
+      </.button>
+
+      <.button :if={@cms_page_variant.published_at != nil} phx-click="start-new-version">
+        {gettext("Start new version")}
       </.button>
     </div>
   </div>
@@ -21,9 +25,24 @@
     <.input field={@form[:title]} label={gettext("Title")} />
   </.simple_form>
 
+  <div
+    :if={@cms_page_variant.published_at != nil}
+    class="w-3/4 border-2 p-8 bg-gray-500 rounded-xl"
+  >
+    <p class="mb-5 text-white">
+      {gettext("This page has been published. You can not edit this page anymore")}
+      {gettext("If you want to keep editing this page please start a new version")}
+    </p>
+    <p>
+      <.button phx-click="start-new-version">
+        {gettext("Start new version")}
+      </.button>
+    </p>
+  </div>
+
   <div class="drop-zone  min-h-16 " id="page-drop-zone" phx-hook="Drag">
     <%= for {id, block} <- @streams.blocks do %>
-      <.render_preview id={id} block={block} />
+      <.render_preview id={id} block={block} published={@cms_page_variant.published_at != nil} />
     <% end %>
 
     <%= if Enum.count(@streams.blocks) == 0 do %>

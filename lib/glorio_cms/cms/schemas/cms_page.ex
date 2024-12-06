@@ -9,6 +9,10 @@ defmodule GlorioCms.Cms.CmsPage do
     field :deleted_at, :naive_datetime
     field :cms_directory_id, :id
 
+    has_many :cms_page_variants, GlorioCms.Cms.CmsPageVariant
+
+    has_many :cms_page_locale_latest_variants, GlorioCms.Cms.CmsPageLocaleLatestVariant
+
     timestamps(type: :utc_datetime)
   end
 

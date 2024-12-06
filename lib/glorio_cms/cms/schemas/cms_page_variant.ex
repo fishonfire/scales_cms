@@ -10,6 +10,8 @@ defmodule GlorioCms.Cms.CmsPageVariant do
     field :locale, :string
     field :cms_page_id, :id
 
+    has_many :blocks, GlorioCms.Cms.CmsPageVariantBlock
+
     timestamps(type: :utc_datetime)
   end
 

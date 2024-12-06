@@ -4,6 +4,7 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
   """
 
   import Ecto.Query, warn: false
+
   alias GlorioCms.Repo
 
   alias GlorioCms.Cms.CmsPageLocaleLatestVariant
@@ -52,11 +53,9 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
   """
   def get_cms_page_locale_latest_variant!(id), do: Repo.get!(CmsPageLocaleLatestVariant, id)
 
-  def get_latest_cms_page_locale_latest_variant_for_locale(page_id, locale) do
+  def get_cms_page_locale_latest_variant_for_page_and_locale(page_id, locale) do
     CmsPageLocaleLatestVariant
-    |> where([cpv], cpv.cms_page_id == ^page_id and cpv.locale == ^locale)
-    |> order_by([cpv], desc: cpv.version)
-    |> limit(1)
+    |> where([cplv], cplv.cms_page_id == ^page_id and cplv.locale == ^locale)
     |> Repo.one()
   end
 
