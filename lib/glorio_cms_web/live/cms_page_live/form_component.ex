@@ -87,7 +87,6 @@ defmodule GlorioCmsWeb.CmsPageLive.FormComponent do
         |> then(&{:noreply, &1})
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        IO.inspect(changeset)
         {:noreply, assign(socket, form: to_form(changeset))}
     end
   end
