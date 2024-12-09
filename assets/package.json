@@ -3,7 +3,7 @@
     "quill": "^2.0.2",
     "showdown": "^2.1.0",
     "sortablejs": "^1.15.4",
-    "trix": "^2.1.8",
+    "trix": "^2.1.9",
     "turndown": "^7.2.0"
   }
 }
