@@ -6,11 +6,11 @@
         <.live_component id="locale_switcher" module={LocaleSwitcher} class="flex" />
 
         <.link patch={get_new_directory_path(@current_directory)}>
-          <.button><.icon name="hero-plus" /> New Cms directory</.button>
+          <.button><.icon name="hero-plus" /> {gettext("New directory")}</.button>
         </.link>
 
-        <.link patch={get_new_page_path(@current_directory)}>
-          <.button><.icon name="hero-plus" /> New Cms Page</.button>
+        <.link patch={get_new_page_path(@current_directory)} class="new-cms-page">
+          <.button><.icon name="hero-plus" /> {gettext("New page")}</.button>
         </.link>
       </div>
     </:actions>
@@ -64,7 +64,7 @@
         </tr>
       </tr>
 
-      <tr :for={directory <- @cms_directories}>
+      <tr :for={directory <- @cms_directories} id={"cms_directories-#{directory.id}"}>
         <td phx-click="open-directory" phx-value-id={directory.id} class="w-12 cursor-pointer">
           <.icon name="hero-folder" />
         </td>
@@ -74,18 +74,18 @@
         <td>
           {directory.inserted_at}
         </td>
-        <td class="text-right">
-          <.link patch={~p"/cms/cms_directories/#{directory.id}/edit"}>
+        <td class="text-right controls">
+          <.link patch={~p"/cms/cms_directories/#{directory.id}/edit"} class="edit">
             <.icon name="hero-pencil" />
           </.link>
 
-          <span phx-click="delete" phx-data-id={directory.id}>
+          <span phx-click="delete" phx-value-id={directory.id} class="delete">
             <.icon name="hero-trash" />
           </span>
         </td>
       </tr>
 
-      <tr :for={cms_page <- @cms_pages}>
+      <tr :for={cms_page <- @cms_pages} id={"cms_pages-#{cms_page.id}"}>
         <td phx-click="open-page" phx-value-id={cms_page.id} class="w-12 cursor-pointer">
           <.icon name="hero-document" />
         </td>
@@ -95,10 +95,18 @@
         <td>
           {cms_page.inserted_at}
         </td>
-        <td class="text-right">
-          <.link patch={~p"/cms/cms_pages/#{cms_page.id}"}>
+        <td class="text-right controls">
+          <.link patch={~p"/cms/cms_pages/#{cms_page.id}"} id={"edit-page-#{cms_page.id}"}>
             <.icon name="hero-wrench-screwdriver" />
           </.link>
+          <span
+            phx-click="delete-page"
+            phx-value-id={cms_page.id}
+            class="delete"
+            id={"delete-page-#{cms_page.id}"}
+          >
+            <.icon name="hero-trash" />
+          </span>
         </td>
       </tr>
     </tbody>

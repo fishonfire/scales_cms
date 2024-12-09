@@ -22,7 +22,7 @@ defmodule GlorioCmsWeb.CmsPageLive.FormComponent do
         <.input type="hidden" field={@form[:cms_directory_id]} />
         <.input field={@form[:title]} type="text" label="Title" />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Cms page</.button>
+          <.button phx-disable-with="Saving...">{gettext("Save page")}</.button>
         </:actions>
       </.simple_form>
     </div>
@@ -56,7 +56,7 @@ defmodule GlorioCmsWeb.CmsPageLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Cms page updated successfully")
+         |> put_flash(:info, gettext("Page updated successfully"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -87,6 +87,7 @@ defmodule GlorioCmsWeb.CmsPageLive.FormComponent do
         |> then(&{:noreply, &1})
 
       {:error, %Ecto.Changeset{} = changeset} ->
+        IO.inspect(changeset)
         {:noreply, assign(socket, form: to_form(changeset))}
     end
   end

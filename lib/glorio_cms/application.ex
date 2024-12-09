@@ -18,7 +18,7 @@ defmodule GlorioCms.Application do
     ]
 
     children =
-      if Mix.env() == :dev,
+      if Mix.env() == :dev or Mix.env() == :test,
         do:
           children ++
             [

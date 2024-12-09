@@ -123,6 +123,28 @@ defmodule GlorioCmsWeb.CmsDirectoryLive.Index do
        |> put_flash(:error, "Directory not empty")}
   end
 
+  def handle_event("delete-page", %{"id" => id}, socket) do
+    cms_page = CmsPages.get_cms_page!(id)
+    {:ok, _} = CmsPages.delete_cms_page(cms_page)
+
+    cms_pages =
+      if cms_page.cms_directory_id != nil,
+        do: CmsPages.list_pages_for_directory_id(cms_page.cms_directory_id),
+        else: CmsPages.list_cms_pages()
+
+    socket
+    |> assign(
+      :cms_pages,
+      cms_pages
+    )
+    |> then(&{:noreply, &1})
+  rescue
+    Ecto.ConstraintError ->
+      {:noreply,
+       socket
+       |> put_flash(:error, "Directory not empty")}
+  end
+
   def handle_event("open-directory", %{"id" => id}, socket) do
     socket
     |> push_navigate(to: ~p"/cms/cms_directories/#{id}")
