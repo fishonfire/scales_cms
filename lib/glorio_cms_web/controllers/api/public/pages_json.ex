@@ -1,4 +1,19 @@
 defmodule GlorioCmsWeb.Api.Public.PagesJSON do
+  def index(%{pages: pages, api_version: api_version, pagination: pagination}) do
+    %{
+      api_version: api_version,
+      pagination: pagination,
+      pages:
+        Enum.map(
+          pages,
+          &GlorioCmsWeb.Api.Public.PagesJSON.show(%{
+            page: &1.latest_published_page,
+            api_version: api_version
+          })
+        )
+    }
+  end
+
   def show(%{page: page, api_version: api_version}) do
     %{
       id: page.id,

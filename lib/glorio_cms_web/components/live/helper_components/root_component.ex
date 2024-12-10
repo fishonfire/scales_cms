@@ -51,7 +51,7 @@ defmodule GlorioCmsWeb.Components.HelperComponents.RootComponent do
         """
       end
 
-      def serialize(api_version, block) do
+      def serialize(_api_version, block) do
         %{
           id: block.id,
           component_type: block.component_type,

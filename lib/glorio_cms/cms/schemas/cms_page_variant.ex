@@ -9,7 +9,7 @@ defmodule GlorioCms.Cms.CmsPageVariant do
     field :published_at, :naive_datetime
     field :locale, :string
 
-    has_many :blocks, GlorioCms.Cms.CmsPageVariantBlock
+    has_many :blocks, GlorioCms.Cms.CmsPageVariantBlock, preload_order: [asc: :sort_order]
     belongs_to :page, GlorioCms.Cms.CmsPage, foreign_key: :cms_page_id
 
     timestamps(type: :utc_datetime)

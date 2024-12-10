@@ -59,6 +59,45 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
   end
 
   @doc """
+  Returns the list of cms_page_locale_latest_variants for all pages and a specified locale.
+  Paginated.
+
+  ## Examples
+
+      iex> list_paginated_cms_page_locale_latest_variants_for_locale("nl-NL", 1, 20)
+      [%CmsPageVariant{}, ...]
+
+  """
+  def list_paginated_cms_page_locale_latest_variants_for_locale(locale, page, size \\ 30) do
+    offset = (page - 1) * size
+
+    CmsPageLocaleLatestVariant
+    |> join(
+      :left,
+      [cpv],
+      cms_page in GlorioCms.Cms.CmsPage,
+      on: cpv.cms_page_id == cms_page.id
+    )
+    |> where([cpv, cms_page], cpv.locale == ^locale and is_nil(cms_page.deleted_at))
+    |> limit(^size)
+    |> offset(^offset)
+    |> Repo.all()
+  end
+
+  def count_cms_page_locale_latest_variants_for_locale(locale) do
+    CmsPageLocaleLatestVariant
+    |> join(
+      :left,
+      [cpv],
+      cms_page in GlorioCms.Cms.CmsPage,
+      on: cpv.cms_page_id == cms_page.id
+    )
+    |> where([cpv, cms_page], cpv.locale == ^locale and is_nil(cms_page.deleted_at))
+    |> select([cpv], count(cpv.id))
+    |> Repo.one()
+  end
+
+  @doc """
   Gets a single cms_page_locale_latest_variant.
 
   Raises `Ecto.NoResultsError` if the Cms page variant does not exist.

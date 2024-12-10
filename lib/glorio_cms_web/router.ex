@@ -55,8 +55,8 @@ defmodule GlorioCmsWeb.Router do
   scope "/api/public", GlorioCmsWeb.Api.Public do
     pipe_through :api
 
+    get("/pages", PagesController, :index)
     get("/pages/:id", PagesController, :show)
-    get("/structure", StructureController, :index)
     get("/components", ComponentsController, :index)
   end
 
