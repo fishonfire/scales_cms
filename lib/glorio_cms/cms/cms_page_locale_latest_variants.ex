@@ -163,7 +163,7 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
   end
 
   def preload_page_variant(%CmsPageLocaleLatestVariant{} = cms_page_locale_latest_variant) do
-    Repo.preload(cms_page_locale_latest_variant, latest_published_page: [:blocks])
+    Repo.preload(cms_page_locale_latest_variant, latest_published_page: [:page, :blocks])
   end
 
   def preload_page_variants(variants),

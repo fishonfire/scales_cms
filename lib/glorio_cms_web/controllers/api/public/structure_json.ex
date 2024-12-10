@@ -5,7 +5,7 @@ defmodule GlorioCmsWeb.Api.Public.StructureJSON do
       pages:
         Enum.map(
           pages,
-          &GlorioCmsWeb.Api.Public.PageJSON.show(%{
+          &GlorioCmsWeb.Api.Public.PagesJSON.show(%{
             page: &1.latest_published_page,
             api_version: api_version
           })

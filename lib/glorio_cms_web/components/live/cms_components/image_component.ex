@@ -11,5 +11,6 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Image do
     category: "Content",
     description: gettext("Upload a nice image"),
     icon_type: "cms_rich_text",
-    preview_module: GlorioCmsWeb.Components.CmsComponents.Image.ImageEditor
+    preview_module: GlorioCmsWeb.Components.CmsComponents.Image.ImageEditor,
+    version: "0.0.1"
 end

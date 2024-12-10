@@ -26,5 +26,6 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Header do
     category: "Content",
     description: "A nice header",
     icon_type: "cms_rich_text",
-    preview_module: HeaderPreview
+    preview_module: HeaderPreview,
+    version: "0.0.1"
 end

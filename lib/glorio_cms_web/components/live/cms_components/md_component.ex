@@ -10,5 +10,6 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Md do
     category: "Content",
     description: gettext("Small or lang text like title or description"),
     icon_type: "cms_rich_text",
-    preview_module: GlorioCmsWeb.Components.CmsComponents.Md.MdEditor
+    preview_module: GlorioCmsWeb.Components.CmsComponents.Md.MdEditor,
+    version: "0.0.1"
 end

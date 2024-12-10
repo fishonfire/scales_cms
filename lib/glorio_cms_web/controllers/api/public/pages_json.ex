@@ -1,4 +1,4 @@
-defmodule GlorioCmsWeb.Api.Public.PageJSON do
+defmodule GlorioCmsWeb.Api.Public.PagesJSON do
   def show(%{page: page, api_version: api_version}) do
     %{
       id: page.id,

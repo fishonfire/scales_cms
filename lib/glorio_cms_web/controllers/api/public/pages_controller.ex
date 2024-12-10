@@ -1,4 +1,4 @@
-defmodule GlorioCmsWeb.Api.Public.PageController do
+defmodule GlorioCmsWeb.Api.Public.PagesController do
   use GlorioCmsWeb, :controller
 
   alias GlorioCms.Cms.CmsPageLocaleLatestVariants

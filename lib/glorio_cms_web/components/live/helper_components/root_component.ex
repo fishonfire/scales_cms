@@ -8,13 +8,15 @@ defmodule GlorioCmsWeb.Components.HelperComponents.RootComponent do
     category = Keyword.fetch!(opts, :category)
     description = Keyword.fetch!(opts, :description)
     preview_module = Keyword.fetch!(opts, :preview_module)
+    version = Keyword.fetch!(opts, :version)
 
     quote bind_quoted: [
             title: title,
             icon_type: icon_type,
             description: description,
             category_name: category,
-            preview_module: preview_module
+            preview_module: preview_module,
+            version: version
           ] do
       import GlorioCmsWeb.Components.HelperComponents.DrawerComponents
 
@@ -27,6 +29,8 @@ defmodule GlorioCmsWeb.Components.HelperComponents.RootComponent do
       def icon_type(), do: unquote(icon_type)
 
       def preview_module(), do: unquote(preview_module)
+
+      def version(), do: unquote(version)
 
       def render_draweritem(var!(assigns)) do
         ~H"""
