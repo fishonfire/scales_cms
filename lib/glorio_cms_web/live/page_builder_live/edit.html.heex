@@ -41,11 +41,15 @@
   </div>
 
   <div class="drop-zone  min-h-16 " id="page-drop-zone" phx-hook="Drag">
-    <%= for {id, block} <- @streams.blocks do %>
-      <.render_preview id={id} block={block} published={@cms_page_variant.published_at != nil} />
+    <%= for block <- @blocks do %>
+      <.render_preview
+        id={"block-#{block.id}"}
+        block={block}
+        published={@cms_page_variant.published_at != nil}
+      />
     <% end %>
 
-    <%= if Enum.count(@streams.blocks) == 0 do %>
+    <%= if Enum.count(@blocks) == 0 do %>
       <div class="min-h-6 sortable-ghost">
         <.icon name="hero-ellipsis-horizontal" />
       </div>

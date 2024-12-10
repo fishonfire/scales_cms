@@ -31,7 +31,7 @@ defmodule GlorioCmsWeb.PageBuilderLive.Edit do
     |> assign(:page_title, page_title(socket.assigns.live_action))
     |> assign(:cms_page_variant, pv)
     |> assign(:form, to_form(CmsPageVariants.change_cms_page_variant(pv)))
-    |> stream(:blocks, CmsPageVariantBlocks.list_blocks_for_page_variant(id))
+    |> assign(:blocks, CmsPageVariantBlocks.list_blocks_for_page_variant(id))
     |> then(&{:noreply, &1})
   end
 
@@ -48,7 +48,7 @@ defmodule GlorioCmsWeb.PageBuilderLive.Edit do
     case ReorderBlocks.perform(new_order) do
       {:ok, _} ->
         socket
-        |> stream(
+        |> assign(
           :blocks,
           CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
         )
@@ -73,7 +73,7 @@ defmodule GlorioCmsWeb.PageBuilderLive.Edit do
     with {:ok, _block} <-
            InsertBlock.perform(new_block_index, type, page_variant_id) do
       socket
-      |> stream(
+      |> assign(
         :blocks,
         CmsPageVariantBlocks.list_blocks_for_page_variant(page_variant_id)
       )
@@ -95,7 +95,7 @@ defmodule GlorioCmsWeb.PageBuilderLive.Edit do
     |> CmsPageVariantBlocks.delete_cms_page_variant_block()
 
     socket
-    |> stream(
+    |> assign(
       :blocks,
       CmsPageVariantBlocks.list_blocks_for_page_variant(pv_id)
     )
@@ -114,16 +114,15 @@ defmodule GlorioCmsWeb.PageBuilderLive.Edit do
     |> CmsPageVariantBlocks.delete_cms_page_variant_block()
 
     socket
-    |> stream(
+    |> assign(
       :blocks,
-      CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id),
-      reset: true
+      CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
     )
     |> then(&{:noreply, &1})
   rescue
     Ecto.NoResultsError ->
       socket
-      |> stream(
+      |> assign(
         :blocks,
         CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
       )
