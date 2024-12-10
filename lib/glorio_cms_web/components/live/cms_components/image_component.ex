@@ -8,7 +8,7 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Image do
 
   use GlorioCmsWeb.Components.HelperComponents.RootComponent,
     title: gettext("Image"),
-    category: "Content",
+    category: "Images",
     description: gettext("Upload a nice image"),
     icon_type: "cms_rich_text",
     preview_module: GlorioCmsWeb.Components.CmsComponents.Image.ImageEditor,

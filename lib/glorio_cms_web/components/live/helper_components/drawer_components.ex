@@ -11,17 +11,17 @@ defmodule GlorioCmsWeb.Components.HelperComponents.DrawerComponents do
   def drawer_preview(assigns) do
     ~H"""
     <div class="flex flex-row">
-      <div class="icon mr-4">
+      <div class="icon mr-4 mt-[4px]">
         <.svg type={@icon_type} class="w-[24px] h-[24px]" />
       </div>
 
       <div class="grow">
-        <p>{@title}</p>
-        <p>{@description}</p>
+        <p class="font-bold">{@title}</p>
+        <p class="text-gray-500">{@description}</p>
       </div>
 
       <div class="drag-handle">
-        <.svg type="drag_handle" class="w-[24px] h-[24px]" />
+        <.icon name="hero-arrows-pointing-out" class="w-[24px] h-[24px] cursor-pointer" />
       </div>
     </div>
     """

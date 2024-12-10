@@ -26,6 +26,8 @@ defmodule GlorioCmsWeb.PageBuilderLive.Edit do
     pv = CmsPageVariants.get_cms_page_variant!(id)
 
     socket
+    |> assign(:categories, GlorioCmsWeb.Components.CmsComponents.get_categories())
+    |> assign(:active_category, "All")
     |> assign(:page_title, page_title(socket.assigns.live_action))
     |> assign(:cms_page_variant, pv)
     |> assign(:form, to_form(CmsPageVariants.change_cms_page_variant(pv)))
@@ -149,6 +151,12 @@ defmodule GlorioCmsWeb.PageBuilderLive.Edit do
       |> put_flash(:info, gettext("Page published"))
       |> then(&{:noreply, &1})
     end
+  end
+
+  def handle_event("select-component-category", %{"category" => category}, socket) do
+    socket
+    |> assign(:active_category, category)
+    |> then(&{:noreply, &1})
   end
 
   @impl Phoenix.LiveView
