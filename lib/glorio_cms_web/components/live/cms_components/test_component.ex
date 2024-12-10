@@ -4,10 +4,6 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Test do
   alias GlorioCmsWeb.Components.HelperComponents.BlockWrapper
   import GlorioCmsWeb.Components.HelperComponents.DrawerComponents
 
-  def title(), do: "Test"
-
-  def category(), do: "Content"
-
   defmodule HeaderPreview do
     @moduledoc false
 
@@ -24,15 +20,11 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Test do
     end
   end
 
-  def render_draweritem(assigns) do
-    ~H"""
-    <.drawer_preview icon_type="cms_rich_text" title="Test" description="A nice test" />
-    """
-  end
-
-  def render_preview(assigns) do
-    ~H"""
-    <.live_component module={HeaderPreview} id={assigns.block.id} {assigns} />
-    """
-  end
+  use GlorioCmsWeb.Components.HelperComponents.RootComponent,
+    title: "Test",
+    category: "Content",
+    description: "A test",
+    icon_type: "cms_rich_text",
+    preview_module: HeaderPreview,
+    version: "0.0.1"
 end

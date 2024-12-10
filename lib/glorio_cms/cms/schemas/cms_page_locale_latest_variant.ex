@@ -5,7 +5,8 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariant do
 
   schema "cms_page_locale_latest_variants" do
     field :locale, :string
-    field :cms_page_id, :id
+
+    belongs_to :cms_page, GlorioCms.Cms.CmsPage, foreign_key: :cms_page_id
 
     belongs_to :latest_published_page, GlorioCms.Cms.CmsPageVariant,
       foreign_key: :cms_page_latest_published_variant_id

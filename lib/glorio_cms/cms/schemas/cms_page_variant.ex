@@ -8,9 +8,9 @@ defmodule GlorioCms.Cms.CmsPageVariant do
     field :title, :string
     field :published_at, :naive_datetime
     field :locale, :string
-    field :cms_page_id, :id
 
     has_many :blocks, GlorioCms.Cms.CmsPageVariantBlock
+    belongs_to :page, GlorioCms.Cms.CmsPage, foreign_key: :cms_page_id
 
     timestamps(type: :utc_datetime)
   end

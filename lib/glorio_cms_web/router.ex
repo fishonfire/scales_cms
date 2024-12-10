@@ -12,6 +12,7 @@ defmodule GlorioCmsWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug(GlorioCmsWeb.Plugs.ApiVersion)
   end
 
   scope "/", GlorioCmsWeb do
@@ -49,9 +50,13 @@ defmodule GlorioCmsWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", GlorioCmsWeb do
-  #   pipe_through :api
-  # end
+  scope "/api/public", GlorioCmsWeb.Api.Public do
+    pipe_through :api
+
+    get("/pages/:id", PagesController, :show)
+    get("/structure", StructureController, :index)
+    get("/components", ComponentsController, :index)
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:glorio_cms, :dev_routes) do

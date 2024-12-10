@@ -24,6 +24,32 @@ defmodule GlorioCms.Cms.CmsDirectories do
   end
 
   @doc """
+  Returns the list of all cms_directories.
+
+  ## Examples
+
+      iex> list_all_cms_directories()
+      [%CmsDirectory{}, ...]
+
+  """
+  def list_all_cms_directories, do: Repo.all(CmsDirectory)
+
+  @doc """
+  Returns the list of all active cms_directories.
+
+  ## Examples
+
+      iex> list_all_active_cms_directories()
+      [%CmsDirectory{}, ...]
+
+  """
+  def list_all_active_cms_directories do
+    CmsDirectory
+    |> where([cd], is_nil(cd.deleted_at))
+    |> Repo.all()
+  end
+
+  @doc """
   Returns the list of cms_directories under its parent id.
 
   ## Examples
