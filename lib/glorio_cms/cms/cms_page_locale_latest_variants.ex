@@ -38,6 +38,27 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
   end
 
   @doc """
+  Returns the list of cms_page_locale_latest_variants for all pages and a specified locale.
+
+  ## Examples
+
+      iex> list_cms_page_locale_latest_variants_for_locale("nl-NL")
+      [%CmsPageVariant{}, ...]
+
+  """
+  def list_cms_page_locale_latest_variants_for_locale(locale) do
+    CmsPageLocaleLatestVariant
+    |> join(
+      :left,
+      [cpv],
+      cms_page in GlorioCms.Cms.CmsPage,
+      on: cpv.cms_page_id == cms_page.id
+    )
+    |> where([cpv, cms_page], cpv.locale == ^locale and is_nil(cms_page.deleted_at))
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single cms_page_locale_latest_variant.
 
   Raises `Ecto.NoResultsError` if the Cms page variant does not exist.
@@ -53,6 +74,15 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
   """
   def get_cms_page_locale_latest_variant!(id), do: Repo.get!(CmsPageLocaleLatestVariant, id)
 
+  @doc """
+  Gets a single cms_page_locale_latest_variant for a specific locale.
+
+  ## Examples
+
+      iex> get_cms_page_locale_latest_variant_for_page_and_locale!(123, "nl-NL")
+      %CmsPageVariant{}
+
+  """
   def get_cms_page_locale_latest_variant_for_page_and_locale(page_id, locale) do
     CmsPageLocaleLatestVariant
     |> where([cplv], cplv.cms_page_id == ^page_id and cplv.locale == ^locale)
@@ -131,4 +161,11 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
       ) do
     CmsPageLocaleLatestVariant.changeset(cms_page_locale_latest_variant, attrs)
   end
+
+  def preload_page_variant(%CmsPageLocaleLatestVariant{} = cms_page_locale_latest_variant) do
+    Repo.preload(cms_page_locale_latest_variant, latest_published_page: [:blocks])
+  end
+
+  def preload_page_variants(variants),
+    do: Repo.preload(variants, latest_published_page: [:page, :blocks])
 end

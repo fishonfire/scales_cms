@@ -6,23 +6,10 @@ defmodule GlorioCmsWeb.Components.CmsComponents.Image do
 
   import GlorioCmsWeb.Components.HelperComponents.DrawerComponents
 
-  alias GlorioCmsWeb.Components.CmsComponents.Image.ImageEditor
-
-  def title(), do: "Image"
-
-  def category(), do: "Image"
-
-  def render_draweritem(assigns) do
-    ~H"""
-    <.drawer_preview icon_type="cms_rich_text" title="Image" description="An image!" />
-    """
-  end
-
-  def render_preview(assigns) do
-    ~H"""
-    <div>
-      <.live_component module={ImageEditor} id={assigns.block.id} {assigns} />
-    </div>
-    """
-  end
+  use GlorioCmsWeb.Components.HelperComponents.RootComponent,
+    title: gettext("Image"),
+    category: "Content",
+    description: gettext("Upload a nice image"),
+    icon_type: "cms_rich_text",
+    preview_module: GlorioCmsWeb.Components.CmsComponents.Image.ImageEditor
 end
