@@ -21,6 +21,8 @@ defmodule GlorioCmsWeb.Router do
     get "/", PageController, :home
 
     scope "/cms" do
+      live "/", CmsIndexLive.Index, :index
+
       live "/cms_directories", CmsDirectoryLive.Index, :index
       live "/cms_directories/new", CmsDirectoryLive.Index, :new
       live "/cms_directories/:id", CmsDirectoryLive.Index, :index
