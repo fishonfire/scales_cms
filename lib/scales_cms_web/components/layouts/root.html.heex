@@ -15,11 +15,15 @@
       rel="stylesheet"
     />
 
-    <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+    <link rel="stylesheet" href={cms_asset_path(@conn, :css)} />
+    <script src={cms_asset_path(@conn, :js)} defer>
+    </script>
+
+    <%!-- <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} /> --%>
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css" />
 
-    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
-    </script>
+    <%!-- <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
+    </script> --%>
   </head>
   <body class="bg-white">
     {@inner_content}

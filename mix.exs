@@ -103,7 +103,7 @@ defmodule ScalesCms.MixProject do
   defp package do
     [
       maintainers: ["Simon de la Court"],
-      licenses: ["MIT"],
+      licenses: ["GPLV3"],
       links: %{github: "https://github.com/fishonfire/scales_cms"},
       files: ~w(dist lib CHANGELOG.md LICENSE.md mix.exs README.md)
     ]

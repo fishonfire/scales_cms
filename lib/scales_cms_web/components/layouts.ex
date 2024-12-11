@@ -11,4 +11,16 @@ defmodule ScalesCmsWeb.Layouts do
   use ScalesCmsWeb, :html
 
   embed_templates "layouts/*"
+
+  defp cms_asset_path(conn, asset) when asset in [:css, :js] do
+    hash = ScalesCmsWeb.Plugs.Assets.current_hash(asset)
+
+    prefix = "/cms"
+
+    Phoenix.VerifiedRoutes.unverified_path(
+      conn,
+      conn.private.phoenix_router,
+      "#{prefix}/#{asset}-#{hash}"
+    )
+  end
 end
