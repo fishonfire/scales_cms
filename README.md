@@ -5,6 +5,10 @@ and allows you to manage the content of either applications or websites easily.
 It provides a set of JSON endpoints for headless usage. Alongside the CMS we also provide a set of
 [`React Native`](https://reactnative.dev/) components that can be used to easily integrate the CMS into your application.
 
+
+## Build Status
+[![Build Status](https://fishonfire.semaphoreci.com/badges/scales_cms/branches/develop.svg?key=7946eb60-cfc0-4501-b4f6-ae33f17fe39b)](https://fishonfire.semaphoreci.com/projects/scales_cms)
+
 ## Prerequisites
 - Elixir 1.14
 - Phoenix 1.7.17 and higher
