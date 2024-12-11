@@ -30,7 +30,10 @@ defmodule ScalesCmsWeb.Router do
 
   scope "/" do
     pipe_through [:browser, :require_authenticated_user]
-    cms_admin(on_mount: [{ScalesCmsWeb.UserAuth, :ensure_authenticated}])
+
+    cms_admin(on_mount: [{ScalesCmsWeb.UserAuth, :ensure_authenticated}]) do
+      # custom routes
+    end
   end
 
   scope "/api" do

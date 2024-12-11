@@ -23,16 +23,16 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    pv = CmsPageVariants.get_cms_page_variant!(id)
-
-    socket
-    |> assign(:categories, ScalesCmsWeb.Components.CmsComponents.get_categories())
-    |> assign(:active_category, "All")
-    |> assign(:page_title, page_title(socket.assigns.live_action))
-    |> assign(:cms_page_variant, pv)
-    |> assign(:form, to_form(CmsPageVariants.change_cms_page_variant(pv)))
-    |> assign(:blocks, CmsPageVariantBlocks.list_blocks_for_page_variant(id))
-    |> then(&{:noreply, &1})
+    with pv <- CmsPageVariants.get_cms_page_variant!(id) do
+      socket
+      |> assign(:categories, ScalesCmsWeb.Components.CmsComponents.get_categories())
+      |> assign(:active_category, "All")
+      |> assign(:page_title, page_title(socket.assigns.live_action))
+      |> assign(:cms_page_variant, pv)
+      |> assign(:form, to_form(CmsPageVariants.change_cms_page_variant(pv)))
+      |> assign(:blocks, CmsPageVariantBlocks.list_blocks_for_page_variant(id))
+      |> then(&{:noreply, &1})
+    end
   end
 
   @impl Phoenix.LiveView

@@ -2,11 +2,9 @@ defmodule ScalesCmsWeb.CmsRouter do
   @moduledoc """
   The Macros for defining the routes in the main application
   """
-  defmacro cms_admin(opts \\ []) do
+  defmacro cms_admin(opts, do: block) do
     scope =
       quote bind_quoted: binding() do
-        import Phoenix.LiveView.Router, only: [live: 3, live_session: 3]
-
         session_opts = [root_layout: {ScalesCmsWeb.Layouts, :root}]
 
         if opts[:on_mount] do
@@ -47,6 +45,8 @@ defmodule ScalesCmsWeb.CmsRouter do
             live "/cms_page_variants/:id/show/edit", CmsPageVariantLive.Show, :edit
 
             live "/cms_page_builder/:id", PageBuilderLive.Edit, :edit
+
+            block
           end
         end
       end
