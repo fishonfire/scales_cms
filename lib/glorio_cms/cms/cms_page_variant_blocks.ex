@@ -4,9 +4,8 @@ defmodule GlorioCms.Cms.CmsPageVariantBlocks do
   """
 
   import Ecto.Query, warn: false
-  use GlorioCms.RepoOverride
-
   alias GlorioCms.Cms.CmsPageVariantBlock
+  import GlorioCms, only: [repo: 0]
 
   @doc """
   Returns the list of cms_page_variant_blocks.
@@ -18,14 +17,14 @@ defmodule GlorioCms.Cms.CmsPageVariantBlocks do
 
   """
   def list_cms_page_variant_blocks do
-    Repo.all(CmsPageVariantBlock)
+    repo().all(CmsPageVariantBlock)
   end
 
   def list_blocks_for_page_variant(page_variant_id) do
     CmsPageVariantBlock
     |> where([pvb], pvb.cms_page_variant_id == ^page_variant_id)
     |> order_by([pvb], asc: pvb.sort_order)
-    |> Repo.all()
+    |> repo().all()
   end
 
   @doc """
@@ -42,7 +41,7 @@ defmodule GlorioCms.Cms.CmsPageVariantBlocks do
       ** (Ecto.NoResultsError)
 
   """
-  def get_cms_page_variant_block!(id), do: Repo.get!(CmsPageVariantBlock, id)
+  def get_cms_page_variant_block!(id), do: repo().get!(CmsPageVariantBlock, id)
 
   @doc """
   Creates a cms_page_variant_block.
@@ -59,7 +58,7 @@ defmodule GlorioCms.Cms.CmsPageVariantBlocks do
   def create_cms_page_variant_block(attrs \\ %{}) do
     %CmsPageVariantBlock{}
     |> CmsPageVariantBlock.changeset(attrs)
-    |> Repo.insert()
+    |> repo().insert()
   end
 
   @doc """
@@ -77,7 +76,7 @@ defmodule GlorioCms.Cms.CmsPageVariantBlocks do
   def update_cms_page_variant_block(%CmsPageVariantBlock{} = cms_page_variant_block, attrs) do
     cms_page_variant_block
     |> CmsPageVariantBlock.changeset(attrs)
-    |> Repo.update()
+    |> repo().update()
   end
 
   @doc """
@@ -93,7 +92,7 @@ defmodule GlorioCms.Cms.CmsPageVariantBlocks do
 
   """
   def delete_cms_page_variant_block(%CmsPageVariantBlock{} = cms_page_variant_block) do
-    Repo.delete(cms_page_variant_block)
+    repo().delete(cms_page_variant_block)
   end
 
   @doc """

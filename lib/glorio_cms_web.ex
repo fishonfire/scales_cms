@@ -98,8 +98,10 @@ defmodule GlorioCmsWeb do
 
   def verified_routes do
     quote do
+      @endpoint Application.compile_env(:glorio_cms, :endpoint)
+
       use Phoenix.VerifiedRoutes,
-        endpoint: GlorioCmsWeb.Endpoint,
+        endpoint: @endpoint,
         router: GlorioCmsWeb.Router,
         statics: GlorioCmsWeb.static_paths()
     end

@@ -4,9 +4,9 @@ defmodule GlorioCms.Cms.CmsDirectories do
   """
 
   import Ecto.Query, warn: false
-  use GlorioCms.RepoOverride
-
   alias GlorioCms.Cms.CmsDirectory
+
+  import GlorioCms, only: [repo: 0]
 
   @doc """
   Returns the list of cms_directories.
@@ -20,7 +20,7 @@ defmodule GlorioCms.Cms.CmsDirectories do
   def list_cms_directories do
     CmsDirectory
     |> where([cd], is_nil(cd.cms_directory_id))
-    |> Repo.all()
+    |> repo().all()
   end
 
   @doc """
@@ -32,7 +32,7 @@ defmodule GlorioCms.Cms.CmsDirectories do
       [%CmsDirectory{}, ...]
 
   """
-  def list_all_cms_directories, do: Repo.all(CmsDirectory)
+  def list_all_cms_directories, do: repo().all(CmsDirectory)
 
   @doc """
   Returns the list of all active cms_directories.
@@ -46,7 +46,7 @@ defmodule GlorioCms.Cms.CmsDirectories do
   def list_all_active_cms_directories do
     CmsDirectory
     |> where([cd], is_nil(cd.deleted_at))
-    |> Repo.all()
+    |> repo().all()
   end
 
   @doc """
@@ -61,7 +61,7 @@ defmodule GlorioCms.Cms.CmsDirectories do
   def list_cms_directories_for_parent_id(parent_id) do
     CmsDirectory
     |> where([cd], cd.cms_directory_id == ^parent_id)
-    |> Repo.all()
+    |> repo().all()
   end
 
   @doc """
@@ -78,7 +78,7 @@ defmodule GlorioCms.Cms.CmsDirectories do
       ** (Ecto.NoResultsError)
 
   """
-  def get_cms_directory!(id), do: Repo.get!(CmsDirectory, id)
+  def get_cms_directory!(id), do: repo().get!(CmsDirectory, id)
 
   @doc """
   Creates a cms_directory.
@@ -95,7 +95,7 @@ defmodule GlorioCms.Cms.CmsDirectories do
   def create_cms_directory(attrs \\ %{}) do
     %CmsDirectory{}
     |> CmsDirectory.changeset(attrs)
-    |> Repo.insert()
+    |> repo().insert()
   end
 
   @doc """
@@ -113,7 +113,7 @@ defmodule GlorioCms.Cms.CmsDirectories do
   def update_cms_directory(%CmsDirectory{} = cms_directory, attrs) do
     cms_directory
     |> CmsDirectory.changeset(attrs)
-    |> Repo.update()
+    |> repo().update()
   end
 
   @doc """
@@ -129,7 +129,7 @@ defmodule GlorioCms.Cms.CmsDirectories do
 
   """
   def delete_cms_directory(%CmsDirectory{} = cms_directory) do
-    Repo.delete(cms_directory)
+    repo().delete(cms_directory)
   end
 
   @doc """

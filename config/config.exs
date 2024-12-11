@@ -8,6 +8,14 @@
 import Config
 
 config :glorio_cms,
+  endpoint: GlorioCmsWeb.Endpoint
+
+config :glorio_cms,
+  repo: GlorioCms.Repo
+
+config :glorio_cms, :dev_mode, true
+
+config :glorio_cms,
   ecto_repos: [GlorioCms.Repo],
   generators: [timestamp_type: :utc_datetime]
 
@@ -60,8 +68,6 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
-
-config :glorio_cms, GlorioCms, repo: GlorioCms.Repo
 
 config :ex_aws, :s3,
   access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),

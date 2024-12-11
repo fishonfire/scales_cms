@@ -6,8 +6,7 @@ defmodule GlorioCms.Cms.Flows.Blocks.ReorderBlocks do
 
   alias Ecto.Multi
   import Ecto.Query, warn: false
-
-  use GlorioCms.RepoOverride
+  import GlorioCms, only: [repo: 0]
 
   def perform(new_order) do
     Enum.with_index(new_order)
@@ -22,6 +21,6 @@ defmodule GlorioCms.Cms.Flows.Blocks.ReorderBlocks do
         })
       )
     end)
-    |> Repo.transaction()
+    |> repo().transaction()
   end
 end

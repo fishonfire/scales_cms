@@ -3,12 +3,11 @@ defmodule GlorioCmsWeb.CmsPageLiveTest do
 
   import Phoenix.LiveViewTest
   import GlorioCms.CmsFixtures
-  # import GlorioCmsWeb.Gettext
 
   @create_attrs %{title: "some title"}
-  @update_attrs %{
-    title: "some updated title"
-  }
+  # @update_attrs %{
+  #   title: "some updated title"
+  # }
   @invalid_attrs %{title: nil}
 
   defp create_cms_page(_) do

@@ -4,8 +4,7 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
   """
 
   import Ecto.Query, warn: false
-
-  use GlorioCms.RepoOverride
+  import GlorioCms, only: [repo: 0]
 
   alias GlorioCms.Cms.CmsPageLocaleLatestVariant
 
@@ -19,7 +18,7 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
 
   """
   def list_cms_page_locale_latest_variants do
-    Repo.all(CmsPageLocaleLatestVariant)
+    repo().all(CmsPageLocaleLatestVariant)
   end
 
   @doc """
@@ -34,7 +33,7 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
   def list_cms_page_locale_latest_variants_for_page_and_locale(page_id, locale) do
     CmsPageLocaleLatestVariant
     |> where([cpv], cpv.cms_page_id == ^page_id and cpv.locale == ^locale)
-    |> Repo.all()
+    |> repo().all()
   end
 
   @doc """
@@ -55,7 +54,7 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
       on: cpv.cms_page_id == cms_page.id
     )
     |> where([cpv, cms_page], cpv.locale == ^locale and is_nil(cms_page.deleted_at))
-    |> Repo.all()
+    |> repo().all()
   end
 
   @doc """
@@ -81,7 +80,7 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
     |> where([cpv, cms_page], cpv.locale == ^locale and is_nil(cms_page.deleted_at))
     |> limit(^size)
     |> offset(^offset)
-    |> Repo.all()
+    |> repo().all()
   end
 
   def count_cms_page_locale_latest_variants_for_locale(locale) do
@@ -94,7 +93,7 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
     )
     |> where([cpv, cms_page], cpv.locale == ^locale and is_nil(cms_page.deleted_at))
     |> select([cpv], count(cpv.id))
-    |> Repo.one()
+    |> repo().one()
   end
 
   @doc """
@@ -111,7 +110,8 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
       ** (Ecto.NoResultsError)
 
   """
-  def get_cms_page_locale_latest_variant!(id), do: Repo.get!(CmsPageLocaleLatestVariant, id)
+  def get_cms_page_locale_latest_variant!(id),
+    do: repo().get!(CmsPageLocaleLatestVariant, id)
 
   @doc """
   Gets a single cms_page_locale_latest_variant for a specific locale.
@@ -125,7 +125,7 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
   def get_cms_page_locale_latest_variant_for_page_and_locale(page_id, locale) do
     CmsPageLocaleLatestVariant
     |> where([cplv], cplv.cms_page_id == ^page_id and cplv.locale == ^locale)
-    |> Repo.one()
+    |> repo().one()
   end
 
   @doc """
@@ -143,7 +143,7 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
   def create_cms_page_locale_latest_variant(attrs \\ %{}) do
     %CmsPageLocaleLatestVariant{}
     |> CmsPageLocaleLatestVariant.changeset(attrs)
-    |> Repo.insert()
+    |> repo().insert()
   end
 
   @doc """
@@ -164,7 +164,7 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
       ) do
     cms_page_locale_latest_variant
     |> CmsPageLocaleLatestVariant.changeset(attrs)
-    |> Repo.update()
+    |> repo().update()
   end
 
   @doc """
@@ -182,7 +182,7 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
   def delete_cms_page_locale_latest_variant(
         %CmsPageLocaleLatestVariant{} = cms_page_locale_latest_variant
       ) do
-    Repo.delete(cms_page_locale_latest_variant)
+    repo().delete(cms_page_locale_latest_variant)
   end
 
   @doc """
@@ -202,9 +202,11 @@ defmodule GlorioCms.Cms.CmsPageLocaleLatestVariants do
   end
 
   def preload_page_variant(%CmsPageLocaleLatestVariant{} = cms_page_locale_latest_variant) do
-    Repo.preload(cms_page_locale_latest_variant, latest_published_page: [:page, :blocks])
+    repo().preload(cms_page_locale_latest_variant,
+      latest_published_page: [:page, :blocks]
+    )
   end
 
   def preload_page_variants(variants),
-    do: Repo.preload(variants, latest_published_page: [:page, :blocks])
+    do: repo().preload(variants, latest_published_page: [:page, :blocks])
 end

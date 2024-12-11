@@ -29,8 +29,6 @@ config :glorio_cms, GlorioCmsWeb.Endpoint,
     tailwind: {Tailwind, :install_and_run, [:glorio_cms, ~w(--watch)]}
   ]
 
-# IO.inspect("DEV MODE ENABLED")
-
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed

@@ -4,9 +4,8 @@ defmodule GlorioCms.Cms.CmsPageVariants do
   """
 
   import Ecto.Query, warn: false
-  use GlorioCms.RepoOverride
-
   alias GlorioCms.Cms.CmsPageVariant
+  import GlorioCms, only: [repo: 0]
 
   @doc """
   Returns the list of cms_page_variants.
@@ -18,7 +17,7 @@ defmodule GlorioCms.Cms.CmsPageVariants do
 
   """
   def list_cms_page_variants do
-    Repo.all(CmsPageVariant)
+    repo().all(CmsPageVariant)
   end
 
   @doc """
@@ -33,7 +32,7 @@ defmodule GlorioCms.Cms.CmsPageVariants do
   def list_cms_page_variants_for_page(page_id) do
     CmsPageVariant
     |> where([cpv], cpv.cms_page_id == ^page_id)
-    |> Repo.all()
+    |> repo().all()
   end
 
   @doc """
@@ -48,7 +47,7 @@ defmodule GlorioCms.Cms.CmsPageVariants do
   def list_cms_page_variants_for_page_and_locale(page_id, locale) do
     CmsPageVariant
     |> where([cpv], cpv.cms_page_id == ^page_id and cpv.locale == ^locale)
-    |> Repo.all()
+    |> repo().all()
   end
 
   @doc """
@@ -65,14 +64,14 @@ defmodule GlorioCms.Cms.CmsPageVariants do
       ** (Ecto.NoResultsError)
 
   """
-  def get_cms_page_variant!(id), do: Repo.get!(CmsPageVariant, id)
+  def get_cms_page_variant!(id), do: repo().get!(CmsPageVariant, id)
 
   def get_latest_cms_page_variant_for_locale(page_id, locale) do
     CmsPageVariant
     |> where([cpv], cpv.cms_page_id == ^page_id and cpv.locale == ^locale)
     |> order_by([cpv], desc: cpv.version)
     |> limit(1)
-    |> Repo.one()
+    |> repo().one()
   end
 
   @doc """
@@ -90,7 +89,7 @@ defmodule GlorioCms.Cms.CmsPageVariants do
   def create_cms_page_variant(attrs \\ %{}) do
     %CmsPageVariant{}
     |> CmsPageVariant.changeset(attrs)
-    |> Repo.insert()
+    |> repo().insert()
   end
 
   @doc """
@@ -108,7 +107,7 @@ defmodule GlorioCms.Cms.CmsPageVariants do
   def update_cms_page_variant(%CmsPageVariant{} = cms_page_variant, attrs) do
     cms_page_variant
     |> CmsPageVariant.changeset(attrs)
-    |> Repo.update()
+    |> repo().update()
   end
 
   @doc """
@@ -124,7 +123,7 @@ defmodule GlorioCms.Cms.CmsPageVariants do
 
   """
   def delete_cms_page_variant(%CmsPageVariant{} = cms_page_variant) do
-    Repo.delete(cms_page_variant)
+    repo().delete(cms_page_variant)
   end
 
   @doc """

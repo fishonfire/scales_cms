@@ -6,19 +6,18 @@ defmodule GlorioCms.Cms.Flows.Blocks.InsertBlock do
   alias GlorioCms.Cms.CmsPageVariantBlocks
 
   import Ecto.Query, warn: false
-
-  use GlorioCms.RepoOverride
+  import GlorioCms, only: [repo: 0]
 
   def perform(block_index, type, page_variant_id) do
     with {:ok, _result} <-
-           Repo.transaction(fn ->
+           repo().transaction(fn ->
              CmsPageVariantBlock
              |> where(
                [pvb],
                pvb.cms_page_variant_id == ^page_variant_id and pvb.sort_order >= ^block_index
              )
              |> update(inc: [sort_order: 1])
-             |> Repo.update_all([])
+             |> repo().update_all([])
            end) do
       CmsPageVariantBlocks.create_cms_page_variant_block(%{
         sort_order: block_index,

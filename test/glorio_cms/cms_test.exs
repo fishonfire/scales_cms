@@ -1,8 +1,6 @@
 defmodule GlorioCms.CmsTest do
   use GlorioCms.DataCase
 
-  alias GlorioCms.Cms
-
   describe "cms_directories" do
     alias GlorioCms.Cms.CmsDirectory
     alias GlorioCms.Cms.CmsDirectories

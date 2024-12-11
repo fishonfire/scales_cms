@@ -4,9 +4,8 @@ defmodule GlorioCms.Cms.CmsPages do
   """
 
   import Ecto.Query, warn: false
-  use GlorioCms.RepoOverride
-
   alias GlorioCms.Cms.CmsPage
+  import GlorioCms, only: [repo: 0]
 
   @doc """
   Returns the list of cms_pages.
@@ -20,7 +19,7 @@ defmodule GlorioCms.Cms.CmsPages do
   def list_cms_pages do
     CmsPage
     |> where([cp], is_nil(cp.cms_directory_id))
-    |> Repo.all()
+    |> repo().all()
   end
 
   @doc """
@@ -35,7 +34,7 @@ defmodule GlorioCms.Cms.CmsPages do
   def list_pages_for_directory_id(directory_id) do
     CmsPage
     |> where([cp], cp.cms_directory_id == ^directory_id)
-    |> Repo.all()
+    |> repo().all()
   end
 
   @doc """
@@ -52,7 +51,7 @@ defmodule GlorioCms.Cms.CmsPages do
       ** (Ecto.NoResultsError)
 
   """
-  def get_cms_page!(id), do: Repo.get!(CmsPage, id)
+  def get_cms_page!(id), do: repo().get!(CmsPage, id)
 
   @doc """
   Creates a cms_page.
@@ -69,7 +68,7 @@ defmodule GlorioCms.Cms.CmsPages do
   def create_cms_page(attrs \\ %{}) do
     %CmsPage{}
     |> CmsPage.changeset(attrs)
-    |> Repo.insert()
+    |> repo().insert()
   end
 
   @doc """
@@ -87,7 +86,7 @@ defmodule GlorioCms.Cms.CmsPages do
   def update_cms_page(%CmsPage{} = cms_page, attrs) do
     cms_page
     |> CmsPage.changeset(attrs)
-    |> Repo.update()
+    |> repo().update()
   end
 
   @doc """
@@ -103,7 +102,7 @@ defmodule GlorioCms.Cms.CmsPages do
 
   """
   def delete_cms_page(%CmsPage{} = cms_page) do
-    Repo.delete(cms_page)
+    repo().delete(cms_page)
   end
 
   @doc """
