@@ -1,0 +1,37 @@
+<.header>
+  Cms page variant {@cms_page_variant.id}
+  <:subtitle>This is a cms_page_variant record from your database.</:subtitle>
+  <:actions>
+    <.link
+      patch={~p"/cms/cms_page_variants/#{@cms_page_variant}/show/edit"}
+      phx-click={JS.push_focus()}
+    >
+      <.button>Edit cms_page_variant</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Title">{@cms_page_variant.title}</:item>
+  <:item title="Published at">{@cms_page_variant.published_at}</:item>
+  <:item title="Locale">{@cms_page_variant.locale}</:item>
+  <:item title="Version">{@cms_page_variant.version}</:item>
+</.list>
+
+<.back navigate={~p"/cms/cms_page_variants"}>Back to cms_page_variants</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="cms_page_variant-modal"
+  show
+  on_cancel={JS.patch(~p"/cms/cms_page_variants/#{@cms_page_variant}")}
+>
+  <.live_component
+    module={ScalesCmsWeb.CmsPageVariantLive.FormComponent}
+    id={@cms_page_variant.id}
+    title={@page_title}
+    action={@live_action}
+    cms_page_variant={@cms_page_variant}
+    patch={~p"/cms/cms_page_variants/#{@cms_page_variant}"}
+  />
+</.modal>

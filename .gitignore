@@ -23,7 +23,7 @@ erl_crash.dump
 /tmp/
 
 # Ignore package tarball (built via "mix hex.build").
-glorio_cms-*.tar
+scales_cms-*.tar
 
 # Ignore assets that are produced by build tools.
 /priv/static/assets/

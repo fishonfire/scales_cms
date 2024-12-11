@@ -1,5 +1,5 @@
-defmodule GlorioCmsWeb.PageControllerTest do
-  use GlorioCmsWeb.ConnCase
+defmodule ScalesCmsWeb.PageControllerTest do
+  use ScalesCmsWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")

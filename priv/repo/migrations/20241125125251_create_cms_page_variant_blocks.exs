@@ -1,4 +1,4 @@
-defmodule GlorioCms.Repo.Migrations.CreateCmsPageVariantBlocks do
+defmodule ScalesCms.Repo.Migrations.CreateCmsPageVariantBlocks do
   use Ecto.Migration
 
   def change do

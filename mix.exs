@@ -1,9 +1,9 @@
-defmodule GlorioCms.MixProject do
+defmodule ScalesCms.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :glorio_cms,
+      app: :scales_cms,
       version: "0.1.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -26,7 +26,7 @@ defmodule GlorioCms.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {GlorioCms.Application, []},
+      mod: {ScalesCms.Application, []},
       extra_applications: [
         :logger,
         :runtime_tools
@@ -91,10 +91,10 @@ defmodule GlorioCms.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind glorio_cms", "esbuild glorio_cms"],
+      "assets.build": ["tailwind scales_cms", "esbuild scales_cms"],
       "assets.deploy": [
-        "tailwind glorio_cms --minify",
-        "esbuild glorio_cms --minify",
+        "tailwind scales_cms --minify",
+        "esbuild scales_cms --minify",
         "phx.digest"
       ]
     ]
@@ -104,7 +104,7 @@ defmodule GlorioCms.MixProject do
     [
       maintainers: ["Simon de la Court"],
       licenses: ["MIT"],
-      links: %{github: "https://github.com/fishonfire/glorio_cms"},
+      links: %{github: "https://github.com/fishonfire/scales_cms"},
       files: ~w(dist lib CHANGELOG.md LICENSE.md mix.exs README.md)
     ]
   end

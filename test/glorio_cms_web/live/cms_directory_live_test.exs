@@ -1,9 +1,9 @@
-defmodule GlorioCmsWeb.CmsDirectoryLiveTest do
-  use GlorioCmsWeb.ConnCase
+defmodule ScalesCmsWeb.CmsDirectoryLiveTest do
+  use ScalesCmsWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import GlorioCms.CmsFixtures
-  import GlorioCmsWeb.Gettext
+  import ScalesCms.CmsFixtures
+  import ScalesCmsWeb.Gettext
 
   @create_attrs %{title: "some title", slug: "some slug", deleted_at: "2024-11-24T12:16:00"}
   @update_attrs %{

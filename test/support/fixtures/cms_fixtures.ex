@@ -1,7 +1,7 @@
-defmodule GlorioCms.CmsFixtures do
+defmodule ScalesCms.CmsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `GlorioCms.Cms` context.
+  entities via the `ScalesCms.Cms` context.
   """
 
   @doc """
@@ -15,7 +15,7 @@ defmodule GlorioCms.CmsFixtures do
         slug: "some slug",
         title: "some title"
       })
-      |> GlorioCms.Cms.CmsDirectories.create_cms_directory()
+      |> ScalesCms.Cms.CmsDirectories.create_cms_directory()
 
     cms_directory
   end
@@ -31,7 +31,7 @@ defmodule GlorioCms.CmsFixtures do
         slug: "some slug",
         title: "some title"
       })
-      |> GlorioCms.Cms.CmsPages.create_cms_page()
+      |> ScalesCms.Cms.CmsPages.create_cms_page()
 
     cms_page
   end
@@ -48,7 +48,7 @@ defmodule GlorioCms.CmsFixtures do
         title: "some title",
         version: 42
       })
-      |> GlorioCms.Cms.CmsPageVariants.create_cms_page_variant()
+      |> ScalesCms.Cms.CmsPageVariants.create_cms_page_variant()
 
     cms_page_variant
   end
@@ -64,7 +64,7 @@ defmodule GlorioCms.CmsFixtures do
         properties: %{},
         sort_order: 42
       })
-      |> GlorioCms.Cms.CmsPageVariantBlocks.create_cms_page_variant_block()
+      |> ScalesCms.Cms.CmsPageVariantBlocks.create_cms_page_variant_block()
 
     cms_page_variant_block
   end

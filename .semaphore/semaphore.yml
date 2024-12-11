@@ -1,5 +1,5 @@
 version: v1.0
-name: GlorioCMS
+name: ScalesCMS
 agent:
   machine:
     type: e2-standard-2

@@ -9,8 +9,8 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 module.exports = {
   content: [
     "./js/**/*.js",
-    "../lib/glorio_cms_web.ex",
-    "../lib/glorio_cms_web/**/*.*ex"
+    "../lib/scales_cms_web.ex",
+    "../lib/scales_cms_web/**/*.*ex"
   ],
   theme: {
     extend: {

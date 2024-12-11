@@ -1,8 +1,8 @@
-defmodule GlorioCmsWeb.CmsPageLiveTest do
-  use GlorioCmsWeb.ConnCase
+defmodule ScalesCmsWeb.CmsPageLiveTest do
+  use ScalesCmsWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import GlorioCms.CmsFixtures
+  import ScalesCms.CmsFixtures
 
   @create_attrs %{title: "some title"}
   # @update_attrs %{

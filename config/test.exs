@@ -5,7 +5,7 @@ import Config
 # The MIX_TEST_PARTITION environment variable can be used
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
-config :glorio_cms, GlorioCms.Repo,
+config :scales_cms, ScalesCms.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost",
@@ -15,13 +15,13 @@ config :glorio_cms, GlorioCms.Repo,
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :glorio_cms, GlorioCmsWeb.Endpoint,
+config :scales_cms, ScalesCmsWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "sMMf7ufR+q6ehSv7TGmRJHQp1nkUYxY3ndnr0DOKUQo2bRnkFJhb2Zz5spRLl+/J",
   server: false
 
 # In test we don't send emails
-config :glorio_cms, GlorioCms.Mailer, adapter: Swoosh.Adapters.Test
+config :scales_cms, ScalesCms.Mailer, adapter: Swoosh.Adapters.Test
 
 # Disable swoosh api client as it is only required for production adapters
 config :swoosh, :api_client, false

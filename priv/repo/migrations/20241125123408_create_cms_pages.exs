@@ -1,4 +1,4 @@
-defmodule GlorioCms.Repo.Migrations.CreateCmsPages do
+defmodule ScalesCms.Repo.Migrations.CreateCmsPages do
   use Ecto.Migration
 
   def change do

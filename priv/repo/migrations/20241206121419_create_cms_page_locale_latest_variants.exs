@@ -1,4 +1,4 @@
-defmodule GlorioCms.Repo.Migrations.CreateCmsPageLocaleLatestVariants do
+defmodule ScalesCms.Repo.Migrations.CreateCmsPageLocaleLatestVariants do
   use Ecto.Migration
 
   def change do

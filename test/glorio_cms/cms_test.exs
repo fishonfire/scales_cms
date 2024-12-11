@@ -1,11 +1,11 @@
-defmodule GlorioCms.CmsTest do
-  use GlorioCms.DataCase
+defmodule ScalesCms.CmsTest do
+  use ScalesCms.DataCase
 
   describe "cms_directories" do
-    alias GlorioCms.Cms.CmsDirectory
-    alias GlorioCms.Cms.CmsDirectories
+    alias ScalesCms.Cms.CmsDirectory
+    alias ScalesCms.Cms.CmsDirectories
 
-    import GlorioCms.CmsFixtures
+    import ScalesCms.CmsFixtures
 
     @invalid_attrs %{title: nil, slug: nil, deleted_at: nil}
 
@@ -76,10 +76,10 @@ defmodule GlorioCms.CmsTest do
   end
 
   describe "cms_pages" do
-    alias GlorioCms.Cms.CmsPage
-    alias GlorioCms.Cms.CmsPages
+    alias ScalesCms.Cms.CmsPage
+    alias ScalesCms.Cms.CmsPages
 
-    import GlorioCms.CmsFixtures
+    import ScalesCms.CmsFixtures
 
     @invalid_attrs %{title: nil, slug: nil, deleted_at: nil}
 
@@ -140,10 +140,10 @@ defmodule GlorioCms.CmsTest do
   end
 
   describe "cms_page_variants" do
-    alias GlorioCms.Cms.CmsPageVariant
-    alias GlorioCms.Cms.CmsPageVariants
+    alias ScalesCms.Cms.CmsPageVariant
+    alias ScalesCms.Cms.CmsPageVariants
 
-    import GlorioCms.CmsFixtures
+    import ScalesCms.CmsFixtures
 
     @invalid_attrs %{version: nil, title: nil, published_at: nil, locale: nil}
 
@@ -222,10 +222,10 @@ defmodule GlorioCms.CmsTest do
   end
 
   describe "cms_page_variant_blocks" do
-    alias GlorioCms.Cms.CmsPageVariantBlock
-    alias GlorioCms.Cms.CmsPageVariantBlocks
+    alias ScalesCms.Cms.CmsPageVariantBlock
+    alias ScalesCms.Cms.CmsPageVariantBlocks
 
-    import GlorioCms.CmsFixtures
+    import ScalesCms.CmsFixtures
 
     @invalid_attrs %{sort_order: nil, component_type: nil, properties: nil}
 

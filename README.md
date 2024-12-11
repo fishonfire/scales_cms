@@ -1,4 +1,4 @@
-# GlorioCms
+# ScalesCms
 
 To start your Phoenix server:
 
