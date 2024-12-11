@@ -2,12 +2,18 @@ defmodule ScalesCmsWeb.CmsRouter do
   @moduledoc """
   The Macros for defining the routes in the main application
   """
-  defmacro cms_admin() do
+  defmacro cms_admin(opts \\ []) do
     scope =
       quote bind_quoted: binding() do
         import Phoenix.LiveView.Router, only: [live: 3, live_session: 3]
 
-        live_session :cms, root_layout: {ScalesCmsWeb.Layouts, :root} do
+        session_opts = [root_layout: {ScalesCmsWeb.Layouts, :root}]
+
+        if opts[:on_mount] do
+          session_opts = Keyword.put_new(session_opts, :on_mount, opts[:on_mount])
+        end
+
+        live_session :cms_admin, session_opts do
           scope "/cms", ScalesCmsWeb do
             # cms assets
             get "/css-:md5", Plugs.Assets, :css, as: :cms_asset
