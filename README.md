@@ -5,7 +5,6 @@ and allows you to manage the content of either applications or websites easily.
 It provides a set of JSON endpoints for headless usage. Alongside the CMS we also provide a set of
 [`React Native`](https://reactnative.dev/) components that can be used to easily integrate the CMS into your application.
 
-
 ## Build Status
 [![Build Status](https://fishonfire.semaphoreci.com/badges/scales_cms/branches/develop.svg?key=7946eb60-cfc0-4501-b4f6-ae33f17fe39b)](https://fishonfire.semaphoreci.com/projects/scales_cms)
 
@@ -24,7 +23,9 @@ config :scales_cms,
   repo: CmsDemo.Repo
 ```
 This will allow the CMS to use your application's endpoint and repo.
-- Run the mix tasks that will be released soon to generate migrations
+- Run `mix scales_cms.generate_migrations` to generate the migrations for the CMS. These migrations
+are now part of your application. You could modify them, but no modifications are supported currently.
+- Run `mix ecto.migrate` to run the migrations.
 
 ## React Native Renderer
 More info on https://github.com/fishonfire/react-native-scales-renderer
