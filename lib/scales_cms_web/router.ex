@@ -1,6 +1,8 @@
 defmodule ScalesCmsWeb.Router do
   use ScalesCmsWeb, :router
+
   import ScalesCmsWeb.CmsRouter
+  import ScalesCmsWeb.UserAuth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -9,6 +11,7 @@ defmodule ScalesCmsWeb.Router do
     plug :put_root_layout, html: {ScalesCmsWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_user
   end
 
   pipeline :api do
@@ -16,12 +19,21 @@ defmodule ScalesCmsWeb.Router do
     plug(ScalesCmsWeb.Plugs.ApiVersion)
   end
 
-  scope "/" do
+  scope "/", ScalesCmsWeb do
     pipe_through :browser
 
-    get "/", ScalesCmsWeb.PageController, :home
+    get "/", PageController, :home
 
-    cms_admin()
+    live "/users/log_in", DevEnv.UserLoginLive
+    post "/users/log_in", UserSessionController, :create
+  end
+
+  scope "/" do
+    pipe_through [:browser, :require_authenticated_user]
+
+    cms_admin(on_mount: [{ScalesCmsWeb.UserAuth, :ensure_authenticated}]) do
+      # custom routes
+    end
   end
 
   scope "/api" do

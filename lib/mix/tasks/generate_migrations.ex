@@ -1,6 +1,9 @@
 # Mix.Tasks.Ecto.Gen.Migration
 if Code.ensure_loaded?(Ecto) do
   defmodule Mix.Tasks.ScalesCms.GenerateMigrations do
+    @moduledoc """
+    Provides the migrations for ScalesCMS
+    """
     use Mix.Task
 
     import Macro, only: [camelize: 1, underscore: 1]
