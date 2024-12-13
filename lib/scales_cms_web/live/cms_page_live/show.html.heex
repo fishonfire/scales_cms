@@ -5,7 +5,7 @@
     <div class="flex">
       <.live_component id="locale_switcher" module={LocaleSwitcher} class="flex" />
 
-      <.link patch={~p"/cms/cms_pages/#{@cms_page}/show/edit"} phx-click={JS.push_focus()}>
+      <.link patch={~p"/cms/pages/#{@cms_page}/show/edit"} phx-click={JS.push_focus()}>
         <.button>Edit cms_page</.button>
       </.link>
     </div>
@@ -39,7 +39,7 @@
   :if={@live_action == :edit}
   id="cms_page-modal"
   show
-  on_cancel={JS.patch(~p"/cms/cms_pages/#{@cms_page}")}
+  on_cancel={JS.patch(~p"/cms/pages/#{@cms_page}")}
 >
   <.live_component
     module={ScalesCmsWeb.CmsPageLive.FormComponent}
@@ -47,6 +47,6 @@
     title={@page_title}
     action={@live_action}
     cms_page={@cms_page}
-    patch={~p"/cms/cms_pages/#{@cms_page}"}
+    patch={~p"/cms/pages/#{@cms_page}"}
   />
 </.modal>

@@ -4,27 +4,7 @@
     class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-lightGrey"
     aria-label="Sidebar"
   >
-    LOGO
-    <ul class="space-y-2 font-medium p-4">
-      <li>
-        <.link
-          patch={~p"/cms"}
-          class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-primary "
-        >
-          <.icon name="hero-home" />
-          <span class="ms-3">Dashboard</span>
-        </.link>
-      </li>
-      <li>
-        <.link
-          patch={~p"/cms/cms_directories"}
-          class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-primary "
-        >
-          <.icon name="hero-document" />
-          <span class="ms-3">Pages</span>
-        </.link>
-      </li>
-    </ul>
+    LOGO <ScalesCmsWeb.Components.MenuItems.render />
   </aside>
   <main class="p-4 sm:ml-64">
     <.flash_group flash={@flash} />

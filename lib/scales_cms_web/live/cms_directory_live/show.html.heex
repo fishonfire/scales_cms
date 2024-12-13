@@ -2,10 +2,7 @@
   Cms directory {@cms_directory.id}
   <:subtitle>This is a cms_directory record from your database.</:subtitle>
   <:actions>
-    <.link
-      patch={~p"/cms/cms_directories/#{@cms_directory}/show/edit"}
-      phx-click={JS.push_focus()}
-    >
+    <.link patch={~p"/cms/directories/#{@cms_directory}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit cms_directory</.button>
     </.link>
   </:actions>
@@ -17,13 +14,13 @@
   <:item title="Deleted at">{@cms_directory.deleted_at}</:item>
 </.list>
 
-<.back navigate={~p"/cms/cms_directories"}>Back to cms_directories</.back>
+<.back navigate={~p"/cms/directories"}>{gettext("Back to directories")}</.back>
 
 <.modal
   :if={@live_action == :edit}
   id="cms_directory-modal"
   show
-  on_cancel={JS.patch(~p"/cms/cms_directories/#{@cms_directory}")}
+  on_cancel={JS.patch(~p"/cms/directories/#{@cms_directory}")}
 >
   <.live_component
     module={ScalesCmsWeb.CmsDirectoryLive.FormComponent}
@@ -31,6 +28,6 @@
     title={@page_title}
     action={@live_action}
     cms_directory={@cms_directory}
-    patch={~p"/cms/cms_directories/#{@cms_directory}"}
+    patch={~p"/cms/directories/#{@cms_directory}"}
   />
 </.modal>

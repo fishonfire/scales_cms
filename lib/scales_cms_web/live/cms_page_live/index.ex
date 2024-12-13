@@ -43,8 +43,8 @@ defmodule ScalesCmsWeb.CmsPageLive.Index do
   def handle_info({ScalesCmsWeb.CmsPageLive.FormComponent, {:saved, cms_page}}, socket) do
     url =
       if is_nil(cms_page.cms_directory_id),
-        do: ~p"/cms/cms_directories",
-        else: ~p"/cms/cms_directories/#{cms_page.cms_directory_id}"
+        do: ~p"/cms/directories",
+        else: ~p"/cms/directories/#{cms_page.cms_directory_id}"
 
     socket
     |> push_navigate(to: url)

@@ -22,19 +22,19 @@ defmodule ScalesCmsWeb.CmsDirectoryLiveTest do
     setup [:create_cms_directory]
 
     test "lists all cms_directories", %{conn: conn, cms_directory: cms_directory} do
-      {:ok, _index_live, html} = live(conn, ~p"/cms/cms_directories")
+      {:ok, _index_live, html} = live(conn, ~p"/cms/directories")
 
       assert html =~ "Listing Cms directories"
       assert html =~ cms_directory.title
     end
 
     test "saves new cms_directory", %{conn: conn} do
-      {:ok, index_live, _html} = live(conn, ~p"/cms/cms_directories")
+      {:ok, index_live, _html} = live(conn, ~p"/cms/directories")
 
       assert index_live |> element("a", gettext("New directory")) |> render_click() =~
                gettext("New directory")
 
-      assert_patch(index_live, ~p"/cms/cms_directories/new")
+      assert_patch(index_live, ~p"/cms/directories/new")
 
       assert index_live
              |> form("#cms_directory-form", cms_directory: @invalid_attrs)
@@ -44,7 +44,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLiveTest do
              |> form("#cms_directory-form", cms_directory: @create_attrs)
              |> render_submit()
 
-      assert_patch(index_live, ~p"/cms/cms_directories")
+      assert_patch(index_live, ~p"/cms/directories")
 
       html = render(index_live)
       assert html =~ "Cms directory created successfully"
@@ -52,13 +52,13 @@ defmodule ScalesCmsWeb.CmsDirectoryLiveTest do
     end
 
     test "updates cms_directory in listing", %{conn: conn, cms_directory: cms_directory} do
-      {:ok, index_live, _html} = live(conn, ~p"/cms/cms_directories")
+      {:ok, index_live, _html} = live(conn, ~p"/cms/directories")
 
       assert index_live
              |> element("#cms_directories-#{cms_directory.id} .controls .edit")
              |> render_click()
 
-      assert_patch(index_live, ~p"/cms/cms_directories/#{cms_directory}/edit")
+      assert_patch(index_live, ~p"/cms/directories/#{cms_directory}/edit")
 
       assert index_live
              |> form("#cms_directory-form", cms_directory: @invalid_attrs)
@@ -68,7 +68,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLiveTest do
              |> form("#cms_directory-form", cms_directory: @update_attrs)
              |> render_submit()
 
-      assert_patch(index_live, ~p"/cms/cms_directories")
+      assert_patch(index_live, ~p"/cms/directories")
 
       html = render(index_live)
       assert html =~ "Cms directory updated successfully"
@@ -76,7 +76,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLiveTest do
     end
 
     test "deletes cms_directory in listing", %{conn: conn, cms_directory: cms_directory} do
-      {:ok, index_live, _html} = live(conn, ~p"/cms/cms_directories")
+      {:ok, index_live, _html} = live(conn, ~p"/cms/directories")
 
       assert index_live
              |> element("#cms_directories-#{cms_directory.id} .controls .delete")

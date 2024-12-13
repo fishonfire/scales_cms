@@ -9,7 +9,7 @@ defmodule ScalesCmsWeb.CmsPageLive.FormComponent do
     <div>
       <.header>
         {@title}
-        <:subtitle>Use this form to manage cms_page records in your database.</:subtitle>
+        <:subtitle>{gettext("Create a new page")}</:subtitle>
       </.header>
 
       <.simple_form
@@ -50,6 +50,13 @@ defmodule ScalesCmsWeb.CmsPageLive.FormComponent do
   end
 
   defp save_cms_page(socket, :edit, cms_page_params) do
+    cms_page_params =
+      Map.put(
+        cms_page_params,
+        "slug",
+        ScalesCms.Cms.Helpers.Slugify.slugify(cms_page_params["title"])
+      )
+
     case CmsPages.update_cms_page(socket.assigns.cms_page, cms_page_params) do
       {:ok, cms_page} ->
         notify_parent({:saved, cms_page})
@@ -78,8 +85,8 @@ defmodule ScalesCmsWeb.CmsPageLive.FormComponent do
 
         url =
           if cms_page.cms_directory_id,
-            do: ~p"/cms/cms_directories/#{cms_page.cms_directory_id}",
-            else: ~p"/cms/cms_directories"
+            do: ~p"/cms/directories/#{cms_page.cms_directory_id}",
+            else: ~p"/cms/directories"
 
         socket
         |> put_flash(:info, gettext("Page created successfully"))

@@ -9,7 +9,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.FormComponent do
     <div>
       <.header>
         {@title}
-        <:subtitle>Use this form to manage cms_directory records in your database.</:subtitle>
+        <:subtitle>{gettext("Create a new directory")}</:subtitle>
       </.header>
 
       <.simple_form
@@ -20,10 +20,8 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:title]} type="text" label="Title" />
-        <.input field={@form[:slug]} type="text" label="Slug" />
         <.input field={@form[:cms_directory_id]} type="hidden" />
 
-        <.input field={@form[:deleted_at]} type="datetime-local" label="Deleted at" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Cms directory</.button>
         </:actions>
@@ -55,13 +53,20 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.FormComponent do
   end
 
   defp save_cms_directory(socket, :edit, cms_directory_params) do
+    cms_directory_params =
+      Map.put(
+        cms_directory_params,
+        "slug",
+        ScalesCms.Cms.Helpers.Slugify.slugify(cms_directory_params["title"])
+      )
+
     case CmsDirectories.update_cms_directory(socket.assigns.cms_directory, cms_directory_params) do
       {:ok, cms_directory} ->
         notify_parent({:saved, cms_directory})
 
         {:noreply,
          socket
-         |> put_flash(:info, "Cms directory updated successfully")
+         |> put_flash(:info, gettext("Directory updated successfully"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -70,13 +75,20 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.FormComponent do
   end
 
   defp save_cms_directory(socket, :new, cms_directory_params) do
+    cms_directory_params =
+      Map.put(
+        cms_directory_params,
+        "slug",
+        ScalesCms.Cms.Helpers.Slugify.slugify(cms_directory_params["title"])
+      )
+
     case CmsDirectories.create_cms_directory(cms_directory_params) do
       {:ok, cms_directory} ->
         notify_parent({:saved, cms_directory})
 
         {:noreply,
          socket
-         |> put_flash(:info, "Cms directory created successfully")
+         |> put_flash(:info, gettext("Directory created successfully"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

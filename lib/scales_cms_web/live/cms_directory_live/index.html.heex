@@ -1,8 +1,12 @@
 <div class="container">
-  <.header>
-    Listing Cms directories
+  <.header class="mb-4">
+    <%= if @current_directory do %>
+      {@current_directory.title}
+    <% else %>
+      {gettext("Directories & pages")}
+    <% end %>
     <:actions>
-      <div class="flex">
+      <div class="flex space-x-4">
         <.live_component id="locale_switcher" module={LocaleSwitcher} class="flex" />
 
         <.link patch={get_new_directory_path(@current_directory)}>
@@ -34,12 +38,12 @@
               phx-value-id={@current_directory.cms_directory_id}
               class="w-12 cursor-pointer"
             >
-              <.link patch={~p"/cms/cms_directories"}>
+              <.link patch={~p"/cms/directories"}>
                 <.icon name="hero-arrow-up" />
               </.link>
             </td>
             <td>
-              <.link patch={~p"/cms/cms_directories"}>
+              <.link patch={~p"/cms/directories"}>
                 {gettext("Up")}
               </.link>
             </td>
@@ -75,7 +79,7 @@
           {directory.inserted_at}
         </td>
         <td class="text-right controls">
-          <.link patch={~p"/cms/cms_directories/#{directory.id}/edit"} class="edit">
+          <.link patch={~p"/cms/directories/#{directory.id}/edit"} class="edit">
             <.icon name="hero-pencil" />
           </.link>
 
@@ -96,7 +100,7 @@
           {cms_page.inserted_at}
         </td>
         <td class="text-right controls">
-          <.link patch={~p"/cms/cms_pages/#{cms_page.id}"} id={"edit-page-#{cms_page.id}"}>
+          <.link patch={~p"/cms/pages/#{cms_page.id}"} id={"edit-page-#{cms_page.id}"}>
             <.icon name="hero-wrench-screwdriver" />
           </.link>
           <span
@@ -116,7 +120,7 @@
     :if={@live_action in [:new, :edit]}
     id="cms_directory-modal"
     show
-    on_cancel={JS.patch(~p"/cms/cms_directories")}
+    on_cancel={JS.patch(~p"/cms/directories")}
   >
     <.live_component
       module={ScalesCmsWeb.CmsDirectoryLive.FormComponent}
@@ -124,7 +128,7 @@
       title={@page_title}
       action={@live_action}
       cms_directory={@cms_directory}
-      patch={~p"/cms/cms_directories"}
+      patch={~p"/cms/directories"}
     />
   </.modal>
 </div>

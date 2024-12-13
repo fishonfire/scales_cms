@@ -16,9 +16,11 @@ defmodule ScalesCmsWeb.Components.CmsComponents do
     "image" => Image
   }
 
-  def get_components(), do: @component_list
+  def get_components(), do: Map.merge(@component_list, get_custom_components())
 
-  def get_component(key), do: Map.get(@component_list, key)
+  def get_custom_components(), do: Application.get_env(:scales_cms, :custom_components, %{})
+
+  def get_component(key), do: Map.get(get_components(), key)
 
   def get_categories() do
     @component_list

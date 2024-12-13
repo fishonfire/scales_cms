@@ -2,7 +2,7 @@
   :if={@live_action in [:new, :edit]}
   id="cms_page-modal"
   show
-  on_cancel={JS.patch(~p"/cms/cms_pages")}
+  on_cancel={JS.patch(~p"/cms/pages")}
 >
   <.live_component
     module={ScalesCmsWeb.CmsPageLive.FormComponent}
@@ -10,6 +10,6 @@
     title={@page_title}
     action={@live_action}
     cms_page={@cms_page}
-    patch={~p"/cms/cms_pages"}
+    patch={~p"/cms/pages"}
   />
 </.modal>

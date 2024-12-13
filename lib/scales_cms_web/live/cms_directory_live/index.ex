@@ -147,7 +147,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
 
   def handle_event("open-directory", %{"id" => id}, socket) do
     socket
-    |> push_navigate(to: ~p"/cms/cms_directories/#{id}")
+    |> push_navigate(to: ~p"/cms/directories/#{id}")
     |> then(&{:noreply, &1})
   end
 
@@ -159,12 +159,12 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
     |> then(&{:noreply, &1})
   end
 
-  def get_new_directory_path(nil), do: ~p"/cms/cms_directories/new"
+  def get_new_directory_path(nil), do: ~p"/cms/directories/new"
 
   def get_new_directory_path(current_directory),
-    do: ~p"/cms/cms_directories/#{current_directory.id}/new"
+    do: ~p"/cms/directories/#{current_directory.id}/new"
 
-  def get_new_page_path(nil), do: ~p"/cms/cms_pages/new"
+  def get_new_page_path(nil), do: ~p"/cms/pages/new"
 
-  def get_new_page_path(current_directory), do: ~p"/cms/cms_pages/#{current_directory.id}/new"
+  def get_new_page_path(current_directory), do: ~p"/cms/pages/#{current_directory.id}/new"
 end

@@ -27,7 +27,6 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Md.MdEditor do
   end
 
   @impl Phoenix.LiveComponent
-
   def handle_event("store-properties", %{"md_properties" => properties}, socket) do
     with _block <-
            ScalesCms.Cms.CmsPageVariantBlocks.update_cms_page_variant_block(
