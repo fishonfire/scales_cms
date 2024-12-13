@@ -1,4 +1,5 @@
 defmodule ScalesCmsWeb.Components.MenuItem do
+  @moduledoc false
   @enforce_keys [:title, :icon, :route]
   defstruct [:title, :icon, :route]
 
