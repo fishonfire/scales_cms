@@ -33,6 +33,12 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
       |> assign(:blocks, CmsPageVariantBlocks.list_blocks_for_page_variant(id))
       |> then(&{:noreply, &1})
     end
+  rescue
+    Ecto.NoResultsError ->
+      socket
+      |> put_flash(:error, gettext("Could not find the page"))
+      |> redirect(to: ~p"/cms")
+      |> then(&{:noreply, &1})
   end
 
   @impl Phoenix.LiveView
