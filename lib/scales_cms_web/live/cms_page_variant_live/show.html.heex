@@ -3,7 +3,7 @@
   <:subtitle>This is a cms_page_variant record from your database.</:subtitle>
   <:actions>
     <.link
-      patch={~p"/cms/cms_page_variants/#{@cms_page_variant}/show/edit"}
+      patch={~p"/cms/page_variants/#{@cms_page_variant}/show/edit"}
       phx-click={JS.push_focus()}
     >
       <.button>Edit cms_page_variant</.button>
@@ -18,13 +18,13 @@
   <:item title="Version">{@cms_page_variant.version}</:item>
 </.list>
 
-<.back navigate={~p"/cms/cms_page_variants"}>Back to cms_page_variants</.back>
+<.back navigate={~p"/cms/page_variants"}>Back to cms_page_variants</.back>
 
 <.modal
   :if={@live_action == :edit}
   id="cms_page_variant-modal"
   show
-  on_cancel={JS.patch(~p"/cms/cms_page_variants/#{@cms_page_variant}")}
+  on_cancel={JS.patch(~p"/cms/page_variants/#{@cms_page_variant}")}
 >
   <.live_component
     module={ScalesCmsWeb.CmsPageVariantLive.FormComponent}
@@ -32,6 +32,6 @@
     title={@page_title}
     action={@live_action}
     cms_page_variant={@cms_page_variant}
-    patch={~p"/cms/cms_page_variants/#{@cms_page_variant}"}
+    patch={~p"/cms/page_variants/#{@cms_page_variant}"}
   />
 </.modal>

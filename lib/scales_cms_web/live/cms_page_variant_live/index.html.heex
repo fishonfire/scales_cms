@@ -1,7 +1,7 @@
 <.header>
   Listing Cms page variants
   <:actions>
-    <.link patch={~p"/cms/cms_page_variants/new"}>
+    <.link patch={~p"/cms/page_variants/new"}>
       <.button>New Cms page variant</.button>
     </.link>
   </:actions>
@@ -11,7 +11,7 @@
   id="cms_page_variants"
   rows={@streams.cms_page_variants}
   row_click={
-    fn {_id, cms_page_variant} -> JS.navigate(~p"/cms/cms_page_variants/#{cms_page_variant}") end
+    fn {_id, cms_page_variant} -> JS.navigate(~p"/cms/page_variants/#{cms_page_variant}") end
   }
 >
   <:col :let={{_id, cms_page_variant}} label="Title">{cms_page_variant.title}</:col>
@@ -22,9 +22,9 @@
   <:col :let={{_id, cms_page_variant}} label="Version">{cms_page_variant.version}</:col>
   <:action :let={{_id, cms_page_variant}}>
     <div class="sr-only">
-      <.link navigate={~p"/cms/cms_page_variants/#{cms_page_variant}"}>Show</.link>
+      <.link navigate={~p"/cms/page_variants/#{cms_page_variant}"}>Show</.link>
     </div>
-    <.link patch={~p"/cms/cms_page_variants/#{cms_page_variant}/edit"}>Edit</.link>
+    <.link patch={~p"/cms/page_variants/#{cms_page_variant}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, cms_page_variant}}>
     <.link
@@ -40,7 +40,7 @@
   :if={@live_action in [:new, :edit]}
   id="cms_page_variant-modal"
   show
-  on_cancel={JS.patch(~p"/cms/cms_page_variants")}
+  on_cancel={JS.patch(~p"/cms/page_variants")}
 >
   <.live_component
     module={ScalesCmsWeb.CmsPageVariantLive.FormComponent}
@@ -48,6 +48,6 @@
     title={@page_title}
     action={@live_action}
     cms_page_variant={@cms_page_variant}
-    patch={~p"/cms/cms_page_variants"}
+    patch={~p"/cms/page_variants"}
   />
 </.modal>

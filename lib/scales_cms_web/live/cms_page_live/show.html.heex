@@ -22,7 +22,7 @@
   id="cms_page_variants"
   rows={@streams.variants}
   row_click={
-    fn {_id, cms_page_variant} -> JS.navigate(~p"/cms/cms_page_builder/#{cms_page_variant}") end
+    fn {_id, cms_page_variant} -> JS.navigate(~p"/cms/page_builder/#{cms_page_variant}") end
   }
 >
   <:col :let={{_id, cms_page_variant}} label="Title">{cms_page_variant.title}</:col>

@@ -139,7 +139,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
     with {:ok, new_page_variant} <-
            StartVersion.perform(socket.assigns.cms_page_variant) do
       socket
-      |> push_navigate(to: ~p"/cms/cms_page_builder/#{new_page_variant.id}")
+      |> push_navigate(to: ~p"/cms/page_builder/#{new_page_variant.id}")
       |> then(&{:noreply, &1})
     end
   rescue
@@ -180,7 +180,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
         SelectVersion.perform(cms_page_variant, locale)
 
       socket
-      |> push_navigate(to: ~p"/cms/cms_page_builder/#{new_cms_page_variant.id}")
+      |> push_navigate(to: ~p"/cms/page_builder/#{new_cms_page_variant.id}")
       |> then(&{:noreply, &1})
     else
       {:noreply, socket}

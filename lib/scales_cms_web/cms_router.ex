@@ -37,14 +37,14 @@ defmodule ScalesCmsWeb.CmsRouter do
             live "/pages/:id", CmsPageLive.Show, :show
             live "/pages/:id/show/edit", CmsPageLive.Show, :edit
 
-            live "/cms_page_variants", CmsPageVariantLive.Index, :index
-            live "/cms_page_variants/new", CmsPageVariantLive.Index, :new
-            live "/cms_page_variants/:id/edit", CmsPageVariantLive.Index, :edit
+            live "/page_variants", CmsPageVariantLive.Index, :index
+            live "/page_variants/new", CmsPageVariantLive.Index, :new
+            live "/page_variants/:id/edit", CmsPageVariantLive.Index, :edit
 
-            live "/cms_page_variants/:id", CmsPageVariantLive.Show, :show
-            live "/cms_page_variants/:id/show/edit", CmsPageVariantLive.Show, :edit
+            live "/page_variants/:id", CmsPageVariantLive.Show, :show
+            live "/page_variants/:id/show/edit", CmsPageVariantLive.Show, :edit
 
-            live "/cms_page_builder/:id", PageBuilderLive.Edit, :edit
+            live "/page_builder/:id", PageBuilderLive.Edit, :edit
 
             block
           end

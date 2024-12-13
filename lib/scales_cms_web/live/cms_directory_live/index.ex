@@ -155,7 +155,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
     pv = ScalesCms.Cms.Flows.Pages.FindCorrectVariant.perform(id, locale)
 
     socket
-    |> push_navigate(to: ~p"/cms/cms_page_builder/#{pv.id}")
+    |> push_navigate(to: ~p"/cms/page_builder/#{pv.id}")
     |> then(&{:noreply, &1})
   end
 
