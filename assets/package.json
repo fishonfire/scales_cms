@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "quill": "^2.0.2",
+    "flowbite": "^2.5.2",
     "showdown": "^2.1.0",
     "sortablejs": "^1.15.4",
     "trix": "^2.1.9",

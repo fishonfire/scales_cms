@@ -14,8 +14,6 @@ defmodule ScalesCmsWeb.CmsRouter do
         live_session :cms_admin, session_opts do
           scope "/cms", ScalesCmsWeb do
             # cms assets
-            get "/css-:md5", Plugs.Assets, :css, as: :cms_asset
-            get "/js-:md5", Plugs.Assets, :js, as: :cms_asset
 
             # cms routes
             live "/", CmsIndexLive.Index, :index
@@ -48,6 +46,24 @@ defmodule ScalesCmsWeb.CmsRouter do
 
             block
           end
+        end
+      end
+
+    if Code.ensure_loaded?(Phoenix.VerifiedRoutes) do
+      quote do
+        unquote(scope)
+      end
+    else
+      scope
+    end
+  end
+
+  defmacro cms_assets() do
+    scope =
+      quote bind_quoted: binding() do
+        scope "/cms", ScalesCmsWeb do
+          get "/css-:md5", Plugs.Assets, :css, as: :cms_asset
+          get "/js-:md5", Plugs.Assets, :js, as: :cms_asset
         end
       end
 

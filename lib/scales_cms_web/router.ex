@@ -29,6 +29,10 @@ defmodule ScalesCmsWeb.Router do
   end
 
   scope "/" do
+    cms_assets()
+  end
+
+  scope "/" do
     pipe_through [:browser, :require_authenticated_user]
 
     cms_admin(on_mount: [{ScalesCmsWeb.UserAuth, :ensure_authenticated}]) do
