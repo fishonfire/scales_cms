@@ -1,4 +1,5 @@
 defmodule ScalesCmsWeb.Components.CmsComponents.Md.MdToolbar do
+  @moduledoc false
   use ScalesCmsWeb, :html
 
   def render(assigns) do
