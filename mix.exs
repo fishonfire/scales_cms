@@ -49,18 +49,12 @@ defmodule ScalesCms.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.5", only: :dev},
-      {:phoenix_live_view, "~> 1.0.0", override: true},
+      {:phoenix_live_view, "~> 1.0.0"},
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.5"},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
-      {:heroicons,
-       github: "tailwindlabs/heroicons",
-       tag: "v2.1.1",
-       sparse: "optimized",
-       app: false,
-       compile: false,
-       depth: 1},
+      {:heroicons, "~> 0.5.6"},
       {:swoosh, "~> 1.5"},
       {:finch, "~> 0.13"},
       {:telemetry_metrics, "~> 1.0"},
@@ -103,9 +97,10 @@ defmodule ScalesCms.MixProject do
   defp package do
     [
       maintainers: ["Simon de la Court"],
-      licenses: ["GPLV3"],
+      description: "A page builder annex CMS made by Fish on Fire",
+      licenses: ["GPL-3.0-or-later"],
       links: %{github: "https://github.com/fishonfire/scales_cms"},
-      files: ~w(dist lib CHANGELOG.md LICENSE.md mix.exs README.md)
+      files: ~w(dist lib CHANGELOG.md LICENSE mix.exs README.md)
     ]
   end
 
