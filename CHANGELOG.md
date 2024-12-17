@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -
 
 
+## [0.1.1] - 2024-12-17
+### Changed
+- Moved heroicons around
+
 ## [0.1.0] - 2024-12-17
 ### Added
 - This is our initial version

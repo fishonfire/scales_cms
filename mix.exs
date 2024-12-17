@@ -4,7 +4,7 @@ defmodule ScalesCms.MixProject do
   def project do
     [
       app: :scales_cms,
-      version: "0.1.0",
+      version: "0.1.1",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
@@ -42,7 +42,7 @@ defmodule ScalesCms.MixProject do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [
+    dep_list = [
       {:phoenix, "~> 1.7.17"},
       {:phoenix_ecto, "~> 4.6"},
       {:ecto_sql, "~> 3.12"},
@@ -54,7 +54,6 @@ defmodule ScalesCms.MixProject do
       {:phoenix_live_dashboard, "~> 0.8.5"},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
-      {:heroicons, "~> 0.5.6"},
       {:swoosh, "~> 1.5"},
       {:finch, "~> 0.13"},
       {:telemetry_metrics, "~> 1.0"},
@@ -70,6 +69,22 @@ defmodule ScalesCms.MixProject do
       {:ex_aws_s3, "~> 2.5"},
       {:credo, "~> 1.7", runtime: false, only: :dev}
     ]
+
+    if Application.get_env(:scales_cms, :dev_mode) do
+      dep_list ++
+        [
+          {:heroicons,
+           github: "tailwindlabs/heroicons",
+           tag: "v2.1.1",
+           sparse: "optimized",
+           app: false,
+           compile: false,
+           depth: 1,
+           optional: true}
+        ]
+    else
+      dep_list
+    end
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
