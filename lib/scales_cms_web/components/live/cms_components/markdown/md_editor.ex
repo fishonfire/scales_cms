@@ -48,7 +48,9 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Md.MdEditor do
           phx-block-id={@block.id}
           class="m-[16px]"
         >
-          <trix-toolbar id={"markdown-#{@block.id}-toolbar"} phx-update="ignore"></trix-toolbar>
+          <trix-toolbar id={"markdown-#{@block.id}-toolbar"}>
+            <ScalesCmsWeb.Components.CmsComponents.Md.MdToolbar.render id={"markdown-#{@block.id}-toolbar-content"} />
+          </trix-toolbar>
           <trix-editor
             class="trix-editor"
             id={"markdown-#{@block.id}-editor"}
