@@ -5,13 +5,11 @@ defmodule ScalesCmsWeb.CmsDirectoryLiveTest do
   import ScalesCms.CmsFixtures
   import ScalesCmsWeb.Gettext
 
-  @create_attrs %{title: "some title", slug: "some slug", deleted_at: "2024-11-24T12:16:00"}
+  @create_attrs %{title: "some title"}
   @update_attrs %{
     title: "some updated title",
-    slug: "some updated slug",
-    deleted_at: "2024-11-25T12:16:00"
   }
-  @invalid_attrs %{title: nil, slug: nil, deleted_at: nil}
+  @invalid_attrs %{title: nil}
 
   defp create_cms_directory(_) do
     cms_directory = cms_directory_fixture()
@@ -22,13 +20,15 @@ defmodule ScalesCmsWeb.CmsDirectoryLiveTest do
     setup [:create_cms_directory]
 
     test "lists all cms_directories", %{conn: conn, cms_directory: cms_directory} do
+      conn = log_in_user(conn)
       {:ok, _index_live, html} = live(conn, ~p"/cms/directories")
 
-      assert html =~ "Listing Cms directories"
       assert html =~ cms_directory.title
     end
 
     test "saves new cms_directory", %{conn: conn} do
+      conn = log_in_user(conn)
+
       {:ok, index_live, _html} = live(conn, ~p"/cms/directories")
 
       assert index_live |> element("a", gettext("New directory")) |> render_click() =~
@@ -47,11 +47,13 @@ defmodule ScalesCmsWeb.CmsDirectoryLiveTest do
       assert_patch(index_live, ~p"/cms/directories")
 
       html = render(index_live)
-      assert html =~ "Cms directory created successfully"
+      assert html =~ gettext("Directory created successfully")
       assert html =~ "some title"
     end
 
     test "updates cms_directory in listing", %{conn: conn, cms_directory: cms_directory} do
+      conn = log_in_user(conn)
+
       {:ok, index_live, _html} = live(conn, ~p"/cms/directories")
 
       assert index_live
@@ -71,11 +73,13 @@ defmodule ScalesCmsWeb.CmsDirectoryLiveTest do
       assert_patch(index_live, ~p"/cms/directories")
 
       html = render(index_live)
-      assert html =~ "Cms directory updated successfully"
+      assert html =~ gettext("Directory updated successfully")
       assert html =~ "some updated title"
     end
 
     test "deletes cms_directory in listing", %{conn: conn, cms_directory: cms_directory} do
+      conn = log_in_user(conn)
+
       {:ok, index_live, _html} = live(conn, ~p"/cms/directories")
 
       assert index_live

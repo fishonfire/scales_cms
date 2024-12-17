@@ -19,6 +19,8 @@ defmodule ScalesCmsWeb.CmsPageLiveTest do
     setup [:create_cms_page]
 
     test "clicks new page", %{conn: conn} do
+      conn = log_in_user(conn)
+
       {:ok, index_live, _html} = live(conn, ~p"/cms/directories")
 
       assert index_live
@@ -29,6 +31,8 @@ defmodule ScalesCmsWeb.CmsPageLiveTest do
     end
 
     test "saves new cms_page", %{conn: conn} do
+      conn = log_in_user(conn)
+
       {:ok, index_live, _html} = live(conn, ~p"/cms/pages/new")
 
       assert index_live
@@ -44,6 +48,8 @@ defmodule ScalesCmsWeb.CmsPageLiveTest do
     end
 
     test "deletes cms_page in listing", %{conn: conn, cms_page: cms_page} do
+      conn = log_in_user(conn)
+
       {:ok, index_live, _html} = live(conn, ~p"/cms/directories")
 
       assert index_live |> element("#delete-page-#{cms_page.id}") |> render_click()
