@@ -33,6 +33,8 @@ defmodule CmsDemoWeb.Components.CmsComponents.MyDemoComponent do
     icon_type: "cms_rich_text",
     preview_module: CmsDemoWeb.Components.CmsComponents.MyDemoComponent.Editor,
     version: "0.0.1"
+
+  def serialize(api_version, block), do: default_serialize(api_version, block)
 end
 ```
 

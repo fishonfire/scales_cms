@@ -51,7 +51,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.RootComponent do
         """
       end
 
-      def serialize(_api_version, block) do
+      def default_serialize(_api_version, block) do
         %{
           id: block.id,
           component_type: block.component_type,

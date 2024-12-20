@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -
 
+## [0.1.2] - 2024-12-20
+### Changed
+- Added several compoents
+- Changed the components serializers so they can be overwritten
+- Fixed some docs
 
 ## [0.1.1] - 2024-12-17
 ### Changed

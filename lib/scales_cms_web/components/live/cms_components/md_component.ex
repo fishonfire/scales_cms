@@ -12,4 +12,6 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Md do
     icon_type: "cms_rich_text",
     preview_module: ScalesCmsWeb.Components.CmsComponents.Md.MdEditor,
     version: "0.0.1"
+
+  def serialize(api_version, block), do: default_serialize(api_version, block)
 end

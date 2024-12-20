@@ -14,7 +14,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image.ImageProperties do
   @doc false
   def changeset(properties, attrs) do
     properties
-    |> cast(attrs, [:image_url, :image_path])
+    |> cast(attrs, [:image_url, :image_path, :filename])
     |> validate_required([])
   end
 end

@@ -4,16 +4,23 @@ defmodule ScalesCmsWeb.Components.CmsComponents do
   """
   alias ScalesCmsWeb.Components.CmsComponents.{
     Header,
-    Test,
+    Dev,
     Md,
-    Image
+    Image,
+    Button,
+    SimpleButton,
+    ImageButton
   }
 
   @component_list %{
     "header" => Header,
-    "test" => Test,
+    "dev" => Dev,
+    "test" => Dev,
     "md" => Md,
-    "image" => Image
+    "image" => Image,
+    "button" => Button,
+    "simple_button" => SimpleButton,
+    "image_button" => ImageButton
   }
 
   def get_components(), do: Map.merge(@component_list, get_custom_components())
