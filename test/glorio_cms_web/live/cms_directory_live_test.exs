@@ -7,7 +7,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLiveTest do
 
   @create_attrs %{title: "some title"}
   @update_attrs %{
-    title: "some updated title",
+    title: "some updated title"
   }
   @invalid_attrs %{title: nil}
 
