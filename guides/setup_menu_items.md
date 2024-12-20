@@ -23,3 +23,37 @@ defmodule CmsDemoWeb.MenuItems do
   def get_menu_items(), do: @menu_items
 end
 ```
+
+## Rendering a page in the CMS layout
+To render a page in the CMS layout you need to adapt your projects Web module.
+
+```elixir
+defmodule CmsDemoWeb do
+  # <..>
+  def cms_live_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {ScalesCmsWeb.Layouts, :app}
+
+      unquote(html_helpers())
+    end
+  end
+  # <..>
+end
+```
+
+After setting it up your LiveView you than configure it to use cms_live_view instead of live_view,
+
+as follows:
+
+```elixir
+defmodule CmsDemoWeb.YourAdminLive.Index do
+  use CmsDemoWeb, :cms_live_view
+
+  def render(assigns) do
+    ~L"""
+    <h1>My own page</h1>
+    """
+  end
+end
+```

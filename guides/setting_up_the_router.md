@@ -12,6 +12,14 @@ defmodule CmsDemoWeb.Router do
 
   # < ...>
 
+  # adapt the api pipeline to provide the api version
+  pipeline :api do
+    plug :accepts, ["json"]
+    plug(ScalesCmsWeb.Plugs.ApiVersion)
+  end
+
+  # < ...>
+
   scope "/" do
     pipe_through [:browser, :require_authenticated_user]
 
@@ -19,6 +27,17 @@ defmodule CmsDemoWeb.Router do
       # custom routes
     end
   end
+
+  # < ...>
+
+  # setup the api routes
+
+  scope "/api" do
+    pipe_through :api
+
+    api_public()
+  end
+
 end
 ```
 
