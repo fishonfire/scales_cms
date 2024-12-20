@@ -49,11 +49,9 @@
       />
     <% end %>
 
-    <%= if Enum.count(@blocks) == 0 do %>
-      <div class="min-h-6 sortable-ghost">
-        <.icon name="hero-ellipsis-horizontal" />
-      </div>
-    <% end %>
+    <div :if={Enum.count(@blocks) == 0} class="min-h-6 sortable-ghost">
+      <.icon name="hero-ellipsis-horizontal" />
+    </div>
   </div>
 </div>
 
