@@ -1612,6 +1612,10 @@ select {
   margin-top: 6px;
 }
 
+.mt-12 {
+  margin-top: 3rem;
+}
+
 .block {
   display: block;
 }
@@ -1820,6 +1824,10 @@ select {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.cursor-move {
+  cursor: move;
 }
 
 .grid-cols-1 {
@@ -2188,6 +2196,16 @@ select {
   padding-bottom: 8px;
 }
 
+.py-\[12px\] {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.px-\[12px\] {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
 .pb-4 {
   padding-bottom: 1rem;
 }
@@ -2278,6 +2296,10 @@ select {
 
 .leading-9 {
   line-height: 2.25rem;
+}
+
+.leading-\[32px\] {
+  line-height: 32px;
 }
 
 .tracking-tighter {
@@ -2599,6 +2621,14 @@ select {
 
 .active\:text-white\/80:active {
   color: rgb(255 255 255 / 0.8);
+}
+
+.disabled\:opacity-75:disabled {
+  opacity: 0.75;
+}
+
+.disabled\:opacity-50:disabled {
+  opacity: 0.5;
 }
 
 .group:hover .group-hover\:bg-zinc-100 {

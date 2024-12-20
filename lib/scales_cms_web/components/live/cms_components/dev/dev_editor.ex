@@ -41,7 +41,12 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Dev.DevEditor do
   def render(assigns) do
     ~H"""
     <div>
-      <.live_component id={"head-#{@block.id}"} module={BlockWrapper} block={@block}>
+      <.live_component
+        id={"head-#{@block.id}"}
+        module={BlockWrapper}
+        block={@block}
+        component={ScalesCmsWeb.Components.CmsComponents.Dev}
+      >
         <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
           <.input type="text" field={@form[:component_type]} label="Custom component name" />
 

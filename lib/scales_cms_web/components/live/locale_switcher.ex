@@ -20,7 +20,13 @@ defmodule ScalesCmsWeb.Components.LocaleSwitcher do
     ~H"""
     <div id="locale-switcher" phx-hook="LocalLocaleStorage" phx-target={@myself} class={@class}>
       <form>
-        <select name="locale" id="locale" phx-change="switch-locale" phx-target={@myself}>
+        <select
+          name="locale"
+          id="locale"
+          phx-change="switch-locale"
+          phx-target={@myself}
+          class="border-[1px] rounded py-[12px] px-[16px] text-sm"
+        >
           <%= for %{code: code, name: name} <- Locales.all() do %>
             <option value={code} selected={code == @locale}>{name}</option>
           <% end %>

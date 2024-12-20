@@ -1,5 +1,5 @@
 <div class="w-[calc(100%-400px)]">
-  <div class="flex space-between border-2">
+  <div class="flex space-between mt-12">
     <h2 class="text-2xl flex-1">
       {@cms_page_variant.title}
     </h2>
@@ -7,7 +7,7 @@
     <div class="flex space-x-4">
       <.live_component id="locale_switcher" module={LocaleSwitcher} />
 
-      <.button>
+      <.button disabled={true}>
         {gettext("Save")}
       </.button>
 

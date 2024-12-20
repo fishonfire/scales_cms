@@ -39,7 +39,12 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image.ImageEditor do
   def render(assigns) do
     ~H"""
     <div>
-      <.live_component id={"head-#{@block.id}"} module={BlockWrapper} block={@block}>
+      <.live_component
+        id={"head-#{@block.id}"}
+        module={BlockWrapper}
+        block={@block}
+        component={ScalesCmsWeb.Components.CmsComponents.Image}
+      >
         <img src={
           S3Upload.get_presigned_url_for_display(Map.get(@block.properties || %{}, "image_path", nil))
         } />

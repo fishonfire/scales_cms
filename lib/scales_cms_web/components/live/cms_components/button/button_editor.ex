@@ -41,7 +41,12 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Button.ButtonEditor do
   def render(assigns) do
     ~H"""
     <div>
-      <.live_component id={"head-#{@block.id}"} module={BlockWrapper} block={@block}>
+      <.live_component
+        id={"head-#{@block.id}"}
+        module={BlockWrapper}
+        block={@block}
+        component={ScalesCmsWeb.Components.CmsComponents.Button}
+      >
         <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
           <.input type="text" field={@form[:title]} label="Title" />
           <.input type="text" field={@form[:subtitle]} label="Subtitle" />

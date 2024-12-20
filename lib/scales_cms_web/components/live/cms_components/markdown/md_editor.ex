@@ -41,7 +41,12 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Md.MdEditor do
   def render(assigns) do
     ~H"""
     <div>
-      <.live_component id={"head-#{@block.id}"} module={BlockWrapper} block={@block}>
+      <.live_component
+        id={"head-#{@block.id}"}
+        module={BlockWrapper}
+        block={@block}
+        component={ScalesCmsWeb.Components.CmsComponents.Md}
+      >
         <div
           id={"markdown-#{@block.id}"}
           phx-hook="Markdown"
