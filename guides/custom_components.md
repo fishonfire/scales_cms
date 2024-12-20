@@ -6,7 +6,7 @@ This requires two stages, one is to create the component in your Phoenix applica
 ### The config
 ```elixir
 config :scales_cms,
-  custom_components: CmsDemoWeb.Components.CmsComponents.get_menu_items()
+  custom_components: CmsDemoWeb.Components.CmsComponents.custom_components()
 ```
 
 And the components are then set to:
@@ -50,9 +50,9 @@ defmodule CmsDemoWeb.Components.CmsComponents.MyDemoComponent.Editor do
   def update(assigns, socket) do
     form =
       to_form(
-        MdProperties.changeset(
+        Properties.changeset(
           struct(
-            MdProperties,
+            Properties,
             assigns.block.properties
           ),
           assigns.block.properties
