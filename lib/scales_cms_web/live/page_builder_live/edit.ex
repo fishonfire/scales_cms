@@ -135,6 +135,46 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
       |> then(&{:noreply, &1})
   end
 
+  def handle_event("delete_embedded", %{"id" => id, "embedded_field" => embedded_field, "embedded_index" => embedded_index}, socket) do
+    CmsPageVariantBlocks.get_cms_page_variant_block!(id)
+    |> CmsPageVariantBlocks.delete_cms_page_variant_block_embedded_element(embedded_field, embedded_index)
+
+    socket
+    |> assign(
+      :blocks,
+      CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
+    )
+    |> then(&{:noreply, &1})
+  rescue
+    Ecto.NoResultsError ->
+      socket
+      |> assign(
+        :blocks,
+        CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
+      )
+      |> then(&{:noreply, &1})
+  end
+
+  def handle_event("add_embedded", %{"id" => id, "embedded_field" => embedded_field}, socket) do
+    CmsPageVariantBlocks.get_cms_page_variant_block!(id)
+    |> CmsPageVariantBlocks.add_cms_page_variant_block_embedded_element(embedded_field)
+
+    socket
+    |> assign(
+      :blocks,
+      CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
+    )
+    |> then(&{:noreply, &1})
+  rescue
+    Ecto.NoResultsError ->
+      socket
+      |> assign(
+        :blocks,
+        CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
+      )
+      |> then(&{:noreply, &1})
+  end
+
   def handle_event("start-new-version", _, socket) do
     with {:ok, new_page_variant} <-
            StartVersion.perform(socket.assigns.cms_page_variant) do

@@ -96,6 +96,40 @@ defmodule ScalesCms.Cms.CmsPageVariantBlocks do
   end
 
   @doc """
+  Adds embedded element in a cms_page_variant_block by embedded field name.
+
+  ## Examples
+
+      iex> add_cms_page_variant_block_embedded_element(cms_page_variant_block, "buttons")
+      {:ok, %CmsPageVariantBlock{}}
+
+      iex> add_cms_page_variant_block_embedded_element(cms_page_variant_block)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def add_cms_page_variant_block_embedded_element(%CmsPageVariantBlock{} = cms_page_variant_block, embedded_field) do
+    buttons = Map.get(cms_page_variant_block.properties, embedded_field, []) ++ [%{}]
+    update_cms_page_variant_block(cms_page_variant_block, %{properties: Map.merge(cms_page_variant_block.properties, %{embedded_field => buttons})})
+  end
+
+  @doc """
+  Deletes embedded element in a cms_page_variant_block by embedded field name and index.
+
+  ## Examples
+
+      iex> delete_cms_page_variant_block_embedded_element(cms_page_variant_block, "buttons", "0")
+      {:ok, %CmsPageVariantBlock{}}
+
+      iex> delete_cms_page_variant_block_embedded_element(cms_page_variant_block)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_cms_page_variant_block_embedded_element(%CmsPageVariantBlock{} = cms_page_variant_block, embedded_field, embedded_index) do
+    buttons = Map.get(cms_page_variant_block.properties, embedded_field, []) |> List.delete_at(String.to_integer(embedded_index))
+    update_cms_page_variant_block(cms_page_variant_block, %{properties: Map.merge(cms_page_variant_block.properties, %{embedded_field => buttons})})
+  end
+
+  @doc """
   Returns an `%Ecto.Changeset{}` for tracking cms_page_variant_block changes.
 
   ## Examples
