@@ -67,7 +67,8 @@ defmodule ScalesCms.MixProject do
       {:hackney, "~> 1.9"},
       {:ex_aws, "~> 2.5"},
       {:ex_aws_s3, "~> 2.5"},
-      {:credo, "~> 1.7", runtime: false, only: :dev}
+      {:credo, "~> 1.7", runtime: false, only: :dev},
+      {:ex_doc, "~> 0.24", only: :dev}
     ]
 
     if Application.get_env(:scales_cms, :dev_mode) do
