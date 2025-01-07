@@ -7,7 +7,6 @@ defmodule ScalesCmsWeb.Components.CmsComponents.SimpleButton.SimpleButtonPropert
 
   embedded_schema do
     field :title, :string
-
     field :page_id, :integer
     field :url, :string
     field :payload, :string

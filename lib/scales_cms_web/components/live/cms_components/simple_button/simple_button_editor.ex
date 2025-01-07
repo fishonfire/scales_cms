@@ -27,7 +27,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.SimpleButton.SimpleButtonEditor 
   end
 
   @impl Phoenix.LiveComponent
-  def handle_event("store-properties", %{"button_properties" => properties}, socket) do
+  def handle_event("store-properties", %{"simple_button_properties" => properties}, socket) do
     with _block <-
            ScalesCms.Cms.CmsPageVariantBlocks.update_cms_page_variant_block(
              socket.assigns.block,
