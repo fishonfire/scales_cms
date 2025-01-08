@@ -8,8 +8,6 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Button.ButtonProperties do
   embedded_schema do
     field :bg_color_variant, :string
     field :title, :string
-    field :subtitle, :string
-    field :icon, :string
 
     field :page_id, :integer
     field :url, :string
@@ -19,7 +17,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Button.ButtonProperties do
   @doc false
   def changeset(properties, attrs) do
     properties
-    |> cast(attrs, [:bg_color_variant, :title, :subtitle, :icon, :page_id, :url, :payload])
+    |> cast(attrs, [:bg_color_variant, :title, :page_id, :url, :payload])
     |> validate_required([])
   end
 end

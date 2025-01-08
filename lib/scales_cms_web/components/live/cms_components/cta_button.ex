@@ -1,17 +1,17 @@
-defmodule ScalesCmsWeb.Components.CmsComponents.Button do
+defmodule ScalesCmsWeb.Components.CmsComponents.CTAButton do
   @moduledoc """
   A header component for the CMS
   """
   use ScalesCmsWeb, :live_component
 
-  alias ScalesCmsWeb.Components.CmsComponents.Button.ButtonEditor
+  alias ScalesCmsWeb.Components.CmsComponents.CTAButton.CTAButtonEditor
 
   use ScalesCmsWeb.Components.HelperComponents.RootComponent,
-    title: "Button",
+    title: "CTA Button",
     category: "CTA",
-    description: "A clickable button with a title, subtitle, and icon",
+    description: "A call to action button with a title, subtitle, and icon",
     icon_type: "cms_rich_text",
-    preview_module: ButtonEditor,
+    preview_module: CTAButtonEditor,
     version: "0.0.1"
 
   def serialize(api_version, block), do: default_serialize(api_version, block)

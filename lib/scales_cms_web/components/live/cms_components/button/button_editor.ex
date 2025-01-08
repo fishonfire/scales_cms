@@ -50,9 +50,6 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Button.ButtonEditor do
         <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
           <.input type="select" field={@form[:bg_color_variant]} options={["primary", "secondary", "black"]} label="Background color" />
           <.input type="text" field={@form[:title]} label="Title" />
-          <.input type="text" field={@form[:subtitle]} label="Subtitle" />
-          <.input type="text" field={@form[:icon]} label="Icon" />
-
           <.input type="text" field={@form[:page_id]} label="Page ID" />
           <.input type="text" field={@form[:url]} label="URL" />
           <.input type="textarea" field={@form[:payload]} label="Payload" />
