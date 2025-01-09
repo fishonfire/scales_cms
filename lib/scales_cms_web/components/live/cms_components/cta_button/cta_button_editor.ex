@@ -4,6 +4,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.CTAButton.CTAButtonEditor do
   """
   alias ScalesCmsWeb.Components.HelperComponents.BlockWrapper
   alias ScalesCmsWeb.Components.CmsComponents.CTAButton.CTAButtonProperties
+  alias ScalesCms.Constants.Buttons
 
   use ScalesCmsWeb, :live_component
 
@@ -48,7 +49,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.CTAButton.CTAButtonEditor do
         component={ScalesCmsWeb.Components.CmsComponents.CTAButton}
       >
         <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
-          <.input type="select" field={@form[:bg_color_variant]} options={["primary", "secondary", "black"]} label="Background color" />
+          <.input type="select" field={@form[:bg_color_variant]} options={Buttons.get_button_color_variants()} label="Background color" />
           <.input type="text" field={@form[:title]} label="Title" />
           <.input type="text" field={@form[:subtitle]} label="Subtitle" />
           <.input type="text" field={@form[:icon]} label="Icon" />

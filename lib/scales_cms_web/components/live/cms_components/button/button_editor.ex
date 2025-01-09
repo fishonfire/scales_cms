@@ -4,6 +4,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Button.ButtonEditor do
   """
   alias ScalesCmsWeb.Components.HelperComponents.BlockWrapper
   alias ScalesCmsWeb.Components.CmsComponents.Button.ButtonProperties
+  alias ScalesCms.Constants.Buttons
 
   use ScalesCmsWeb, :live_component
 
@@ -48,7 +49,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Button.ButtonEditor do
         component={ScalesCmsWeb.Components.CmsComponents.Button}
       >
         <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
-          <.input type="select" field={@form[:bg_color_variant]} options={["primary", "secondary", "black"]} label="Background color" />
+          <.input type="select" field={@form[:bg_color_variant]} options={Buttons.get_button_color_variants()} label="Background color" />
           <.input type="text" field={@form[:title]} label="Title" />
           <.input type="text" field={@form[:page_id]} label="Page ID" />
           <.input type="text" field={@form[:url]} label="URL" />
