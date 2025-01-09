@@ -11,17 +11,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
 
   use ScalesCmsWeb, :live_component
 
-  @impl Phoenix.LiveComponent
-  def update(assigns, socket) do
-    form =
-      to_form(
-        ButtonCollectionProperties.changeset(
-          %ButtonCollectionProperties{},
-          assigns.block.properties
-        )
-      )
-
-    forms = Enum.map(Map.get(assigns.block.properties, "buttons", []), fn value ->
+  defp assign_forms(assigns, block) do
+    forms = Enum.map(Map.get(block.properties, "buttons", []), fn value ->
       to_form(
         ButtonProperties.changeset(
           %ButtonProperties{},
@@ -31,10 +22,26 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
     end
     )
 
+    assign(assigns, forms: forms)
+  end
+
+  defp assign_form(assigns, block) do
+    form = to_form(
+        ButtonCollectionProperties.changeset(
+          %ButtonCollectionProperties{},
+          block.properties
+        )
+      )
+
+    assign(assigns, form: form)
+  end
+
+  @impl Phoenix.LiveComponent
+  def update(assigns, socket) do
     socket
     |> assign(assigns)
-    |> assign(form: form)
-    |> assign(forms: forms)
+    |> assign_form(assigns.block)
+    |> assign_forms(assigns.block)
     |> then(&{:ok, &1})
   end
 
