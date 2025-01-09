@@ -1,4 +1,4 @@
-defmodule ScalesCmsWeb.Components.CmsComponents.SimpleButton.SimpleButtonProperties do
+defmodule ScalesCmsWeb.Components.CmsComponents.CTAButton.CTAButtonProperties do
   @moduledoc """
   The schema for the MD component
   """
@@ -6,7 +6,10 @@ defmodule ScalesCmsWeb.Components.CmsComponents.SimpleButton.SimpleButtonPropert
   import Ecto.Changeset
 
   embedded_schema do
+    field :bg_color_variant, :string
     field :title, :string
+    field :subtitle, :string
+    field :icon, :string
 
     field :page_id, :integer
     field :url, :string
@@ -16,7 +19,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.SimpleButton.SimpleButtonPropert
   @doc false
   def changeset(properties, attrs) do
     properties
-    |> cast(attrs, [:title, :page_id, :url, :payload])
+    |> cast(attrs, [:bg_color_variant, :title, :subtitle, :icon, :page_id, :url, :payload])
     |> validate_required([])
   end
 end
