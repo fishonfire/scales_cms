@@ -1,6 +1,6 @@
 defmodule ScalesCms.Constants.Buttons do
   @moduledoc """
-    Module containind topics for pubsub
+    Module defining button color variants
   """
   @button_color_variants ["primary", "secondary", "black"]
 
