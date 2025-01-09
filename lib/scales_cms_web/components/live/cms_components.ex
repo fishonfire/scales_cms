@@ -7,9 +7,9 @@ defmodule ScalesCmsWeb.Components.CmsComponents do
     Dev,
     Md,
     Image,
+    CTAButton,
     ButtonCollection,
     Button,
-    SimpleButton,
     ImageButton
   }
 
@@ -19,9 +19,9 @@ defmodule ScalesCmsWeb.Components.CmsComponents do
     "test" => Dev,
     "md" => Md,
     "image" => Image,
+    "cta_button" => CTAButton,
     "button_collection" => ButtonCollection,
     "button" => Button,
-    "simple_button" => SimpleButton,
     "image_button" => ImageButton
   }
 

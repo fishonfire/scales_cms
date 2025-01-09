@@ -21,7 +21,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
     {:ok, socket}
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_params(%{"id" => id}, _, socket) do
     with pv <- CmsPageVariants.get_cms_page_variant!(id) do
       socket
