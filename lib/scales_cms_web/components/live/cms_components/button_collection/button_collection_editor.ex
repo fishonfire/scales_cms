@@ -20,6 +20,17 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
     |> then(&{:ok, &1})
   end
 
+  defp assign_form(assigns, block) do
+    form = to_form(
+      ButtonCollectionProperties.changeset(
+        %ButtonCollectionProperties{},
+        block.properties
+      )
+    )
+
+    assign(assigns, form: form)
+  end
+
   defp assign_forms(assigns, block) do
     forms = Enum.map(Map.get(block.properties, "buttons", []), fn value ->
       to_form(
@@ -32,17 +43,6 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
     )
 
     assign(assigns, forms: forms)
-  end
-
-  defp assign_form(assigns, block) do
-    form = to_form(
-      ButtonCollectionProperties.changeset(
-        %ButtonCollectionProperties{},
-        block.properties
-      )
-    )
-
-    assign(assigns, form: form)
   end
 
   @impl Phoenix.LiveComponent
