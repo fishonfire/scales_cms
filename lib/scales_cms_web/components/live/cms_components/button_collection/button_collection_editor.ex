@@ -7,6 +7,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
   alias ScalesCmsWeb.Components.CmsComponents.Button.ButtonProperties
   alias ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectionProperties
   alias ScalesCms.Cms.CmsPageVariantBlocks
+  alias ScalesCms.Constants.Buttons
 
   use ScalesCmsWeb, :live_component
 
@@ -78,9 +79,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
             title={button[:title].value || "#{gettext("Button")} #{index + 1}"}
           >
             <.simple_form for={button} phx-submit="store-properties" phx-target={@myself} phx-value-index={index}>
+              <.input type="select" field={button[:bg_color_variant]} options={Buttons.get_button_color_variants()} label="Background color" />
               <.input id={"title-#{index}"} type="text" field={button[:title]} label="Title" />
-              <.input id={"subtitle-#{index}"} type="text" field={button[:subtitle]} label="Subtitle" />
-              <.input id={"icon-#{index}"} type="text" field={button[:icon]} label="Icon" />
               <.input id={"page_id-#{index}"} type="text" field={button[:page_id]} label="Page ID" />
               <.input id={"url-#{index}"} type="text" field={button[:url]} label="URL" />
               <.input id={"payload-#{index}"} type="text" field={button[:payload]} label="Payload" />

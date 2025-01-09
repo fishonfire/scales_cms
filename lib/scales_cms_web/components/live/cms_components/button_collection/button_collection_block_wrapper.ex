@@ -12,8 +12,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
   end
 
   @impl true
-  def handle_event("toggle-open", _, socket) do
-    {:noreply, assign(socket, :closed, !socket.assigns.closed)}
+  def handle_event("toggle-open", _, %{ assigns: %{ closed: closed }} = socket) do
+    {:noreply, assign(socket, :closed, !closed)}
   end
 
   slot :inner_block, required: true
