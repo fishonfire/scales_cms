@@ -7,10 +7,10 @@ defmodule ScalesCmsWeb.Components.CmsComponents do
     Dev,
     Md,
     Image,
-    CTAButton,
-    ButtonCollection,
     Button,
-    ImageButton
+    CTAButton,
+    ImageButton,
+    ButtonCollection
   }
 
   @component_list %{
@@ -19,10 +19,10 @@ defmodule ScalesCmsWeb.Components.CmsComponents do
     "test" => Dev,
     "md" => Md,
     "image" => Image,
-    "cta_button" => CTAButton,
-    "button_collection" => ButtonCollection,
     "button" => Button,
-    "image_button" => ImageButton
+    "image_button" => ImageButton,
+    "cta_button" => CTAButton,
+    "button_collection" => ButtonCollection
   }
 
   def get_components(), do: Map.merge(@component_list, get_custom_components())
