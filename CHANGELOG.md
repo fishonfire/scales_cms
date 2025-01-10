@@ -18,6 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -
 
+## [0.1.4] - 2025-01-10
+### Changed
+- Renamed button components:
+  - button > cta_button 
+  - simple_button > button
+- Added a new component: `button_collection`
+
 ## [0.1.3] - 2024-12-20
 ### Fixed
 - A bug prevented the custom components from getting listed
