@@ -107,9 +107,15 @@ defmodule ScalesCms.Cms.CmsPageVariantBlocks do
       {:error, %Ecto.Changeset{}}
 
   """
-  def add_cms_page_variant_block_embedded_element(%CmsPageVariantBlock{} = cms_page_variant_block, embedded_field) do
+  def add_cms_page_variant_block_embedded_element(
+        %CmsPageVariantBlock{} = cms_page_variant_block,
+        embedded_field
+      ) do
     buttons = Map.get(cms_page_variant_block.properties, embedded_field, []) ++ [%{}]
-    update_cms_page_variant_block(cms_page_variant_block, %{properties: Map.merge(cms_page_variant_block.properties, %{embedded_field => buttons})})
+
+    update_cms_page_variant_block(cms_page_variant_block, %{
+      properties: Map.merge(cms_page_variant_block.properties, %{embedded_field => buttons})
+    })
   end
 
   @doc """
@@ -124,9 +130,18 @@ defmodule ScalesCms.Cms.CmsPageVariantBlocks do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_cms_page_variant_block_embedded_element(%CmsPageVariantBlock{} = cms_page_variant_block, embedded_field, embedded_index) do
-    buttons = Map.get(cms_page_variant_block.properties, embedded_field, []) |> List.delete_at(String.to_integer(embedded_index))
-    update_cms_page_variant_block(cms_page_variant_block, %{properties: Map.merge(cms_page_variant_block.properties, %{embedded_field => buttons})})
+  def delete_cms_page_variant_block_embedded_element(
+        %CmsPageVariantBlock{} = cms_page_variant_block,
+        embedded_field,
+        embedded_index
+      ) do
+    buttons =
+      Map.get(cms_page_variant_block.properties, embedded_field, [])
+      |> List.delete_at(String.to_integer(embedded_index))
+
+    update_cms_page_variant_block(cms_page_variant_block, %{
+      properties: Map.merge(cms_page_variant_block.properties, %{embedded_field => buttons})
+    })
   end
 
   @doc """
