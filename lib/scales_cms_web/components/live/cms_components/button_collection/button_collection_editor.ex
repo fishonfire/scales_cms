@@ -20,7 +20,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
     |> then(&{:ok, &1})
   end
 
-  defp assign_form(assigns, block) do
+  defp assign_form(socket, block) do
     form =
       to_form(
         ButtonCollectionProperties.changeset(
@@ -29,10 +29,10 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
         )
       )
 
-    assign(assigns, form: form)
+    assign(socket, form: form)
   end
 
-  defp assign_forms(assigns, block) do
+  defp assign_forms(socket, block) do
     forms =
       Enum.map(Map.get(block.properties, "buttons", []), fn value ->
         to_form(
@@ -43,7 +43,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
         )
       end)
 
-    assign(assigns, forms: forms)
+    assign(socket, forms: forms)
   end
 
   @impl Phoenix.LiveComponent
@@ -56,23 +56,23 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
       Map.get(socket.assigns.block.properties, "buttons", [])
       |> List.replace_at(String.to_integer(index), properties)
 
-    with _block <-
+    with {:ok, block} <-
            CmsPageVariantBlocks.update_cms_page_variant_block(
              socket.assigns.block,
              %{properties: Map.merge(socket.assigns.block.properties, %{"buttons" => buttons})}
            ) do
-      {:noreply, socket}
+      {:noreply, socket |> assign_forms(block) |> assign(block: block)}
     end
   end
 
   @impl Phoenix.LiveComponent
   def handle_event("add-button", _, socket) do
-    with _block <-
+    with {:ok, block} <-
            CmsPageVariantBlocks.add_cms_page_variant_block_embedded_element(
              socket.assigns.block,
              "buttons"
            ) do
-      {:noreply, socket}
+      {:noreply, socket |> assign_forms(block) |> assign(block: block)}
     end
   end
 
@@ -88,7 +88,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
       >
         <%= for {button, index} <- Enum.with_index(@forms || [] ) do %>
           <.live_component
-            id={"button-#{index}"}
+            id={"button-#{@block.id}-#{index}"}
             embedded_index={index}
             module={ButtonCollectionWrapper}
             block={@block}
