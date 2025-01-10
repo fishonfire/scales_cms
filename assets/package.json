@@ -3,7 +3,7 @@
     "flowbite": "^2.5.2",
     "showdown": "^2.1.0",
     "sortablejs": "^1.15.4",
-    "trix": "^2.1.9",
+    "trix": "^2.1.12",
     "turndown": "^7.2.0"
   }
 }
