@@ -135,9 +135,16 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
       |> then(&{:noreply, &1})
   end
 
-  def handle_event("delete_embedded", %{"id" => id, "embedded_field" => embedded_field, "embedded_index" => embedded_index}, socket) do
+  def handle_event(
+        "delete_embedded",
+        %{"id" => id, "embedded_field" => embedded_field, "embedded_index" => embedded_index},
+        socket
+      ) do
     CmsPageVariantBlocks.get_cms_page_variant_block!(id)
-    |> CmsPageVariantBlocks.delete_cms_page_variant_block_embedded_element(embedded_field, embedded_index)
+    |> CmsPageVariantBlocks.delete_cms_page_variant_block_embedded_element(
+      embedded_field,
+      embedded_index
+    )
 
     socket
     |> assign(

@@ -21,33 +21,40 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
   end
 
   defp assign_form(assigns, block) do
-    form = to_form(
-      ButtonCollectionProperties.changeset(
-        %ButtonCollectionProperties{},
-        block.properties
+    form =
+      to_form(
+        ButtonCollectionProperties.changeset(
+          %ButtonCollectionProperties{},
+          block.properties
+        )
       )
-    )
 
     assign(assigns, form: form)
   end
 
   defp assign_forms(assigns, block) do
-    forms = Enum.map(Map.get(block.properties, "buttons", []), fn value ->
-      to_form(
-        ButtonProperties.changeset(
-          %ButtonProperties{},
-          value
+    forms =
+      Enum.map(Map.get(block.properties, "buttons", []), fn value ->
+        to_form(
+          ButtonProperties.changeset(
+            %ButtonProperties{},
+            value
+          )
         )
-      )
-    end
-    )
+      end)
 
     assign(assigns, forms: forms)
   end
 
   @impl Phoenix.LiveComponent
-  def handle_event("store-properties", %{"button_properties" => properties, "index" => index}, socket) do
-    buttons = Map.get(socket.assigns.block.properties, "buttons", []) |> List.replace_at(String.to_integer(index), properties)
+  def handle_event(
+        "store-properties",
+        %{"button_properties" => properties, "index" => index},
+        socket
+      ) do
+    buttons =
+      Map.get(socket.assigns.block.properties, "buttons", [])
+      |> List.replace_at(String.to_integer(index), properties)
 
     with _block <-
            CmsPageVariantBlocks.update_cms_page_variant_block(
@@ -61,7 +68,10 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
   @impl Phoenix.LiveComponent
   def handle_event("add-button", _, socket) do
     with _block <-
-           CmsPageVariantBlocks.add_cms_page_variant_block_embedded_element(socket.assigns.block, "buttons") do
+           CmsPageVariantBlocks.add_cms_page_variant_block_embedded_element(
+             socket.assigns.block,
+             "buttons"
+           ) do
       {:noreply, socket}
     end
   end
@@ -85,8 +95,18 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
             component={ScalesCmsWeb.Components.CmsComponents.Button}
             title={button[:title].value || "#{gettext("Button")} #{index + 1}"}
           >
-            <.simple_form for={button} phx-submit="store-properties" phx-target={@myself} phx-value-index={index}>
-              <.input type="select" field={button[:bg_color_variant]} options={Buttons.get_button_color_variants()} label="Background color" />
+            <.simple_form
+              for={button}
+              phx-submit="store-properties"
+              phx-target={@myself}
+              phx-value-index={index}
+            >
+              <.input
+                type="select"
+                field={button[:bg_color_variant]}
+                options={Buttons.get_button_color_variants()}
+                label="Background color"
+              />
               <.input id={"title-#{index}"} type="text" field={button[:title]} label="Title" />
               <.input id={"page_id-#{index}"} type="text" field={button[:page_id]} label="Page ID" />
               <.input id={"url-#{index}"} type="text" field={button[:url]} label="URL" />
@@ -103,7 +123,6 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
             <.button phx-disable-with="Adding...">{gettext("Add button")}</.button>
           </:actions>
         </.simple_form>
-
       </.live_component>
     </div>
     """

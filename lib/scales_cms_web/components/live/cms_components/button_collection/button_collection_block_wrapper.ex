@@ -12,7 +12,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
   end
 
   @impl true
-  def handle_event("toggle-open", _, %{ assigns: %{ closed: closed }} = socket) do
+  def handle_event("toggle-open", _, %{assigns: %{closed: closed}} = socket) do
     {:noreply, assign(socket, :closed, !closed)}
   end
 
