@@ -8,7 +8,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
   def mount(socket) do
     socket
     |> assign_new(:pages, fn ->
-      ScalesCms.Cms.CmsPages.list_cms_pages()
+      ScalesCms.Cms.CmsPages.list_paginated_cms_pages(0, 25)
     end)
     |> assign(value: nil)
     |> assign(search_value: nil)
@@ -22,12 +22,12 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
     page = ScalesCms.Cms.CmsPages.get_cms_page!(params.field.value)
 
     socket
-    |> assign(:pages, ScalesCms.Cms.CmsPages.list_cms_pages())
+    |> assign(pages: ScalesCms.Cms.CmsPages.list_paginated_cms_pages(0, 25))
     |> assign(value: params.field.value)
     |> assign(field: params.field)
     |> assign(search_value: nil)
     |> assign(display: page.title)
-    |> assign(:closed, true)
+    |> assign(closed: true)
     |> then(&{:ok, &1})
   end
 
@@ -44,7 +44,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
   def handle_event("set-value", %{"value" => value}, socket) do
     page = ScalesCms.Cms.CmsPages.get_cms_page!(value)
 
-    {:noreply, assign(socket, value: value, display: page.title)}
+    {:noreply, assign(socket, value: value, display: page.title, closed: true)}
   end
 
   @impl Phoenix.LiveComponent
@@ -55,14 +55,14 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
       <.label>{gettext("Page")}</.label>
 
       <div
-        class="flex mt-2 border justify-between block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 border-zinc-300 focus:border-zinc-400"
+        class="flex mt-2 p-2 border justify-between block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 border-zinc-300 focus:border-zinc-400"
         phx-click="toggle-open"
         phx-target={@myself}
         class=" cursor-pointer"
       >
         {@display}
 
-        <div class="w-[24px] h-[24px] mx-[8px] py-[4px]">
+        <div class="w-[24px] h-[24px]">
           <.svg
             type="toggle_up"
             class={"w-[16px] h-[16px] mt-[6px] transition-all ease-in-out delay-150 duration-300 #{if @closed, do: "rotate-180", else: ""}"}
@@ -90,6 +90,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
                 phx-click="set-value"
                 phx-target={@myself}
                 phx-value={page.id}
+                class="cursor-pointer"
               >
                 {page.title}
               </li>
