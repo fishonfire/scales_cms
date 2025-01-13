@@ -123,7 +123,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
                 phx-click="set-value"
                 phx-target={@myself}
                 phx-value={nil}
-                class="border-b cursor-pointer p-[12px]"
+                class="border-b cursor-pointer p-[12px] hover:bg-zinc-100"
               >
                 {gettext("None")}
               </li>
@@ -133,7 +133,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
                 phx-click="set-value"
                 phx-target={@myself}
                 phx-value={page.id}
-                class="border-b cursor-pointer p-[12px]"
+                class="border-b cursor-pointer p-[12px]  hover:bg-zinc-100"
               >
                 {page.title}
               </li>
