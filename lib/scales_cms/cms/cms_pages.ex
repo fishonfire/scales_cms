@@ -37,6 +37,12 @@ defmodule ScalesCms.Cms.CmsPages do
     |> repo().all()
   end
 
+  def search_pages(query) do
+    CmsPage
+    |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> repo().all()
+  end
+
   @doc """
   Gets a single cms_page.
 
