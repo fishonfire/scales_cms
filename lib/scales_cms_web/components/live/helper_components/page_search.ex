@@ -18,15 +18,30 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
   end
 
   @impl Phoenix.LiveComponent
-  def update(params, socket) do
-    page = ScalesCms.Cms.CmsPages.get_cms_page!(params.field.value)
+  def update(%{field: %{value: nil}} = params, socket), do: handle_empty_page(params, socket)
+  def update(%{field: %{value: ""}} = params, socket), do: handle_empty_page(params, socket)
+  def update(%{field: %{value: 0}} = params, socket), do: handle_empty_page(params, socket)
+
+  def update(%{field: %{value: value}} = params, socket) do
+    page = ScalesCms.Cms.CmsPages.get_cms_page!(value)
 
     socket
     |> assign(pages: ScalesCms.Cms.CmsPages.list_paginated_cms_pages(0, 25))
-    |> assign(value: params.field.value)
+    |> assign(value: value)
     |> assign(field: params.field)
     |> assign(search_value: nil)
     |> assign(display: page.title)
+    |> assign(closed: true)
+    |> then(&{:ok, &1})
+  end
+
+  defp handle_empty_page(params, socket) do
+    socket
+    |> assign(pages: ScalesCms.Cms.CmsPages.list_paginated_cms_pages(0, 25))
+    |> assign(value: nil)
+    |> assign(field: params.field)
+    |> assign(search_value: nil)
+    |> assign(display: nil)
     |> assign(closed: true)
     |> then(&{:ok, &1})
   end
@@ -41,7 +56,21 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
     {:noreply, assign(socket, pages: pages)}
   end
 
+  def handle_event("set-value", %{"value" => nil}, socket) do
+    {:noreply, assign(socket, value: nil, display: nil, closed: true)}
+  end
+
+  def handle_event("set-value", %{"value" => ""}, socket) do
+    {:noreply, assign(socket, value: nil, display: nil, closed: true)}
+  end
+
+  def handle_event("set-value", %{"value" => 0}, socket) do
+    {:noreply, assign(socket, value: nil, display: nil, closed: true)}
+  end
+
   def handle_event("set-value", %{"value" => value}, socket) do
+    IO.inspect(value)
+
     page = ScalesCms.Cms.CmsPages.get_cms_page!(value)
 
     {:noreply, assign(socket, value: value, display: page.title, closed: true)}
@@ -60,7 +89,9 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
         phx-target={@myself}
         class=" cursor-pointer"
       >
-        {@display}
+        <div>
+          {@display} {if @display == nil, do: gettext("Select page")}
+        </div>
 
         <div class="w-[24px] h-[24px]">
           <.svg
@@ -70,27 +101,39 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
         </div>
       </div>
 
-      <div class={"fixed grid #{if @closed, do: "grid-rows-[0fr]", else: "grid-rows-[1fr] bg-white border"} transition-all ease-in-out delay-150 duration-300"}>
+      <div class={"absolute shadow-md	 w-[400px] grid #{if @closed, do: "grid-rows-[0fr]", else: "grid-rows-[1fr] bg-white border"} transition-all ease-in-out delay-150 duration-300"}>
         <ul class="grid gap-2 overflow-hidden">
-          <li class="px-[12px] py-[12px]">
-            <input
-              name="search"
-              type="text"
-              phx-debounce="300"
-              phx-value={@search_value}
-              phx-target={@myself}
-              phx-change="search"
-              class="w-full"
-              placeholder="Search for a page"
-            />
-            <ul>
+          <li class="">
+            <div class="p-[12px] flex border-b ">
+              <.icon name="hero-magnifying-glass" class="mr-[12px]" />
+
+              <input
+                name="search"
+                type="text"
+                phx-debounce="300"
+                phx-value={@search_value}
+                phx-target={@myself}
+                phx-change="search"
+                class="w-full p-0 m-0 border-none focus:ring-0 focus:border-none focus:outline-none"
+                placeholder={gettext("Search for a page")}
+              />
+            </div>
+            <ul class="max-h-[300px] overflow-auto">
+              <li
+                phx-click="set-value"
+                phx-target={@myself}
+                phx-value={nil}
+                class="border-b cursor-pointer p-[12px]"
+              >
+                {gettext("None")}
+              </li>
               <li
                 :for={page <- @pages}
                 value={page.id}
                 phx-click="set-value"
                 phx-target={@myself}
                 phx-value={page.id}
-                class="cursor-pointer"
+                class="border-b cursor-pointer p-[12px]"
               >
                 {page.title}
               </li>
