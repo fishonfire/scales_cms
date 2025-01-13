@@ -114,7 +114,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
                 phx-value={@search_value}
                 phx-target={@myself}
                 phx-change="search"
-                class="w-full p-0 m-0 border-none focus:ring-0 focus:border-none focus:outline-none"
+                class="w-full p-0 m-0 border-none focus:ring-0 focus:border-none focus:outline-none text-sm"
                 placeholder={gettext("Search for a page")}
               />
             </div>
@@ -123,7 +123,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
                 phx-click="set-value"
                 phx-target={@myself}
                 phx-value={nil}
-                class="border-b cursor-pointer p-[12px] hover:bg-zinc-100"
+                class="border-b cursor-pointer p-[12px] hover:bg-zinc-100 text-sm"
               >
                 {gettext("None")}
               </li>
@@ -133,7 +133,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
                 phx-click="set-value"
                 phx-target={@myself}
                 phx-value={page.id}
-                class="border-b cursor-pointer p-[12px]  hover:bg-zinc-100"
+                class="border-b cursor-pointer p-[12px]  hover:bg-zinc-100 text-sm"
               >
                 {page.title}
               </li>
