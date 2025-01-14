@@ -10,7 +10,6 @@ config :scales_cms, :custom_assets,
 
 config :scales_cms,
   endpoint: CmsDemoWeb.Endpoint
-
 ```
 
 The prefix is the directory, usually assets. The files, app.css and app.js, should be placed in the directory specified by the prefix. The files will be loaded in the head a of the HTML document.
