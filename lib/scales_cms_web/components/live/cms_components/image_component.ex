@@ -4,6 +4,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image do
   """
   use ScalesCmsWeb, :live_component
 
+  alias ScalesCms.Cms.Helpers.S3Upload
+
   import ScalesCmsWeb.Components.HelperComponents.DrawerComponents
 
   use ScalesCmsWeb.Components.HelperComponents.RootComponent,
@@ -14,5 +16,17 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image do
     preview_module: ScalesCmsWeb.Components.CmsComponents.Image.ImageEditor,
     version: "0.0.1"
 
-  def serialize(api_version, block), do: default_serialize(api_version, block)
+  def serialize(_api_version, block) do
+    %{
+      id: block.id,
+      component_type: block.component_type,
+      properties:
+        Map.merge(block.properties, %{
+          "image_url" =>
+            S3Upload.get_presigned_url_for_display(
+              Map.get(block.properties || %{}, "image_path", nil)
+            )
+        })
+    }
+  end
 end
