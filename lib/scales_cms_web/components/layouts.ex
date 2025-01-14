@@ -12,7 +12,9 @@ defmodule ScalesCmsWeb.Layouts do
 
   embed_templates "layouts/*"
 
-  defp has_custom_assets(), do: assets_config()[:enabled]
+  defp has_custom_css(), do: assets_config()[:css_enabled]
+
+  defp has_custom_js(), do: assets_config()[:js_enabled]
 
   defp custom_asset_path(asset) when asset in [:css, :js] do
     Phoenix.VerifiedRoutes.static_path(
@@ -41,7 +43,8 @@ defmodule ScalesCmsWeb.Layouts do
 
   defp assets_config() do
     Application.get_env(:scales_cms, :custom_assets,
-      enabled: false,
+      css_enabled: false,
+      js_enabled: false,
       css_file: "app.css",
       js_file: "app.js",
       prefix: "assets"
