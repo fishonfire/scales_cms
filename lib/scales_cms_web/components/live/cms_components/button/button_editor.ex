@@ -56,7 +56,13 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Button.ButtonEditor do
             label="Background color"
           />
           <.input type="text" field={@form[:title]} label="Title" />
-          <.input type="text" field={@form[:page_id]} label="Page ID" />
+
+          <.live_component
+            id={"page-input-#{@block.id}"}
+            module={ScalesCmsWeb.Components.HelperComponents.PageSearch}
+            field={@form[:page_id]}
+          />
+
           <.input type="text" field={@form[:url]} label="URL" />
           <.input type="textarea" field={@form[:payload]} label="Payload" />
 

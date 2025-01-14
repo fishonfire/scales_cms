@@ -108,7 +108,13 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
                 label="Background color"
               />
               <.input id={"title-#{index}"} type="text" field={button[:title]} label="Title" />
-              <.input id={"page_id-#{index}"} type="text" field={button[:page_id]} label="Page ID" />
+
+              <.live_component
+                id={"page-input-#{@block.id}"}
+                module={ScalesCmsWeb.Components.HelperComponents.PageSearch}
+                field={@form[:page_id]}
+              />
+
               <.input id={"url-#{index}"} type="text" field={button[:url]} label="URL" />
               <.input id={"payload-#{index}"} type="text" field={button[:payload]} label="Payload" />
               <:actions>

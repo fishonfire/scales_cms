@@ -18,10 +18,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -
 
+## [0.1.5] - 2025-01-14
+### Changed
+- Added a Page Search component, to make searching for internal pages nice and easy
+- Edited the Buttons to use the new Page Search component
+
 ## [0.1.4] - 2025-01-10
 ### Changed
 - Renamed button components:
-  - button > cta_button 
+  - button > cta_button
   - simple_button > button
 - Added a new component: `button_collection`
 
