@@ -12,6 +12,15 @@ defmodule ScalesCmsWeb.Layouts do
 
   embed_templates "layouts/*"
 
+  defp has_custom_assets(), do: assets_config()[:enabled]
+
+  defp custom_asset_path(asset) when asset in [:css, :js] do
+    Phoenix.VerifiedRoutes.static_path(
+      endpoint(),
+      asset_filename(asset)
+    )
+  end
+
   defp cms_asset_path(conn, asset) when asset in [:css, :js] do
     hash = ScalesCmsWeb.Plugs.Assets.current_hash(asset)
 
@@ -23,4 +32,21 @@ defmodule ScalesCmsWeb.Layouts do
       "#{prefix}/#{asset}-#{hash}"
     )
   end
+
+  defp asset_filename(:css), do: "/#{assets_prefix()}/#{assets_config()[:css_file]}"
+
+  defp asset_filename(:js), do: "/#{assets_prefix()}/#{assets_config()[:js_file]}"
+
+  defp assets_prefix(), do: assets_config()[:prefix]
+
+  defp assets_config() do
+    Application.get_env(:scales_cms, :custom_assets,
+      enabled: false,
+      css_file: "app.css",
+      js_file: "app.js",
+      prefix: "assets"
+    )
+  end
+
+  defp endpoint(), do: Application.get_env(:scales_cms, :endpoint)
 end

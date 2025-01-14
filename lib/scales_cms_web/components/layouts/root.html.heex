@@ -19,6 +19,14 @@
     <script src={cms_asset_path(@conn, :js)} defer>
     </script>
 
+    <%= if has_custom_assets() do %>
+      <!-- custom asssets -->
+      <link rel="stylesheet" href={custom_asset_path(:css)} />
+      <script src={custom_asset_path(:js)} defer>
+      </script>
+      <!-- end custom asssets -->
+    <% end %>
+
     <%!-- <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} /> --%>
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css" />
 
