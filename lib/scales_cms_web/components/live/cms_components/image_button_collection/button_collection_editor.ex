@@ -5,7 +5,9 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
   alias ScalesCmsWeb.Components.HelperComponents.BlockWrapper
   alias ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectionWrapper
   alias ScalesCmsWeb.Components.CmsComponents.ImageButton.ImageButtonProperties
+
   alias ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButtonCollectionProperties
+
   alias ScalesCms.Cms.CmsPageVariantBlocks
 
   use ScalesCmsWeb, :live_component
