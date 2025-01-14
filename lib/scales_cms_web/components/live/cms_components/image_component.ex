@@ -22,7 +22,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image do
       component_type: block.component_type,
       properties:
         Map.merge(block.properties, %{
-          presigned_url:
+          "image_url" =>
             S3Upload.get_presigned_url_for_display(
               Map.get(block.properties || %{}, "image_path", nil)
             )
