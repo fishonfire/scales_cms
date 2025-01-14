@@ -29,9 +29,11 @@ defmodule ScalesCmsWeb.Api.Public.PagesJSON do
   def block(%{block: block, api_version: api_version}) do
     component = ScalesCmsWeb.Components.CmsComponents.get_component(block.component_type)
 
-    component.serialize(
-      api_version,
-      block
-    )
+    if component != nil do
+      component.serialize(
+        api_version,
+        block
+      )
+    end
   end
 end
