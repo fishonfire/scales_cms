@@ -1,13 +1,14 @@
-defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectionEditor do
+defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButtonCollectionEditor do
   @moduledoc """
   The button collection editor component for the CMS
   """
   alias ScalesCmsWeb.Components.HelperComponents.BlockWrapper
   alias ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectionWrapper
-  alias ScalesCmsWeb.Components.CmsComponents.Button.ButtonProperties
-  alias ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectionProperties
+  alias ScalesCmsWeb.Components.CmsComponents.ImageButton.ImageButtonProperties
+
+  alias ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButtonCollectionProperties
+
   alias ScalesCms.Cms.CmsPageVariantBlocks
-  alias ScalesCms.Constants.Buttons
 
   use ScalesCmsWeb, :live_component
 
@@ -23,8 +24,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
   defp assign_form(socket, block) do
     form =
       to_form(
-        ButtonCollectionProperties.changeset(
-          %ButtonCollectionProperties{},
+        ImageButtonCollectionProperties.changeset(
+          %ImageButtonCollectionProperties{},
           block.properties
         )
       )
@@ -36,8 +37,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
     forms =
       Enum.map(Map.get(block.properties, "buttons", []), fn value ->
         to_form(
-          ButtonProperties.changeset(
-            %ButtonProperties{},
+          ImageButtonProperties.changeset(
+            %ImageButtonProperties{},
             value
           )
         )
@@ -49,7 +50,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
   @impl Phoenix.LiveComponent
   def handle_event(
         "store-properties",
-        %{"button_properties" => properties, "index" => index},
+        %{"image_button_properties" => properties, "index" => index},
         socket
       ) do
     buttons =
@@ -84,7 +85,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
         id={"head-#{@block.id}"}
         module={BlockWrapper}
         block={@block}
-        component={ScalesCmsWeb.Components.CmsComponents.ButtonCollection}
+        component={ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection}
       >
         <%= for {button, index} <- Enum.with_index(@forms || [] ) do %>
           <.live_component
@@ -92,7 +93,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
             embedded_index={index}
             module={ButtonCollectionWrapper}
             block={@block}
-            component={ScalesCmsWeb.Components.CmsComponents.Button}
+            component={ScalesCmsWeb.Components.CmsComponents.ImageButton}
             title={button[:title].value || "#{gettext("Button")} #{index + 1}"}
           >
             <.simple_form
@@ -101,13 +102,9 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
               phx-target={@myself}
               phx-value-index={index}
             >
-              <.input
-                type="select"
-                field={button[:bg_color_variant]}
-                options={Buttons.get_button_color_variants()}
-                label="Background color"
-              />
               <.input id={"title-#{index}"} type="text" field={button[:title]} label="Title" />
+              <.input id={"subtitle-#{index}"} type="text" field={button[:subtitle]} label="Subtitle" />
+              <.input id={"icon-#{index}"} type="text" field={button[:icon]} label="Icon" />
 
               <.live_component
                 id={"page-input-#{@block.id}-#{index}"}

@@ -69,8 +69,6 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
   end
 
   def handle_event("set-value", %{"value" => value}, socket) do
-    IO.inspect(value)
-
     page = ScalesCms.Cms.CmsPages.get_cms_page!(value)
 
     {:noreply, assign(socket, value: value, display: page.title, closed: true)}
