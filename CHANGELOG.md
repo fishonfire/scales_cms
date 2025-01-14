@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 -
+
+## [0.1.9] - 2025-01-14
+### Changed
+- Made the custom CSS config slightly more granular, you can now enable JS/CSS separately
+
 ## [0.1.8] - 2025-01-14
 ### Changed
 - Added the ability to use custom JS and CSS
