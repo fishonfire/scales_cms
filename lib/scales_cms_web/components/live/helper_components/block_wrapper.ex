@@ -7,7 +7,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.BlockWrapper do
   @impl true
   def mount(socket) do
     socket
-    |> assign(:closed, true)
+    |> assign(:closed, false)
     |> then(&{:ok, &1})
   end
 
