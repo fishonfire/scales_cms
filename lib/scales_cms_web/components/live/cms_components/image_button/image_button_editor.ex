@@ -81,7 +81,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButton.ImageButtonEditor do
           S3Upload.get_presigned_url_for_display(Map.get(@block.properties || %{}, "image_path", nil))
         } />
 
-        <.file_uploader {assigns} />
+        <.file_uploader {assigns} entity_name="image" />
 
         <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
           <.input type="text" field={@form[:title]} label="Title" />

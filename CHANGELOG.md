@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -
 
+## [0.1.10] - 2025-01-15
+### Changed
+- Improved the uploader look, cleaned up the code
+- Fixed a bug with cancelling the upload
+
 ## [0.1.9] - 2025-01-14
 ### Changed
 - Made the custom CSS config slightly more granular, you can now enable JS/CSS separately

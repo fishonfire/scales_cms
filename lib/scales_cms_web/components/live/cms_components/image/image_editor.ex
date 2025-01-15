@@ -45,11 +45,19 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image.ImageEditor do
         block={@block}
         component={ScalesCmsWeb.Components.CmsComponents.Image}
       >
-        <img src={
-          S3Upload.get_presigned_url_for_display(Map.get(@block.properties || %{}, "image_path", nil))
-        } />
+        <div class="flex">
+          <img
+            :if={Map.get(@block.properties || %{}, "image_path", nil) != nil}
+            src={
+              S3Upload.get_presigned_url_for_display(
+                Map.get(@block.properties || %{}, "image_path", nil)
+              )
+            }
+            class="max-w-[200px] max-h-[200px] object-cover mr-[24px]"
+          />
 
-        <.file_uploader {assigns} />
+          <.file_uploader {assigns} entity_name="image" />
+        </div>
       </.live_component>
     </div>
     """
