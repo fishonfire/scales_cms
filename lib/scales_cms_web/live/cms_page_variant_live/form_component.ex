@@ -24,7 +24,7 @@ defmodule ScalesCmsWeb.CmsPageVariantLive.FormComponent do
         <.input field={@form[:locale]} type="text" label="Locale" />
         <.input field={@form[:version]} type="number" label="Version" />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Cms page variant</.button>
+          <.button phx-disable-with="Saving..." class="btn-secondary">Save Cms page variant</.button>
         </:actions>
       </.simple_form>
     </div>

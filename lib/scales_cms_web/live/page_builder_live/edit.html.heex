@@ -6,8 +6,9 @@
 
     <div class="flex space-x-4">
       <.live_component id="locale_switcher" module={LocaleSwitcher} />
-
-      <.button disabled={true}>
+      
+<!--  @simon, is this supposed to be always disabled? -->
+      <.button class="btn-primary" disabled={true}>
         {gettext("Save")}
       </.button>
 
@@ -15,7 +16,11 @@
         {gettext("Publish")}
       </.button>
 
-      <.button :if={@cms_page_variant.published_at != nil} phx-click="start-new-version">
+      <.button
+        :if={@cms_page_variant.published_at != nil}
+        phx-click="start-new-version"
+        class="btn-secondary"
+      >
         {gettext("Start new version")}
       </.button>
     </div>
@@ -34,7 +39,7 @@
       {gettext("If you want to keep editing this page please start a new version")}
     </p>
     <p>
-      <.button phx-click="start-new-version">
+      <.button phx-click="start-new-version" class="btn-secondary">
         {gettext("Start new version")}
       </.button>
     </p>

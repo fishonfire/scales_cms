@@ -52,7 +52,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Header.HeaderEditor do
           <.input type="text" field={@form[:subtitle]} label="Subtitle" />
 
           <:actions>
-            <.button phx-disable-with="Saving...">{gettext("Save")}</.button>
+            <.button phx-disable-with="Saving..." class="btn-secondary">{gettext("Save")}</.button>
           </:actions>
         </.simple_form>
       </.live_component>

@@ -23,7 +23,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.FormComponent do
         <.input field={@form[:cms_directory_id]} type="hidden" />
 
         <:actions>
-          <.button phx-disable-with="Saving...">Save Cms directory</.button>
+          <.button phx-disable-with="Saving..." class="btn-secondary">Save Cms directory</.button>
         </:actions>
       </.simple_form>
     </div>

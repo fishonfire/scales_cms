@@ -10,11 +10,15 @@
         <.live_component id="locale_switcher" module={LocaleSwitcher} class="flex" />
 
         <.link patch={get_new_directory_path(@current_directory)}>
-          <.button><.icon name="hero-plus" /> {gettext("New directory")}</.button>
+          <.button class="btn-primary">
+            <.icon name="hero-plus" /> {gettext("New directory")}
+          </.button>
         </.link>
 
         <.link patch={get_new_page_path(@current_directory)} class="new-cms-page">
-          <.button><.icon name="hero-plus" /> {gettext("New page")}</.button>
+          <.button class="btn-secondary">
+            <.icon name="hero-plus" /> {gettext("New page")}
+          </.button>
         </.link>
       </div>
     </:actions>
