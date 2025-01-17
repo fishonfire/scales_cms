@@ -22,7 +22,7 @@ defmodule ScalesCmsWeb.CmsPageLive.FormComponent do
         <.input type="hidden" field={@form[:cms_directory_id]} />
         <.input field={@form[:title]} type="text" label="Title" />
         <:actions>
-          <.button phx-disable-with="Saving...">{gettext("Save page")}</.button>
+          <.button phx-disable-with="Saving..." class="btn-secondary">{gettext("Save page")}</.button>
         </:actions>
       </.simple_form>
     </div>

@@ -115,7 +115,9 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
               <.input id={"url-#{index}"} type="text" field={button[:url]} label="URL" />
               <.input id={"payload-#{index}"} type="text" field={button[:payload]} label="Payload" />
               <:actions>
-                <.button phx-disable-with="Saving...">{gettext("Save")}</.button>
+                <.button phx-disable-with="Saving..." class="btn-secondary">
+                  {gettext("Save")}
+                </.button>
               </:actions>
             </.simple_form>
           </.live_component>
@@ -123,7 +125,9 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
 
         <.simple_form for={@form} phx-submit="add-button" phx-target={@myself}>
           <:actions>
-            <.button phx-disable-with="Adding...">{gettext("Add button")}</.button>
+            <.button phx-disable-with="Adding..." class="btn-primary">
+              {gettext("Add button")}
+            </.button>
           </:actions>
         </.simple_form>
       </.live_component>
