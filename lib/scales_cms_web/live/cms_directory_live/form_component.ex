@@ -19,11 +19,11 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:title]} type="text" label="Title" />
+        <.input field={@form[:title]} type="text" placeholder="Directory name" />
         <.input field={@form[:cms_directory_id]} type="hidden" />
 
         <:actions>
-          <.button phx-disable-with="Saving..." class="btn-secondary">Save Cms directory</.button>
+          <.button phx-disable-with="Saving..." class="btn-primary">Save Cms directory</.button>
         </:actions>
       </.simple_form>
     </div>
