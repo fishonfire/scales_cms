@@ -7,3 +7,9 @@
 @import "./trix_overrides.css";
 @import "./sortable.css";
 @import "./tables.css";
+
+.scales-logo {
+  @apply bg-secondary;
+}
+
+

@@ -26,11 +26,11 @@ defmodule ScalesCmsWeb.Components.MenuItems do
 
   def render(assigns) do
     ~H"""
-    <ul class="space-y-2 font-medium p-4">
+    <ul class="space-y-2 font-medium p-2">
       <li :for={menu_item <- menu_items()}>
         <.link
           patch={menu_item.route}
-          class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-primary "
+          class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-primary_dark hover:text-white"
         >
           <.icon name={menu_item.icon} />
           <span class="ms-3">{menu_item.title}</span>

@@ -4,7 +4,15 @@
     class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-lightGrey"
     aria-label="Sidebar"
   >
-    LOGO <ScalesCmsWeb.Components.MenuItems.render />
+    <div class="scales-logo p-3">
+      <.svg type="scales_logo" width="160" height="40" class="mx-auto" />
+    </div>
+    <div class="flex justify-end px-2 pt-2">
+      <div class="bg-white rounded py-2 pl-2 pr-[10px]">
+        <.svg type="chevron" width="12" height="16" />
+      </div>
+    </div>
+    <ScalesCmsWeb.Components.MenuItems.render />
   </aside>
   <main class="p-4 sm:ml-64">
     <.flash_group flash={@flash} />
