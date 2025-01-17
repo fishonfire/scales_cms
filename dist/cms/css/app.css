@@ -1311,7 +1311,6 @@ select {
 }
 
 .btn {
-  /* @apply w-fit h-[48px] flex items-center gap-2 text-sm font-kiona font-semibold uppercase rounded px-5 outline-none border-2 border-transparent cursor-pointer; */
   border-radius: 0.25rem;
   --tw-bg-opacity: 1;
   background-color: rgb(12 33 54 / var(--tw-bg-opacity));
@@ -1323,6 +1322,13 @@ select {
   line-height: 1.25rem;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.btn:disabled, .btn:disabled:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(231 234 238 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(21 21 25 / var(--tw-text-opacity));
 }
 
 .btn-primary {

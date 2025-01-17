@@ -231,9 +231,9 @@ defmodule ScalesCmsWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded bg-zinc-900 hover:bg-zinc-700 py-[12px] px-[16px]",
-        "text-sm disabled:opacity-50 text-white active:text-white/80",
-        @class
+        @class,
+        "btn",
+        "phx-submit-loading:opacity-75"
       ]}
       {@rest}
     >
