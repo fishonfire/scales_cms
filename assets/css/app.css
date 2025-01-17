@@ -2,15 +2,10 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 @import url('./components/buttons.css');
+@import url('./components/sidebar.css');
 
 /* This file is for your main application CSS */
 
 @import "./trix_overrides.css";
 @import "./sortable.css";
 @import "./tables.css";
-
-.scales-logo {
-  @apply bg-secondary;
-}
-
-

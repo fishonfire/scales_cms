@@ -1,15 +1,11 @@
 <div>
-  <aside
-    id="default-sidebar"
-    class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-lightGrey"
-    aria-label="Sidebar"
-  >
+  <aside id="default-sidebar" class="sidebar" aria-label="Sidebar">
     <div class="scales-logo p-3">
       <.svg type="scales_logo" width="160" height="40" class="mx-auto" />
     </div>
-    <div class="flex justify-end px-2 pt-2">
-      <div class="bg-white rounded py-2 pl-2 pr-[10px]">
-        <.svg type="chevron" width="12" height="16" />
+    <div class="chevron-container">
+      <div class="chevron-wrapper">
+        <.svg type="chevron" id="chevron" width="12" height="12" />
       </div>
     </div>
     <ScalesCmsWeb.Components.MenuItems.render />

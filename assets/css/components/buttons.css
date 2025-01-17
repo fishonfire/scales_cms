@@ -1,6 +1,6 @@
 @layer components {
   .btn {
-    @apply rounded bg-secondary py-[12px] px-[16px] text-sm text-white;
+    @apply rounded bg-secondary py-[12px] px-[16px] text-sm text-white transition ease-in-out;
   }
 
   .btn:disabled, .btn:disabled:hover {

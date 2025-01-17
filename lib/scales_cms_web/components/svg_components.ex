@@ -8,10 +8,11 @@ defmodule ScalesCmsWeb.SvgComponents do
   attr :height, :string, default: "100"
 
   attr :class, :any, default: nil
+  attr :id, :any, default: nil
   attr :style, :string, default: ""
 
   attr :type, :string, values: ~w(
-      scales_logo chevron drag_handle toggle_up cms_rich_text
+      scales_logo scales_logo_small chevron drag_handle toggle_up cms_rich_text
     )
 
   def svg(%{type: "scales_logo"} = assigns) do
@@ -120,6 +121,27 @@ defmodule ScalesCmsWeb.SvgComponents do
     """
   end
 
+  def svg(%{type: "scales_logo_small"} = assigns) do
+    ~H"""
+    <svg
+      style={@style}
+      xmlns="http://www.w3.org/2000/svg"
+      class={[@class]}
+      width={[@width, "px"]}
+      height={[@height, "px"]}
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M11.0769 11.0769C11.0769 4.95931 6.11495 0 0 0V11.0769H11.0769ZM11.0769 24C11.0769 17.8824 6.11495 12.9231 0 12.9231V24H11.0769ZM12.9231 0C19.038 0 24 4.95931 24 11.0769H12.9231V0ZM24 24C24 17.8824 19.038 12.9231 12.9231 12.9231V24H24Z"
+        fill="#21C39D"
+      />
+    </svg>
+    """
+  end
+
   def svg(%{type: "chevron"} = assigns) do
     ~H"""
     <svg
@@ -127,6 +149,7 @@ defmodule ScalesCmsWeb.SvgComponents do
       class={[@class]}
       width={[@width, "px"]}
       height={[@height, "px"]}
+      id={@id}
       viewBox="0 0 6 10"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
