@@ -1,6 +1,6 @@
 defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButtonCollectionEditor do
   @moduledoc """
-  The button collection editor component for the CMS
+  The image button collection editor component for the CMS
   """
   alias ScalesCmsWeb.Components.HelperComponents.BlockWrapper
   alias ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectionWrapper
@@ -104,6 +104,12 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
             >
               <.input id={"title-#{index}"} type="text" field={button[:title]} label="Title" />
               <.input id={"subtitle-#{index}"} type="text" field={button[:subtitle]} label="Subtitle" />
+              <.input
+                id={"image_url-#{index}"}
+                type="text"
+                field={button[:image_url]}
+                label="Image URL"
+              />
               <.input id={"icon-#{index}"} type="text" field={button[:icon]} label="Icon" />
 
               <.live_component
