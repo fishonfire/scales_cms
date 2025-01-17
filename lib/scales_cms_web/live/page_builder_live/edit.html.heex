@@ -6,13 +6,12 @@
 
     <div class="flex space-x-4">
       <.live_component id="locale_switcher" module={LocaleSwitcher} />
-      
-<!--  @simon, is this supposed to be always disabled? -->
-      <.button class="btn-primary" disabled={true}>
+
+      <.button class="btn-secondary" disabled={true}>
         {gettext("Save")}
       </.button>
 
-      <.button :if={@cms_page_variant.published_at == nil} phx-click="publish">
+      <.button :if={@cms_page_variant.published_at == nil} class="btn-primary" phx-click="publish">
         {gettext("Publish")}
       </.button>
 
@@ -30,10 +29,7 @@
     <.input field={@form[:title]} label={gettext("Title")} />
   </.simple_form>
 
-  <div
-    :if={@cms_page_variant.published_at != nil}
-    class="w-3/4 border-2 p-8 bg-gray-500 rounded-xl"
-  >
+  <div :if={@cms_page_variant.published_at != nil} class="w-3/4 border-2 p-8 bg-gray-500 rounded">
     <p class="mb-5 text-white">
       {gettext("This page has been published. You can not edit this page anymore")}
       {gettext("If you want to keep editing this page please start a new version")}
@@ -62,7 +58,7 @@
 
 <aside
   id="drawer-sidebar"
-  class="fixed top-0 right-0 z-40 w-[380px] h-screen transition-transform -translate-x-full sm:translate-x-0 bg-slate-100"
+  class="fixed top-0 right-0 z-40 w-[380px] h-screen transition-transform -translate-x-full sm:translate-x-0 bg-slate-100 overflow-auto"
   aria-label="Sidebar"
 >
   <div class="relative px-[24px]">

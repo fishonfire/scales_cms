@@ -34,7 +34,7 @@ defmodule ScalesCmsWeb.Components.MenuItems do
           class={"sidebar-menu-item #{if menu_item.route == assigns[:current_path], do: "active-item"}"}
         >
           <.icon name={menu_item.icon} />
-          <span class="ms-3">{menu_item.title}</span>
+          <span class="ms-2">{menu_item.title}</span>
         </.link>
       </li>
     </ul>

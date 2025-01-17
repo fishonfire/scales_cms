@@ -3,6 +3,7 @@
 @import "tailwindcss/utilities";
 @import url('./components/buttons.css');
 @import url('./components/sidebar.css');
+@import url('./components/icons.css');
 
 /* This file is for your main application CSS */
 
