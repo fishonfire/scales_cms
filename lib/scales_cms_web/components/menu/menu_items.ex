@@ -15,6 +15,11 @@ defmodule ScalesCmsWeb.Components.MenuItems do
       title: gettext("Pages"),
       icon: "hero-document",
       route: "/cms/directories"
+    },
+    %ScalesCmsWeb.Components.MenuItem{
+      title: gettext("Settings"),
+      icon: "hero-wrench-screwdriver",
+      route: "/cms/settings"
     }
   ]
 

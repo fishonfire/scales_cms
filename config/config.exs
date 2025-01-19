@@ -69,6 +69,10 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :scales_cms, ScalesCms.Guardian,
+  issuer: "scales_cms",
+  secret_key: "+wUAu+Hizgp+rIBZdK8wM2HKYkHT1V6PvrYEoGJybMeH7/VqerwfF8Inw1Cq083W"
+
 config :ex_aws, :s3,
   access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
   secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY"),

@@ -19,6 +19,11 @@ defmodule ScalesCmsWeb.Router do
     plug(ScalesCmsWeb.Plugs.ApiVersion)
   end
 
+  pipeline :authenticated_api do
+    plug(:accepts, ["json"])
+    plug(ScalesCmsWeb.Plugs.JwtAuthentication)
+  end
+
   scope "/", ScalesCmsWeb do
     pipe_through :browser
 
@@ -41,7 +46,7 @@ defmodule ScalesCmsWeb.Router do
   end
 
   scope "/api" do
-    pipe_through :api
+    pipe_through([:api, :authenticated_api])
 
     api_public()
   end
