@@ -15,6 +15,11 @@ defmodule ScalesCmsWeb.Components.MenuItems do
       title: gettext("Pages"),
       icon: "hero-document",
       route: "/cms/directories"
+    },
+    %ScalesCmsWeb.Components.MenuItem{
+      title: gettext("Settings"),
+      icon: "hero-wrench-screwdriver",
+      route: "/cms/settings"
     }
   ]
 
@@ -29,10 +34,7 @@ defmodule ScalesCmsWeb.Components.MenuItems do
     ~H"""
     <ul class="sidebar-menu">
       <li :for={menu_item <- menu_items()}>
-        <.link
-          patch={menu_item.route}
-          class={"sidebar-menu-item #{if menu_item.route == assigns[:current_path], do: "active-item"}"}
-        >
+        <.link patch={menu_item.route} class="sidebar-menu-item">
           <.icon name={menu_item.icon} />
           <span class="ms-2">{menu_item.title}</span>
         </.link>

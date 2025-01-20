@@ -23,7 +23,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.BlockWrapper do
     ~H"""
     <div>
       <div class="w-full flex justify-between bg-lightGrey py-[8px] transition-all ease-in-out delay-150 duration-300">
-        <div class="ml-[12px] text-sm	font-bold leading-[32px]">
+        <div class="ml-[12px] text-sm font-semibold leading-[32px]">
           {@component.title()}
         </div>
         <div class="flex">

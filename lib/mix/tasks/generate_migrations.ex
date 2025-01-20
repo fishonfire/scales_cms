@@ -129,6 +129,14 @@ if Code.ensure_loaded?(Ecto) do
 
           timestamps(type: :utc_datetime)
         end
+
+        create table(:cms_api_tokens) do
+          add :token, :text
+
+          timestamps(type: :utc_datetime, updated_at: false)
+        end
+
+        create index(:cms_api_tokens, [:token], unique: true)
       end
     end
     """)
