@@ -41,8 +41,7 @@ defmodule ScalesCms.Cms.CmsApiTokens do
   defp generate_token do
     claims = %{
       "typ" => "access",
-      # 10 years,
-      "exp" => :os.system_time(:seconds) + 10 * 365 * 24 * 60 * 60,
+      "exp" => nil,
       "sub" => "cms_api_token"
     }
 
