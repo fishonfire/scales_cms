@@ -47,8 +47,6 @@ defmodule ScalesCms.Cms.CmsApiTokens do
 
     {:ok, jwt, _claims} = ScalesCms.Guardian.encode_and_sign("app", claims)
 
-    IO.inspect(jwt, label: "jwt")
-
     jwt
   end
 
