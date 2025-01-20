@@ -1,14 +1,21 @@
 @layer components {
   .cms-table {
+    @apply border-[1px] border-lightGrey;
     thead {
-      @apply bg-gray-100;
+      @apply bg-lightGrey;
       th {
-        @apply px-3 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-left;
+        @apply px-3 py-3 text-xs font-semibold text-black uppercase tracking-wider text-left;
       }
     }
     tbody {
+      tr {
+        @apply border-b-[1px] border-b-lightGrey transition ease-in-out;
+      }
+      tr:hover {
+        @apply bg-slate-50;
+      }
       td {
-        @apply px-3 py-3  font-medium text-black text-sm;
+        @apply px-3 py-3  font-light text-black text-sm;
       }
     }
   }

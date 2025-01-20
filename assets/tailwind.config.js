@@ -18,9 +18,17 @@ module.exports = {
         'sans': ['"Poppins"', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        brand: "#FD4F00",
+        primary: "#21C39D",
+        primary_dark: "#178B70",
+        secondary: "#0C2136",
+        secondary_light: "#0F172A80",
+        black: "#151519",
+        midGrey: "#4D5D74",
         lightGrey: "#E7EAEE",
-        primary: "#16A850"
+        white: "#FFFFFF",
+        purple: "#C711B8",
+        yellow: "#FFBB34",
+        blue: "#36A1FF",
       }
     },
   },

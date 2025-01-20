@@ -11,7 +11,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.DrawerComponents do
   def drawer_preview(assigns) do
     ~H"""
     <div class="flex flex-row">
-      <div class="icon mr-4 mt-[4px]">
+      <div class="mr-4 mt-[4px]">
         <.svg type={@icon_type} class="w-[24px] h-[24px]" />
       </div>
 
@@ -21,7 +21,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.DrawerComponents do
       </div>
 
       <div class="drag-handle">
-        <.icon name="hero-arrows-pointing-out" class="w-[24px] h-[24px] cursor-pointer" />
+        <.icon name="hero-arrows-pointing-out" class="w-[24px] h-[24px] cursor-pointer hero-arrow" />
       </div>
     </div>
     """

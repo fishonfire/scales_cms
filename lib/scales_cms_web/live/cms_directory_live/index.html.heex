@@ -1,5 +1,5 @@
 <div class="container">
-  <.header class="mb-4">
+  <.header class="mt-12 mb-4">
     <%= if @current_directory do %>
       {@current_directory.title}
     <% else %>
@@ -10,11 +10,15 @@
         <.live_component id="locale_switcher" module={LocaleSwitcher} class="flex" />
 
         <.link patch={get_new_directory_path(@current_directory)}>
-          <.button><.icon name="hero-plus" /> {gettext("New directory")}</.button>
+          <.button class="btn-primary">
+            <.icon name="hero-plus" /> {gettext("New directory")}
+          </.button>
         </.link>
 
         <.link patch={get_new_page_path(@current_directory)} class="new-cms-page">
-          <.button><.icon name="hero-plus" /> {gettext("New page")}</.button>
+          <.button class="btn-secondary">
+            <.icon name="hero-plus" /> {gettext("New page")}
+          </.button>
         </.link>
       </div>
     </:actions>
@@ -39,7 +43,7 @@
               class="w-12 cursor-pointer"
             >
               <.link patch={~p"/cms/directories"}>
-                <.icon name="hero-arrow-up" />
+                <.icon name="hero-arrow-up icon-small" />
               </.link>
             </td>
             <td>
@@ -54,7 +58,7 @@
               phx-value-id={@current_directory.cms_directory_id}
               class="w-12 cursor-pointer"
             >
-              <.icon name="hero-arrow-up" />
+              <.icon name="hero-arrow-up icon-small" />
             </td>
             <td
               phx-click="open-directory"
@@ -70,7 +74,7 @@
 
       <tr :for={directory <- @cms_directories} id={"cms_directories-#{directory.id}"}>
         <td phx-click="open-directory" phx-value-id={directory.id} class="w-12 cursor-pointer">
-          <.icon name="hero-folder" />
+          <.icon name="hero-folder icon-medium" />
         </td>
         <td phx-click="open-directory" phx-value-id={directory.id} class="cursor-pointer">
           {directory.title}
@@ -80,18 +84,18 @@
         </td>
         <td class="text-right controls">
           <.link patch={~p"/cms/directories/#{directory.id}/edit"} class="edit">
-            <.icon name="hero-pencil" />
+            <.icon name="hero-pencil" class="icon-small" />
           </.link>
 
           <span phx-click="delete" phx-value-id={directory.id} class="delete">
-            <.icon name="hero-trash" />
+            <.icon name="hero-trash" class="icon-small" />
           </span>
         </td>
       </tr>
 
       <tr :for={cms_page <- @cms_pages} id={"cms_pages-#{cms_page.id}"}>
         <td phx-click="open-page" phx-value-id={cms_page.id} class="w-12 cursor-pointer">
-          <.icon name="hero-document" />
+          <.icon name="hero-document icon-medium" />
         </td>
         <td phx-click="open-page" phx-value-id={cms_page.id} class="cursor-pointer">
           {cms_page.title}
@@ -101,7 +105,7 @@
         </td>
         <td class="text-right controls">
           <.link patch={~p"/cms/pages/#{cms_page.id}"} id={"edit-page-#{cms_page.id}"}>
-            <.icon name="hero-wrench-screwdriver" />
+            <.icon name="hero-wrench-screwdriver" class="icon-small" />
           </.link>
           <span
             phx-click="delete-page"
@@ -109,7 +113,7 @@
             class="delete"
             id={"delete-page-#{cms_page.id}"}
           >
-            <.icon name="hero-trash" />
+            <.icon name="hero-trash" class="icon-small" />
           </span>
         </td>
       </tr>

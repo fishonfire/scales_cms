@@ -1,6 +1,6 @@
 defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButtonCollectionEditor do
   @moduledoc """
-  The button collection editor component for the CMS
+  The image button collection editor component for the CMS
   """
   alias ScalesCmsWeb.Components.HelperComponents.BlockWrapper
   alias ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectionWrapper
@@ -104,6 +104,12 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
             >
               <.input id={"title-#{index}"} type="text" field={button[:title]} label="Title" />
               <.input id={"subtitle-#{index}"} type="text" field={button[:subtitle]} label="Subtitle" />
+              <.input
+                id={"image_url-#{index}"}
+                type="text"
+                field={button[:image_url]}
+                label="Image URL"
+              />
               <.input id={"icon-#{index}"} type="text" field={button[:icon]} label="Icon" />
 
               <.live_component
@@ -115,7 +121,9 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
               <.input id={"url-#{index}"} type="text" field={button[:url]} label="URL" />
               <.input id={"payload-#{index}"} type="text" field={button[:payload]} label="Payload" />
               <:actions>
-                <.button phx-disable-with="Saving...">{gettext("Save")}</.button>
+                <.button phx-disable-with="Saving..." class="btn-secondary">
+                  {gettext("Save")}
+                </.button>
               </:actions>
             </.simple_form>
           </.live_component>
@@ -123,7 +131,9 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
 
         <.simple_form for={@form} phx-submit="add-button" phx-target={@myself}>
           <:actions>
-            <.button phx-disable-with="Adding...">{gettext("Add button")}</.button>
+            <.button phx-disable-with="Adding..." class="btn-primary">
+              {gettext("Add button")}
+            </.button>
           </:actions>
         </.simple_form>
       </.live_component>

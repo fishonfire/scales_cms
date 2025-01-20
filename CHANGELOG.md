@@ -18,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -
 
+## [0.1.11] - 2025-01-20
+### Changed
+- Implemented API authentication (see README.md for more info) 
+- Added `settings` page to the CMS to generate and display the API key
+- UI improvements
+
 ## [0.1.10] - 2025-01-15
 ### Changed
 - Improved the uploader look, cleaned up the code

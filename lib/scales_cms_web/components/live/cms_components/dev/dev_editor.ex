@@ -53,7 +53,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Dev.DevEditor do
           <.input type="textarea" field={@form[:properties]} label="Properties payload" />
 
           <:actions>
-            <.button phx-disable-with="Saving...">{gettext("Save")}</.button>
+            <.button phx-disable-with="Saving..." class="btn-secondary">{gettext("Save")}</.button>
           </:actions>
         </.simple_form>
       </.live_component>
