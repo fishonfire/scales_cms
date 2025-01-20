@@ -62,11 +62,11 @@
   aria-label="Sidebar"
 >
   <div class="relative px-[24px]">
-    <h2 class="mt-[48px] mb-[4px] font-bold text-2xl">
+    <h2 class="mt-[48px] mb-[4px] font-semibold text-2xl">
       {gettext("Component library")}
     </h2>
 
-    <p class="mb-[32px]">
+    <p class="mb-[32px] text-xs	">
       {gettext("Drag & drop the components and start building your page")}
     </p>
 
@@ -74,7 +74,7 @@
       <li
         phx-value-category="All"
         phx-click="select-component-category"
-        class={"cursor-pointer transition-all rounded m-[4px] p-[8px] px-[16px] hover:bg-gray-50 font-bold #{if @active_category == "All", do: " bg-gray-100", else: ""}"}
+        class={"cursor-pointer transition-all rounded m-[4px] p-[8px] px-[16px] hover:bg-gray-50 font-semibold #{if @active_category == "All", do: " bg-gray-100", else: ""}"}
       >
         {gettext("All")}
       </li>
@@ -82,7 +82,7 @@
         :for={category <- @categories}
         phx-value-category={category}
         phx-click="select-component-category"
-        class={"cursor-pointer transition-all rounded m-[4px] p-[8px] px-[16px] hover:bg-gray-50 font-bold #{if @active_category == category, do: " bg-gray-100", else: ""}"}
+        class={"cursor-pointer transition-all rounded m-[4px] p-[8px] px-[16px] hover:bg-gray-50 font-semibold #{if @active_category == category, do: " bg-gray-100", else: ""}"}
       >
         {category}
       </li>

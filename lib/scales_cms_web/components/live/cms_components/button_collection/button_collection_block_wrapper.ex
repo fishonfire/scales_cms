@@ -23,7 +23,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
     ~H"""
     <div>
       <div class="w-full flex justify-between bg-lightGrey py-[8px] mb-[4px] transition-all ease-in-out delay-150 duration-300">
-        <div class="ml-[12px] text-sm	font-bold leading-[32px]">
+        <div class="ml-[12px] text-sm font-bold leading-[32px]">
           {@title}
         </div>
         <div class="flex">

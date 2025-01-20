@@ -10,7 +10,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.CTAButton do
     title: "CTA Button",
     category: "CTA",
     description: "A call to action button with a title, subtitle, and icon",
-    icon_type: "cms_rich_text",
+    icon_type: "cms_cta",
     preview_module: CTAButtonEditor,
     version: "0.0.1"
 
