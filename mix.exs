@@ -4,7 +4,7 @@ defmodule ScalesCms.MixProject do
   def project do
     [
       app: :scales_cms,
-      version: "0.1.10",
+      version: "0.1.11",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
