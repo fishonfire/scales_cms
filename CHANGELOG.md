@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -
 
+## [0.1.12] - 2025-01-20
+### Fixed
+- Added missing migration for `cms_api_tokens` table into migration template.
+
 ## [0.1.11] - 2025-01-20
 ### Changed
 - Implemented API authentication (see README.md for more info) 
