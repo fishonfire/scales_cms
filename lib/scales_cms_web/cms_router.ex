@@ -18,6 +18,8 @@ defmodule ScalesCmsWeb.CmsRouter do
             # cms routes
             live "/", CmsIndexLive.Index, :index
 
+            live "/settings", CmsSettingsLive.Index, :index
+
             live "/directories", CmsDirectoryLive.Index, :index
             live "/directories/new", CmsDirectoryLive.Index, :new
             live "/directories/:id", CmsDirectoryLive.Index, :index

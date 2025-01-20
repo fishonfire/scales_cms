@@ -31,8 +31,18 @@ are now part of your application. You could modify them, but no modifications ar
 More info on https://github.com/fishonfire/react-native-scales-renderer
 
 ## Development setup
+### Prerequisites:
+#### **direnv** is used to manage environment variables. You can install it by running:
+  1. `curl -sfL https://direnv.net/install.sh | bash`
+  2. `echo 'eval "$(direnv hook bash)"' >> ~/.bashrc` or `echo 'eval "$(direnv hook zsh)"' >> ~/.zshrc`
+  3. Restart your terminal or run `source ~/.bashrc` or `source ~/.zshrc`
+
 To start your Phoenix server:
 
+  * Run `mix guardian.gen.secret` to generate API secret
+  * Set the API secret in the `.envrc` file like this: 
+     > export API_SECRET_KEY=+wUAu+Hizgp+rIBZdK8wM2HKYkHT1V6PvrYEoGJybMeH7/VqerwfF8Inw1Cq083W
+  * Run `direnv allow` to load the environment variables
   * Run `mix setup` to install and setup dependencies
   * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
 
