@@ -9,8 +9,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection do
   use ScalesCmsWeb.Components.HelperComponents.RootComponent,
     title: "Button Collection",
     category: "CTA",
-    description: "A collection of buttons",
-    icon_type: "cms_rich_text",
+    description: "One ore more buttons",
+    icon_type: "cms_button_collection",
     preview_module: ButtonCollectionEditor,
     version: "0.0.1"
 

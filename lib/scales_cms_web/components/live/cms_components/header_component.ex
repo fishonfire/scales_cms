@@ -9,8 +9,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Header do
   use ScalesCmsWeb.Components.HelperComponents.RootComponent,
     title: "Header",
     category: "Content",
-    description: "A nice header",
-    icon_type: "cms_rich_text",
+    description: "Heading and subtitles",
+    icon_type: "cms_header",
     preview_module: HeaderEditor,
     version: "0.0.1"
 

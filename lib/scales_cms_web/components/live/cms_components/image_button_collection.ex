@@ -10,7 +10,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection do
     title: "Image Button Collection",
     category: "CTA",
     description: "A collection of image buttons",
-    icon_type: "cms_rich_text",
+    icon_type: "cms_image_button_collection",
     preview_module: ImageButtonCollectionEditor,
     version: "0.0.1"
 

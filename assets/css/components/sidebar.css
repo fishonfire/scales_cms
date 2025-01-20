@@ -28,7 +28,7 @@
   }
 
   .sidebar-menu .sidebar-menu-item:hover {
-    @apply bg-primary_dark text-white;
+    @apply bg-gray-100;
   }
 
   .sidebar-menu .sidebar-menu-item.active-item {

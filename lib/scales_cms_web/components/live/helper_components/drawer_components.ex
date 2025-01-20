@@ -12,16 +12,16 @@ defmodule ScalesCmsWeb.Components.HelperComponents.DrawerComponents do
     ~H"""
     <div class="flex flex-row">
       <div class="mr-4 mt-[4px]">
-        <.svg type={@icon_type} class="w-[24px] h-[24px]" />
+        <.svg type={@icon_type} class="w-[40px] h-[30px]" />
       </div>
 
       <div class="grow">
-        <p class="font-bold">{@title}</p>
+        <p class="font-semibold">{@title}</p>
         <p class="text-gray-500">{@description}</p>
       </div>
 
       <div class="drag-handle">
-        <.icon name="hero-arrows-pointing-out" class="w-[24px] h-[24px] cursor-pointer hero-arrow" />
+        <.icon name="hero-arrows-pointing-out" class="hero-arrow" />
       </div>
     </div>
     """

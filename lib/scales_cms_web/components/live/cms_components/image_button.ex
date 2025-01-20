@@ -12,7 +12,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButton do
     title: "Image Button",
     category: "CTA",
     description: "A clickable button, with a title and an image",
-    icon_type: "cms_rich_text",
+    icon_type: "cms_cta_image",
     preview_module: ImageButtonEditor,
     version: "0.0.1"
 

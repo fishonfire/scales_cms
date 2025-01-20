@@ -12,7 +12,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image do
     title: gettext("Image"),
     category: "Images",
     description: gettext("Upload a nice image"),
-    icon_type: "cms_rich_text",
+    icon_type: "cms_image",
     preview_module: ScalesCmsWeb.Components.CmsComponents.Image.ImageEditor,
     version: "0.0.1"
 
