@@ -37,7 +37,6 @@ defmodule ScalesCms.Cms.CmsApiTokens do
     |> repo().insert()
   end
 
-  @doc false
   defp generate_token do
     claims = %{
       "typ" => "access",
