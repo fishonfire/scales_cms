@@ -20,7 +20,7 @@ defmodule ScalesCmsWeb.Components.CmsComponentsRenderer do
     <div
       id={@id}
       data-id={@block.id}
-      class="draggable border-[1px] mb-8 rounded-xl bg-white overflow-hidden"
+      class="draggable border-[1px] mb-8 rounded bg-white overflow-hidden"
     >
       <%= if @component do %>
         {@component.render_preview(assigns)}

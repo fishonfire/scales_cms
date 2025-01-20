@@ -31,24 +31,24 @@ defmodule ScalesCmsWeb.Components.HelperComponents.BlockWrapper do
             <div
               phx-click="delete"
               phx-value-id={@block.id}
-              class="mx-[8px] pr-[4px] py-[4px] border-r-2 cursor-pointer"
+              class="py-[4px] border-r-2 cursor-pointer flex items-center justify-center p-2"
             >
-              <.icon name="hero-trash" />
+              <.icon name="hero-trash" class="icon-small" />
             </div>
             <div
               phx-click="toggle-open"
               phx-target={@myself}
-              class="w-[24px] h-[24px] mx-[8px] py-[4px] cursor-pointer"
+              class="py-[4px] cursor-pointer flex items-center justify-center p-2"
             >
               <.svg
                 type="toggle_up"
-                class={"w-[16px] h-[16px] mt-[6px] transition-all ease-in-out delay-150 duration-300 #{if @closed, do: "rotate-180", else: ""}"}
+                class={"w-[12px] h-[12px] transition-all ease-in-out delay-150 duration-300 #{if @closed, do: "rotate-180", else: ""}"}
               />
             </div>
           </div>
 
-          <div class="drag-handle w-[24px] h-[24px] mr-[12px] ml-[8px] my-[4px] cursor-move">
-            <.icon name="hero-arrows-pointing-out" />
+          <div class="drag-handle w-[16px] h-[16px] mr-[12px] ml-[8px] my-[4px] cursor-move">
+            <.icon name="hero-arrows-pointing-out" class="hero-arrow" />
           </div>
         </div>
       </div>

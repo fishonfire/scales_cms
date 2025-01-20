@@ -1,0 +1,13 @@
+@layer components {
+  .icon-small {
+    @apply w-4 h-4 bg-secondary_light;
+  }
+  
+  .icon-medium {
+    @apply w-6 h-6 bg-secondary_light;
+  }
+  
+  .hero-arrow {
+    @apply w-4 h-4 bg-secondary_light transform rotate-45;
+  }
+}
