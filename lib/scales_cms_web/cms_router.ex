@@ -85,6 +85,7 @@ defmodule ScalesCmsWeb.CmsRouter do
         scope "/public", ScalesCmsWeb.Api.Public do
           get("/pages", PagesController, :index)
           get("/pages/:id", PagesController, :show)
+          get("/pages/slug/:slug", PagesController, :show)
           get("/components", ComponentsController, :index)
         end
       end

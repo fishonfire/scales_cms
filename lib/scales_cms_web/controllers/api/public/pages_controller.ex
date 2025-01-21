@@ -48,6 +48,22 @@ defmodule ScalesCmsWeb.Api.Public.PagesController do
     )
   end
 
+  def show(conn, %{"slug" => slug} = params) do
+    pv =
+      CmsPageLocaleLatestVariants.get_cms_page_locale_latest_variant_for_page_and_locale_by_slug(
+        slug,
+        locale(params)
+      )
+      |> CmsPageLocaleLatestVariants.preload_page_variant()
+
+    conn
+    |> render(
+      :show,
+      page: pv.latest_published_page,
+      api_version: conn.assigns.api_version
+    )
+  end
+
   def locale(%{"locale" => locale}), do: locale
   def locale(_), do: ScalesCms.Cms.Helpers.Locales.default_locale()
 end
