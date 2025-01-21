@@ -1,4 +1,5 @@
 defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButtonEditor do
+  @moduledoc false
   use ScalesCmsWeb, :live_component
   alias ScalesCmsWeb.Components.CmsComponents.ImageButton.ImageButtonProperties
   alias ScalesCms.Cms.CmsPageVariantBlocks
@@ -42,17 +43,9 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
         "save",
         %{"image_button_properties" => properties},
         socket
-      ),
-      do: save(properties, socket.assigns.index, socket)
+      ) do
+    properties = Map.merge(socket.assigns.button, properties)
 
-  def handle_event(
-        "store-properties",
-        %{"image_button_properties" => properties, "index" => index},
-        socket
-      ),
-      do: save(properties, String.to_integer(index), socket)
-
-  defp save(properties, index, socket) do
     properties =
       put_file_urls(
         "image-upload-#{socket.assigns.index}-#{socket.assigns.block.id}",
@@ -61,6 +54,20 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
         properties
       )
 
+    save(properties, socket.assigns.index, socket)
+  end
+
+  def handle_event(
+        "store-properties",
+        %{"image_button_properties" => properties, "index" => index},
+        socket
+      ) do
+    properties = Map.merge(socket.assigns.button, properties)
+
+    save(properties, String.to_integer(index), socket)
+  end
+
+  defp save(properties, index, socket) do
     buttons =
       Map.get(socket.assigns.block.properties, "buttons", [])
       |> List.replace_at(index, properties)
@@ -84,7 +91,11 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
   def render(assigns) do
     ~H"""
     <div>
-      <.file_upload_component {assigns} entity_name={"image-upload-#{@index}-#{@block.id}"} />
+      <.file_upload_component
+        {assigns}
+        entity_name={"image-upload-#{@index}-#{@block.id}"}
+        target_name="image"
+      />
 
       <.simple_form
         id={"button-form-#{@index}-#{@block.id}"}
@@ -101,6 +112,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
           label="Subtitle"
         />
 
+        <.label>{gettext("Image")}</.label>
         <img src={S3Upload.get_presigned_url_for_display(Map.get(@button, "image_path", nil))} />
 
         <.input id={"icon-#{@index}-#{@block.id}"} type="text" field={@form[:icon]} label="Icon" />

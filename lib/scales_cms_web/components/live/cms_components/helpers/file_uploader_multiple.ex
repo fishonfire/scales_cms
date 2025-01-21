@@ -1,8 +1,12 @@
 defmodule ScalesCmsWeb.Components.CmsComponents.Helpers.FileUploaderMultiple do
+  @moduledoc """
+  A first draft of a fileuploader that can be used more than once in a live view
+  """
   use ScalesCmsWeb, :live_component
   alias ScalesCms.Cms.Helpers.S3Upload
 
   attr :entity_name, :string, required: true
+  attr :target_name, :string, required: true
 
   def file_upload_component(assigns) do
     ~H"""
@@ -11,7 +15,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Helpers.FileUploaderMultiple do
       <.simple_form for={@form} phx-target={@myself} phx-change="validate" phx-submit="save">
         <.input
           type="hidden"
-          field={@form[entity_url_as_atom(@entity_name)]}
+          field={@form[entity_url_as_atom(@target_name)]}
           id={
             if @id,
               do: "#{@id}-#{@entity_name}-_properties_image_url",
@@ -21,7 +25,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Helpers.FileUploaderMultiple do
 
         <.input
           type="hidden"
-          field={@form[entity_path_as_atom(@entity_name)]}
+          field={@form[entity_path_as_atom(@target_name)]}
           id={
             if @id,
               do: "#{@id}-#{@entity_name}-_properties_image_path",
@@ -95,14 +99,14 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Helpers.FileUploaderMultiple do
       entity_url_as_string(target_name),
       add_file_url_to_params(
         List.first(uploaded_file_urls),
-        block[entity_url_as_string(entity_name)]
+        block[entity_url_as_string(target_name)]
       )
     )
     |> Map.put(
       entity_path_as_string(target_name),
       add_file_path_to_params(
         List.first(uploaded_file_urls),
-        block[entity_path_as_string(entity_name)]
+        block[entity_path_as_string(target_name)]
       )
     )
   end
