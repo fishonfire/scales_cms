@@ -113,7 +113,10 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
         />
 
         <.label>{gettext("Image")}</.label>
-        <img src={S3Upload.get_presigned_url_for_display(Map.get(@button, "image_path", nil))} />
+        <img
+          src={S3Upload.get_presigned_url_for_display(Map.get(@button, "image_path", nil))}
+          class="max-w-[200px] max-h-[200px] object-cover mr-[24px]"
+        />
 
         <.input id={"icon-#{@index}-#{@block.id}"} type="text" field={@form[:icon]} label="Icon" />
 

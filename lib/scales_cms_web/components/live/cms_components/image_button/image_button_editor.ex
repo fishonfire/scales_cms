@@ -59,7 +59,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButton.ImageButtonEditor do
     with {:ok, block} <-
            ScalesCms.Cms.CmsPageVariantBlocks.update_cms_page_variant_block(
              socket.assigns.block,
-             %{properties: properties}
+             %{properties: Map.merge(socket.assigns.block.properties, properties)}
            ) do
       socket
       |> assign(block: block)
@@ -77,9 +77,14 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButton.ImageButtonEditor do
         block={@block}
         component={ScalesCmsWeb.Components.CmsComponents.ImageButton}
       >
-        <img src={
-          S3Upload.get_presigned_url_for_display(Map.get(@block.properties || %{}, "image_path", nil))
-        } />
+        <img
+          src={
+            S3Upload.get_presigned_url_for_display(
+              Map.get(@block.properties || %{}, "image_path", nil)
+            )
+          }
+          class="max-w-[200px] max-h-[200px] object-cover mr-[24px]"
+        />
 
         <.file_uploader {assigns} entity_name="image" />
 
