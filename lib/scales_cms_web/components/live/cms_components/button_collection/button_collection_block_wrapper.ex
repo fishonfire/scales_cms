@@ -27,7 +27,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
           {@title}
         </div>
         <div class="flex">
-          <div class="mr-[8px] bg-white rounded-lg flex">
+          <div class="mr-[8px] bg-white rounded flex">
             <div
               phx-click="delete_embedded"
               phx-value-id={@block.id}

@@ -27,7 +27,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.BlockWrapper do
           {@component.title()}
         </div>
         <div class="flex">
-          <div class="mr-[8px] bg-white rounded-lg flex">
+          <div class="mr-[8px] bg-white rounded flex">
             <div
               phx-click="delete"
               phx-value-id={@block.id}
