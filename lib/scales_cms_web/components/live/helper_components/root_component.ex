@@ -39,6 +39,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.RootComponent do
           description={@component.description()}
           icon_type={@component.icon_type()}
           title={@component.title()}
+          published={@published}
         />
         """
       end

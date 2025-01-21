@@ -7,6 +7,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.DrawerComponents do
   attr :description, :string
   attr :icon_type, :string
   attr :title, :string
+  attr :published, :boolean
 
   def drawer_preview(assigns) do
     ~H"""
@@ -20,7 +21,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.DrawerComponents do
         <p class="text-gray-500">{@description}</p>
       </div>
 
-      <div class="drag-handle">
+      <div :if={!@published} class="drag-handle">
         <.icon name="hero-arrows-pointing-out" class="hero-arrow" />
       </div>
     </div>

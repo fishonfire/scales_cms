@@ -1843,6 +1843,10 @@ select {
   margin-top: 6px;
 }
 
+.mb-7 {
+  margin-bottom: 1.75rem;
+}
+
 .block {
   display: block;
 }
@@ -2363,6 +2367,16 @@ select {
 
 .bg-zinc-50\/90 {
   background-color: rgb(250 250 250 / 0.9);
+}
+
+.bg-zinc-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(113 113 122 / var(--tw-bg-opacity));
+}
+
+.bg-slate-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(203 213 225 / var(--tw-bg-opacity));
 }
 
 .fill-cyan-900 {

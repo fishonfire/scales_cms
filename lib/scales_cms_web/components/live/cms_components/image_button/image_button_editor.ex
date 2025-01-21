@@ -78,9 +78,14 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButton.ImageButtonEditor do
         component={ScalesCmsWeb.Components.CmsComponents.ImageButton}
         published={@published}
       >
-        <img src={
-          S3Upload.get_presigned_url_for_display(Map.get(@block.properties || %{}, "image_path", nil))
-        } />
+        <img
+          :if={Map.get(@block.properties || %{}, "image_path", nil) != nil}
+          src={
+            S3Upload.get_presigned_url_for_display(
+              Map.get(@block.properties || %{}, "image_path", nil)
+            )
+          }
+        />
 
         <.file_uploader :if={!@published} {assigns} entity_name="image" />
 
