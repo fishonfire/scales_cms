@@ -46,16 +46,18 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
         component={ScalesCmsWeb.Components.CmsComponents.Video}
       >
         <div class="flex">
-          <video controls class="max-w-[200px] max-h-[200px] object-cover mr-[24px]">
-            <source
-              :if={Map.get(@block.properties || %{}, "video_path", nil) != nil}
-              src={
-                S3Upload.get_presigned_url_for_display(
-                  Map.get(@block.properties || %{}, "video_path", nil)
-                )
-              }
-            />
-          </video>
+          <%= if Map.get(@block.properties || %{}, "video_path", nil) != nil do %>
+            <video controls class="max-w-[200px] max-h-[200px] object-cover mr-[24px]">
+              <source
+                :if={Map.get(@block.properties || %{}, "video_path", nil) != nil}
+                src={
+                  S3Upload.get_presigned_url_for_display(
+                    Map.get(@block.properties || %{}, "video_path", nil)
+                  )
+                }
+              />
+            </video>
+          <% end %>
 
           <.file_uploader {assigns} entity_name="video" />
         </div>
@@ -63,6 +65,14 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
         <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
           <.input type="text" field={@form[:title]} label="Title" />
           <.input type="text" field={@form[:subtitle]} label="Subtitle" />
+
+          <div class="my-2">
+            <.input type="checkbox" field={@form[:autoplay]} label="Autoplay" />
+            <.input type="checkbox" field={@form[:controls]} label="Controls" />
+            <.input type="checkbox" field={@form[:fullscreen]} label="Fullscreen" />
+            <.input type="checkbox" field={@form[:looping]} label="Looping" />
+            <.input type="checkbox" field={@form[:mute]} label="Mute" />
+          </div>
 
           <:actions>
             <.button phx-disable-with="Saving..." class="btn-secondary">{gettext("Save")}</.button>

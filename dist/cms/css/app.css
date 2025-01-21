@@ -1676,6 +1676,14 @@ select {
   margin: 4px;
 }
 
+.m-4 {
+  margin: 1rem;
+}
+
+.m-2 {
+  margin: 0.5rem;
+}
+
 .-mx-2 {
   margin-left: -0.5rem;
   margin-right: -0.5rem;
@@ -1709,6 +1717,11 @@ select {
 .my-\[8px\] {
   margin-top: 8px;
   margin-bottom: 8px;
+}
+
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .mb-4 {
@@ -1837,6 +1850,10 @@ select {
 
 .mt-\[6px\] {
   margin-top: 6px;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
 }
 
 .block {
