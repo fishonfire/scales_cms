@@ -17,6 +17,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
     Phoenix.PubSub.subscribe(ScalesCms.PubSub, Topics.get_set_locale_topic())
+    Phoenix.PubSub.subscribe(ScalesCms.PubSub, Topics.get_block_updated_topic())
 
     {:ok, socket}
   end
@@ -212,6 +213,22 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
   end
 
   @impl Phoenix.LiveView
+  def handle_info(
+        {:block_updated, %{block_id: _block_id, cms_page_variant_id: cms_page_variant_id}},
+        socket
+      ) do
+    if socket.assigns.cms_page_variant.id == cms_page_variant_id do
+      socket
+      |> assign(
+        :blocks,
+        CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
+      )
+      |> then(&{:noreply, &1})
+    else
+      {:noreply, socket}
+    end
+  end
+
   def handle_info(
         {:set_locale, _locale},
         %{assigns: %{cms_page_variant: nil}} = socket

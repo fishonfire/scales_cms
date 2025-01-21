@@ -1446,9 +1446,7 @@ select {
 
 .sidebar-menu .sidebar-menu-item:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(23 139 112 / var(--tw-bg-opacity));
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 
 .sidebar-menu .sidebar-menu-item.active-item {
@@ -1905,6 +1903,10 @@ select {
   height: 24px;
 }
 
+.h-\[30px\] {
+  height: 30px;
+}
+
 .h-full {
   height: 100%;
 }
@@ -1999,6 +2001,10 @@ select {
 
 .w-\[400px\] {
   width: 400px;
+}
+
+.w-\[40px\] {
+  width: 40px;
 }
 
 .w-\[40rem\] {
@@ -2520,6 +2526,11 @@ select {
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
 }
 
 .font-bold {
