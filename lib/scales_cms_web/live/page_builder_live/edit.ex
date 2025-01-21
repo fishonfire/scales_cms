@@ -16,7 +16,6 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
-    Phoenix.PubSub.subscribe(ScalesCms.PubSub, Topics.get_set_locale_topic())
     Phoenix.PubSub.subscribe(ScalesCms.PubSub, Topics.get_block_updated_topic())
 
     {:ok, socket}

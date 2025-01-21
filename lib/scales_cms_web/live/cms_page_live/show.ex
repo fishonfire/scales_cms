@@ -4,12 +4,9 @@ defmodule ScalesCmsWeb.CmsPageLive.Show do
 
   alias ScalesCms.Cms.CmsPages
   alias ScalesCmsWeb.Components.LocaleSwitcher
-  alias ScalesCms.Constants.Topics
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
-    Phoenix.PubSub.subscribe(ScalesCms.PubSub, Topics.get_set_locale_topic())
-
     {:ok, assign(socket, locale: ScalesCms.Cms.Helpers.Locales.default_locale())}
   end
 
