@@ -47,6 +47,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.CTAButton.CTAButtonEditor do
         module={BlockWrapper}
         block={@block}
         component={ScalesCmsWeb.Components.CmsComponents.CTAButton}
+        published={@published}
       >
         <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
           <.input
@@ -54,6 +55,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.CTAButton.CTAButtonEditor do
             field={@form[:bg_color_variant]}
             options={Buttons.get_button_color_variants()}
             label="Background color"
+            disabled={@published}
           />
           <.input type="text" field={@form[:title]} label="Title" />
           <.input type="text" field={@form[:subtitle]} label="Subtitle" />

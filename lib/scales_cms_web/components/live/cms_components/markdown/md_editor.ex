@@ -46,6 +46,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Md.MdEditor do
         module={BlockWrapper}
         block={@block}
         component={ScalesCmsWeb.Components.CmsComponents.Md}
+        published={@published}
       >
         <div
           id={"markdown-#{@block.id}"}

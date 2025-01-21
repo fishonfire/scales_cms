@@ -85,6 +85,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
         module={BlockWrapper}
         block={@block}
         component={ScalesCmsWeb.Components.CmsComponents.ButtonCollection}
+        published={@published}
       >
         <%= for {button, index} <- Enum.with_index(@forms || [] ) do %>
           <.live_component

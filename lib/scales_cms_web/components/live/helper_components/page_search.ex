@@ -12,6 +12,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
     end)
     |> assign(value: nil)
     |> assign(search_value: nil)
+    |> assign(disabled: false)
     |> assign(display: nil)
     |> assign(:closed, true)
     |> then(&{:ok, &1})
@@ -29,6 +30,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
     |> assign(pages: ScalesCms.Cms.CmsPages.list_paginated_cms_pages(0, 25))
     |> assign(value: value)
     |> assign(field: params.field)
+    |> assign(disabled: Map.get(params, :disabled, false))
     |> assign(search_value: nil)
     |> assign(display: page.title)
     |> assign(closed: true)
@@ -40,6 +42,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
     |> assign(pages: ScalesCms.Cms.CmsPages.list_paginated_cms_pages(0, 25))
     |> assign(value: nil)
     |> assign(field: params.field)
+    |> assign(disabled: Map.get(params, :disabled, false))
     |> assign(search_value: nil)
     |> assign(display: nil)
     |> assign(closed: true)
@@ -47,6 +50,9 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
   end
 
   @impl Phoenix.LiveComponent
+  def handle_event("toggle-open", _, %{assigns: %{disabled: true}} = socket),
+    do: {:noreply, socket}
+
   def handle_event("toggle-open", _, socket) do
     {:noreply, assign(socket, :closed, !socket.assigns.closed)}
   end
@@ -82,12 +88,13 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
       <.label>{gettext("Page")}</.label>
 
       <div
-        class="flex mt-2 p-2 border justify-between block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 border-zinc-300 focus:border-zinc-400"
+        class="flex mt-2 p-2 border justify-between block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 border-zinc-300 disabled:border-zinc-100 focus:border-zinc-400"
         phx-click="toggle-open"
         phx-target={@myself}
-        class=" cursor-pointer"
+        class="cursor-pointer"
+        disabled={@disabled}
       >
-        <div>
+        <div class={if @disabled, do: "text-slate-600"}>
           {@display} {if @display == nil, do: gettext("Select page")}
         </div>
 
@@ -102,7 +109,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
       <div class={"absolute shadow-md	 w-[400px] grid #{if @closed, do: "grid-rows-[0fr]", else: "grid-rows-[1fr] bg-white border"} transition-all ease-in-out delay-150 duration-300"}>
         <ul class="grid gap-2 overflow-hidden">
           <li class="">
-            <div class="p-[12px] flex border-b ">
+            <div class="p-[12px] flex border-b">
               <.icon name="hero-magnifying-glass" class="mr-[12px]" />
 
               <input
