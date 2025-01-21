@@ -95,6 +95,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
             block={@block}
             component={ScalesCmsWeb.Components.CmsComponents.Button}
             title={button[:title].value || "#{gettext("Button")} #{index + 1}"}
+            published={@published}
           >
             <.simple_form
               for={button}
@@ -107,6 +108,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
                 field={button[:bg_color_variant]}
                 options={Buttons.get_button_color_variants()}
                 label="Background color"
+                disabled={@published}
               />
               <.input id={"title-#{index}"} type="text" field={button[:title]} label="Title" />
 
@@ -114,12 +116,13 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
                 id={"page-input-#{@block.id}-#{index}"}
                 module={ScalesCmsWeb.Components.HelperComponents.PageSearch}
                 field={button[:page_id]}
+                disabled={@published}
               />
 
               <.input id={"url-#{index}"} type="text" field={button[:url]} label="URL" />
               <.input id={"payload-#{index}"} type="text" field={button[:payload]} label="Payload" />
               <:actions>
-                <.button phx-disable-with="Saving..." class="btn-secondary">
+                <.button :if={!@published} phx-disable-with="Saving..." class="btn-secondary">
                   {gettext("Save")}
                 </.button>
               </:actions>
@@ -129,7 +132,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
 
         <.simple_form for={@form} phx-submit="add-button" phx-target={@myself}>
           <:actions>
-            <.button phx-disable-with="Adding..." class="btn-primary">
+            <.button :if={!@published} phx-disable-with="Adding..." class="btn-primary">
               {gettext("Add button")}
             </.button>
           </:actions>

@@ -44,6 +44,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image.ImageEditor do
         module={BlockWrapper}
         block={@block}
         component={ScalesCmsWeb.Components.CmsComponents.Image}
+        published={@published}
       >
         <div class="flex">
           <img
@@ -56,7 +57,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image.ImageEditor do
             class="max-w-[200px] max-h-[200px] object-cover mr-[24px]"
           />
 
-          <.file_uploader {assigns} entity_name="image" />
+          <.file_uploader :if={!@published} {assigns} entity_name="image" />
         </div>
       </.live_component>
     </div>

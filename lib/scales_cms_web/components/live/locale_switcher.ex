@@ -5,7 +5,6 @@ defmodule ScalesCmsWeb.Components.LocaleSwitcher do
   """
   use ScalesCmsWeb, :live_component
 
-  alias ScalesCms.Constants.Topics
   alias ScalesCms.Cms.Helpers.Locales
 
   @impl Phoenix.LiveComponent
@@ -38,11 +37,7 @@ defmodule ScalesCmsWeb.Components.LocaleSwitcher do
 
   @impl Phoenix.LiveComponent
   def handle_event("got-locale", %{"locale" => locale}, socket) do
-    Phoenix.PubSub.broadcast(
-      ScalesCms.PubSub,
-      Topics.get_set_locale_topic(),
-      {:set_locale, locale}
-    )
+    notify_parent({:locale_switched, locale})
 
     {:noreply,
      socket
@@ -50,15 +45,13 @@ defmodule ScalesCmsWeb.Components.LocaleSwitcher do
   end
 
   def handle_event("switch-locale", %{"locale" => locale}, socket) do
-    Phoenix.PubSub.broadcast(
-      ScalesCms.PubSub,
-      Topics.get_set_locale_topic(),
-      {:set_locale, locale}
-    )
+    notify_parent({:locale_switched, locale})
 
     socket
     |> push_event("set-locale", %{locale: locale})
     |> assign(locale: locale)
     |> then(&{:noreply, &1})
   end
+
+  defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 end

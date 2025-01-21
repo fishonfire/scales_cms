@@ -13,6 +13,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
     |> assign(value: nil)
     |> assign(search_value: nil)
     |> assign(disabled: false)
+    |> assign(field_id: nil)
     |> assign(display: nil)
     |> assign(:closed, true)
     |> then(&{:ok, &1})
@@ -29,6 +30,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
     socket
     |> assign(pages: ScalesCms.Cms.CmsPages.list_paginated_cms_pages(0, 25))
     |> assign(value: value)
+    |> assign(field_id: Map.get(params, :field_id, nil))
     |> assign(field: params.field)
     |> assign(disabled: Map.get(params, :disabled, false))
     |> assign(search_value: nil)
@@ -41,6 +43,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
     socket
     |> assign(pages: ScalesCms.Cms.CmsPages.list_paginated_cms_pages(0, 25))
     |> assign(value: nil)
+    |> assign(field_id: Map.get(params, :field_id, nil))
     |> assign(field: params.field)
     |> assign(disabled: Map.get(params, :disabled, false))
     |> assign(search_value: nil)
@@ -84,7 +87,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
   def render(assigns) do
     ~H"""
     <div class="">
-      <.input type="hidden" field={@field} value={@value} />
+      <.input type="hidden" field={@field} value={@value} id={"#{@field_id}-page-value"} />
       <.label>{gettext("Page")}</.label>
 
       <div

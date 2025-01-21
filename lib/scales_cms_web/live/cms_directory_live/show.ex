@@ -16,6 +16,6 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Show do
      |> assign(:cms_directory, CmsDirectories.get_cms_directory!(id))}
   end
 
-  defp page_title(:show), do: "Show Cms directory"
-  defp page_title(:edit), do: "Edit Cms directory"
+  defp page_title(:show), do: gettext("Show directory")
+  defp page_title(:edit), do: gettext("Edit directory")
 end

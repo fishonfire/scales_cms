@@ -6,12 +6,9 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
   alias ScalesCms.Cms.CmsDirectory
 
   alias ScalesCmsWeb.Components.LocaleSwitcher
-  alias ScalesCms.Constants.Topics
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
-    Phoenix.PubSub.subscribe(ScalesCms.PubSub, Topics.get_set_locale_topic())
-
     socket
     |> assign(locale: ScalesCms.Cms.Helpers.Locales.default_locale())
     |> assign(:cms_directories, [])
@@ -91,10 +88,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
   end
 
   @impl Phoenix.LiveView
-  def handle_info(
-        {:set_locale, locale},
-        socket
-      ) do
+  def handle_info({ScalesCmsWeb.Components.LocaleSwitcher, {:locale_switched, locale}}, socket) do
     socket
     |> assign(:locale, locale)
     |> then(&{:noreply, &1})
@@ -148,6 +142,12 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
   def handle_event("open-directory", %{"id" => id}, socket) do
     socket
     |> push_navigate(to: ~p"/cms/directories/#{id}")
+    |> then(&{:noreply, &1})
+  end
+
+  def handle_event("open-directory", %{}, socket) do
+    socket
+    |> push_navigate(to: ~p"/cms/directories")
     |> then(&{:noreply, &1})
   end
 
