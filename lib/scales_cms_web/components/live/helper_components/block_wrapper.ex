@@ -22,7 +22,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.BlockWrapper do
   def render(assigns) do
     ~H"""
     <div>
-      <div class="w-full flex justify-between bg-lightGrey py-[8px] transition-all ease-in-out delay-150 duration-300">
+      <div class="drag-handle cursor-move w-full flex justify-between bg-lightGrey py-[8px] transition-all ease-in-out delay-150 duration-300">
         <div class="ml-[12px] text-sm font-semibold leading-[32px]">
           {@component.title()}
         </div>
@@ -47,7 +47,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.BlockWrapper do
             </div>
           </div>
 
-          <div class="drag-handle w-[16px] h-[16px] mr-[12px] ml-[8px] my-[4px] cursor-move">
+          <div class="w-[16px] h-[16px] mr-[12px] ml-[8px] my-[4px] cursor-move">
             <.icon name="hero-arrows-pointing-out" class="hero-arrow" />
           </div>
         </div>
