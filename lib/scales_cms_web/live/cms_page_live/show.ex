@@ -26,10 +26,7 @@ defmodule ScalesCmsWeb.CmsPageLive.Show do
   end
 
   @impl Phoenix.LiveView
-  def handle_info(
-        {:set_locale, locale},
-        socket
-      ) do
+  def handle_info({ScalesCmsWeb.Components.LocaleSwitcher, {:locale_switched, locale}}, socket) do
     socket
     |> assign(:locale, locale)
     |> stream(

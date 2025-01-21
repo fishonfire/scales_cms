@@ -230,13 +230,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
   end
 
   def handle_info(
-        {:set_locale, _locale},
-        %{assigns: %{cms_page_variant: nil}} = socket
-      ),
-      do: {:noreply, socket}
-
-  def handle_info(
-        {:set_locale, locale},
+        {ScalesCmsWeb.Components.LocaleSwitcher, {:locale_switched, locale}},
         %{assigns: %{cms_page_variant: cms_page_variant}} = socket
       ) do
     if socket.assigns.cms_page_variant.locale != locale do
@@ -250,6 +244,9 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
       {:noreply, socket}
     end
   end
+
+  def handle_info({ScalesCmsWeb.Components.LocaleSwitcher, {:locale_switched, _locale}}, socket),
+    do: {:noreply, socket}
 
   defp page_title(:edit), do: "Show Cms page"
 end
