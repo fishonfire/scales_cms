@@ -11,7 +11,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.DrawerComponents do
 
   def drawer_preview(assigns) do
     ~H"""
-    <div class="flex flex-row">
+    <div class={"flex flex-row #{if !@published, do: "drag-handle cursor-move"}"}>
       <div class="mr-4 mt-[4px]">
         <.svg type={@icon_type} class="w-[40px] h-[30px]" />
       </div>
@@ -21,9 +21,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.DrawerComponents do
         <p class="text-gray-500">{@description}</p>
       </div>
 
-      <div :if={!@published} class="drag-handle">
-        <.icon name="hero-arrows-pointing-out" class="hero-arrow" />
-      </div>
+      <.icon :if={!@published} name="hero-arrows-pointing-out" class="hero-arrow" />
     </div>
     """
   end

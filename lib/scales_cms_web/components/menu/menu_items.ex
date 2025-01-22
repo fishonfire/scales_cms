@@ -29,7 +29,7 @@ defmodule ScalesCmsWeb.Components.MenuItems do
 
   def configured_menu_items(), do: Application.get_env(:scales_cms, :menu_items, [])
 
-  # TODO: Fix conditional class logic
+  # Fix conditional class logic
   def render(assigns) do
     ~H"""
     <ul class="sidebar-menu">

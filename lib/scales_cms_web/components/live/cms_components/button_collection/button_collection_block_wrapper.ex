@@ -33,7 +33,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
           {@title}
         </div>
         <div class="flex">
-          <div class="mr-[8px] bg-white rounded-lg flex">
+          <div class="mr-[8px] bg-white rounded flex">
             <div
               :if={!@published}
               phx-click="delete_embedded"
