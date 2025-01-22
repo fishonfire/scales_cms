@@ -80,6 +80,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
         module={BlockWrapper}
         block={@block}
         component={ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection}
+        published={@published}
       >
         <%= for {button, index} <- Enum.with_index(@buttons || [] ) do %>
           <.live_component
@@ -88,7 +89,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
             module={ButtonCollectionWrapper}
             block={@block}
             component={ScalesCmsWeb.Components.CmsComponents.ImageButton}
-            title={Map.get(button, "title") || "#{gettext("Button")} #{index + 1}"}
+            title={Map.get(button, "title", "#{gettext("Button")} #{index + 1}")}
           >
             <.live_component
               id={"button-#{@block.id}-#{index}-form-data"}
@@ -103,7 +104,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
 
         <.simple_form for={@form} phx-submit="add-button" phx-target={@myself}>
           <:actions>
-            <.button phx-disable-with="Adding..." class="btn-primary">
+            <.button :if={!@published} phx-disable-with="Adding..." class="btn-primary">
               {gettext("Add button")}
             </.button>
           </:actions>

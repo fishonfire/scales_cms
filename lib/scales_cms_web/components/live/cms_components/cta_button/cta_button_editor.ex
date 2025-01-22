@@ -47,6 +47,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.CTAButton.CTAButtonEditor do
         module={BlockWrapper}
         block={@block}
         component={ScalesCmsWeb.Components.CmsComponents.CTAButton}
+        published={@published}
       >
         <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
           <.input
@@ -54,22 +55,26 @@ defmodule ScalesCmsWeb.Components.CmsComponents.CTAButton.CTAButtonEditor do
             field={@form[:bg_color_variant]}
             options={Buttons.get_button_color_variants()}
             label="Background color"
+            disabled={@published}
           />
-          <.input type="text" field={@form[:title]} label="Title" />
-          <.input type="text" field={@form[:subtitle]} label="Subtitle" />
-          <.input type="text" field={@form[:icon]} label="Icon" />
+          <.input type="text" field={@form[:title]} label="Title" disabled={@published} />
+          <.input type="text" field={@form[:subtitle]} label="Subtitle" disabled={@published} />
+          <.input type="text" field={@form[:icon]} label="Icon" disabled={@published} />
 
           <.live_component
             id={"page-input-#{@block.id}"}
             module={ScalesCmsWeb.Components.HelperComponents.PageSearch}
             field={@form[:page_id]}
+            disabled={@published}
           />
 
-          <.input type="text" field={@form[:url]} label="URL" />
-          <.input type="textarea" field={@form[:payload]} label="Payload" />
+          <.input type="text" field={@form[:url]} label="URL" disabled={@published} />
+          <.input type="textarea" field={@form[:payload]} label="Payload" disabled={@published} />
 
           <:actions>
-            <.button phx-disable-with="Saving..." class="btn-secondary">{gettext("Save")}</.button>
+            <.button :if={!@published} phx-disable-with="Saving..." class="btn-secondary">
+              {gettext("Save")}
+            </.button>
           </:actions>
         </.simple_form>
       </.live_component>

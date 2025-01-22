@@ -3,7 +3,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Md.MdEditor do
   The MD editor, rendering the Trix WYSIWYG editor for the MD component
   """
   alias ScalesCmsWeb.Components.HelperComponents.BlockWrapper
-  alias ScalesCmsWeb.Components.CmsComponents.Md.MdProperties
+  alias ScalesCmsWeb.Components.CmsComponents.Md.{MdProperties, MdToolbar}
 
   use ScalesCmsWeb, :live_component
 
@@ -46,21 +46,18 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Md.MdEditor do
         module={BlockWrapper}
         block={@block}
         component={ScalesCmsWeb.Components.CmsComponents.Md}
+        published={@published}
       >
-        <div
-          id={"markdown-#{@block.id}"}
-          phx-hook="Markdown"
-          phx-block-id={@block.id}
-          class="m-[16px]"
-        >
+        <div id={"markdown-#{@block.id}"} phx-hook="Markdown" phx-block-id={@block.id} class="m-[4px]">
           <trix-toolbar id={"markdown-#{@block.id}-toolbar"}>
-            <ScalesCmsWeb.Components.CmsComponents.Md.MdToolbar.render id={"markdown-#{@block.id}-toolbar-content"} />
+            <MdToolbar.render :if={!@published} id={"markdown-#{@block.id}-toolbar-content"} />
           </trix-toolbar>
           <trix-editor
             class="trix-editor"
             id={"markdown-#{@block.id}-editor"}
             toolbar={"markdown-#{@block.id}-toolbar"}
             phx-update="ignore"
+            disabled={@published}
           >
           </trix-editor>
         </div>

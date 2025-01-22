@@ -19,7 +19,6 @@ defmodule ScalesCmsWeb.Components.CmsComponents do
   @component_list %{
     "header" => Header,
     "dev" => Dev,
-    "test" => Dev,
     "md" => Md,
     "image" => Image,
     "video" => Video,

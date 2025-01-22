@@ -29,8 +29,8 @@
     <.input field={@form[:title]} label={gettext("Title")} />
   </.simple_form>
 
-  <div :if={@cms_page_variant.published_at != nil} class="w-3/4 border-2 p-8 bg-gray-500 rounded">
-    <p class="mb-5 text-white">
+  <div :if={@cms_page_variant.published_at != nil} class="w-3/4  p-8 mb-7 bg-slate-300	rounded">
+    <p class="mb-5 ">
       {gettext("This page has been published. You can not edit this page anymore")}
       {gettext("If you want to keep editing this page please start a new version")}
     </p>
@@ -95,10 +95,14 @@
             ScalesCmsWeb.Components.CmsComponents.get_components_for_category(@active_category)
         }
         id={type}
-        class="draggable p-2 rounded my-[8px] bg-white"
+        class={" p-2 rounded my-[8px] bg-white #{if @cms_page_variant.published_at != nil, do: "draggable"}"}
         data-id={type}
       >
-        {component.render_draweritem(%{type: type, component: component})}
+        {component.render_draweritem(%{
+          type: type,
+          component: component,
+          published: @cms_page_variant.published_at != nil
+        })}
       </div>
     </div>
   </div>
