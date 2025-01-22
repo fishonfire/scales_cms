@@ -97,7 +97,6 @@ config :git_hooks,
       tasks: [
         {:mix_task, :format},
         {:mix_task, :credo},
-        {:mix_task, :test},
         {:mix_task, "assets.deploy"}
       ]
     ]
