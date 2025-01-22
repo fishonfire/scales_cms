@@ -29,8 +29,8 @@
     <.input field={@form[:title]} label={gettext("Title")} />
   </.simple_form>
 
-  <div :if={@cms_page_variant.published_at != nil} class="w-3/4 border-2 p-8 bg-gray-500 rounded">
-    <p class="mb-5 text-white">
+  <div :if={@cms_page_variant.published_at != nil} class="w-3/4  p-8 mb-7 bg-slate-300	rounded">
+    <p class="mb-5 ">
       {gettext("This page has been published. You can not edit this page anymore")}
       {gettext("If you want to keep editing this page please start a new version")}
     </p>
@@ -58,15 +58,15 @@
 
 <aside
   id="drawer-sidebar"
-  class="fixed top-0 right-0 z-40 w-[380px] h-screen transition-transform -translate-x-full sm:translate-x-0 bg-slate-100 overflow-auto"
+  class="fixed top-0 right-0 z-40 w-[390px] h-screen transition-transform -translate-x-full sm:translate-x-0 bg-slate-100 overflow-auto"
   aria-label="Sidebar"
 >
   <div class="relative px-[24px]">
-    <h2 class="mt-[48px] mb-[4px] font-bold text-2xl">
+    <h2 class="mt-[48px] mb-[4px] font-semibold text-2xl">
       {gettext("Component library")}
     </h2>
 
-    <p class="mb-[32px]">
+    <p class="mb-[32px] text-xs	">
       {gettext("Drag & drop the components and start building your page")}
     </p>
 
@@ -74,7 +74,7 @@
       <li
         phx-value-category="All"
         phx-click="select-component-category"
-        class={"cursor-pointer transition-all rounded m-[4px] p-[8px] px-[16px] hover:bg-gray-50 font-bold #{if @active_category == "All", do: " bg-gray-100", else: ""}"}
+        class={"cursor-pointer transition-all rounded m-[4px] p-[8px] px-[16px] hover:bg-gray-50 font-semibold #{if @active_category == "All", do: " bg-gray-100", else: ""}"}
       >
         {gettext("All")}
       </li>
@@ -82,7 +82,7 @@
         :for={category <- @categories}
         phx-value-category={category}
         phx-click="select-component-category"
-        class={"cursor-pointer transition-all rounded m-[4px] p-[8px] px-[16px] hover:bg-gray-50 font-bold #{if @active_category == category, do: " bg-gray-100", else: ""}"}
+        class={"cursor-pointer transition-all rounded m-[4px] p-[8px] px-[16px] hover:bg-gray-50 font-semibold #{if @active_category == category, do: " bg-gray-100", else: ""}"}
       >
         {category}
       </li>
@@ -95,10 +95,14 @@
             ScalesCmsWeb.Components.CmsComponents.get_components_for_category(@active_category)
         }
         id={type}
-        class="draggable p-2 rounded my-[8px] bg-white"
+        class={" p-2 rounded my-[8px] bg-white #{if @cms_page_variant.published_at != nil, do: "draggable"}"}
         data-id={type}
       >
-        {component.render_draweritem(%{type: type, component: component})}
+        {component.render_draweritem(%{
+          type: type,
+          component: component,
+          published: @cms_page_variant.published_at != nil
+        })}
       </div>
     </div>
   </div>

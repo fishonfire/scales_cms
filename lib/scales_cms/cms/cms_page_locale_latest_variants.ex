@@ -129,6 +129,27 @@ defmodule ScalesCms.Cms.CmsPageLocaleLatestVariants do
   end
 
   @doc """
+  Gets a single get_cms_page_locale_latest_variant_for_page_and_locale_by_slug for a specific locale by slug.
+
+  ## Examples
+
+      iex> get_cms_page_locale_latest_variant_for_page_and_locale_by_slug!("slug", "nl-NL")
+      %CmsPageVariant{}
+
+  """
+  def get_cms_page_locale_latest_variant_for_page_and_locale_by_slug(slug, locale) do
+    CmsPageLocaleLatestVariant
+    |> join(
+      :left,
+      [cpv],
+      cms_page in ScalesCms.Cms.CmsPage,
+      on: cpv.cms_page_id == cms_page.id
+    )
+    |> where([cplv, cpv, cms_page], cpv.slug == ^slug and cplv.locale == ^locale)
+    |> repo().one()
+  end
+
+  @doc """
   Creates a cms_page_locale_latest_variant.
 
   ## Examples

@@ -59,7 +59,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButton.ImageButtonEditor do
     with {:ok, block} <-
            ScalesCms.Cms.CmsPageVariantBlocks.update_cms_page_variant_block(
              socket.assigns.block,
-             %{properties: properties}
+             %{properties: Map.merge(socket.assigns.block.properties, properties)}
            ) do
       socket
       |> assign(block: block)
@@ -76,29 +76,39 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButton.ImageButtonEditor do
         module={BlockWrapper}
         block={@block}
         component={ScalesCmsWeb.Components.CmsComponents.ImageButton}
+        published={@published}
       >
-        <img src={
-          S3Upload.get_presigned_url_for_display(Map.get(@block.properties || %{}, "image_path", nil))
-        } />
+        <img
+          :if={Map.get(@block.properties || %{}, "image_path", nil) != nil}
+          src={
+            S3Upload.get_presigned_url_for_display(
+              Map.get(@block.properties || %{}, "image_path", nil)
+            )
+          }
+          class="max-w-[200px] max-h-[200px] object-cover mr-[24px]"
+        />
 
-        <.file_uploader {assigns} entity_name="image" />
+        <.file_uploader :if={!@published} {assigns} entity_name="image" />
 
         <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
-          <.input type="text" field={@form[:title]} label="Title" />
-          <.input type="text" field={@form[:subtitle]} label="Subtitle" />
-          <.input type="text" field={@form[:icon]} label="Icon" />
+          <.input type="text" field={@form[:title]} label="Title" disabled={@published} />
+          <.input type="text" field={@form[:subtitle]} label="Subtitle" disabled={@published} />
+          <.input type="text" field={@form[:icon]} label="Icon" disabled={@published} />
 
           <.live_component
             id={"page-input-#{@block.id}"}
             module={ScalesCmsWeb.Components.HelperComponents.PageSearch}
             field={@form[:page_id]}
+            disabled={@published}
           />
 
-          <.input type="text" field={@form[:url]} label="URL" />
-          <.input type="textarea" field={@form[:payload]} label="Payload" />
+          <.input type="text" field={@form[:url]} label="URL" disabled={@published} />
+          <.input type="textarea" field={@form[:payload]} label="Payload" disabled={@published} />
 
           <:actions>
-            <.button phx-disable-with="Saving..." class="btn-secondary">{gettext("Save")}</.button>
+            <.button :if={!@published} phx-disable-with="Saving..." class="btn-secondary">
+              {gettext("Save")}
+            </.button>
           </:actions>
         </.simple_form>
       </.live_component>

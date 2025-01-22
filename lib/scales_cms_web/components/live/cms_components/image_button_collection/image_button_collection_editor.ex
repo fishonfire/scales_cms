@@ -4,9 +4,11 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
   """
   alias ScalesCmsWeb.Components.HelperComponents.BlockWrapper
   alias ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectionWrapper
-  alias ScalesCmsWeb.Components.CmsComponents.ImageButton.ImageButtonProperties
 
-  alias ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButtonCollectionProperties
+  alias ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.{
+    ImageButtonEditor,
+    ImageButtonCollectionProperties
+  }
 
   alias ScalesCms.Cms.CmsPageVariantBlocks
 
@@ -17,7 +19,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
     socket
     |> assign(assigns)
     |> assign_form(assigns.block)
-    |> assign_forms(assigns.block)
+    |> assign(buttons: Map.get(assigns.block.properties, "buttons", []))
     |> then(&{:ok, &1})
   end
 
@@ -31,20 +33,6 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
       )
 
     assign(socket, form: form)
-  end
-
-  defp assign_forms(socket, block) do
-    forms =
-      Enum.map(Map.get(block.properties, "buttons", []), fn value ->
-        to_form(
-          ImageButtonProperties.changeset(
-            %ImageButtonProperties{},
-            value
-          )
-        )
-      end)
-
-    assign(socket, forms: forms)
   end
 
   @impl Phoenix.LiveComponent
@@ -62,7 +50,10 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
              socket.assigns.block,
              %{properties: Map.merge(socket.assigns.block.properties, %{"buttons" => buttons})}
            ) do
-      {:noreply, socket |> assign_forms(block) |> assign(block: block)}
+      socket
+      |> assign(buttons: Map.get(block.properties, "buttons", []))
+      |> assign(block: block)
+      |> then(&{:noreply, &1})
     end
   end
 
@@ -73,7 +64,10 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
              socket.assigns.block,
              "buttons"
            ) do
-      {:noreply, socket |> assign_forms(block) |> assign(block: block)}
+      socket
+      |> assign(buttons: Map.get(block.properties, "buttons", []))
+      |> assign(block: block)
+      |> then(&{:noreply, &1})
     end
   end
 
@@ -86,52 +80,31 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
         module={BlockWrapper}
         block={@block}
         component={ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection}
+        published={@published}
       >
-        <%= for {button, index} <- Enum.with_index(@forms || [] ) do %>
+        <%= for {button, index} <- Enum.with_index(@buttons || [] ) do %>
           <.live_component
             id={"button-#{@block.id}-#{index}"}
             embedded_index={index}
             module={ButtonCollectionWrapper}
             block={@block}
             component={ScalesCmsWeb.Components.CmsComponents.ImageButton}
-            title={button[:title].value || "#{gettext("Button")} #{index + 1}"}
+            title={Map.get(button, "title", "#{gettext("Button")} #{index + 1}")}
           >
-            <.simple_form
-              for={button}
-              phx-submit="store-properties"
-              phx-target={@myself}
-              phx-value-index={index}
-            >
-              <.input id={"title-#{index}"} type="text" field={button[:title]} label="Title" />
-              <.input id={"subtitle-#{index}"} type="text" field={button[:subtitle]} label="Subtitle" />
-              <.input
-                id={"image_url-#{index}"}
-                type="text"
-                field={button[:image_url]}
-                label="Image URL"
-              />
-              <.input id={"icon-#{index}"} type="text" field={button[:icon]} label="Icon" />
-
-              <.live_component
-                id={"page-input-#{@block.id}-#{index}"}
-                module={ScalesCmsWeb.Components.HelperComponents.PageSearch}
-                field={button[:page_id]}
-              />
-
-              <.input id={"url-#{index}"} type="text" field={button[:url]} label="URL" />
-              <.input id={"payload-#{index}"} type="text" field={button[:payload]} label="Payload" />
-              <:actions>
-                <.button phx-disable-with="Saving..." class="btn-secondary">
-                  {gettext("Save")}
-                </.button>
-              </:actions>
-            </.simple_form>
+            <.live_component
+              id={"button-#{@block.id}-#{index}-form-data"}
+              index={index}
+              module={ImageButtonEditor}
+              button={button}
+              block={@block}
+              target={@myself}
+            />
           </.live_component>
         <% end %>
 
         <.simple_form for={@form} phx-submit="add-button" phx-target={@myself}>
           <:actions>
-            <.button phx-disable-with="Adding..." class="btn-primary">
+            <.button :if={!@published} phx-disable-with="Adding..." class="btn-primary">
               {gettext("Add button")}
             </.button>
           </:actions>

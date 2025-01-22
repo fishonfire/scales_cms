@@ -13,8 +13,25 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Helpers.FileUploader do
         <% upload = Map.get(@uploads, String.to_atom(@entity_name)) %>
         <section phx-drop-target={upload.ref} class="flex border-2 border-dashed p-[16px]">
           <.simple_form for={@form} phx-target={@myself} phx-change="validate" phx-submit="save">
-            <.input type="hidden" field={@form[entity_url_as_atom()]} />
-            <.input type="hidden" field={@form[entity_path_as_atom()]} />
+            <.input
+              type="hidden"
+              field={@form[entity_url_as_atom()]}
+              id={
+                if @id,
+                  do: "#{@id}-#{@entity_name}-_properties_image_url",
+                  else: "#{@entity_name}-_properties_image_url"
+              }
+            />
+
+            <.input
+              type="hidden"
+              field={@form[entity_path_as_atom()]}
+              id={
+                if @id,
+                  do: "#{@id}-#{@entity_name}-_properties_image_path",
+                  else: "#{@entity_name}-_properties_image_path"
+              }
+            />
 
             <.live_file_input upload={upload} target={@myself} />
 

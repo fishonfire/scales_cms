@@ -1,6 +1,6 @@
-defmodule ScalesCmsWeb.Components.CmsComponents.Image do
+defmodule ScalesCmsWeb.Components.CmsComponents.Lottie do
   @moduledoc """
-  An upload to s3 image component
+  An upload to s3 lottie component
   """
   use ScalesCmsWeb, :live_component
 
@@ -9,11 +9,11 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image do
   import ScalesCmsWeb.Components.HelperComponents.DrawerComponents
 
   use ScalesCmsWeb.Components.HelperComponents.RootComponent,
-    title: gettext("Image"),
+    title: gettext("Lottie"),
     category: "Media",
-    description: gettext("Upload a nice image"),
-    icon_type: "cms_image",
-    preview_module: ScalesCmsWeb.Components.CmsComponents.Image.ImageEditor,
+    description: gettext("Upload a nice lottie"),
+    icon_type: "cms_video",
+    preview_module: ScalesCmsWeb.Components.CmsComponents.Lottie.LottieEditor,
     version: "0.0.1"
 
   def serialize(_api_version, block) do
@@ -22,9 +22,9 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image do
       component_type: block.component_type,
       properties:
         Map.merge(block.properties, %{
-          "image_url" =>
+          "lottie_url" =>
             S3Upload.get_presigned_url_for_display(
-              Map.get(block.properties || %{}, "image_path", nil)
+              Map.get(block.properties || %{}, "lottie_path", nil)
             )
         })
     }

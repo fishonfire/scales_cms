@@ -10,7 +10,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Button do
     title: "Button",
     category: "CTA",
     description: "A clickable button, with a title only",
-    icon_type: "cms_rich_text",
+    icon_type: "cms_button",
     preview_module: ButtonEditor,
     version: "0.0.1"
 

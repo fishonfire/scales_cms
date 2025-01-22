@@ -4,7 +4,7 @@ defmodule ScalesCms.MixProject do
   def project do
     [
       app: :scales_cms,
-      version: "0.1.12",
+      version: "0.1.13",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
@@ -69,7 +69,8 @@ defmodule ScalesCms.MixProject do
       {:ex_aws_s3, "~> 2.5"},
       {:credo, "~> 1.7", runtime: false, only: :dev},
       {:ex_doc, "~> 0.24", only: :dev},
-      {:guardian, "~> 2.3"}
+      {:guardian, "~> 2.3"},
+      {:git_hooks, "~> 0.8.0", only: [:dev], runtime: false}
     ]
 
     if Application.get_env(:scales_cms, :dev_mode) do

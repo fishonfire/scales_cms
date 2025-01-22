@@ -7,11 +7,17 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
   @impl true
   def mount(socket) do
     socket
+    |> assign(:published, false)
     |> assign(:closed, true)
     |> then(&{:ok, &1})
   end
 
-  @impl true
+  @impl Phoenix.LiveComponent
+  def update(assigns, socket) do
+    {:ok, assign(socket, assigns)}
+  end
+
+  @impl Phoenix.LiveComponent
   def handle_event("toggle-open", _, %{assigns: %{closed: closed}} = socket) do
     {:noreply, assign(socket, :closed, !closed)}
   end
@@ -23,12 +29,13 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
     ~H"""
     <div>
       <div class="w-full flex justify-between bg-lightGrey py-[8px] mb-[4px] transition-all ease-in-out delay-150 duration-300">
-        <div class="ml-[12px] text-sm	font-bold leading-[32px]">
+        <div class="ml-[12px] text-sm font-bold leading-[32px]">
           {@title}
         </div>
         <div class="flex">
-          <div class="mr-[8px] bg-white rounded-lg flex">
+          <div class="mr-[8px] bg-white rounded flex">
             <div
+              :if={!@published}
               phx-click="delete_embedded"
               phx-value-id={@block.id}
               phx-value-embedded_field="buttons"
@@ -38,6 +45,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
               <.icon name="hero-trash" class="icon-small" />
             </div>
             <div
+              :if={!@published}
               phx-click="toggle-open"
               phx-target={@myself}
               class="py-[4px] cursor-pointer flex items-center justify-center p-2"

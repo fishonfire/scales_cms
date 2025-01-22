@@ -16,7 +16,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
-    Phoenix.PubSub.subscribe(ScalesCms.PubSub, Topics.get_set_locale_topic())
+    Phoenix.PubSub.subscribe(ScalesCms.PubSub, Topics.get_block_updated_topic())
 
     {:ok, socket}
   end
@@ -213,13 +213,37 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
 
   @impl Phoenix.LiveView
   def handle_info(
-        {:set_locale, _locale},
-        %{assigns: %{cms_page_variant: nil}} = socket
-      ),
-      do: {:noreply, socket}
+        {:block_updated, %{block_id: _block_id, cms_page_variant_id: cms_page_variant_id}},
+        socket
+      ) do
+    if socket.assigns.cms_page_variant.id == cms_page_variant_id do
+      socket
+      |> assign(
+        :blocks,
+        CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
+      )
+      |> then(&{:noreply, &1})
+    else
+      {:noreply, socket}
+    end
+  end
 
+  @impl Phoenix.LiveView
   def handle_info(
-        {:set_locale, locale},
+        {_, {:saved, _}},
+        socket
+      ) do
+    socket
+    |> assign(
+      :blocks,
+      CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
+    )
+    |> then(&{:noreply, &1})
+  end
+
+  @impl Phoenix.LiveView
+  def handle_info(
+        {ScalesCmsWeb.Components.LocaleSwitcher, {:locale_switched, locale}},
         %{assigns: %{cms_page_variant: cms_page_variant}} = socket
       ) do
     if socket.assigns.cms_page_variant.locale != locale do
@@ -233,6 +257,9 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
       {:noreply, socket}
     end
   end
+
+  def handle_info({ScalesCmsWeb.Components.LocaleSwitcher, {:locale_switched, _locale}}, socket),
+    do: {:noreply, socket}
 
   defp page_title(:edit), do: "Show Cms page"
 end

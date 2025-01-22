@@ -46,14 +46,27 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Dev.DevEditor do
         module={BlockWrapper}
         block={@block}
         component={ScalesCmsWeb.Components.CmsComponents.Dev}
+        published={@published}
       >
         <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
-          <.input type="text" field={@form[:component_type]} label="Custom component name" />
+          <.input
+            type="text"
+            field={@form[:component_type]}
+            label="Custom component name"
+            disabled={@published}
+          />
 
-          <.input type="textarea" field={@form[:properties]} label="Properties payload" />
+          <.input
+            type="textarea"
+            field={@form[:properties]}
+            label="Properties payload"
+            disabled={@published}
+          />
 
           <:actions>
-            <.button phx-disable-with="Saving..." class="btn-secondary">{gettext("Save")}</.button>
+            <.button :if={!@published} phx-disable-with="Saving..." class="btn-secondary">
+              {gettext("Save")}
+            </.button>
           </:actions>
         </.simple_form>
       </.live_component>
