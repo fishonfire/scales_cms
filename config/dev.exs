@@ -96,8 +96,7 @@ config :git_hooks,
     pre_commit: [
       tasks: [
         {:mix_task, :format},
-        {:mix_task, :credo},
-        {:mix_task, "assets.deploy"}
+        {:mix_task, :credo}
       ]
     ]
   ]
