@@ -228,6 +228,20 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
     end
   end
 
+  @impl Phoenix.LiveView
+  def handle_info(
+        {_, {:saved, _}},
+        socket
+      ) do
+    socket
+    |> assign(
+      :blocks,
+      CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
+    )
+    |> then(&{:noreply, &1})
+  end
+
+  @impl Phoenix.LiveView
   def handle_info(
         {ScalesCmsWeb.Components.LocaleSwitcher, {:locale_switched, locale}},
         %{assigns: %{cms_page_variant: cms_page_variant}} = socket

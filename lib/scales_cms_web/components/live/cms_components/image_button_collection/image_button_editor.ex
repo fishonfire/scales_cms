@@ -77,13 +77,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
              socket.assigns.block,
              %{properties: Map.merge(socket.assigns.block.properties, %{"buttons" => buttons})}
            ) do
-      Phoenix.PubSub.broadcast(
-        ScalesCms.PubSub,
-        ScalesCms.Constants.Topics.get_block_updated_topic(),
-        {:block_updated, %{block_id: block.id, cms_page_variant_id: block.cms_page_variant_id}}
-      )
-
-      {:noreply, assign(socket, :image, [])}
+      notify_parent({:saved, block})
+      {:noreply, socket}
     end
   end
 
@@ -113,10 +108,12 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
         />
 
         <.label>{gettext("Image")}</.label>
-        <img
-          src={S3Upload.get_presigned_url_for_display(Map.get(@button, "image_path", nil))}
-          class="max-w-[200px] max-h-[200px] object-cover mr-[24px]"
-        />
+        <%= if Map.get(@block.properties || %{}, "image_path", nil) != nil do %>
+          <img
+            src={S3Upload.get_presigned_url_for_display(Map.get(@button, "image_path", nil))}
+            class="max-w-[200px] max-h-[200px] object-cover mr-[24px]"
+          />
+        <% end %>
 
         <.input id={"icon-#{@index}-#{@block.id}"} type="text" field={@form[:icon]} label="Icon" />
 
@@ -143,4 +140,6 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
     </div>
     """
   end
+
+  defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 end
