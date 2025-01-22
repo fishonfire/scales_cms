@@ -88,7 +88,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
             module={ButtonCollectionWrapper}
             block={@block}
             component={ScalesCmsWeb.Components.CmsComponents.ImageButton}
-            title={button[:title] || "#{gettext("Button")} #{index + 1}"}
+            title={Map.get(button, "title") || "#{gettext("Button")} #{index + 1}"}
           >
             <.live_component
               id={"button-#{@block.id}-#{index}-form-data"}
