@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 -
+## [0.1.13] - 2025-01-22
+### Added
+- Lottie Component
+- Video Component
+### Changed
+- Various small bugfixes with state management
 
 ## [0.1.12] - 2025-01-20
 ### Fixed
@@ -24,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.11] - 2025-01-20
 ### Changed
-- Implemented API authentication (see README.md for more info) 
+- Implemented API authentication (see README.md for more info)
 - Added `settings` page to the CMS to generate and display the API key
 - UI improvements
 
