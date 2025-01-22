@@ -83,3 +83,21 @@ config :phoenix_live_view,
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
+
+# Configure git hooks
+config :git_hooks,
+  auto_install: true,
+  verbose: true,
+  branches: [
+    whitelist: ["feature-.*"],
+    blacklist: ["master"]
+  ],
+  hooks: [
+    pre_commit: [
+      tasks: [
+        {:mix_task, :format},
+        {:mix_task, :credo},
+        {:mix_task, "assets.deploy"}
+      ]
+    ]
+  ]
