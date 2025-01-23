@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 -
+
+## [0.1.14] - 2025-01-23
+### Fixed
+- Fixed issue with the draggable in component list
+
 ## [0.1.13] - 2025-01-22
 ### Added
 - Lottie Component
