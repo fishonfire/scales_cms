@@ -95,7 +95,7 @@
             ScalesCmsWeb.Components.CmsComponents.get_components_for_category(@active_category)
         }
         id={type}
-        class={" p-2 rounded my-[8px] bg-white #{if @cms_page_variant.published_at != nil, do: "draggable"}"}
+        class={" p-2 rounded my-[8px] bg-white #{if @cms_page_variant.published_at == nil, do: "draggable"}"}
         data-id={type}
       >
         {component.render_draweritem(%{
