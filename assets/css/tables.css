@@ -1,21 +1,34 @@
 @layer components {
   .cms-table {
-    @apply border-[1px] border-lightGrey;
+    border-radius: 24px 24px 0 0;
+
+    @apply border-s-[1px]  border-lightGrey border-collapse;
     thead {
-      @apply bg-lightGrey;
+      @apply rounded;
+
       th {
-        @apply px-3 py-3 text-xs font-semibold text-black uppercase tracking-wider text-left;
+        @apply bg-lightGrey px-3 py-3 text-xs font-semibold text-black uppercase tracking-wider text-left;
       }
     }
     tbody {
       tr {
         @apply border-b-[1px] border-b-lightGrey transition ease-in-out;
-      }
-      tr:hover {
-        @apply bg-slate-50;
-      }
-      td {
-        @apply px-3 py-3  font-light text-black text-sm;
+
+        &:hover {
+          @apply bg-slate-50;
+        }
+
+        td {
+          @apply px-3 py-3  font-light text-black text-sm;
+
+          &:first-child {
+            @apply border-l-lightGrey border-l-[1px];
+          }
+
+          &:last-child {
+            @apply border-r-lightGrey border-r-[1px];
+          }
+        }
       }
     }
   }

@@ -80,7 +80,7 @@
           {directory.title}
         </td>
         <td>
-          {directory.inserted_at}
+          {ScalesCmsWeb.Helpers.Date.human_readable_date(directory.inserted_at)}
         </td>
         <td class="text-right controls">
           <.link patch={~p"/cms/directories/#{directory.id}/edit"} class="edit">
@@ -101,7 +101,7 @@
           {cms_page.title}
         </td>
         <td>
-          {cms_page.inserted_at}
+          {ScalesCmsWeb.Helpers.Date.human_readable_date(cms_page.inserted_at)}
         </td>
         <td class="text-right controls">
           <.link patch={~p"/cms/pages/#{cms_page.id}"} id={"edit-page-#{cms_page.id}"}>
