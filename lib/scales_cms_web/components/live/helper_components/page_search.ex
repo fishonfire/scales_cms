@@ -8,7 +8,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
   def mount(socket) do
     socket
     |> assign_new(:pages, fn ->
-      ScalesCms.Cms.CmsPages.list_paginated_cms_pages(0, 25)
+      ScalesCms.Cms.CmsPages.list_all_paginated_cms_pages(0, 25)
     end)
     |> assign(value: nil)
     |> assign(search_value: nil)
@@ -28,7 +28,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
     page = ScalesCms.Cms.CmsPages.get_cms_page!(value)
 
     socket
-    |> assign(pages: ScalesCms.Cms.CmsPages.list_paginated_cms_pages(0, 25))
+    |> assign(pages: ScalesCms.Cms.CmsPages.list_all_paginated_cms_pages(0, 25))
     |> assign(value: value)
     |> assign(field_id: Map.get(params, :field_id, nil))
     |> assign(field: params.field)
@@ -41,7 +41,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
 
   defp handle_empty_page(params, socket) do
     socket
-    |> assign(pages: ScalesCms.Cms.CmsPages.list_paginated_cms_pages(0, 25))
+    |> assign(pages: ScalesCms.Cms.CmsPages.list_all_paginated_cms_pages(0, 25))
     |> assign(value: nil)
     |> assign(field_id: Map.get(params, :field_id, nil))
     |> assign(field: params.field)
@@ -141,9 +141,13 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
                 phx-click="set-value"
                 phx-target={@myself}
                 phx-value={page.id}
-                class="border-b cursor-pointer p-[12px]  hover:bg-zinc-100 text-sm"
+                class="border-b cursor-pointer p-[12px]  hover:bg-zinc-100 text-sm flex justify-between"
               >
                 {page.title}
+
+                <div :if={page.directory} class="text-zinc-400">
+                  > {page.directory.title}
+                </div>
               </li>
             </ul>
           </li>
