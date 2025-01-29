@@ -7,11 +7,11 @@ defmodule ScalesCms.Cms.CmsPage do
     field :title, :string
     field :slug, :string
     field :deleted_at, :naive_datetime
-    field :cms_directory_id, :id
 
     has_many :cms_page_variants, ScalesCms.Cms.CmsPageVariant
-
     has_many :cms_page_locale_latest_variants, ScalesCms.Cms.CmsPageLocaleLatestVariant
+
+    belongs_to :directory, ScalesCms.Cms.CmsDirectory, foreign_key: :cms_directory_id
 
     timestamps(type: :utc_datetime)
   end
