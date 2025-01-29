@@ -42,7 +42,7 @@ defmodule ScalesCms.MixProject do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    dep_list = [
+    [
       {:phoenix, "~> 1.7.17"},
       {:phoenix_ecto, "~> 4.6"},
       {:ecto_sql, "~> 3.12"},
@@ -71,24 +71,18 @@ defmodule ScalesCms.MixProject do
       {:ex_doc, "~> 0.24", only: :dev},
       {:guardian, "~> 2.3"},
       {:git_hooks, "~> 0.8.0", only: [:dev], runtime: false},
-      {:timex, "~> 3.7"}
+      {:timex, "~> 3.7"},
+      {:heroicons,
+       github: "tailwindlabs/heroicons",
+       tag: "v2.1.1",
+       sparse: "optimized",
+       app: false,
+       compile: false,
+       depth: 1,
+       optional: true,
+       runtime: Mix.env() == :dev,
+       only: [:dev]}
     ]
-
-    if Application.get_env(:scales_cms, :dev_mode) do
-      dep_list ++
-        [
-          {:heroicons,
-           github: "tailwindlabs/heroicons",
-           tag: "v2.1.1",
-           sparse: "optimized",
-           app: false,
-           compile: false,
-           depth: 1,
-           optional: true}
-        ]
-    else
-      dep_list
-    end
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
@@ -115,7 +109,7 @@ defmodule ScalesCms.MixProject do
 
   defp package do
     [
-      maintainers: ["Simon de la Court"],
+      maintainers: ["Simon de la Court", "Alexey Pikulik", "Thies van der Zon"],
       description: "A page builder annex CMS made by Fish on Fire",
       licenses: ["GPL-3.0-or-later"],
       links: %{github: "https://github.com/fishonfire/scales_cms"},
