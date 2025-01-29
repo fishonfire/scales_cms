@@ -31,7 +31,7 @@ defmodule ScalesCms.Cms.CmsPages do
       [%CmsPage{}, ...]
 
   """
-  def list_paginated_cms_pages(page, amount) do
+  def list_root_paginated_cms_pages(page, amount) do
     offset = page * amount
 
     CmsPage
@@ -47,11 +47,11 @@ defmodule ScalesCms.Cms.CmsPages do
 
   ## Examples
 
-      iex> list_all_paginated_cms_pages(1, 25)
+      iex> list_paginated_cms_pages(1, 25)
       [%CmsPage{}, ...]
 
   """
-  def list_all_paginated_cms_pages(page, amount) do
+  def list_paginated_cms_pages(page, amount) do
     offset = page * amount
 
     CmsPage

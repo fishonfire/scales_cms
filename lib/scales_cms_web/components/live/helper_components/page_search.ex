@@ -8,7 +8,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
   def mount(socket) do
     socket
     |> assign_new(:pages, fn ->
-      ScalesCms.Cms.CmsPages.list_all_paginated_cms_pages(0, 25)
+      ScalesCms.Cms.CmsPages.list_paginated_cms_pages(0, 25)
     end)
     |> assign(value: nil)
     |> assign(search_value: nil)
@@ -28,7 +28,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
     page = ScalesCms.Cms.CmsPages.get_cms_page!(value)
 
     socket
-    |> assign(pages: ScalesCms.Cms.CmsPages.list_all_paginated_cms_pages(0, 25))
+    |> assign(pages: ScalesCms.Cms.CmsPages.list_paginated_cms_pages(0, 25))
     |> assign(value: value)
     |> assign(id: Map.get(params, :id, nil))
     |> assign(field: params.field)
@@ -41,7 +41,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
 
   defp handle_empty_page(params, socket) do
     socket
-    |> assign(pages: ScalesCms.Cms.CmsPages.list_all_paginated_cms_pages(0, 25))
+    |> assign(pages: ScalesCms.Cms.CmsPages.list_paginated_cms_pages(0, 25))
     |> assign(value: nil)
     |> assign(id: Map.get(params, :id, nil))
     |> assign(field: params.field)
