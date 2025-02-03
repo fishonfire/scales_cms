@@ -88,6 +88,7 @@ defmodule ScalesCms.Cms.CmsPages do
   def search_pages(query) do
     CmsPage
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> preload(:directory)
     |> repo().all()
   end
 

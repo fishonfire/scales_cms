@@ -4,21 +4,6 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
   """
   use ScalesCmsWeb, :live_component
 
-  @impl true
-  def mount(socket) do
-    socket
-    |> assign_new(:pages, fn ->
-      ScalesCms.Cms.CmsPages.list_paginated_cms_pages(0, 25)
-    end)
-    |> assign(value: nil)
-    |> assign(search_value: nil)
-    |> assign(disabled: false)
-    |> assign(id: nil)
-    |> assign(display: nil)
-    |> assign(:closed, true)
-    |> then(&{:ok, &1})
-  end
-
   @impl Phoenix.LiveComponent
   def update(%{field: %{value: nil}} = params, socket), do: handle_empty_page(params, socket)
   def update(%{field: %{value: ""}} = params, socket), do: handle_empty_page(params, socket)
@@ -56,14 +41,13 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
   def handle_event("toggle-open", _, %{assigns: %{disabled: true}} = socket),
     do: {:noreply, socket}
 
-  def handle_event("toggle-open", _, socket) do
-    {:noreply, assign(socket, :closed, !socket.assigns.closed)}
-  end
+  def handle_event("toggle-open", _, socket),
+    do: {:noreply, assign(socket, closed: !socket.assigns.closed)}
 
-  def handle_event("search", %{"search" => search}, socket) do
-    pages = ScalesCms.Cms.CmsPages.search_pages(search)
-    {:noreply, assign(socket, pages: pages)}
-  end
+  def handle_event("close", _, socket), do: {:noreply, assign(socket, closed: true)}
+
+  def handle_event("search", %{"search" => search}, socket),
+    do: {:noreply, assign(socket, pages: ScalesCms.Cms.CmsPages.search_pages(search))}
 
   def handle_event("set-value", %{"value" => nil}, socket) do
     {:noreply, assign(socket, value: nil, display: nil, closed: true)}
@@ -87,7 +71,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
   def render(assigns) do
     ~H"""
     <div id={@id}>
-      <.focus_wrap id={"#{@id}-container"} phx-click-away="toggle-open" phx-target={@myself}>
+      <.focus_wrap id={"#{@id}-container"} phx-click-away="close" phx-target={@myself}>
         <.input type="hidden" field={@field} value={@value} id={"#{@id}-page-value"} />
         <.label>{gettext("Page")}</.label>
 
