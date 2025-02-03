@@ -18,7 +18,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.DrawerComponents do
 
       <div class="grow">
         <p class="font-semibold">{@title}</p>
-        <p class="text-gray-500">{@description}</p>
+        <p class="text-xs text-gray-500">{@description}</p>
       </div>
 
       <.icon :if={!@published} name="hero-arrows-pointing-out" class="hero-arrow" />
