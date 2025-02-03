@@ -29,7 +29,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.BlockWrapper do
   def render(assigns) do
     ~H"""
     <div>
-      <div class={"#{if !@published, do: "drag-handle"} cursor-move w-full flex justify-between bg-lightGrey py-[8px] transition-all ease-in-out delay-150 duration-300"}>
+      <div class={"#{if !@published, do: "drag-handle"} cursor-move w-full flex justify-between align-center bg-lightGrey py-[8px] transition-all ease-in-out delay-150 duration-300"}>
         <div class="align-middle ml-[12px] text-sm font-semibold leading-[32px]">
           {@component.title()}
         </div>
