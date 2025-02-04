@@ -31,13 +31,33 @@ defmodule ScalesCms.Cms.CmsPages do
       [%CmsPage{}, ...]
 
   """
-  def list_paginated_cms_pages(page, amount) do
+  def list_root_paginated_cms_pages(page, amount) do
     offset = page * amount
 
     CmsPage
     |> where([cp], is_nil(cp.cms_directory_id))
     |> limit(^amount)
     |> offset(^offset)
+    |> preload(:directory)
+    |> repo().all()
+  end
+
+  @doc """
+  Returns the list of all paginated cms_pages.
+
+  ## Examples
+
+      iex> list_paginated_cms_pages(1, 25)
+      [%CmsPage{}, ...]
+
+  """
+  def list_paginated_cms_pages(page, amount) do
+    offset = page * amount
+
+    CmsPage
+    |> limit(^amount)
+    |> offset(^offset)
+    |> preload(:directory)
     |> repo().all()
   end
 
@@ -68,6 +88,7 @@ defmodule ScalesCms.Cms.CmsPages do
   def search_pages(query) do
     CmsPage
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> preload(:directory)
     |> repo().all()
   end
 

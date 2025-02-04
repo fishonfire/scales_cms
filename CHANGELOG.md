@@ -18,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -
 
+## [0.1.15] - 2025-02-04
+### Fixed
+- Fixed issue with the page search, triggering the whole focus area on opening
+- Various small bugfixes
+- Package upgrades
+
 ## [0.1.14] - 2025-01-23
 ### Fixed
 - Fixed issue with the draggable in component list
@@ -91,6 +97,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2024-12-17
 ### Added
 - This is our initial version
-
-[unreleased]: https://github.com/fishonfire/scales_cms/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/fishonfire/scales_cms/releases/tag/v0.1.0
