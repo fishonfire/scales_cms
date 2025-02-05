@@ -40,7 +40,7 @@
             <td
               phx-click="open-directory"
               phx-value-id={@current_directory.cms_directory_id}
-              class="w-12 cursor-pointer"
+              class="w-8 cursor-pointer"
             >
               <.link patch={~p"/cms/directories"}>
                 <.icon name="hero-arrow-up icon-small" />
@@ -56,7 +56,7 @@
             <td
               phx-click="open-directory"
               phx-value-id={@current_directory.cms_directory_id}
-              class="w-12 cursor-pointer"
+              class="w-8 cursor-pointer"
             >
               <.icon name="hero-arrow-up icon-small" />
             </td>
@@ -73,8 +73,8 @@
       </tr>
 
       <tr :for={directory <- @cms_directories} id={"cms_directories-#{directory.id}"}>
-        <td phx-click="open-directory" phx-value-id={directory.id} class="w-12 cursor-pointer">
-          <.icon name="hero-folder icon-medium" />
+        <td phx-click="open-directory" phx-value-id={directory.id} class="w-8 cursor-pointer">
+          <.icon name="hero-folder icon-small" />
         </td>
         <td phx-click="open-directory" phx-value-id={directory.id} class="cursor-pointer">
           {directory.title}
@@ -94,8 +94,8 @@
       </tr>
 
       <tr :for={cms_page <- @cms_pages} id={"cms_pages-#{cms_page.id}"}>
-        <td phx-click="open-page" phx-value-id={cms_page.id} class="w-12 cursor-pointer">
-          <.icon name="hero-document icon-medium" />
+        <td phx-click="open-page" phx-value-id={cms_page.id} class="w-8 cursor-pointer">
+          <.icon name="hero-document icon-small" />
         </td>
         <td phx-click="open-page" phx-value-id={cms_page.id} class="cursor-pointer">
           {cms_page.title}
