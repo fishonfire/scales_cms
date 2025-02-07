@@ -14,6 +14,7 @@ window.addEventListener("ultra-confirm", (event) => {
   const { message } = detail;
 
   const targetButton = event.target
+  const srcElement = event.srcElement
   event.preventDefault()
   targetButton.setAttribute(CONFIRM_ATTRIBUTE, "")
 
