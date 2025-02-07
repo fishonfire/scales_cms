@@ -107,14 +107,19 @@
           <.link patch={~p"/cms/pages/#{cms_page.id}"} id={"edit-page-#{cms_page.id}"}>
             <.icon name="hero-wrench-screwdriver" class="icon-small" />
           </.link>
-          <span
-            phx-click="delete-page"
+          <button
             phx-value-id={cms_page.id}
             class="delete"
             id={"delete-page-#{cms_page.id}"}
+            phx-click={
+              JS.dispatch("ultra-confirm",
+                detail: %{message: gettext("Are you sure you want to delete this page?")}
+              )
+            }
+            phx-ultra-confirm-ok={JS.push("delete-page")}
           >
             <.icon name="hero-trash" class="icon-small" />
-          </span>
+          </button>
         </td>
       </tr>
     </tbody>

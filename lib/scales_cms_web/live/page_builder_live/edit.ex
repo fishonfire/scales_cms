@@ -211,6 +211,20 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
     |> then(&{:noreply, &1})
   end
 
+  def handle_event("update-page", %{"cms_page_variant" => cms_page_variant_params}, socket) do
+    with {:ok, page_variant} <-
+           CmsPageVariants.update_cms_page_variant(
+             socket.assigns.cms_page_variant,
+             cms_page_variant_params
+           ) do
+      socket
+      |> assign(:cms_page_variant, page_variant)
+      |> put_flash(:info, gettext("Page edited"))
+      |> push_patch(to: ~p"/cms/page_builder/#{page_variant.id}")
+      |> then(&{:noreply, &1})
+    end
+  end
+
   @impl Phoenix.LiveView
   def handle_info(
         {:block_updated, %{block_id: _block_id, cms_page_variant_id: cms_page_variant_id}},
@@ -261,5 +275,6 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
   def handle_info({ScalesCmsWeb.Components.LocaleSwitcher, {:locale_switched, _locale}}, socket),
     do: {:noreply, socket}
 
-  defp page_title(:edit), do: "Show Cms page"
+  defp page_title(:edit), do: gettext("Show page")
+  defp page_title(:edit_variant), do: gettext("Edit page")
 end

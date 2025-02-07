@@ -30,6 +30,8 @@ config :scales_cms, ScalesCmsWeb.Endpoint,
   pubsub_server: ScalesCms.PubSub,
   live_view: [signing_salt: "5Ttdf+uJ"]
 
+config :scales_cms, ScalesCmsWeb.Gettext, locales: ~w(en nl), default_locale: "nl"
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails

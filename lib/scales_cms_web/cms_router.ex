@@ -45,6 +45,7 @@ defmodule ScalesCmsWeb.CmsRouter do
             live "/page_variants/:id/show/edit", CmsPageVariantLive.Show, :edit
 
             live "/page_builder/:id", PageBuilderLive.Edit, :edit
+            live "/page_builder/:id/edit", PageBuilderLive.Edit, :edit_variant
 
             block
           end
