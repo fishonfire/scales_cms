@@ -206,6 +206,12 @@ defmodule ScalesCms.Cms.CmsPageLocaleLatestVariants do
     repo().delete(cms_page_locale_latest_variant)
   end
 
+  def delete_cms_page_locale_latest_variants_for_page(page_id) do
+    CmsPageLocaleLatestVariant
+    |> where([cplv], cplv.cms_page_id == ^page_id)
+    |> repo().delete_all()
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking cms_page_locale_latest_variant changes.
 

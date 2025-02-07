@@ -144,6 +144,12 @@ defmodule ScalesCms.Cms.CmsPageVariantBlocks do
     })
   end
 
+  def delete_blocks_for_cms_page_variants(page_variant_ids) do
+    CmsPageVariantBlock
+    |> where([pvb], pvb.cms_page_variant_id in ^page_variant_ids)
+    |> repo().delete_all()
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking cms_page_variant_block changes.
 
