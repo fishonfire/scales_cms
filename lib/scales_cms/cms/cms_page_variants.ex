@@ -50,6 +50,13 @@ defmodule ScalesCms.Cms.CmsPageVariants do
     |> repo().all()
   end
 
+  def list_ids_for_page(page_id) do
+    CmsPageVariant
+    |> where([cpv], cpv.cms_page_id == ^page_id)
+    |> select([cpv], cpv.id)
+    |> repo().all()
+  end
+
   @doc """
   Gets a single cms_page_variant.
 
@@ -124,6 +131,24 @@ defmodule ScalesCms.Cms.CmsPageVariants do
   """
   def delete_cms_page_variant(%CmsPageVariant{} = cms_page_variant) do
     repo().delete(cms_page_variant)
+  end
+
+  @doc """
+    Deletes a cms_page_variants.
+
+    ## Examples
+
+        iex> delete_cms_page_variant([1, 2, 3])
+        {3, [%CmsPageVariant{}, %CmsPageVariant{}, %CmsPageVariant{}]}
+
+        iex> delete_cms_page_variant([0])
+        {:0, []}
+  """
+
+  def delete_cms_page_variants(ids) do
+    CmsPageVariant
+    |> where([cpv], cpv.id in ^ids)
+    |> repo().delete_all()
   end
 
   @doc """
