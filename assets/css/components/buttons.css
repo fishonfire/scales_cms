@@ -3,22 +3,22 @@
     @apply rounded bg-secondary py-[12px] px-[16px] text-sm text-white transition ease-in-out;
   }
 
-  .btn:disabled, .btn:disabled:hover {
+  .btn:disabled,
+  .btn:disabled:hover {
     @apply bg-lightGrey text-black;
   }
-  
+
   .btn-primary {
     @apply bg-primary text-white;
+    &:hover {
+      @apply bg-primary_dark;
+    }
   }
-  
-  .btn-primary:hover {
-    @apply bg-primary_dark;
-  }
-  
+
   .btn-secondary {
     @apply bg-secondary text-white;
   }
-  
+
   .btn-secondary:hover {
     @apply bg-black text-white;
   }

@@ -7,9 +7,9 @@
     <div class="flex space-x-4">
       <.live_component id="locale_switcher" module={LocaleSwitcher} />
 
-      <.button class="btn-secondary" disabled={true}>
-        {gettext("Save")}
-      </.button>
+      <.link patch={~p"/cms/page_builder/#{@cms_page_variant.id}/edit"} class="btn btn-secondary">
+        {gettext("Edit page title")}
+      </.link>
 
       <.button :if={@cms_page_variant.published_at == nil} class="btn-primary" phx-click="publish">
         {gettext("Publish")}
@@ -24,10 +24,17 @@
       </.button>
     </div>
   </div>
+  <.modal :if={@live_action in [:edit_variant]} show id="edit-title">
+    <.simple_form for={@form} class="mb-[24px]" phx-submit="update-page">
+      <.input field={@form[:title]} label={gettext("Title")} />
 
-  <.simple_form for={@form} class="mb-[24px]">
-    <.input field={@form[:title]} label={gettext("Title")} />
-  </.simple_form>
+      <:actions>
+        <.button class="btn-secondary">
+          {gettext("Save")}
+        </.button>
+      </:actions>
+    </.simple_form>
+  </.modal>
 
   <div :if={@cms_page_variant.published_at != nil} class="w-3/4  p-8 mb-7 bg-slate-300	rounded">
     <p class="mb-5 ">

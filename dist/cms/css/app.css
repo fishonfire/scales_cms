@@ -1329,7 +1329,8 @@ select {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.btn:disabled, .btn:disabled:hover {
+.btn:disabled,
+  .btn:disabled:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(231 234 238 / var(--tw-bg-opacity));
   --tw-text-opacity: 1;
@@ -1341,11 +1342,10 @@ select {
   background-color: rgb(33 195 157 / var(--tw-bg-opacity));
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.btn-primary:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(23 139 112 / var(--tw-bg-opacity));
+  &:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgb(23 139 112 / var(--tw-bg-opacity));
+  }
 }
 
 .btn-secondary {
