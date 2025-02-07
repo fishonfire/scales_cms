@@ -43,7 +43,9 @@ defmodule ScalesCmsWeb do
         layouts: [html: ScalesCmsWeb.Layouts]
 
       import Plug.Conn
-      import ScalesCmsWeb.Gettext
+
+      use Gettext,
+        backend: ScalesCmsWeb.Gettext
 
       unquote(verified_routes())
     end
@@ -54,6 +56,9 @@ defmodule ScalesCmsWeb do
       use Phoenix.LiveView,
         layout: {ScalesCmsWeb.Layouts, :app}
 
+      use Gettext,
+        backend: ScalesCmsWeb.Gettext
+
       unquote(html_helpers())
     end
   end
@@ -61,6 +66,9 @@ defmodule ScalesCmsWeb do
   def live_component do
     quote do
       use Phoenix.LiveComponent
+
+      use Gettext,
+        backend: ScalesCmsWeb.Gettext
 
       unquote(html_helpers())
     end

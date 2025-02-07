@@ -22,7 +22,7 @@ defmodule ScalesCmsWeb.Gettext do
   """
   use Gettext.Backend, otp_app: :scales_cms
 
-  def gettext(msg) do
-    Gettext.gettext(ScalesCmsWeb.Gettext, msg)
-  end
+  # def gettext(msg) do
+  #   Gettext.gettext(ScalesCmsWeb.Gettext, msg)
+  # end
 end

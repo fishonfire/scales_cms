@@ -17,7 +17,9 @@ defmodule ScalesCmsWeb.CoreComponents do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
-  import ScalesCmsWeb.Gettext
+
+  use Gettext,
+    backend: ScalesCmsWeb.Gettext
 
   @doc """
   Renders a modal.

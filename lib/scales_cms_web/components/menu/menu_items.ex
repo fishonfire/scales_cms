@@ -2,8 +2,10 @@ defmodule ScalesCmsWeb.Components.MenuItems do
   @moduledoc """
   The renderer and config for the menu items
   """
-  import ScalesCmsWeb.Gettext
   use ScalesCmsWeb, :live_component
+
+  use Gettext,
+    backend: ScalesCmsWeb.Gettext
 
   @default_menu_items [
     %ScalesCmsWeb.Components.MenuItem{
