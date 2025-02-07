@@ -14,7 +14,6 @@ window.addEventListener("ultra-confirm", (event) => {
   const { message } = detail;
 
   const targetButton = event.target
-  const srcElement = event.srcElement
   event.preventDefault()
   targetButton.setAttribute(CONFIRM_ATTRIBUTE, "")
 
@@ -24,9 +23,9 @@ window.addEventListener("ultra-confirm", (event) => {
 
   DANGER_DIALOG.addEventListener('close', ({ target }) => {
     if (target.returnValue === "confirm") {
-      execAttr(srcElement, "phx-ultra-confirm-ok");
+      execAttr(targetButton, "phx-ultra-confirm-ok");
     } else {
-      execAttr(srcElement, "phx-ultra-confirm-cancel");
+      execAttr(targetButton, "phx-ultra-confirm-cancel");
       targetButton.removeAttribute(CONFIRM_ATTRIBUTE);
     }
   })
