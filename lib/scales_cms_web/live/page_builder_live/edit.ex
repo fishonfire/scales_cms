@@ -61,7 +61,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
         |> then(&{:noreply, &1})
 
       {:error, _} ->
-        Logger.error("Unable to change order of day routes")
+        Logger.error("Unable to change order of blocks")
 
         {:noreply, socket}
     end

@@ -87,6 +87,13 @@ config :scales_cms,
 
 config :scales_cms, :cms, default_locale: "nl-NL"
 
+config :scales_cms, :cms,
+  available_locales: [
+    %{code: "nl-NL", name: "Dutch"},
+    %{code: "en-US", name: "English"},
+    %{code: "fr-FR", name: "Français"}
+  ]
+
 if config_env() == :test || config_env() == :dev do
   # Import environment specific config. This must remain at the bottom
   # of this file so it overrides the configuration defined above.

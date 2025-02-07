@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -
 
+## [0.1.16] - 2025-02-07
+### Changed
+- Added support for configuring the languages
+- Hide the locale switcher of only one language is present
+
 ## [0.1.15] - 2025-02-04
 ### Fixed
 - Fixed issue with the page search, triggering the whole focus area on opening

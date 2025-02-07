@@ -1462,12 +1462,6 @@ select {
   background-color: #0F172A80;
 }
 
-.icon-medium {
-  height: 1.5rem;
-  width: 1.5rem;
-  background-color: #0F172A80;
-}
-
 .hero-arrow {
   height: 1rem;
   width: 1rem;
@@ -1979,10 +1973,6 @@ select {
   width: 25%;
 }
 
-.w-12 {
-  width: 3rem;
-}
-
 .w-14 {
   width: 3.5rem;
 }
@@ -2009,6 +1999,10 @@ select {
 
 .w-64 {
   width: 16rem;
+}
+
+.w-8 {
+  width: 2rem;
 }
 
 .w-80 {
