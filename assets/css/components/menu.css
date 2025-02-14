@@ -1,0 +1,29 @@
+@layer components {
+  .top-nav {
+    @apply bg-secondary flex flex-row justify-items-start h-[46px] place-items-center;
+
+    svg {
+      @apply mx-[16px];
+    }
+
+    .menu {
+      @apply flex flex-row my-[6px];
+
+      .menu-item {
+        @apply py-[4px] px-[8px] mr-[8px] bg-secondary hover:bg-blue_light rounded transition duration-200 ease-out hover:ease-in text-white font-medium text-[12px] font-medium subpixel-antialiased;
+
+        a {
+          @apply flex  flex-row place-items-center;
+
+          span {
+            @apply h-[16px] w-[16px] leading-[16px] mr-[4px] hover:animate-bounce;
+          }
+
+          div {
+            @apply mt-[2px];
+          }
+        }
+      }
+    }
+  }
+}

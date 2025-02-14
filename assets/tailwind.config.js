@@ -29,6 +29,7 @@ module.exports = {
         purple: "#C711B8",
         yellow: "#FFBB34",
         blue: "#36A1FF",
+        blue_light: "#2282EB3D"
       }
     },
   },

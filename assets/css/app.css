@@ -1,12 +1,22 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-@import url('./components/buttons.css');
-@import url('./components/sidebar.css');
-@import url('./components/icons.css');
+
+@import url("./components/buttons.css");
+@import url("./components/menu.css");
+@import url("./components/sub_menu.css");
+
+@import url("./components/tables.css");
+@import url("./components/icons.css");
 
 /* This file is for your main application CSS */
 
-@import "./trix_overrides.css";
-@import "./sortable.css";
-@import "./tables.css";
+@import url("./trix_overrides.css");
+@import url("./sortable.css");
+
+@layer base {
+  body,
+  html {
+    @apply bg-lightGrey;
+  }
+}

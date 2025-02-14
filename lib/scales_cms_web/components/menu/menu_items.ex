@@ -20,7 +20,7 @@ defmodule ScalesCmsWeb.Components.MenuItems do
     },
     %ScalesCmsWeb.Components.MenuItem{
       title: gettext("Settings"),
-      icon: "hero-wrench-screwdriver",
+      icon: "hero-cog-8-tooth",
       route: "/cms/settings"
     }
   ]
@@ -30,18 +30,4 @@ defmodule ScalesCmsWeb.Components.MenuItems do
   end
 
   def configured_menu_items(), do: Application.get_env(:scales_cms, :menu_items, [])
-
-  # Fix conditional class logic
-  def render(assigns) do
-    ~H"""
-    <ul class="sidebar-menu">
-      <li :for={menu_item <- menu_items()}>
-        <.link patch={menu_item.route} class="sidebar-menu-item">
-          <.icon name={menu_item.icon} />
-          <span class="ms-2">{menu_item.title}</span>
-        </.link>
-      </li>
-    </ul>
-    """
-  end
 end

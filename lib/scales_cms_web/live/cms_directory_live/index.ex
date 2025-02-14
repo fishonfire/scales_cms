@@ -158,6 +158,12 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
     |> then(&{:noreply, &1})
   end
 
+  defp back_path(nil), do: ~p"/cms/directories"
+  defp back_path(%{cms_directory_id: nil}), do: ~p"/cms/directories"
+
+  defp back_path(%{cms_directory_id: parent_directory_id}),
+    do: ~p"/cms/directories/#{parent_directory_id.id}"
+
   def get_new_directory_path(nil), do: ~p"/cms/directories/new"
 
   def get_new_directory_path(current_directory),

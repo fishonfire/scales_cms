@@ -1,0 +1,6 @@
+@layer base {
+  body,
+  html {
+    @apply bg-lightGrey;
+  }
+}

@@ -1,12 +1,65 @@
-<div class="container">
+<div class="mx-auto w-[512px]">
   <.header class="mt-12 mb-4">
-    Cms handleiding
+    Hi,
   </.header>
 
-  <a
-    href="https://docs.google.com/document/d/13SaI5-D5cV8QgobgiA5ZPDYEu8c0jz4G_R-QDvUcJxQ/edit?usp=sharing"
-    class="underline text-blue-500"
-  >
-    handleiding
-  </a>
+  <p class="text-[12px]">
+    {gettext(
+      "Welcome to your new CMS! It's designed to make managing your application easy and intuitive."
+    )}
+    {gettext(
+      "You can quickly update content, organize media, and customize your pages with just a few clicks."
+    )}
+    {gettext("Let's get started!")}
+  </p>
+
+  <div class="bg-white p-4 mt-8">
+    <a
+      href="https://docs.google.com/document/d/13SaI5-D5cV8QgobgiA5ZPDYEu8c0jz4G_R-QDvUcJxQ/edit?usp=sharing"
+      class="flex"
+      target="_blank"
+    >
+      <div class="w-[48px]">
+        <.icon name="hero-document" class="mr-4 h-[24px] w-[40px] mt-[4px]" />
+      </div>
+      <div>
+        <h3 class="p-0">{gettext("Read the documentation")}</h3>
+        <p class="text-[12px]">
+          {gettext("Discover the concept, reference guids and tuturials..")}
+        </p>
+      </div>
+    </a>
+  </div>
+
+  <div class="bg-white p-4 mt-8">
+    <a href="https://github.com/fishonfire/scales_cms" class="flex" target="_blank">
+      <div class="w-[48px]">
+        <.icon name="hero-code-bracket" class="mr-4 h-[24px] w-[40px] mt-[4px]" />
+      </div>
+      <div>
+        <h3 class="p-0">{gettext("Check out the sourcecode")}</h3>
+        <p class="text-[12px]">
+          {gettext(
+            "Fish on Fire publishes its source code on GitHub for the CMS. Like to take a peak, or contribute?"
+          )}
+        </p>
+      </div>
+    </a>
+  </div>
+
+  <div class="bg-white p-4 mt-8">
+    <a href="https://github.com/fishonfire/scales_cms" class="flex" target="_blank">
+      <div class="w-[48px]">
+        <.icon name="hero-home" class="mr-4 h-[24px] w-[40px] mt-[4px]" />
+      </div>
+      <div>
+        <h3 class="p-0">{gettext("Check out Fish on Fire?")}</h3>
+        <p class="text-[12px]">
+          {gettext(
+            "Fish on Fire is an app development agency located in the Netherlands. Would you like to learn more about us? Check our website @ https://www.fishonfire.nl"
+          )}
+        </p>
+      </div>
+    </a>
+  </div>
 </div>

@@ -1,29 +1,29 @@
+<.sub_menu back_patch={back_path(@current_directory)}>
+  <%= if @current_directory do %>
+    {@current_directory.title}
+  <% else %>
+    {gettext("Directories & pages")}
+  <% end %>
+  <:actions>
+    <div class="flex space-x-4">
+      <.live_component id="locale_switcher" module={LocaleSwitcher} class="flex" />
+
+      <.link patch={get_new_directory_path(@current_directory)}>
+        <.button class="btn-primary">
+          <.icon name="hero-plus" /> {gettext("New directory")}
+        </.button>
+      </.link>
+
+      <.link patch={get_new_page_path(@current_directory)} class="new-cms-page">
+        <.button class="btn-secondary">
+          <.icon name="hero-plus" /> {gettext("New page")}
+        </.button>
+      </.link>
+    </div>
+  </:actions>
+</.sub_menu>
+
 <div class="container">
-  <.header class="mt-12 mb-4">
-    <%= if @current_directory do %>
-      {@current_directory.title}
-    <% else %>
-      {gettext("Directories & pages")}
-    <% end %>
-    <:actions>
-      <div class="flex space-x-4">
-        <.live_component id="locale_switcher" module={LocaleSwitcher} class="flex" />
-
-        <.link patch={get_new_directory_path(@current_directory)}>
-          <.button class="btn-primary">
-            <.icon name="hero-plus" /> {gettext("New directory")}
-          </.button>
-        </.link>
-
-        <.link patch={get_new_page_path(@current_directory)} class="new-cms-page">
-          <.button class="btn-secondary">
-            <.icon name="hero-plus" /> {gettext("New page")}
-          </.button>
-        </.link>
-      </div>
-    </:actions>
-  </.header>
-
   <table class="cms-table w-full">
     <thead>
       <tr>

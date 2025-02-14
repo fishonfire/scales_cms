@@ -1,17 +1,29 @@
+<div class="top-nav">
+  <.svg type="scales_logo" width="83" height="26" />
+
+  <.main_menu />
+</div>
+
 <div>
-  <aside id="default-sidebar" class="sidebar" aria-label="Sidebar">
-    <div class="scales-logo p-3">
-      <.svg type="scales_logo" width="160" height="40" class="mx-auto" />
-    </div>
-    <div class="chevron-container">
-      <div class="chevron-wrapper">
-        <.svg type="chevron" id="chevron" width="12" height="12" />
+  <.flash_group flash={@flash} />
+  {@inner_content}
+
+  <dialog
+    id="danger_dialog"
+    class="backdrop:bg-slate-800/75 shadow-xl rounded-md bg-white p-6 border"
+  >
+    <form method="dialog" class="grid gap-6 place-items-center">
+      <h1 class="text-2xl" data-ref="title">
+        Are you sure?
+      </h1>
+      <div class="flex gap-4 items-center justify-end">
+        <.button data-ref="cancel" type="submit" value="cancel">
+          Cancel
+        </.button>
+        <.button data-ref="confirm" type="submit" value="confirm" class="bg-red-500">
+          Confirm
+        </.button>
       </div>
-    </div>
-    <ScalesCmsWeb.Components.MenuItems.render />
-  </aside>
-  <main class="p-4 sm:ml-64">
-    <.flash_group flash={@flash} />
-    {@inner_content}
-  </main>
+    </form>
+  </dialog>
 </div>

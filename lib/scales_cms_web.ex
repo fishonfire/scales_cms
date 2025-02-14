@@ -93,6 +93,7 @@ defmodule ScalesCmsWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import ScalesCmsWeb.CoreComponents
+      import ScalesCmsWeb.CmsComponents
       import ScalesCmsWeb.SvgComponents
       import ScalesCmsWeb.Gettext
 

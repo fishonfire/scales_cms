@@ -1,0 +1,34 @@
+@layer components {
+  .sub-menu {
+    @apply flex flex-row items-center justify-between w-full bg-white p-[8px];
+
+    .back-link {
+      @apply flex items-center mr-[16px] pr-[16px] text-[12px] border-r-[1px];
+
+      .icon {
+        @apply rounded h-[32px] w-[32px] border inline-block mr-[8px] duration-200 ease-out hover:ease-in;
+
+        span {
+          @apply mt-[8px] ml-[8px] w-[16px] h-[16px];
+        }
+      }
+
+      &:hover .icon {
+        @apply bg-lightGrey text-primary_dark;
+      }
+    }
+
+    .content-slot {
+      @apply text-[12px] grow;
+    }
+
+    .actions {
+      @apply self-end;
+
+      .btn,
+      select {
+        @apply text-[12px] py-[8px] px-[16px] rounded;
+      }
+    }
+  }
+}
