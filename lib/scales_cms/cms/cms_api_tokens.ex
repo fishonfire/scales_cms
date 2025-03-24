@@ -37,10 +37,11 @@ defmodule ScalesCms.Cms.CmsApiTokens do
     |> repo().insert()
   end
 
-  defp generate_token do
+  def generate_token do
     claims = %{
       "typ" => "access",
-      "exp" => nil,
+      "exp" =>
+        DateTime.from_naive!(~N[3023-06-26T09:30:00], "America/New_York") |> DateTime.to_unix(),
       "sub" => "cms_api_token"
     }
 
