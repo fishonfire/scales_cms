@@ -52,7 +52,9 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
             </video>
           <% end %>
 
-          <.file_uploader {assigns} entity_name="video" />
+          <%= if can_upload(@block.properties) do %>
+            <.file_uploader {assigns} entity_name="video" />
+          <% end %>
         </div>
 
         <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
@@ -132,5 +134,10 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
     else
       S3Upload.get_presigned_url_for_display(Map.get(block_properties || %{}, "video_path", nil))
     end
+  end
+
+  def can_upload(block_properties) do
+    Map.get(block_properties, "video_url", nil) == nil ||
+      Map.get(block_properties, "video_path", nil) != nil
   end
 end
