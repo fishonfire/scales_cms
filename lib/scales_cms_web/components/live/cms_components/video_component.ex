@@ -22,11 +22,16 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video do
       component_type: block.component_type,
       properties:
         Map.merge(block.properties, %{
-          "video_url" =>
-            S3Upload.get_presigned_url_for_display(
-              Map.get(block.properties || %{}, "video_path", nil)
-            )
+          "video_url" => get_video_url(block.properties)
         })
     }
+  end
+
+  def get_video_url(block_properties) do
+    if Map.get(block_properties, "video_path", nil) != nil do
+      S3Upload.get_presigned_url_for_display(Map.get(block_properties || %{}, "video_path", nil))
+    else
+      Map.get(block_properties, "video_url", nil)
+    end
   end
 end
