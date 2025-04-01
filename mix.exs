@@ -4,7 +4,7 @@ defmodule ScalesCms.MixProject do
   def project do
     [
       app: :scales_cms,
-      version: "0.1.18",
+      version: "0.1.19",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
@@ -109,7 +109,7 @@ defmodule ScalesCms.MixProject do
 
   defp package do
     [
-      maintainers: ["Simon de la Court", "Alexey Pikulik", "Thies van der Zon"],
+      maintainers: ["Simon de la Court", "Alexey Pikulik", "Menno Jongejan"],
       description: "A page builder annex CMS made by Fish on Fire",
       licenses: ["GPL-3.0-or-later"],
       links: %{github: "https://github.com/fishonfire/scales_cms"},
