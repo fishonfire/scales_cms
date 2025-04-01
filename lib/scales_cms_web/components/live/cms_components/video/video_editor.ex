@@ -46,23 +46,27 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
         component={ScalesCmsWeb.Components.CmsComponents.Video}
       >
         <div class="flex">
-          <%= if Map.get(@block.properties || %{}, "video_path", nil) != nil do %>
+          <%= if has_video(@block.properties) do %>
             <video controls class="max-w-[200px] max-h-[200px] object-cover mr-[24px]">
-              <source
-                :if={Map.get(@block.properties || %{}, "video_path", nil) != nil}
-                src={
-                  S3Upload.get_presigned_url_for_display(
-                    Map.get(@block.properties || %{}, "video_path", nil)
-                  )
-                }
-              />
+              <source :if={has_video(@block.properties)} src={get_video_url(@block.properties)} />
             </video>
           <% end %>
 
-          <.file_uploader {assigns} entity_name="video" />
+          <%= if can_upload(@block.properties) do %>
+            <.file_uploader {assigns} entity_name="video" />
+          <% end %>
         </div>
 
         <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
+          <.input
+            :if={
+              Map.get(@block.properties, "video_path", nil) == nil &&
+                length(assigns.uploads.video.entries) == 0
+            }
+            type="text"
+            field={@form[:video_url]}
+            label="Video url"
+          />
           <.input type="text" field={@form[:title]} label="Title" />
           <.input type="text" field={@form[:subtitle]} label="Subtitle" />
 
@@ -117,5 +121,23 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
 
   def handle_event("save", %{}, socket) do
     {:noreply, socket}
+  end
+
+  def has_video(block_properties) do
+    Map.get(block_properties, "video_path", nil) != nil ||
+      Map.get(block_properties, "video_url", nil) != nil
+  end
+
+  def get_video_url(block_properties) do
+    if Map.get(block_properties, "video_url", nil) != nil do
+      Map.get(block_properties, "video_url", nil)
+    else
+      S3Upload.get_presigned_url_for_display(Map.get(block_properties || %{}, "video_path", nil))
+    end
+  end
+
+  def can_upload(block_properties) do
+    Map.get(block_properties, "video_url", nil) == nil ||
+      Map.get(block_properties, "video_path", nil) != nil
   end
 end
