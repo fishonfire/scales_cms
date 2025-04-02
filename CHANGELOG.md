@@ -18,6 +18,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -
 
+## [0.1.21] - 2025-04-02
+### Fixed
+- Fixed video control properties now proper datatypes when returned as JSON
+
+## [0.1.20] - 2025-04-01
+### Added
+- Added video url to video component
+
 ## [0.1.18] - 2025-02-07
 ### Added
 - Manual added
