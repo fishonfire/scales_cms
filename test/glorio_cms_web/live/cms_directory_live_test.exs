@@ -3,7 +3,9 @@ defmodule ScalesCmsWeb.CmsDirectoryLiveTest do
 
   import Phoenix.LiveViewTest
   import ScalesCms.CmsFixtures
-  import ScalesCmsWeb.Gettext
+
+  use Gettext,
+    backend: ScalesCmsWeb.Gettext
 
   @create_attrs %{title: "some title"}
   @update_attrs %{
