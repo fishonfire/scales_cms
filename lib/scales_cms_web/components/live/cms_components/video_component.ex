@@ -5,6 +5,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video do
   use ScalesCmsWeb, :live_component
 
   alias ScalesCms.Cms.Helpers.S3Upload
+  alias ScalesCmsWeb.Components.CmsComponents.Video.VideoProperties
 
   import ScalesCmsWeb.Components.HelperComponents.DrawerComponents
 
@@ -17,21 +18,28 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video do
     version: "0.0.1"
 
   def serialize(_api_version, block) do
+    raw_properties =
+      Map.put(block.properties, "video_url", get_video_url(block.properties))
+
+    # Cast using the embedded schema
+    casted_properties =
+      %VideoProperties{}
+      |> VideoProperties.changeset(raw_properties)
+      |> Ecto.Changeset.apply_changes()
+      |> Map.from_struct()
+      |> Map.delete(:id)
+
     %{
       id: block.id,
       component_type: block.component_type,
-      properties:
-        Map.merge(block.properties, %{
-          "video_url" => get_video_url(block.properties)
-        })
+      properties: casted_properties
     }
   end
 
-  def get_video_url(block_properties) do
-    if Map.get(block_properties, "video_path", nil) != nil do
-      S3Upload.get_presigned_url_for_display(Map.get(block_properties || %{}, "video_path", nil))
-    else
-      Map.get(block_properties, "video_url", nil)
-    end
+  defp get_video_url(%{"video_path" => video_path}) when not is_nil(video_path) do
+    S3Upload.get_presigned_url_for_display(video_path)
   end
+
+  defp get_video_url(%{"video_url" => video_url}), do: video_url
+  defp get_video_url(_), do: nil
 end
