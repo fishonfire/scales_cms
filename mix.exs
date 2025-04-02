@@ -62,7 +62,7 @@ defmodule ScalesCms.MixProject do
       {:jason, "~> 1.2"},
       {:junit_formatter, "~> 3.3", only: [:test]},
       {:dialyxir, "~> 1.3", only: [:dev], runtime: false},
-      {:dns_cluster, "~> 0.1.1"},
+      {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
       {:hackney, "~> 1.9"},
       {:ex_aws, "~> 2.5"},
