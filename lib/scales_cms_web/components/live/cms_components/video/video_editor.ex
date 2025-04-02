@@ -128,13 +128,12 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
       Map.get(block_properties, "video_url", nil) != nil
   end
 
-  def get_video_url(block_properties) do
-    if Map.get(block_properties, "video_url", nil) != nil do
-      Map.get(block_properties, "video_url", nil)
-    else
-      S3Upload.get_presigned_url_for_display(Map.get(block_properties || %{}, "video_path", nil))
-    end
+  defp get_video_url(%{"video_path" => video_path}) when not is_nil(video_path) do
+    S3Upload.get_presigned_url_for_display(video_path)
   end
+
+  defp get_video_url(%{"video_url" => video_url}), do: video_url
+  defp get_video_url(_), do: nil
 
   def can_upload(block_properties) do
     Map.get(block_properties, "video_url", nil) == nil ||
