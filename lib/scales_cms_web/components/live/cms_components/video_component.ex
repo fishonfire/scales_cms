@@ -27,9 +27,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video do
       |> VideoProperties.changeset(raw_properties)
       |> Ecto.Changeset.apply_changes()
       |> Map.from_struct()
-
-    # No need to show null value ID
-    casted_properties = Map.delete(casted_properties, :id)
+      |> Map.delete(:id)
 
     %{
       id: block.id,
