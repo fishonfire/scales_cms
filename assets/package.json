@@ -3,7 +3,7 @@
     "flowbite": "^2.5.2",
     "showdown": "^2.1.0",
     "sortablejs": "^1.15.4",
-    "trix": "^2.1.12",
+    "trix": "^2.1.15",
     "turndown": "^7.2.0"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
