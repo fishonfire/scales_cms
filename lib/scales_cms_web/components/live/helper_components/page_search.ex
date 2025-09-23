@@ -22,6 +22,18 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
     |> assign(display: page.title)
     |> assign(closed: true)
     |> then(&{:ok, &1})
+  rescue
+    Ecto.NoResultsError ->
+      socket
+      |> assign(pages: ScalesCms.Cms.CmsPages.list_paginated_cms_pages(0, 25))
+      |> assign(value: value)
+      |> assign(id: Map.get(params, :id, nil))
+      |> assign(field: params.field)
+      |> assign(disabled: Map.get(params, :disabled, false))
+      |> assign(search_value: nil)
+      |> assign(display: nil)
+      |> assign(closed: true)
+      |> then(&{:ok, &1})
   end
 
   defp handle_empty_page(params, socket) do
@@ -65,6 +77,9 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
     page = ScalesCms.Cms.CmsPages.get_cms_page!(value)
 
     {:noreply, assign(socket, value: value, display: page.title, closed: true)}
+  rescue
+    Ecto.NoResultsError ->
+      {:noreply, assign(socket, value: nil, display: nil, closed: true)}
   end
 
   @impl Phoenix.LiveComponent

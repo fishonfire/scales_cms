@@ -19,5 +19,7 @@ defmodule ScalesCms.Cms.Flows.Pages.DeletePage do
     CmsPageVariants.delete_cms_page_variants(ids)
 
     {:ok, _} = CmsPages.delete_cms_page(cms_page)
+  rescue
+    Ecto.NoResultsError -> :ok
   end
 end
