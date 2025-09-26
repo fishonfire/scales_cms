@@ -36,7 +36,7 @@ msgstr "Voeg knop toe"
 msgid "All"
 msgstr "Alle"
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:116
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:121
 #, elixir-autogen, elixir-format
 msgid "Are you sure you want to delete this page?"
 msgstr "Weet je zeker dat je deze pagina wil verwijderen?"
@@ -314,8 +314,8 @@ msgstr "De pagina is gepubliceerd. Je kan deze versie niet meer wijzigen"
 msgid "Title"
 msgstr "Titel"
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:51
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:68
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:52
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:69
 #, elixir-autogen, elixir-format
 msgid "Up"
 msgstr "Omhoog"
@@ -370,7 +370,7 @@ msgstr "sluiten"
 msgid "Edit page title"
 msgstr "Wijzig pagina"
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:134
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:139
 #, elixir-autogen, elixir-format
 msgid "Get page statistics in CSV"
 msgstr "Download pagina statistieken in CSV"
@@ -384,3 +384,8 @@ msgstr "Pagina gewijzigd"
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Show page"
 msgstr "Nieuwe pagina"
+
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:33
+#, elixir-autogen, elixir-format
+msgid "Views"
+msgstr "Weergaven"

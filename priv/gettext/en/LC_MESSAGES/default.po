@@ -36,7 +36,7 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:116
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:121
 #, elixir-autogen, elixir-format
 msgid "Are you sure you want to delete this page?"
 msgstr ""
@@ -314,8 +314,8 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:51
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:68
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:52
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:69
 #, elixir-autogen, elixir-format
 msgid "Up"
 msgstr ""
@@ -370,7 +370,7 @@ msgstr ""
 msgid "Edit page title"
 msgstr ""
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:134
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:139
 #, elixir-autogen, elixir-format
 msgid "Get page statistics in CSV"
 msgstr ""
@@ -383,4 +383,9 @@ msgstr ""
 #: lib/scales_cms_web/live/page_builder_live/edit.ex:278
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Show page"
+msgstr ""
+
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:33
+#, elixir-autogen, elixir-format
+msgid "Views"
 msgstr ""
