@@ -30,6 +30,7 @@
         <th></th>
         <th>{gettext("Title")}</th>
         <th>{gettext("Created")}</th>
+        <th>{gettext("Views")}</th>
         <th></th>
       </tr>
     </thead>
@@ -51,7 +52,7 @@
                 {gettext("Up")}
               </.link>
             </td>
-            <td>&nbsp;</td>
+            <td colspan="2">&nbsp;</td>
           <% else %>
             <td
               phx-click="open-directory"
@@ -67,7 +68,7 @@
             >
               {gettext("Up")}
             </td>
-            <td>&nbsp;</td>
+            <td colspan="2">&nbsp;</td>
           <% end %>
         </tr>
       </tr>
@@ -82,6 +83,7 @@
         <td>
           {ScalesCmsWeb.Helpers.Date.human_readable_date(directory.inserted_at)}
         </td>
+        <td></td>
         <td class="text-right controls">
           <.link patch={~p"/cms/directories/#{directory.id}/edit"} class="edit">
             <.icon name="hero-pencil" class="icon-small" />
@@ -102,6 +104,9 @@
         </td>
         <td>
           {ScalesCmsWeb.Helpers.Date.human_readable_date(cms_page.inserted_at)}
+        </td>
+        <td>
+          {cms_page.views || 0}
         </td>
         <td class="text-right controls">
           <.link patch={~p"/cms/pages/#{cms_page.id}"} id={"edit-page-#{cms_page.id}"}>
@@ -124,6 +129,16 @@
       </tr>
     </tbody>
   </table>
+
+  <div :if={!@current_directory}>
+    <.link
+      navigate={~p"/cms/stats"}
+      target="_blank"
+      class="mt-4 btn btn-secondary inline-block text-sm"
+    >
+      {gettext("Get page statistics in CSV")}
+    </.link>
+  </div>
 
   <.modal
     :if={@live_action in [:new, :edit]}

@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -
 
+## [0.1.24] - 2025-09-26
+### Added
+- Added statistics for page views
+- Various bugfixes
+
 ## [0.1.18] - 2025-02-07
 ### Added
 - Manual added

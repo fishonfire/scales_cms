@@ -15,6 +15,8 @@ defmodule ScalesCmsWeb.CmsRouter do
           scope "/cms", ScalesCmsWeb do
             # cms assets
 
+            get "/stats", CmsStatsController, :index
+
             # cms routes
             live "/", CmsIndexLive.Index, :index
 

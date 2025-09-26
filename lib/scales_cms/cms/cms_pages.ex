@@ -172,4 +172,8 @@ defmodule ScalesCms.Cms.CmsPages do
   def change_cms_page(%CmsPage{} = cms_page, attrs \\ %{}) do
     CmsPage.changeset(cms_page, attrs)
   end
+
+  def preload_directory(query) do
+    repo().preload(query, :directory)
+  end
 end
