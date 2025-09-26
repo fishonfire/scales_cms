@@ -41,7 +41,9 @@ defmodule ScalesCmsWeb.Api.Public.PagesController do
       )
       |> CmsPageLocaleLatestVariants.preload_page_variant()
 
-    CmsPages.update_cms_page(pv.cms_page, %{views: pv.cms_page.views + 1})
+    if pv != nil do
+      CmsPages.update_cms_page(pv.cms_page, %{views: pv.cms_page.views + 1})
+    end
 
     conn
     |> render(
@@ -59,7 +61,9 @@ defmodule ScalesCmsWeb.Api.Public.PagesController do
       )
       |> CmsPageLocaleLatestVariants.preload_page_variant()
 
-    CmsPages.update_cms_page(pv.cms_page, %{views: pv.cms_page.views + 1})
+    if pv != nil do
+      CmsPages.update_cms_page(pv.cms_page, %{views: pv.cms_page.views + 1})
+    end
 
     conn
     |> render(
