@@ -31,7 +31,7 @@ msgstr ""
 msgid "Add button"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:79
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:86
 #, elixir-autogen, elixir-format
 msgid "All"
 msgstr ""
@@ -57,7 +57,7 @@ msgstr ""
 msgid "Button"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:66
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:73
 #, elixir-autogen, elixir-format
 msgid "Component library"
 msgstr ""
@@ -113,7 +113,7 @@ msgstr ""
 msgid "Directory updated successfully"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:70
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:77
 #, elixir-autogen, elixir-format
 msgid "Drag & drop the components and start building your page"
 msgstr ""
@@ -125,6 +125,7 @@ msgid "Edit directory"
 msgstr ""
 
 #: lib/scales_cms_web/live/cms_page_live/index.ex:19
+#: lib/scales_cms_web/live/page_builder_live/edit.ex:279
 #, elixir-autogen, elixir-format
 msgid "Edit page"
 msgstr ""
@@ -144,7 +145,7 @@ msgstr ""
 msgid "Hang in there while we get back on track"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:35
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:42
 #, elixir-autogen, elixir-format
 msgid "If you want to keep editing this page please start a new version"
 msgstr ""
@@ -184,12 +185,12 @@ msgstr ""
 msgid "New page"
 msgstr ""
 
-#: lib/scales_cms_web/components/live/helper_components/page_search.ex:121
+#: lib/scales_cms_web/components/live/helper_components/page_search.ex:136
 #, elixir-autogen, elixir-format
 msgid "None"
 msgstr ""
 
-#: lib/scales_cms_web/components/live/helper_components/page_search.ex:76
+#: lib/scales_cms_web/components/live/helper_components/page_search.ex:91
 #, elixir-autogen, elixir-format
 msgid "Page"
 msgstr ""
@@ -227,8 +228,8 @@ msgstr ""
 #: lib/scales_cms_web/components/live/cms_components/image_button/image_button_editor.ex:110
 #: lib/scales_cms_web/components/live/cms_components/image_button_collection/image_button_editor.ex:136
 #: lib/scales_cms_web/components/live/cms_components/lottie/lottie_editor.ex:121
-#: lib/scales_cms_web/components/live/cms_components/video/video_editor.ex:78
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:11
+#: lib/scales_cms_web/components/live/cms_components/video/video_editor.ex:82
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:33
 #, elixir-autogen, elixir-format
 msgid "Save"
 msgstr ""
@@ -243,12 +244,12 @@ msgstr ""
 msgid "Save page"
 msgstr ""
 
-#: lib/scales_cms_web/components/live/helper_components/page_search.ex:111
+#: lib/scales_cms_web/components/live/helper_components/page_search.ex:126
 #, elixir-autogen, elixir-format
 msgid "Search for a page"
 msgstr ""
 
-#: lib/scales_cms_web/components/live/helper_components/page_search.ex:86
+#: lib/scales_cms_web/components/live/helper_components/page_search.ex:101
 #, elixir-autogen, elixir-format
 msgid "Select page"
 msgstr ""
@@ -283,7 +284,7 @@ msgid "Something went wrong!"
 msgstr ""
 
 #: lib/scales_cms_web/live/page_builder_live/edit.html.heex:23
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:39
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:46
 #, elixir-autogen, elixir-format
 msgid "Start new version"
 msgstr ""
@@ -302,7 +303,7 @@ msgstr ""
 msgid "The file is too large"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:34
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:41
 #, elixir-autogen, elixir-format
 msgid "This page has been published. You can not edit this page anymore"
 msgstr ""
@@ -329,7 +330,7 @@ msgstr ""
 msgid "Upload a nice lottie"
 msgstr ""
 
-#: lib/scales_cms_web/components/live/cms_components/video_component.ex:14
+#: lib/scales_cms_web/components/live/cms_components/video_component.ex:15
 #, elixir-autogen, elixir-format
 msgid "Upload a nice video"
 msgstr ""
@@ -339,7 +340,7 @@ msgstr ""
 msgid "Version"
 msgstr ""
 
-#: lib/scales_cms_web/components/live/cms_components/video_component.ex:12
+#: lib/scales_cms_web/components/live/cms_components/video_component.ex:13
 #, elixir-autogen, elixir-format
 msgid "Video"
 msgstr ""
@@ -362,4 +363,24 @@ msgstr ""
 #: lib/scales_cms_web/components/core_components.ex:132
 #, elixir-autogen, elixir-format
 msgid "close"
+msgstr ""
+
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:11
+#, elixir-autogen, elixir-format
+msgid "Edit page title"
+msgstr ""
+
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:134
+#, elixir-autogen, elixir-format
+msgid "Get page statistics in CSV"
+msgstr ""
+
+#: lib/scales_cms_web/live/page_builder_live/edit.ex:222
+#, elixir-autogen, elixir-format
+msgid "Page edited"
+msgstr ""
+
+#: lib/scales_cms_web/live/page_builder_live/edit.ex:278
+#, elixir-autogen, elixir-format
+msgid "Show page"
 msgstr ""

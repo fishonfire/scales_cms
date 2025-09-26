@@ -229,7 +229,9 @@ defmodule ScalesCms.Cms.CmsPageLocaleLatestVariants do
   end
 
   def preload_page_variant(%CmsPageLocaleLatestVariant{} = cms_page_locale_latest_variant) do
-    repo().preload(cms_page_locale_latest_variant,
+    repo().preload(
+      cms_page_locale_latest_variant,
+      :cms_page,
       latest_published_page: [:page, :blocks]
     )
   end

@@ -88,6 +88,8 @@ if Code.ensure_loaded?(Ecto) do
           add :slug, :string
           add :deleted_at, :naive_datetime
           add :cms_directory_id, references(:cms_directories, on_delete: :nothing)
+          add :views, :integer, default: 0, null: false
+          add :path, :text
 
           timestamps(type: :utc_datetime)
         end

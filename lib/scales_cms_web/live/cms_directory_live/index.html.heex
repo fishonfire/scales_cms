@@ -125,6 +125,16 @@
     </tbody>
   </table>
 
+  <div :if={!@current_directory}>
+    <.link
+      navigate={~p"/cms/stats"}
+      target="_blank"
+      class="mt-4 btn btn-secondary inline-block text-sm"
+    >
+      {gettext("Get page statistics in CSV")}
+    </.link>
+  </div>
+
   <.modal
     :if={@live_action in [:new, :edit]}
     id="cms_directory-modal"

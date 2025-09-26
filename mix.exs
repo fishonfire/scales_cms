@@ -72,6 +72,7 @@ defmodule ScalesCms.MixProject do
       {:guardian, "~> 2.3"},
       {:git_hooks, "~> 0.8.0", only: [:dev], runtime: false},
       {:timex, "~> 3.7"},
+      {:csv, "~> 3.2"},
       {:heroicons,
        github: "tailwindlabs/heroicons",
        tag: "v2.2.0",
