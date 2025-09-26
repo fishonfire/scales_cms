@@ -4,36 +4,30 @@ agent:
   machine:
     type: e2-standard-2
     os_image: ubuntu2204
+global_job_config:
+  prologue:
+    commands:
+      - sem-version elixir 1.18
+      - checkout
+      - cache restore
 blocks:
   - name: Set up
     task:
       jobs:
         - name: compile and build plts
           commands:
-            - sem-version elixir 1.16
-            - checkout
             - cache restore
-            - cache restore dialyzer-plt
             - mix deps.get
-            - mix local.rebar --force
-            - "mix do compile, dialyzer --plt"
             - mix compile
+            - MIX_ENV=test mix compile
             - cache store
-            - cache store dialyzer-plt priv/plts/
   - name: Analyze code
     task:
-      prologue:
-        commands:
-          - checkout
-          - sem-version elixir 1.16
-          - mix local.rebar --force
-          - cache restore
-          - cache restore dialyzer-plt
-          - mix deps.get
       jobs:
         - name: credo
           commands:
             - mix credo -a
+
         - name: formatter
           commands:
             - mix format --check-formatted
