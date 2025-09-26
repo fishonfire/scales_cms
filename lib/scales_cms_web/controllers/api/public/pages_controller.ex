@@ -2,6 +2,7 @@ defmodule ScalesCmsWeb.Api.Public.PagesController do
   use ScalesCmsWeb, :controller
 
   alias ScalesCms.Cms.CmsPageLocaleLatestVariants
+  alias ScalesCms.Cms.CmsPages
 
   def index(conn, params) do
     current_page = String.to_integer(Map.get(params, "current_page", "1"))
@@ -40,6 +41,10 @@ defmodule ScalesCmsWeb.Api.Public.PagesController do
       )
       |> CmsPageLocaleLatestVariants.preload_page_variant()
 
+    if pv != nil do
+      CmsPages.update_cms_page(pv.cms_page, %{views: pv.cms_page.views + 1})
+    end
+
     conn
     |> render(
       :show,
@@ -55,6 +60,10 @@ defmodule ScalesCmsWeb.Api.Public.PagesController do
         locale(params)
       )
       |> CmsPageLocaleLatestVariants.preload_page_variant()
+
+    if pv != nil do
+      CmsPages.update_cms_page(pv.cms_page, %{views: pv.cms_page.views + 1})
+    end
 
     conn
     |> render(

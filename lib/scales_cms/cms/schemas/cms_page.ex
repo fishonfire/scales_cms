@@ -6,6 +6,9 @@ defmodule ScalesCms.Cms.CmsPage do
   schema "cms_pages" do
     field :title, :string
     field :slug, :string
+    field :path, :string
+    field :views, :integer, default: 0
+
     field :deleted_at, :naive_datetime
 
     has_many :cms_page_variants, ScalesCms.Cms.CmsPageVariant
@@ -19,7 +22,7 @@ defmodule ScalesCms.Cms.CmsPage do
   @doc false
   def changeset(cms_page, attrs) do
     cms_page
-    |> cast(attrs, [:title, :slug, :cms_directory_id, :deleted_at])
+    |> cast(attrs, [:title, :slug, :cms_directory_id, :deleted_at, :path, :views])
     |> validate_required([:title, :slug])
   end
 end
