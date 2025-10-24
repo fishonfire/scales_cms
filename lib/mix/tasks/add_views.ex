@@ -16,7 +16,7 @@ if Code.ensure_loaded?(Ecto) do
     @dialyzer {:no_return, run: 1}
 
     def run(args) do
-      no_umbrella!("scales_cms.generate_migrations")
+      no_umbrella!("scales_cms.add_views")
       repos = parse_repo(args)
       name = "add_views_to_pages"
 
