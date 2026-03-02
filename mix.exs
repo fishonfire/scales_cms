@@ -17,7 +17,10 @@ defmodule ScalesCms.MixProject do
       dialyzer: [
         plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
       ],
-      docs: docs()
+      docs: docs(),
+      # Since 1.18 we have to include the code reloader as a listener to make it work in development
+      # See: https://hexdocs.pm/phoenix/Phoenix.CodeReloader.html
+      listeners: [Phoenix.CodeReloader]
     ]
   end
 
@@ -43,13 +46,13 @@ defmodule ScalesCms.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.7.17"},
+      {:phoenix, "~> 1.8.4"},
       {:phoenix_ecto, "~> 4.6"},
       {:ecto_sql, "~> 3.12"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.5", only: :dev},
-      {:phoenix_live_view, "~> 1.0.0"},
+      {:phoenix_live_view, "~> 1.1.25"},
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.5"},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
@@ -58,7 +61,7 @@ defmodule ScalesCms.MixProject do
       {:finch, "~> 0.13"},
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
-      {:gettext, "~> 0.20"},
+      {:gettext, "~> 0.26"},
       {:jason, "~> 1.2"},
       {:junit_formatter, "~> 3.3", only: [:test]},
       {:dialyxir, "~> 1.3", only: [:dev], runtime: false},

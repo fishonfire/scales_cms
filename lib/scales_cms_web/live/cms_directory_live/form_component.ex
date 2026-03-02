@@ -3,7 +3,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.FormComponent do
 
   alias ScalesCms.Cms.CmsDirectories
 
-  @impl true
+  @impl Phoenix.LiveComponent
   def render(assigns) do
     ~H"""
     <div>
@@ -32,7 +32,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.FormComponent do
     """
   end
 
-  @impl true
+  @impl Phoenix.LiveComponent
   def update(%{cms_directory: cms_directory} = assigns, socket) do
     {:ok,
      socket
@@ -42,7 +42,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.FormComponent do
      end)}
   end
 
-  @impl true
+  @impl Phoenix.LiveComponent
   def handle_event("validate", %{"cms_directory" => cms_directory_params}, socket) do
     changeset =
       CmsDirectories.change_cms_directory(socket.assigns.cms_directory, cms_directory_params)

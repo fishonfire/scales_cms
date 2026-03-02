@@ -18,7 +18,7 @@ defmodule ScalesCmsWeb.CmsSettingsLive.ApiKeyFormComponent do
     |> then(&{:ok, &1})
   end
 
-  @impl true
+  @impl Phoenix.LiveComponent
   def handle_event("generate_token", _params, socket) do
     {:ok, cms_api_token} = CmsApiTokens.create_cms_api_token()
     changeset = CmsApiToken.changeset(cms_api_token, %{})

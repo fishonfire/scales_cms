@@ -4,12 +4,12 @@ defmodule ScalesCmsWeb.CmsPageVariantLive.Index do
   alias ScalesCms.Cms.CmsPageVariants
   alias ScalesCms.Cms.CmsPageVariant
 
-  @impl true
+  @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
     {:ok, stream(socket, :cms_page_variants, CmsPageVariants.list_cms_page_variants())}
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
@@ -32,7 +32,7 @@ defmodule ScalesCmsWeb.CmsPageVariantLive.Index do
     |> assign(:cms_page_variant, nil)
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_info(
         {ScalesCmsWeb.CmsPageVariantLive.FormComponent, {:saved, cms_page_variant}},
         socket
@@ -40,7 +40,7 @@ defmodule ScalesCmsWeb.CmsPageVariantLive.Index do
     {:noreply, stream_insert(socket, :cms_page_variants, cms_page_variant)}
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event("delete", %{"id" => id}, socket) do
     cms_page_variant = CmsPageVariants.get_cms_page_variant!(id)
     {:ok, _} = CmsPageVariants.delete_cms_page_variant(cms_page_variant)

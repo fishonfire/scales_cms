@@ -4,12 +4,12 @@ defmodule ScalesCmsWeb.CmsPageLive.Index do
   alias ScalesCms.Cms.CmsPages
   alias ScalesCms.Cms.CmsPage
 
-  @impl true
+  @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
     {:ok, stream(socket, :cms_pages, CmsPages.list_cms_pages())}
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
@@ -39,7 +39,7 @@ defmodule ScalesCmsWeb.CmsPageLive.Index do
     |> assign(:cms_page, nil)
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_info({ScalesCmsWeb.CmsPageLive.FormComponent, {:saved, cms_page}}, socket) do
     url =
       if is_nil(cms_page.cms_directory_id),
@@ -51,7 +51,7 @@ defmodule ScalesCmsWeb.CmsPageLive.Index do
     |> then(&{:noreply, &1})
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event("delete", %{"id" => id}, socket) do
     cms_page = CmsPages.get_cms_page!(id)
     {:ok, _} = CmsPages.delete_cms_page(cms_page)

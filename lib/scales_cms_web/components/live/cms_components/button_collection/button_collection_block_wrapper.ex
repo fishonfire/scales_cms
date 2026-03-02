@@ -4,7 +4,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
   """
   use ScalesCmsWeb, :live_component
 
-  @impl true
+  @impl Phoenix.LiveComponent
   def mount(socket) do
     socket
     |> assign(:published, false)
@@ -25,6 +25,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
   slot :inner_block, required: true
   attr :block, ScalesCms.Cms.CmsPageVariantBlock
 
+  @impl Phoenix.LiveComponent
   def render(assigns) do
     ~H"""
     <div>
