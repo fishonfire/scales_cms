@@ -1,37 +1,80 @@
 @layer components {
-  .sidebar {
-    @apply fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-lightGrey;
-  }
+    .sidebar {
+        @apply fixed top-0 left-0 z-40 w-64 h-screen bg-lightGrey;
+        transition: transform 0.3s ease-in-out;
+    }
 
-  .sidebar .scales-logo {
-    @apply bg-secondary;
-  }  
+    .sidebar.closed {
+        /* w-64 = 256px, we want to show 48px, so hide 208px */
+        transform: translateX(-208px);
+    }
 
-  .sidebar .chevron-container {
-    @apply flex justify-end px-2 pt-2;
-  }  
-  
-  .sidebar .chevron-wrapper {
-    @apply bg-white rounded py-2 pl-2 pr-[10px];
-  }  
+    .sidebar .scales-logo {
+        @apply bg-secondary;
+    }
 
-  .sidebar .chevron-wrapper:hover {
-    @apply bg-secondary cursor-pointer transition ease-in-out;
-  }  
+    .sidebar .chevron-container {
+        @apply flex justify-end px-2 pt-2;
+    }
 
-  .sidebar-menu {
-    @apply space-y-2 font-medium p-2;
-  }
+    .sidebar .chevron-wrapper {
+        @apply bg-white rounded py-2 pl-2 pr-[10px];
+    }
 
-  .sidebar-menu .sidebar-menu-item {
-    @apply flex items-center p-2 text-gray-900 rounded-lg transition ease-in-out;
-  }
+    .sidebar .chevron-wrapper:hover {
+        @apply bg-secondary cursor-pointer transition ease-in-out;
+    }
 
-  .sidebar-menu .sidebar-menu-item:hover {
-    @apply bg-gray-100;
-  }
+    .sidebar .chevron-wrapper svg {
+        @apply transition ease-in-out;
+    }
 
-  .sidebar-menu .sidebar-menu-item.active-item {
-    @apply bg-primary text-white;
-  }
+    .sidebar.closed .chevron-wrapper svg {
+        @apply rotate-180;
+    }
+
+    .sidebar-menu {
+        @apply space-y-2 font-medium p-2;
+    }
+
+    .sidebar-menu .sidebar-menu-item {
+        @apply flex items-center p-2 text-gray-900 rounded-lg transition ease-in-out;
+    }
+
+    .sidebar-menu .sidebar-menu-item:hover {
+        @apply bg-gray-100;
+    }
+
+    .sidebar-menu .sidebar-menu-item.active-item {
+        @apply bg-primary text-white;
+    }
+
+    /* Main content wrapper - applies to the main element */
+    .main-content {
+        transition: margin-left 0.3s ease-in-out;
+        margin-left: 256px; /* w-64 = 16rem = 256px */
+    }
+
+    .main-content.sidebar-closed {
+        margin-left: 48px; /* Width of visible sidebar strip when closed */
+    }
+
+    /* Mobile: sidebar starts hidden, main content has no margin */
+    @media (max-width: 639px) {
+        .sidebar {
+            transform: translateX(-100%);
+        }
+
+        .sidebar:not(.closed) {
+            transform: translateX(0);
+        }
+
+        .main-content {
+            margin-left: 0;
+        }
+
+        .main-content.sidebar-closed {
+            margin-left: 0;
+        }
+    }
 }

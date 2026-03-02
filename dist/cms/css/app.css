@@ -1369,20 +1369,19 @@ select {
   z-index: 40;
   height: 100vh;
   width: 16rem;
-  --tw-translate-x: -100%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   --tw-bg-opacity: 1;
   background-color: rgb(231 234 238 / var(--tw-bg-opacity));
-  transition-property: transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+  transition: transform 0.3s ease-in-out;
 }
 
-@media (min-width: 640px) {
-  .sidebar {
-    --tw-translate-x: 0px;
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-  }
+.sidebar.closed {
+  /* w-64 = 256px, we want to show 48px, so hide 208px */
+  transform: translateX(-208px);
+}
+
+.sidebar.\!closed {
+  /* w-64 = 256px, we want to show 48px, so hide 208px */
+  transform: translateX(-208px) !important;
 }
 
 .sidebar .scales-logo {
@@ -1417,6 +1416,24 @@ select {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
   transition-duration: 150ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar .chevron-wrapper svg {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar.closed .chevron-wrapper svg {
+  --tw-rotate: 180deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.sidebar.\!closed .chevron-wrapper svg {
+  --tw-rotate: 180deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .sidebar-menu > :not([hidden]) ~ :not([hidden]) {
@@ -1454,6 +1471,39 @@ select {
   background-color: rgb(33 195 157 / var(--tw-bg-opacity));
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+/* Main content wrapper - applies to the main element */
+
+.main-content {
+  transition: margin-left 0.3s ease-in-out;
+  margin-left: 256px;
+  /* w-64 = 16rem = 256px */
+}
+
+.main-content.sidebar-closed {
+  margin-left: 48px;
+  /* Width of visible sidebar strip when closed */
+}
+
+/* Mobile: sidebar starts hidden, main content has no margin */
+
+@media (max-width: 639px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar:not(.closed) {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .main-content.sidebar-closed {
+    margin-left: 0;
+  }
 }
 
 .icon-small {
@@ -3003,10 +3053,6 @@ select {
 }
 
 @media (min-width: 640px) {
-  .sm\:ml-64 {
-    margin-left: 16rem;
-  }
-
   .sm\:w-96 {
     width: 24rem;
   }
