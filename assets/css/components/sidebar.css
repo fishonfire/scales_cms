@@ -1,7 +1,6 @@
 @layer components {
     .sidebar {
-        @apply fixed top-0 left-0 z-40 w-64 h-screen bg-lightGrey;
-        transition: transform 0.3s ease-in-out;
+        @apply fixed top-0 left-0 z-40 w-64 h-screen bg-lightGrey transition;
     }
 
     .sidebar.closed {
@@ -42,8 +41,7 @@
     }
 
     .sidebar-menu .sidebar-menu-item {
-        @apply flex items-center p-2 text-gray-900 rounded-lg;
-        transition: all 0.3s ease-in-out;
+        @apply flex items-center p-2 text-gray-900 rounded-lg transition;
     }
 
     .sidebar-menu .sidebar-menu-item:hover {
@@ -62,23 +60,18 @@
     /* Icon containers */
     .sidebar-menu-icon-left,
     .sidebar-menu-icon-right {
-        @apply flex items-center justify-center;
-        transition:
-            opacity 0.3s ease-in-out,
-            width 0.3s ease-in-out;
+        @apply flex items-center justify-center transition;
     }
 
     /* Title styling */
     .sidebar-menu-title {
-        transition:
-            opacity 0.3s ease-in-out,
-            width 0.3s ease-in-out;
+        @apply transition;
     }
 
     /* Main content wrapper - applies to the main element */
     .main-content {
+        @apply transition;
         margin-left: 256px; /* w-64 = 16rem = 256px */
-        transition: margin-left 0.3s ease-in-out;
     }
 
     .main-content.sidebar-closed {

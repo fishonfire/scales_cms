@@ -30,11 +30,9 @@ defmodule ScalesCmsWeb.Live.AppLayoutComponent do
 
   @impl Phoenix.LiveComponent
   def update(assigns, socket) do
-    # Use sidebar_open from parent (set by on_mount hook), default to true if not present
-    assigns = assigns |> Map.put_new(:sidebar_open, true)
-
     socket
     |> assign(assigns)
+    |> assign_new(:sidebar_open, fn -> true end)
     |> then(&{:ok, &1})
   end
 

@@ -35,6 +35,9 @@ defmodule ScalesCmsWeb.Hooks.SidebarState do
         ] do
         live "/path", MyLive
       end
+
+  Note: When using with authentication, ensure the UserAuth hook runs BEFORE
+  this hook so that `current_user` is available in socket assigns.
   """
 
   import Phoenix.Component, only: [assign: 3]
@@ -75,19 +78,23 @@ defmodule ScalesCmsWeb.Hooks.SidebarState do
   @doc """
   Mounts the sidebar state from session into socket assigns.
 
-  On initial mount, reads from session and stores in ETS for the live_socket_id.
-  On subsequent LiveView navigations, reads from ETS to get the current state
-  (which may have been updated by toggle events).
+  On initial mount, reads from session and stores in ETS using the user's ID
+  as a stable key. On subsequent LiveView navigations, reads from ETS to get
+  the current state (which may have been updated by toggle events).
 
-  This ensures toggling the sidebar persists across client-side navigations.
+  This ensures toggling the sidebar persists across client-side navigations
+  and tab switches/reconnections.
   """
   def on_mount(:default, _params, session, socket) do
     ensure_ets_table_exists()
 
-    live_socket_id = socket.private[:live_socket_id] || socket.id
+    # Use user ID as a stable key that persists across socket reconnections
+    # This fixes the issue where tab switches cause socket disconnects/reconnects
+    # with different socket IDs, leading to inconsistent state
+    ets_key = get_stable_ets_key(socket)
 
     sidebar_open =
-      case get_from_ets(live_socket_id) do
+      case get_from_ets(ets_key) do
         {:ok, value} ->
           # Found in ETS - use the current in-memory state
           value
@@ -99,14 +106,14 @@ defmodule ScalesCmsWeb.Hooks.SidebarState do
             |> Map.get(@session_key, @default_state)
             |> normalize_sidebar_state()
 
-          put_in_ets(live_socket_id, value)
+          put_in_ets(ets_key, value)
           value
       end
 
     socket =
       socket
       |> assign(:sidebar_open, sidebar_open)
-      |> assign(:__sidebar_live_socket_id__, live_socket_id)
+      |> assign(:__sidebar_ets_key__, ets_key)
       |> attach_hook(:sidebar_state_sync, :handle_event, &handle_sidebar_event/3)
       |> attach_hook(:sidebar_state_info, :handle_info, &handle_sidebar_info/2)
 
@@ -119,29 +126,43 @@ defmodule ScalesCmsWeb.Hooks.SidebarState do
   Called by LiveView/LiveComponent when the sidebar is toggled.
   This ensures the new state persists across LiveView navigations.
   """
-  def update_state(live_socket_id, open) when is_boolean(open) do
+  def update_state(ets_key, open) when is_boolean(open) do
     ensure_ets_table_exists()
-    put_in_ets(live_socket_id, open)
+    put_in_ets(ets_key, open)
   end
 
   @doc """
   Gets the current sidebar state from ETS.
   """
-  def get_state(live_socket_id) do
+  def get_state(ets_key) do
     ensure_ets_table_exists()
 
-    case get_from_ets(live_socket_id) do
+    case get_from_ets(ets_key) do
       {:ok, value} -> value
       :not_found -> @default_state
     end
   end
 
+  # Derives a stable ETS key based on user identity.
+  # This key persists across socket reconnections (e.g., tab switches)
+  # because it's based on the user ID, not the transient socket ID.
+  defp get_stable_ets_key(socket) do
+    # If user is authenticated, use their ID as a stable key
+    if Map.has_key?(socket.assigns, :current_user) && socket.assigns.current_user != nil do
+      "user:#{socket.assigns.current_user.id}"
+    else
+      # Fallback to socket-based ID (less stable, but works for unauthenticated users)
+      true ->
+        socket.private[:live_socket_id] || socket.id
+    end
+  end
+
   # Handle sidebar toggle events at the LiveView level to sync ETS
   defp handle_sidebar_event("update_sidebar_state", %{"open" => open}, socket) do
-    live_socket_id = socket.assigns[:__sidebar_live_socket_id__]
+    ets_key = socket.assigns[:__sidebar_ets_key__]
 
-    if live_socket_id do
-      update_state(live_socket_id, open)
+    if ets_key do
+      update_state(ets_key, open)
     end
 
     {:cont, assign(socket, :sidebar_open, open)}
@@ -153,10 +174,10 @@ defmodule ScalesCmsWeb.Hooks.SidebarState do
 
   # Handle sidebar state update messages from LiveComponent
   defp handle_sidebar_info({:update_sidebar_state, open}, socket) when is_boolean(open) do
-    live_socket_id = socket.assigns[:__sidebar_live_socket_id__]
+    ets_key = socket.assigns[:__sidebar_ets_key__]
 
-    if live_socket_id do
-      update_state(live_socket_id, open)
+    if ets_key do
+      update_state(ets_key, open)
     end
 
     {:halt, assign(socket, :sidebar_open, open)}
