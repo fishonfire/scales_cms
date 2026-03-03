@@ -2541,6 +2541,11 @@ select {
   background-color: rgb(250 250 250 / 0.9);
 }
 
+.bg-green-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(222 247 236 / var(--tw-bg-opacity));
+}
+
 .fill-cyan-900 {
   fill: #164e63;
 }
@@ -2666,6 +2671,11 @@ select {
 .py-\[8px\] {
   padding-top: 8px;
   padding-bottom: 8px;
+}
+
+.px-2\.5 {
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
 }
 
 .pb-4 {
@@ -2831,6 +2841,11 @@ select {
 .text-zinc-900 {
   --tw-text-opacity: 1;
   color: rgb(24 24 27 / var(--tw-text-opacity));
+}
+
+.text-green-800 {
+  --tw-text-opacity: 1;
+  color: rgb(3 84 63 / var(--tw-text-opacity));
 }
 
 .underline {
@@ -3236,6 +3251,12 @@ select {
 
   .sm\:leading-6 {
     line-height: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .sm\:sm\:leading-6 {
+      line-height: 1.5rem;
+    }
   }
 
   .group:hover .sm\:group-hover\:scale-105 {

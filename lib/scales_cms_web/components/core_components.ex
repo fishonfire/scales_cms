@@ -337,7 +337,7 @@ defmodule ScalesCmsWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="mt-1 block w-full rounded border border-gray-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm"
+        class="mt-1 block w-full rounded border border-gray-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm sm:leading-6"
         multiple={@multiple}
         {@rest}
       >

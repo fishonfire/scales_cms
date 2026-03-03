@@ -44,20 +44,17 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
 
   defp apply_action(socket, :index, %{"id" => id} = params) do
     query = Map.get(params, "query", "")
+    status = Map.get(params, "status", "")
     current_directory = CmsDirectories.get_cms_directory!(id)
 
-    {cms_directories, cms_pages} =
+    cms_directories =
       if query != "" do
-        {
-          CmsDirectories.search_cms_directories_for_parent_id(id, query),
-          CmsPages.search_cms_pages_for_directory_id(id, query)
-        }
+        CmsDirectories.search_cms_directories_for_parent_id(id, query)
       else
-        {
-          CmsDirectories.list_cms_directories_for_parent_id(id),
-          CmsPages.list_pages_for_directory_id(id)
-        }
+        CmsDirectories.list_cms_directories_for_parent_id(id)
       end
+
+    cms_pages = fetch_pages_for_directory(id, query, status)
 
     socket
     |> assign(:cms_directories, cms_directories)
@@ -66,23 +63,21 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
     |> assign(:page_title, gettext("Directories"))
     |> assign(:cms_directory, nil)
     |> assign(:query, query)
+    |> assign(:status, status)
   end
 
   defp apply_action(socket, :index, params) do
     query = Map.get(params, "query", "")
+    status = Map.get(params, "status", "")
 
-    {cms_directories, cms_pages} =
+    cms_directories =
       if query != "" do
-        {
-          CmsDirectories.search_cms_directories(query),
-          CmsPages.search_cms_pages(query)
-        }
+        CmsDirectories.search_cms_directories(query)
       else
-        {
-          CmsDirectories.list_cms_directories(),
-          CmsPages.list_cms_pages()
-        }
+        CmsDirectories.list_cms_directories()
       end
+
+    cms_pages = fetch_pages(query, status)
 
     socket
     |> assign(:cms_directories, cms_directories)
@@ -91,7 +86,25 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
     |> assign(:page_title, gettext("Directories"))
     |> assign(:cms_directory, nil)
     |> assign(:query, query)
+    |> assign(:status, status)
   end
+
+  defp fetch_pages_for_directory(directory_id, "", ""),
+    do: CmsPages.list_pages_for_directory_id(directory_id)
+
+  defp fetch_pages_for_directory(directory_id, "", status),
+    do: CmsPages.list_pages_for_directory_id(directory_id, status)
+
+  defp fetch_pages_for_directory(directory_id, query, ""),
+    do: CmsPages.search_cms_pages_for_directory_id(directory_id, query)
+
+  defp fetch_pages_for_directory(directory_id, query, status),
+    do: CmsPages.search_cms_pages_for_directory_id(directory_id, query, status)
+
+  defp fetch_pages("", ""), do: CmsPages.list_cms_pages()
+  defp fetch_pages("", status), do: CmsPages.list_cms_pages(status)
+  defp fetch_pages(query, ""), do: CmsPages.search_cms_pages(query)
+  defp fetch_pages(query, status), do: CmsPages.search_cms_pages(query, status)
 
   @impl Phoenix.LiveView
   def handle_info({ScalesCmsWeb.CmsDirectoryLive.FormComponent, {:saved, cms_directory}}, socket) do
@@ -180,23 +193,42 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
   end
 
   def handle_event("search", %{"query" => query}, socket) do
-    cms_directory = socket.assigns.current_directory
-
-    path =
-      if cms_directory != nil do
-        if query != "",
-          do: ~p"/cms/directories/#{cms_directory.id}?query=#{query}",
-          else: ~p"/cms/directories/#{cms_directory.id}"
-      else
-        if query != "",
-          do: ~p"/cms/directories?query=#{query}",
-          else: ~p"/cms/directories"
-      end
+    status = socket.assigns.status
 
     socket
-    |> push_patch(to: path)
+    |> push_patch(to: build_filter_path(socket.assigns.current_directory, query, status))
     |> then(&{:noreply, &1})
   end
+
+  def handle_event("filter_status", %{"status" => status}, socket) do
+    query = socket.assigns.query
+
+    socket
+    |> push_patch(to: build_filter_path(socket.assigns.current_directory, query, status))
+    |> then(&{:noreply, &1})
+  end
+
+  defp build_filter_path(current_directory, query, status) do
+    base_path =
+      if current_directory != nil,
+        do: ~p"/cms/directories/#{current_directory.id}",
+        else: ~p"/cms/directories"
+
+    params =
+      %{}
+      |> maybe_add_param("query", query)
+      |> maybe_add_param("status", status)
+
+    if params == %{},
+      do: base_path,
+      else: base_path <> "?" <> URI.encode_query(params)
+  end
+
+  defp maybe_add_param(params, _key, ""), do: params
+  defp maybe_add_param(params, _key, nil), do: params
+  defp maybe_add_param(params, key, value), do: Map.put(params, key, value)
+
+  def page_published?(cms_page), do: CmsPages.published?(cms_page)
 
   def get_new_directory_path(nil), do: ~p"/cms/directories/new"
 

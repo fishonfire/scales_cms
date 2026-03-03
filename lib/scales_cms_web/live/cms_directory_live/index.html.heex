@@ -24,14 +24,14 @@
     </:actions>
   </.header>
 
-  <.form
-    :let={f}
-    class="mb-4"
-    for={to_form(%{"query" => @query})}
-    phx-change="search"
-    phx-submit="search"
-  >
-    <div class="flex flex-row">
+  <div class="flex flex-row gap-4 mb-4">
+    <.form
+      :let={f}
+      class="w-60"
+      for={to_form(%{"query" => @query})}
+      phx-change="search"
+      phx-submit="search"
+    >
       <.input
         type="search"
         field={f[:query]}
@@ -40,8 +40,24 @@
         phx-debounce="50"
         autocomplete="off"
       />
-    </div>
-  </.form>
+    </.form>
+
+    <.form
+      :let={f}
+      for={to_form(%{"status" => @status})}
+      phx-change="filter_status"
+    >
+      <.input
+        type="select"
+        field={f[:status]}
+        options={[
+          {gettext("All statuses"), ""},
+          {gettext("Published"), "published"},
+          {gettext("Draft"), "draft"}
+        ]}
+      />
+    </.form>
+  </div>
 
   <table class="cms-table w-full">
     <thead>
@@ -50,6 +66,7 @@
         <th>{gettext("Title")}</th>
         <th>{gettext("Created")}</th>
         <th>{gettext("Views")}</th>
+        <th>{gettext("Status")}</th>
         <th></th>
       </tr>
     </thead>
@@ -71,7 +88,7 @@
                 {gettext("Up")}
               </.link>
             </td>
-            <td colspan="2">&nbsp;</td>
+            <td colspan="3">&nbsp;</td>
           <% else %>
             <td
               phx-click="open-directory"
@@ -87,7 +104,7 @@
             >
               {gettext("Up")}
             </td>
-            <td colspan="2">&nbsp;</td>
+            <td colspan="3">&nbsp;</td>
           <% end %>
         </tr>
       </tr>
@@ -102,6 +119,7 @@
         <td>
           {ScalesCmsWeb.Helpers.Date.human_readable_date(directory.inserted_at)}
         </td>
+        <td></td>
         <td></td>
         <td class="text-right controls">
           <.link patch={~p"/cms/directories/#{directory.id}/edit"} class="edit">
@@ -126,6 +144,17 @@
         </td>
         <td>
           {cms_page.views || 0}
+        </td>
+        <td>
+          <%= if page_published?(cms_page) do %>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              {gettext("Published")}
+            </span>
+          <% else %>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+              {gettext("Draft")}
+            </span>
+          <% end %>
         </td>
         <td class="text-right controls">
           <.link patch={~p"/cms/pages/#{cms_page.id}"} id={"edit-page-#{cms_page.id}"}>

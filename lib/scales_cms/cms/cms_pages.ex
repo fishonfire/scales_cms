@@ -5,6 +5,7 @@ defmodule ScalesCms.Cms.CmsPages do
 
   import Ecto.Query, warn: false
   alias ScalesCms.Cms.CmsPage
+  alias ScalesCms.Cms.CmsPageLocaleLatestVariant
   import ScalesCms, only: [repo: 0]
 
   @doc """
@@ -21,6 +22,24 @@ defmodule ScalesCms.Cms.CmsPages do
     |> where([cp], is_nil(cp.cms_directory_id))
     |> repo().all()
   end
+
+  @doc """
+  Returns the list of cms_pages filtered by status.
+
+  ## Examples
+
+      iex> list_cms_pages("published")
+      [%CmsPage{}, ...]
+
+  """
+  def list_cms_pages(status) when status in ["published", "draft"] do
+    CmsPage
+    |> where([cp], is_nil(cp.cms_directory_id))
+    |> filter_by_status(status)
+    |> repo().all()
+  end
+
+  def list_cms_pages(_status), do: list_cms_pages()
 
   @doc """
   Returns the list of paginated cms_pages.
@@ -77,6 +96,25 @@ defmodule ScalesCms.Cms.CmsPages do
   end
 
   @doc """
+  Returns the list of cms_pages within a directory filtered by status.
+
+  ## Examples
+
+      iex> list_pages_for_directory_id(23, "published")
+      [%CmsPage{}, ...]
+
+  """
+  def list_pages_for_directory_id(directory_id, status) when status in ["published", "draft"] do
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> filter_by_status(status)
+    |> repo().all()
+  end
+
+  def list_pages_for_directory_id(directory_id, _status),
+    do: list_pages_for_directory_id(directory_id)
+
+  @doc """
   Returns the list of cms_pages within a directory.
 
   ## Examples
@@ -93,6 +131,27 @@ defmodule ScalesCms.Cms.CmsPages do
   end
 
   @doc """
+  Returns the list of cms_pages within a directory filtered by search and status.
+
+  ## Examples
+
+      iex> search_cms_pages_for_directory_id(23, "Page title", "published")
+      [%CmsPage{}, ...]
+
+  """
+  def search_cms_pages_for_directory_id(directory_id, search, status)
+      when status in ["published", "draft"] do
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> where([cp], ilike(cp.title, ^"%#{search}%"))
+    |> filter_by_status(status)
+    |> repo().all()
+  end
+
+  def search_cms_pages_for_directory_id(directory_id, search, _status),
+    do: search_cms_pages_for_directory_id(directory_id, search)
+
+  @doc """
   Returns the list of searched pages.
 
   ## Examples
@@ -107,6 +166,25 @@ defmodule ScalesCms.Cms.CmsPages do
     |> preload(:directory)
     |> repo().all()
   end
+
+  @doc """
+  Returns the list of searched pages filtered by status.
+
+  ## Examples
+
+      iex> search_cms_pages("Page title", "published")
+      [%CmsPage{}, ...]
+
+  """
+  def search_cms_pages(query, status) when status in ["published", "draft"] do
+    CmsPage
+    |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> filter_by_status(status)
+    |> preload(:directory)
+    |> repo().all()
+  end
+
+  def search_cms_pages(query, _status), do: search_cms_pages(query)
 
   @doc """
   Gets a single cms_page.
@@ -191,5 +269,36 @@ defmodule ScalesCms.Cms.CmsPages do
 
   def preload_directory(query) do
     repo().preload(query, :directory)
+  end
+
+  @doc """
+  Checks if a page is published (has at least one published variant).
+  """
+  def published?(cms_page) do
+    query =
+      from v in CmsPageLocaleLatestVariant,
+        where: v.cms_page_id == ^cms_page.id,
+        where: not is_nil(v.cms_page_latest_published_variant_id),
+        limit: 1
+
+    repo().exists?(query)
+  end
+
+  defp filter_by_status(query, "published") do
+    query
+    |> join(:inner, [cp], v in CmsPageLocaleLatestVariant, on: v.cms_page_id == cp.id)
+    |> where([cp, v], not is_nil(v.cms_page_latest_published_variant_id))
+    |> distinct([cp], cp.id)
+  end
+
+  defp filter_by_status(query, "draft") do
+    published_page_ids =
+      from(v in CmsPageLocaleLatestVariant,
+        where: not is_nil(v.cms_page_latest_published_variant_id),
+        select: v.cms_page_id
+      )
+
+    query
+    |> where([cp], cp.id not in subquery(published_page_ids))
   end
 end
