@@ -1632,14 +1632,6 @@ select {
 }
 
 .cms-table {
-  border-radius: 24px 24px 0 0;
-  border-collapse: collapse;
-  border-inline-start-width: 1px;
-  --tw-border-opacity: 1;
-  border-color: rgb(231 234 238 / var(--tw-border-opacity));
-  thead {
-    border-radius: 0.25rem;
-  }
   thead {
     th {
       --tw-bg-opacity: 1;
@@ -1672,6 +1664,14 @@ select {
     th {
       --tw-text-opacity: 1;
       color: rgb(21 21 25 / var(--tw-text-opacity));
+    }
+    th {
+      &:first-child {
+        border-top-left-radius: 4px;
+      }
+      &:last-child {
+        border-top-right-radius: 4px;
+      }
     }
   }
   tbody {
