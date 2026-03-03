@@ -18,11 +18,15 @@
     }
 
     .sidebar .chevron-wrapper {
-        @apply bg-white rounded py-2 pl-2 pr-[10px];
+        @apply bg-white rounded py-2 pl-2 pr-[10px] border-0;
     }
 
     .sidebar .chevron-wrapper:hover {
         @apply bg-secondary cursor-pointer transition ease-in-out;
+    }
+
+    .sidebar .chevron-wrapper:focus {
+        @apply outline-none ring-2 ring-primary ring-offset-2;
     }
 
     .sidebar .chevron-wrapper svg {
@@ -38,21 +42,43 @@
     }
 
     .sidebar-menu .sidebar-menu-item {
-        @apply flex items-center p-2 text-gray-900 rounded-lg transition ease-in-out;
+        @apply flex items-center p-2 text-gray-900 rounded-lg;
+        transition: all 0.3s ease-in-out;
     }
 
     .sidebar-menu .sidebar-menu-item:hover {
         @apply bg-gray-100;
     }
 
-    .sidebar-menu .sidebar-menu-item.active-item {
+    .sidebar-menu .sidebar-menu-item.active {
         @apply bg-primary text-white;
+    }
+
+    /* Closed state: justify content to end so icon appears in visible strip */
+    .sidebar-menu .sidebar-menu-item.sidebar-menu-item-closed {
+        @apply justify-end;
+    }
+
+    /* Icon containers */
+    .sidebar-menu-icon-left,
+    .sidebar-menu-icon-right {
+        @apply flex items-center justify-center;
+        transition:
+            opacity 0.3s ease-in-out,
+            width 0.3s ease-in-out;
+    }
+
+    /* Title styling */
+    .sidebar-menu-title {
+        transition:
+            opacity 0.3s ease-in-out,
+            width 0.3s ease-in-out;
     }
 
     /* Main content wrapper - applies to the main element */
     .main-content {
-        transition: margin-left 0.3s ease-in-out;
         margin-left: 256px; /* w-64 = 16rem = 256px */
+        transition: margin-left 0.3s ease-in-out;
     }
 
     .main-content.sidebar-closed {
@@ -75,6 +101,17 @@
 
         .main-content.sidebar-closed {
             margin-left: 0;
+        }
+    }
+
+    /* Respect user's motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+        .sidebar,
+        .main-content,
+        .sidebar .chevron-wrapper,
+        .sidebar .chevron-wrapper svg,
+        .sidebar-menu .sidebar-menu-item {
+            transition: none;
         }
     }
 }

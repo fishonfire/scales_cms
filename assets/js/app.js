@@ -25,6 +25,7 @@ import sortable from "./hooks/sortable";
 import markdown from "./hooks/markdown";
 import S3Uploader from "./uploaders/s3";
 import LocalLocaleStorage from "./hooks/local_locale_storage";
+import SidebarState from "./hooks/sidebar_state";
 import "flowbite/dist/flowbite.phoenix.js";
 import "./delete_confirm";
 
@@ -32,6 +33,7 @@ const Hooks = {
   Drag: sortable,
   Markdown: markdown,
   LocalLocaleStorage: LocalLocaleStorage,
+  SidebarState: SidebarState,
 };
 
 let csrfToken = document

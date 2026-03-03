@@ -7,9 +7,26 @@ defmodule ScalesCmsWeb.CmsRouter do
       quote bind_quoted: binding() do
         session_opts = [root_layout: {ScalesCmsWeb.Layouts, :root}]
 
-        if opts[:on_mount] do
-          session_opts = Keyword.put_new(session_opts, :on_mount, opts[:on_mount])
-        end
+        # Always include the SidebarState hook for session-based sidebar persistence
+        sidebar_hook = {ScalesCmsWeb.Hooks.SidebarState, :default}
+        request_uri_hook = {ScalesCmsWeb.SaveRequestUri, :save_request_uri}
+
+        existing_hooks = opts[:on_mount] || []
+        # Ensure existing_hooks is a list
+        existing_hooks = if is_list(existing_hooks), do: existing_hooks, else: [existing_hooks]
+        # Append sidebar hook to existing hooks
+        all_hooks = existing_hooks ++ [sidebar_hook, request_uri_hook]
+
+        session_opts = Keyword.put(session_opts, :on_mount, all_hooks)
+
+        # Copy sidebar_open from Plug session to LiveView session
+        # This allows the on_mount hook to read the persisted sidebar state
+        session_opts =
+          Keyword.put(
+            session_opts,
+            :session,
+            {ScalesCmsWeb.Hooks.SidebarState, :copy_session, []}
+          )
 
         live_session :cms_admin, session_opts do
           scope "/cms", ScalesCmsWeb do
