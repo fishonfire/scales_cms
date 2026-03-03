@@ -24,6 +24,69 @@ defmodule ScalesCms.Cms.CmsDirectories do
   end
 
   @doc """
+  Fetches directories with optional search query and sorting.
+  Used for root-level directory listing.
+
+  ## Options
+
+    * `:sort_by` - Column to sort by: "created"
+    * `:sort_order` - Sort direction: "asc" or "desc" (default: "asc")
+
+  ## Examples
+
+      iex> fetch_directories("", sort_by: "created", sort_order: "desc")
+      [%CmsDirectory{}, ...]
+
+  """
+  def fetch_directories(query, opts \\ [])
+
+  def fetch_directories("", opts) do
+    CmsDirectory
+    |> where([cd], is_nil(cd.cms_directory_id))
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> repo().all()
+  end
+
+  def fetch_directories(query, opts) do
+    CmsDirectory
+    |> where([cd], is_nil(cd.cms_directory_id))
+    |> where([cd], ilike(cd.title, ^"%#{query}%"))
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> repo().all()
+  end
+
+  @doc """
+  Fetches directories for a parent with optional search query and sorting.
+
+  ## Options
+
+    * `:sort_by` - Column to sort by: "created"
+    * `:sort_order` - Sort direction: "asc" or "desc" (default: "asc")
+
+  ## Examples
+
+      iex> fetch_directories_for_parent(123, "", sort_by: "created", sort_order: "asc")
+      [%CmsDirectory{}, ...]
+
+  """
+  def fetch_directories_for_parent(parent_id, query, opts \\ [])
+
+  def fetch_directories_for_parent(parent_id, "", opts) do
+    CmsDirectory
+    |> where([cd], cd.cms_directory_id == ^parent_id)
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> repo().all()
+  end
+
+  def fetch_directories_for_parent(parent_id, query, opts) do
+    CmsDirectory
+    |> where([cd], cd.cms_directory_id == ^parent_id)
+    |> where([cd], ilike(cd.title, ^"%#{query}%"))
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> repo().all()
+  end
+
+  @doc """
   Returns the list of cms_directories matching the search query.
 
   ## Examples
@@ -176,4 +239,31 @@ defmodule ScalesCms.Cms.CmsDirectories do
   def change_cms_directory(%CmsDirectory{} = cms_directory, attrs \\ %{}) do
     CmsDirectory.changeset(cms_directory, attrs)
   end
+
+  @doc """
+  Applies sorting to a query based on the given column and order.
+
+  ## Parameters
+
+    * `query` - The Ecto query to sort
+    * `sort_by` - Column to sort by: "created"
+    * `sort_order` - Sort direction: "asc" or "desc" (default: "asc")
+
+  ## Examples
+
+      iex> apply_sorting(query, "created", "desc")
+      #Ecto.Query<...>
+
+  """
+  def apply_sorting(query, sort_by, sort_order)
+
+  def apply_sorting(query, "created", "desc") do
+    query |> order_by([cd], desc: cd.inserted_at)
+  end
+
+  def apply_sorting(query, "created", _sort_order) do
+    query |> order_by([cd], asc: cd.inserted_at)
+  end
+
+  def apply_sorting(query, _sort_by, _sort_order), do: query
 end

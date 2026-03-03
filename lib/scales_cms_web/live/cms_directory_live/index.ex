@@ -6,6 +6,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
   alias ScalesCms.Cms.CmsDirectory
 
   alias ScalesCmsWeb.Components.LocaleSwitcher
+  alias ScalesCmsWeb.Helpers.CmsDirectory, as: CmsDirectoryHelper
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
@@ -45,16 +46,13 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
   defp apply_action(socket, :index, %{"id" => id} = params) do
     query = Map.get(params, "query", "")
     status = Map.get(params, "status", "")
+    sort_by = Map.get(params, "sort_by", "")
+    sort_order = Map.get(params, "sort_order", "asc")
     current_directory = CmsDirectories.get_cms_directory!(id)
 
-    cms_directories =
-      if query != "" do
-        CmsDirectories.search_cms_directories_for_parent_id(id, query)
-      else
-        CmsDirectories.list_cms_directories_for_parent_id(id)
-      end
-
-    cms_pages = CmsPages.fetch_pages_for_directory(id, query, status)
+    sort_opts = [sort_by: sort_by, sort_order: sort_order]
+    cms_directories = CmsDirectories.fetch_directories_for_parent(id, query, sort_opts)
+    cms_pages = CmsPages.fetch_pages_for_directory(id, query, status, sort_opts)
 
     socket
     |> assign(:cms_directories, cms_directories)
@@ -64,20 +62,19 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
     |> assign(:cms_directory, nil)
     |> assign(:query, query)
     |> assign(:status, status)
+    |> assign(:sort_by, sort_by)
+    |> assign(:sort_order, sort_order)
   end
 
   defp apply_action(socket, :index, params) do
     query = Map.get(params, "query", "")
     status = Map.get(params, "status", "")
+    sort_by = Map.get(params, "sort_by", "")
+    sort_order = Map.get(params, "sort_order", "asc")
 
-    cms_directories =
-      if query != "" do
-        CmsDirectories.search_cms_directories(query)
-      else
-        CmsDirectories.list_cms_directories()
-      end
-
-    cms_pages = CmsPages.fetch_pages(query, status)
+    sort_opts = [sort_by: sort_by, sort_order: sort_order]
+    cms_directories = CmsDirectories.fetch_directories(query, sort_opts)
+    cms_pages = CmsPages.fetch_pages(query, status, sort_opts)
 
     socket
     |> assign(:cms_directories, cms_directories)
@@ -87,6 +84,8 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
     |> assign(:cms_directory, nil)
     |> assign(:query, query)
     |> assign(:status, status)
+    |> assign(:sort_by, sort_by)
+    |> assign(:sort_order, sort_order)
   end
 
   @impl Phoenix.LiveView
@@ -177,48 +176,76 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
 
   def handle_event("search", %{"query" => query}, socket) do
     status = socket.assigns.status
+    sort_by = socket.assigns.sort_by
+    sort_order = socket.assigns.sort_order
 
     socket
-    |> push_patch(to: build_filter_path(socket.assigns.current_directory, query, status))
+    |> push_patch(
+      to:
+        CmsDirectoryHelper.build_filter_path(
+          socket.assigns.current_directory,
+          query,
+          status,
+          sort_by,
+          sort_order
+        )
+    )
     |> then(&{:noreply, &1})
   end
 
   def handle_event("filter_status", %{"status" => status}, socket) do
     query = socket.assigns.query
+    sort_by = socket.assigns.sort_by
+    sort_order = socket.assigns.sort_order
 
     socket
-    |> push_patch(to: build_filter_path(socket.assigns.current_directory, query, status))
+    |> push_patch(
+      to:
+        CmsDirectoryHelper.build_filter_path(
+          socket.assigns.current_directory,
+          query,
+          status,
+          sort_by,
+          sort_order
+        )
+    )
     |> then(&{:noreply, &1})
   end
 
-  defp build_filter_path(current_directory, query, status) do
-    base_path =
-      if current_directory != nil,
-        do: ~p"/cms/directories/#{current_directory.id}",
-        else: ~p"/cms/directories"
+  def handle_event("sort", %{"column" => column}, socket) do
+    query = socket.assigns.query
+    status = socket.assigns.status
+    current_sort_by = socket.assigns.sort_by
+    current_sort_order = socket.assigns.sort_order
 
-    params =
-      %{}
-      |> maybe_add_param("query", query)
-      |> maybe_add_param("status", status)
+    {new_sort_by, new_sort_order} =
+      cond do
+        current_sort_by == column && current_sort_order == "asc" ->
+          {column, "desc"}
 
-    if params == %{},
-      do: base_path,
-      else: base_path <> "?" <> URI.encode_query(params)
+        current_sort_by == column && current_sort_order == "desc" ->
+          {"", "asc"}
+
+        true ->
+          {column, "asc"}
+      end
+
+    socket
+    |> push_patch(
+      to:
+        CmsDirectoryHelper.build_filter_path(
+          socket.assigns.current_directory,
+          query,
+          status,
+          new_sort_by,
+          new_sort_order
+        )
+    )
+    |> then(&{:noreply, &1})
   end
-
-  defp maybe_add_param(params, _key, ""), do: params
-  defp maybe_add_param(params, _key, nil), do: params
-  defp maybe_add_param(params, key, value), do: Map.put(params, key, value)
 
   def page_published?(cms_page), do: CmsPages.published?(cms_page)
 
-  def get_new_directory_path(nil), do: ~p"/cms/directories/new"
-
-  def get_new_directory_path(current_directory),
-    do: ~p"/cms/directories/#{current_directory.id}/new"
-
-  def get_new_page_path(nil), do: ~p"/cms/pages/new"
-
-  def get_new_page_path(current_directory), do: ~p"/cms/pages/#{current_directory.id}/new"
+  defdelegate get_new_directory_path(current_directory), to: CmsDirectoryHelper
+  defdelegate get_new_page_path(current_directory), to: CmsDirectoryHelper
 end

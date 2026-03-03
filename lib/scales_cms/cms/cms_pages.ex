@@ -187,46 +187,119 @@ defmodule ScalesCms.Cms.CmsPages do
   def search_cms_pages(query, _status), do: search_cms_pages(query)
 
   @doc """
-  Fetches pages with optional query and status filters.
+  Fetches pages with optional query, status filters, and sorting.
   Used for root-level page listing.
+
+  ## Options
+
+    * `:sort_by` - Column to sort by: "created", "views", or "status"
+    * `:sort_order` - Sort direction: "asc" or "desc" (default: "asc")
 
   ## Examples
 
       iex> fetch_pages("", "")
       [%CmsPage{}, ...]
 
-      iex> fetch_pages("search term", "published")
+      iex> fetch_pages("search term", "published", sort_by: "views", sort_order: "desc")
       [%CmsPage{}, ...]
 
   """
-  def fetch_pages("", ""), do: list_cms_pages()
-  def fetch_pages("", status), do: list_cms_pages(status)
-  def fetch_pages(query, ""), do: search_cms_pages(query)
-  def fetch_pages(query, status), do: search_cms_pages(query, status)
+  def fetch_pages(query, status, opts \\ [])
+
+  def fetch_pages("", "", opts) do
+    CmsPage
+    |> where([cp], is_nil(cp.cms_directory_id))
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> repo().all()
+  end
+
+  def fetch_pages("", status, opts) when status in ["published", "draft"] do
+    CmsPage
+    |> where([cp], is_nil(cp.cms_directory_id))
+    |> filter_by_status(status)
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> repo().all()
+  end
+
+  def fetch_pages("", _status, opts), do: fetch_pages("", "", opts)
+
+  def fetch_pages(query, "", opts) do
+    CmsPage
+    |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> preload(:directory)
+    |> repo().all()
+  end
+
+  def fetch_pages(query, status, opts) when status in ["published", "draft"] do
+    CmsPage
+    |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> filter_by_status(status)
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> preload(:directory)
+    |> repo().all()
+  end
+
+  def fetch_pages(query, _status, opts), do: fetch_pages(query, "", opts)
 
   @doc """
-  Fetches pages for a directory with optional query and status filters.
+  Fetches pages for a directory with optional query, status filters, and sorting.
+
+  ## Options
+
+    * `:sort_by` - Column to sort by: "created", "views", or "status"
+    * `:sort_order` - Sort direction: "asc" or "desc" (default: "asc")
 
   ## Examples
 
       iex> fetch_pages_for_directory(123, "", "")
       [%CmsPage{}, ...]
 
-      iex> fetch_pages_for_directory(123, "search term", "published")
+      iex> fetch_pages_for_directory(123, "search term", "published", sort_by: "created", sort_order: "asc")
       [%CmsPage{}, ...]
 
   """
-  def fetch_pages_for_directory(directory_id, "", ""),
-    do: list_pages_for_directory_id(directory_id)
+  def fetch_pages_for_directory(directory_id, query, status, opts \\ [])
 
-  def fetch_pages_for_directory(directory_id, "", status),
-    do: list_pages_for_directory_id(directory_id, status)
+  def fetch_pages_for_directory(directory_id, "", "", opts) do
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> repo().all()
+  end
 
-  def fetch_pages_for_directory(directory_id, query, ""),
-    do: search_cms_pages_for_directory_id(directory_id, query)
+  def fetch_pages_for_directory(directory_id, "", status, opts)
+      when status in ["published", "draft"] do
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> filter_by_status(status)
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> repo().all()
+  end
 
-  def fetch_pages_for_directory(directory_id, query, status),
-    do: search_cms_pages_for_directory_id(directory_id, query, status)
+  def fetch_pages_for_directory(directory_id, "", _status, opts),
+    do: fetch_pages_for_directory(directory_id, "", "", opts)
+
+  def fetch_pages_for_directory(directory_id, query, "", opts) do
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> repo().all()
+  end
+
+  def fetch_pages_for_directory(directory_id, query, status, opts)
+      when status in ["published", "draft"] do
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> filter_by_status(status)
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> repo().all()
+  end
+
+  def fetch_pages_for_directory(directory_id, query, _status, opts),
+    do: fetch_pages_for_directory(directory_id, query, "", opts)
 
   @doc """
   Gets a single cms_page.
@@ -343,4 +416,60 @@ defmodule ScalesCms.Cms.CmsPages do
     query
     |> where([cp], cp.id not in subquery(published_page_ids))
   end
+
+  @doc """
+  Applies sorting to a query based on the given column and order.
+
+  ## Parameters
+
+    * `query` - The Ecto query to sort
+    * `sort_by` - Column to sort by: "created", "views", or "status"
+    * `sort_order` - Sort direction: "asc" or "desc" (default: "asc")
+
+  ## Examples
+
+      iex> apply_sorting(query, "created", "desc")
+      #Ecto.Query<...>
+
+  """
+  def apply_sorting(query, sort_by, sort_order)
+
+  def apply_sorting(query, "created", "desc") do
+    query |> order_by([cp], desc: cp.inserted_at)
+  end
+
+  def apply_sorting(query, "created", _sort_order) do
+    query |> order_by([cp], asc: cp.inserted_at)
+  end
+
+  def apply_sorting(query, "views", "desc") do
+    query |> order_by([cp], desc_nulls_last: cp.views)
+  end
+
+  def apply_sorting(query, "views", _sort_order) do
+    query |> order_by([cp], asc_nulls_first: cp.views)
+  end
+
+  def apply_sorting(query, "status", sort_order) do
+    # For status sorting, we need to join with the variants table
+    # and sort by whether the page has a published variant
+    published_page_ids =
+      from(v in CmsPageLocaleLatestVariant,
+        where: not is_nil(v.cms_page_latest_published_variant_id),
+        select: v.cms_page_id
+      )
+
+    # Add a virtual field for sorting: published pages get 1, drafts get 0
+    case sort_order do
+      "desc" ->
+        query
+        |> order_by([cp], desc: cp.id in subquery(published_page_ids))
+
+      _ ->
+        query
+        |> order_by([cp], asc: cp.id in subquery(published_page_ids))
+    end
+  end
+
+  def apply_sorting(query, _sort_by, _sort_order), do: query
 end
