@@ -3,7 +3,7 @@ defmodule ScalesCmsWeb.CmsPageLive.FormComponent do
 
   alias ScalesCms.Cms.CmsPages
 
-  @impl true
+  @impl Phoenix.LiveComponent
   def render(assigns) do
     ~H"""
     <div>
@@ -29,7 +29,7 @@ defmodule ScalesCmsWeb.CmsPageLive.FormComponent do
     """
   end
 
-  @impl true
+  @impl Phoenix.LiveComponent
   def update(%{cms_page: cms_page} = assigns, socket) do
     {:ok,
      socket
@@ -39,7 +39,7 @@ defmodule ScalesCmsWeb.CmsPageLive.FormComponent do
      end)}
   end
 
-  @impl true
+  @impl Phoenix.LiveComponent
   def handle_event("validate", %{"cms_page" => cms_page_params}, socket) do
     changeset = CmsPages.change_cms_page(socket.assigns.cms_page, cms_page_params)
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}

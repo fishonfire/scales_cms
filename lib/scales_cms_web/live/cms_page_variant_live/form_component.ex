@@ -3,7 +3,7 @@ defmodule ScalesCmsWeb.CmsPageVariantLive.FormComponent do
 
   alias ScalesCms.Cms.CmsPageVariants
 
-  @impl true
+  @impl Phoenix.LiveComponent
   def render(assigns) do
     ~H"""
     <div>
@@ -31,7 +31,7 @@ defmodule ScalesCmsWeb.CmsPageVariantLive.FormComponent do
     """
   end
 
-  @impl true
+  @impl Phoenix.LiveComponent
   def update(%{cms_page_variant: cms_page_variant} = assigns, socket) do
     {:ok,
      socket
@@ -41,7 +41,7 @@ defmodule ScalesCmsWeb.CmsPageVariantLive.FormComponent do
      end)}
   end
 
-  @impl true
+  @impl Phoenix.LiveComponent
   def handle_event("validate", %{"cms_page_variant" => cms_page_variant_params}, socket) do
     changeset =
       CmsPageVariants.change_cms_page_variant(
