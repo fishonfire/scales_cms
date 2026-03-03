@@ -24,6 +24,22 @@ defmodule ScalesCms.Cms.CmsDirectories do
   end
 
   @doc """
+  Returns the list of cms_directories matching the search query.
+
+  ## Examples
+
+      iex> search_cms_directories("blog")
+      [%CmsDirectory{}, ...]
+
+  """
+  def search_cms_directories(search) do
+    CmsDirectory
+    |> where([cd], is_nil(cd.cms_directory_id))
+    |> where([cd], ilike(cd.title, ^"%#{search}%"))
+    |> repo().all()
+  end
+
+  @doc """
   Returns the list of all cms_directories.
 
   ## Examples
@@ -61,6 +77,22 @@ defmodule ScalesCms.Cms.CmsDirectories do
   def list_cms_directories_for_parent_id(parent_id) do
     CmsDirectory
     |> where([cd], cd.cms_directory_id == ^parent_id)
+    |> repo().all()
+  end
+
+  @doc """
+  Returns the list of cms_directories under its parent id.
+
+  ## Examples
+
+      iex> list_cms_directories(12)
+      [%CmsDirectory{}, ...]
+
+  """
+  def search_cms_directories_for_parent_id(parent_id, search) do
+    CmsDirectory
+    |> where([cd], cd.cms_directory_id == ^parent_id)
+    |> where([cd], ilike(cd.title, ^"%#{search}%"))
     |> repo().all()
   end
 

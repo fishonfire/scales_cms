@@ -2179,6 +2179,10 @@ select {
   width: 100%;
 }
 
+.w-60 {
+  width: 15rem;
+}
+
 .max-w-3xl {
   max-width: 48rem;
 }

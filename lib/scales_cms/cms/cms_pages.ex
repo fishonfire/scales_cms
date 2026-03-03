@@ -77,6 +77,22 @@ defmodule ScalesCms.Cms.CmsPages do
   end
 
   @doc """
+  Returns the list of cms_pages within a directory.
+
+  ## Examples
+
+      iex> list_pages_for_directory_id(23)
+      [%CmsPage{}, ...]
+
+  """
+  def search_cms_pages_for_directory_id(directory_id, search) do
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> where([cp], ilike(cp.title, ^"%#{search}%"))
+    |> repo().all()
+  end
+
+  @doc """
   Returns the list of searched pages.
 
   ## Examples
@@ -85,7 +101,7 @@ defmodule ScalesCms.Cms.CmsPages do
       [%CmsPage{}, ...]
 
   """
-  def search_pages(query) do
+  def search_cms_pages(query) do
     CmsPage
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> preload(:directory)

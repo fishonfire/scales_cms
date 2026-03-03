@@ -24,6 +24,25 @@
     </:actions>
   </.header>
 
+  <.form
+    :let={f}
+    class="mb-4"
+    for={to_form(%{"query" => @query})}
+    phx-change="search"
+    phx-submit="search"
+  >
+    <div class="flex flex-row">
+      <.input
+        type="search"
+        field={f[:query]}
+        placeholder={gettext("Search by directory or page")}
+        class="input w-full"
+        phx-debounce="50"
+        autocomplete="off"
+      />
+    </div>
+  </.form>
+
   <table class="cms-table w-full">
     <thead>
       <tr>

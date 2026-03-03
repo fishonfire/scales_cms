@@ -42,34 +42,55 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
     |> assign(:cms_directory, %CmsDirectory{})
   end
 
-  defp apply_action(socket, :index, %{"id" => id}) do
+  defp apply_action(socket, :index, %{"id" => id} = params) do
+    query = Map.get(params, "query", "")
+    current_directory = CmsDirectories.get_cms_directory!(id)
+
+    {cms_directories, cms_pages} =
+      if query != "" do
+        {
+          CmsDirectories.search_cms_directories_for_parent_id(id, query),
+          CmsPages.search_cms_pages_for_directory_id(id, query)
+        }
+      else
+        {
+          CmsDirectories.list_cms_directories_for_parent_id(id),
+          CmsPages.list_pages_for_directory_id(id)
+        }
+      end
+
     socket
-    |> assign(
-      :cms_directories,
-      CmsDirectories.list_cms_directories_for_parent_id(id)
-    )
-    |> assign(
-      :cms_pages,
-      CmsPages.list_pages_for_directory_id(id)
-    )
-    |> assign(:current_directory, CmsDirectories.get_cms_directory!(id))
+    |> assign(:cms_directories, cms_directories)
+    |> assign(:cms_pages, cms_pages)
+    |> assign(:current_directory, current_directory)
     |> assign(:page_title, gettext("Directories"))
     |> assign(:cms_directory, nil)
+    |> assign(:query, query)
   end
 
-  defp apply_action(socket, :index, _params) do
+  defp apply_action(socket, :index, params) do
+    query = Map.get(params, "query", "")
+
+    {cms_directories, cms_pages} =
+      if query != "" do
+        {
+          CmsDirectories.search_cms_directories(query),
+          CmsPages.search_cms_pages(query)
+        }
+      else
+        {
+          CmsDirectories.list_cms_directories(),
+          CmsPages.list_cms_pages()
+        }
+      end
+
     socket
-    |> assign(
-      :cms_directories,
-      CmsDirectories.list_cms_directories()
-    )
-    |> assign(
-      :cms_pages,
-      CmsPages.list_cms_pages()
-    )
+    |> assign(:cms_directories, cms_directories)
+    |> assign(:cms_pages, cms_pages)
     |> assign(:current_directory, nil)
     |> assign(:page_title, gettext("Directories"))
     |> assign(:cms_directory, nil)
+    |> assign(:query, query)
   end
 
   @impl Phoenix.LiveView
@@ -155,6 +176,25 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
 
     socket
     |> push_navigate(to: ~p"/cms/page_builder/#{pv.id}")
+    |> then(&{:noreply, &1})
+  end
+
+  def handle_event("search", %{"query" => query}, socket) do
+    cms_directory = socket.assigns.current_directory
+
+    path =
+      if cms_directory != nil do
+        if query != "",
+          do: ~p"/cms/directories/#{cms_directory.id}?query=#{query}",
+          else: ~p"/cms/directories/#{cms_directory.id}"
+      else
+        if query != "",
+          do: ~p"/cms/directories?query=#{query}",
+          else: ~p"/cms/directories"
+      end
+
+    socket
+    |> push_patch(to: path)
     |> then(&{:noreply, &1})
   end
 
