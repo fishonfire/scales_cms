@@ -1755,6 +1755,10 @@ select:not([size]) {
   border-width: 0;
 }
 
+.pointer-events-none {
+  pointer-events: none;
+}
+
 .visible {
   visibility: visible;
 }
@@ -2738,6 +2742,14 @@ select:not([size]) {
   padding-right: 1.5rem;
 }
 
+.pl-10 {
+  padding-left: 2.5rem;
+}
+
+.pl-3 {
+  padding-left: 0.75rem;
+}
+
 .text-left {
   text-align: left;
 }
@@ -2898,6 +2910,11 @@ select:not([size]) {
 .text-zinc-900 {
   --tw-text-opacity: 1;
   color: rgb(24 24 27 / var(--tw-text-opacity));
+}
+
+.text-primary {
+  --tw-text-opacity: 1;
+  color: rgb(33 195 157 / var(--tw-text-opacity));
 }
 
 .underline {

@@ -374,6 +374,32 @@ defmodule ScalesCmsWeb.CoreComponents do
     """
   end
 
+  def input(%{type: "search"} = assigns) do
+    ~H"""
+    <div>
+      <.label :if={@label && @label != ""} for={@id}>{@label}</.label>
+      <div class="relative">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+          <.icon name="hero-magnifying-glass" class="h-5 w-5 text-primary" />
+        </div>
+        <input
+          type="search"
+          name={@name}
+          id={@id}
+          value={Phoenix.HTML.Form.normalize_value(@type, @value)}
+          class={[
+            "mt-1 block w-full rounded text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 pl-10",
+            @errors == [] && "border-zinc-300 focus:border-zinc-400",
+            @errors != [] && "border-rose-400 focus:border-rose-400"
+          ]}
+          {@rest}
+        />
+      </div>
+      <.error :for={msg <- @errors}>{msg}</.error>
+    </div>
+    """
+  end
+
   # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
     ~H"""
