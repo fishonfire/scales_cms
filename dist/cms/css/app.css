@@ -1380,12 +1380,20 @@ select {
 
 .sidebar.closed {
   /* w-64 = 256px, we want to show 48px, so hide 208px */
-  transform: translateX(-208px);
 }
 
 .sidebar.\!closed {
   /* w-64 = 256px, we want to show 48px, so hide 208px */
-  transform: translateX(-208px) !important;
+}
+
+.sidebar.closed {
+  --tw-translate-x: -208px;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.sidebar.\!closed {
+  --tw-translate-x: -208px;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .sidebar .scales-logo {
@@ -1522,37 +1530,39 @@ select {
 /* Main content wrapper - applies to the main element */
 
 .main-content {
+  /* w-64 = 16rem = 256px */
+  margin-left: 16rem;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
-  margin-left: 256px;
-  /* w-64 = 16rem = 256px */
 }
 
 .main-content.sidebar-closed {
-  margin-left: 48px;
-  /* Width of visible sidebar strip when closed */
+  margin-left: 3rem;
+  /* 48px = 3rem */
 }
 
 /* Mobile: sidebar starts hidden, main content has no margin */
 
 @media (max-width: 639px) {
   .sidebar {
-    transform: translateX(-100%);
+    --tw-translate-x: -100%;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   }
 
   .sidebar:not(.closed) {
-    transform: translateX(0);
+    --tw-translate-x: 0px;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   }
 
   .main-content {
-    margin-left: 0;
+    margin-left: 0px;
   }
 
   .main-content.sidebar-closed {
-    margin-left: 0;
+    margin-left: 0px;
   }
 }
 

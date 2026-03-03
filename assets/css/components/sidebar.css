@@ -5,7 +5,7 @@
 
     .sidebar.closed {
         /* w-64 = 256px, we want to show 48px, so hide 208px */
-        transform: translateX(-208px);
+        @apply -translate-x-[208px];
     }
 
     .sidebar .scales-logo {
@@ -70,30 +70,30 @@
 
     /* Main content wrapper - applies to the main element */
     .main-content {
-        @apply transition;
-        margin-left: 256px; /* w-64 = 16rem = 256px */
+        /* w-64 = 16rem = 256px */
+        @apply transition ml-64;
     }
 
     .main-content.sidebar-closed {
-        margin-left: 48px; /* Width of visible sidebar strip when closed */
+        @apply ml-12; /* 48px = 3rem */
     }
 
     /* Mobile: sidebar starts hidden, main content has no margin */
     @media (max-width: 639px) {
         .sidebar {
-            transform: translateX(-100%);
+            @apply -translate-x-full;
         }
 
         .sidebar:not(.closed) {
-            transform: translateX(0);
+            @apply translate-x-0;
         }
 
         .main-content {
-            margin-left: 0;
+            @apply ml-0;
         }
 
         .main-content.sidebar-closed {
-            margin-left: 0;
+            @apply ml-0;
         }
     }
 
