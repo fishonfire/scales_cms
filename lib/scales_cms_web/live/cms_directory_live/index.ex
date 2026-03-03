@@ -54,7 +54,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
         CmsDirectories.list_cms_directories_for_parent_id(id)
       end
 
-    cms_pages = fetch_pages_for_directory(id, query, status)
+    cms_pages = CmsPages.fetch_pages_for_directory(id, query, status)
 
     socket
     |> assign(:cms_directories, cms_directories)
@@ -77,7 +77,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
         CmsDirectories.list_cms_directories()
       end
 
-    cms_pages = fetch_pages(query, status)
+    cms_pages = CmsPages.fetch_pages(query, status)
 
     socket
     |> assign(:cms_directories, cms_directories)
@@ -88,23 +88,6 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
     |> assign(:query, query)
     |> assign(:status, status)
   end
-
-  defp fetch_pages_for_directory(directory_id, "", ""),
-    do: CmsPages.list_pages_for_directory_id(directory_id)
-
-  defp fetch_pages_for_directory(directory_id, "", status),
-    do: CmsPages.list_pages_for_directory_id(directory_id, status)
-
-  defp fetch_pages_for_directory(directory_id, query, ""),
-    do: CmsPages.search_cms_pages_for_directory_id(directory_id, query)
-
-  defp fetch_pages_for_directory(directory_id, query, status),
-    do: CmsPages.search_cms_pages_for_directory_id(directory_id, query, status)
-
-  defp fetch_pages("", ""), do: CmsPages.list_cms_pages()
-  defp fetch_pages("", status), do: CmsPages.list_cms_pages(status)
-  defp fetch_pages(query, ""), do: CmsPages.search_cms_pages(query)
-  defp fetch_pages(query, status), do: CmsPages.search_cms_pages(query, status)
 
   @impl Phoenix.LiveView
   def handle_info({ScalesCmsWeb.CmsDirectoryLive.FormComponent, {:saved, cms_directory}}, socket) do

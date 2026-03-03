@@ -187,6 +187,48 @@ defmodule ScalesCms.Cms.CmsPages do
   def search_cms_pages(query, _status), do: search_cms_pages(query)
 
   @doc """
+  Fetches pages with optional query and status filters.
+  Used for root-level page listing.
+
+  ## Examples
+
+      iex> fetch_pages("", "")
+      [%CmsPage{}, ...]
+
+      iex> fetch_pages("search term", "published")
+      [%CmsPage{}, ...]
+
+  """
+  def fetch_pages("", ""), do: list_cms_pages()
+  def fetch_pages("", status), do: list_cms_pages(status)
+  def fetch_pages(query, ""), do: search_cms_pages(query)
+  def fetch_pages(query, status), do: search_cms_pages(query, status)
+
+  @doc """
+  Fetches pages for a directory with optional query and status filters.
+
+  ## Examples
+
+      iex> fetch_pages_for_directory(123, "", "")
+      [%CmsPage{}, ...]
+
+      iex> fetch_pages_for_directory(123, "search term", "published")
+      [%CmsPage{}, ...]
+
+  """
+  def fetch_pages_for_directory(directory_id, "", ""),
+    do: list_pages_for_directory_id(directory_id)
+
+  def fetch_pages_for_directory(directory_id, "", status),
+    do: list_pages_for_directory_id(directory_id, status)
+
+  def fetch_pages_for_directory(directory_id, query, ""),
+    do: search_cms_pages_for_directory_id(directory_id, query)
+
+  def fetch_pages_for_directory(directory_id, query, status),
+    do: search_cms_pages_for_directory_id(directory_id, query, status)
+
+  @doc """
   Gets a single cms_page.
 
   Raises `Ecto.NoResultsError` if the Cms page does not exist.
