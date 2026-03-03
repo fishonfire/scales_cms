@@ -152,8 +152,7 @@ defmodule ScalesCmsWeb.Hooks.SidebarState do
       "user:#{socket.assigns.current_user.id}"
     else
       # Fallback to socket-based ID (less stable, but works for unauthenticated users)
-      true ->
-        socket.private[:live_socket_id] || socket.id
+      socket.private[:live_socket_id] || socket.id
     end
   end
 
