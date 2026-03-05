@@ -1,8 +1,25 @@
 <div class="w-[calc(100%-400px)]">
-  <div class="flex space-between mt-12 mb-4">
-    <h2 class="text-2xl flex-1">
-      {@cms_page_variant.title}
-    </h2>
+  <button
+    type="button"
+    class="p-0 m-0 mt-4 mb-4"
+    phx-click={JS.dispatch("app:back")}
+  >
+    &lt; {gettext("Back")}
+  </button>
+  <div class="flex space-between mt-4 mb-4">
+    <div class="flex items-center flex-1 space-x-2">
+      <h2 class="text-2xl">
+        <.link patch={~p"/cms/directories"} class="p-0 m-0">
+          {gettext("Pages")}
+        </.link>
+      </h2>
+      <h2 class="text-2xl">
+        >
+      </h2>
+      <h2 class="text-2xl">
+        {@cms_page_variant.title}
+      </h2>
+    </div>
 
     <div class="flex space-x-4">
       <.live_component id="locale_switcher" module={LocaleSwitcher} />
