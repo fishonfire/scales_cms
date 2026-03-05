@@ -93,7 +93,7 @@ defmodule ScalesCms.Cms.CmsPages do
   end
 
   @doc """
-  Returns the list of searched pages.
+  Returns the root list of searched pages.
 
   ## Examples
 
@@ -103,6 +103,7 @@ defmodule ScalesCms.Cms.CmsPages do
   """
   def search_cms_pages(query) do
     CmsPage
+    |> where([cp], is_nil(cp.cms_directory_id))
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> preload(:directory)
     |> repo().all()
