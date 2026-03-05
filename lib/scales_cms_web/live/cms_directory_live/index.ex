@@ -211,8 +211,6 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
   defp maybe_add_param(params, _key, nil), do: params
   defp maybe_add_param(params, key, value), do: Map.put(params, key, value)
 
-  def page_published?(cms_page), do: CmsPages.published?(cms_page)
-
   def get_new_directory_path(nil), do: ~p"/cms/directories/new"
 
   def get_new_directory_path(current_directory),

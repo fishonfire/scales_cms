@@ -8,6 +8,20 @@ defmodule ScalesCms.Cms.CmsPages do
   alias ScalesCms.Cms.CmsPageLocaleLatestVariant
   import ScalesCms, only: [repo: 0]
 
+  # Helper to add published status via subquery (avoids N+1 queries)
+  defp with_published_status(query) do
+    published_subquery =
+      from v in CmsPageLocaleLatestVariant,
+        where: parent_as(:cms_page).id == v.cms_page_id,
+        where: not is_nil(v.cms_page_latest_published_variant_id),
+        select: 1,
+        limit: 1
+
+    from cp in query,
+      as: :cms_page,
+      select_merge: %{published: exists(subquery(published_subquery))}
+  end
+
   @doc """
   Returns the list of cms_pages.
 
@@ -20,6 +34,7 @@ defmodule ScalesCms.Cms.CmsPages do
   def list_cms_pages do
     CmsPage
     |> where([cp], is_nil(cp.cms_directory_id))
+    |> with_published_status()
     |> repo().all()
   end
 
@@ -36,6 +51,7 @@ defmodule ScalesCms.Cms.CmsPages do
     CmsPage
     |> where([cp], is_nil(cp.cms_directory_id))
     |> filter_by_status(status)
+    |> with_published_status()
     |> repo().all()
   end
 
@@ -92,6 +108,7 @@ defmodule ScalesCms.Cms.CmsPages do
   def list_pages_for_directory_id(directory_id) do
     CmsPage
     |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> with_published_status()
     |> repo().all()
   end
 
@@ -108,6 +125,7 @@ defmodule ScalesCms.Cms.CmsPages do
     CmsPage
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> filter_by_status(status)
+    |> with_published_status()
     |> repo().all()
   end
 
@@ -127,6 +145,7 @@ defmodule ScalesCms.Cms.CmsPages do
     CmsPage
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> where([cp], ilike(cp.title, ^"%#{search}%"))
+    |> with_published_status()
     |> repo().all()
   end
 
@@ -145,6 +164,7 @@ defmodule ScalesCms.Cms.CmsPages do
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> where([cp], ilike(cp.title, ^"%#{search}%"))
     |> filter_by_status(status)
+    |> with_published_status()
     |> repo().all()
   end
 
@@ -163,6 +183,7 @@ defmodule ScalesCms.Cms.CmsPages do
   def search_cms_pages(query) do
     CmsPage
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> with_published_status()
     |> preload(:directory)
     |> repo().all()
   end
@@ -180,6 +201,7 @@ defmodule ScalesCms.Cms.CmsPages do
     CmsPage
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> filter_by_status(status)
+    |> with_published_status()
     |> preload(:directory)
     |> repo().all()
   end
