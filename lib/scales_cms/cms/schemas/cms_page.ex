@@ -11,6 +11,9 @@ defmodule ScalesCms.Cms.CmsPage do
 
     field :deleted_at, :naive_datetime
 
+    # Virtual field to track published status without N+1 queries
+    field :published, :boolean, virtual: true
+
     has_many :cms_page_variants, ScalesCms.Cms.CmsPageVariant
     has_many :cms_page_locale_latest_variants, ScalesCms.Cms.CmsPageLocaleLatestVariant
 
