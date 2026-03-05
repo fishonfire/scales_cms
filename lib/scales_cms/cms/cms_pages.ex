@@ -233,6 +233,7 @@ defmodule ScalesCms.Cms.CmsPages do
     CmsPage
     |> where([cp], is_nil(cp.cms_directory_id))
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> with_published_status()
     |> repo().all()
   end
 
@@ -241,6 +242,7 @@ defmodule ScalesCms.Cms.CmsPages do
     |> where([cp], is_nil(cp.cms_directory_id))
     |> filter_by_status(status)
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> with_published_status()
     |> repo().all()
   end
 
@@ -251,6 +253,7 @@ defmodule ScalesCms.Cms.CmsPages do
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
     |> preload(:directory)
+    |> with_published_status()
     |> repo().all()
   end
 
@@ -260,6 +263,7 @@ defmodule ScalesCms.Cms.CmsPages do
     |> filter_by_status(status)
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
     |> preload(:directory)
+    |> with_published_status()
     |> repo().all()
   end
 
@@ -288,6 +292,7 @@ defmodule ScalesCms.Cms.CmsPages do
     CmsPage
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> with_published_status()
     |> repo().all()
   end
 
@@ -297,6 +302,7 @@ defmodule ScalesCms.Cms.CmsPages do
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> filter_by_status(status)
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> with_published_status()
     |> repo().all()
   end
 
@@ -308,6 +314,7 @@ defmodule ScalesCms.Cms.CmsPages do
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> with_published_status()
     |> repo().all()
   end
 
@@ -318,6 +325,7 @@ defmodule ScalesCms.Cms.CmsPages do
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> filter_by_status(status)
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> with_published_status()
     |> repo().all()
   end
 
