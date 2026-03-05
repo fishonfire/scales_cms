@@ -64,47 +64,95 @@
       <tr>
         <th></th>
         <th>{gettext("Title")}</th>
-        <th class="cursor-pointer select-none" phx-click="sort" phx-value-column="created">
-          <span class="inline-flex items-center gap-1">
-            {gettext("Created")}
-            <%= if @sort_by == "created" do %>
-              <%= if @sort_order == "asc" do %>
-                <.icon name="hero-chevron-up" class="w-4 h-4" />
+        <th
+          class="select-none"
+          aria-sort={
+            if @sort_by == "created" do
+              if @sort_order == "asc", do: "ascending", else: "descending"
+            else
+              "none"
+            end
+          }
+        >
+          <button
+            type="button"
+            class="cursor-pointer select-none w-full text-left"
+            phx-click="sort"
+            phx-value-column="created"
+          >
+            <span class="inline-flex items-center gap-1">
+              {gettext("Created")}
+              <%= if @sort_by == "created" do %>
+                <%= if @sort_order == "asc" do %>
+                  <.icon name="hero-chevron-up" class="w-4 h-4" />
+                <% else %>
+                  <.icon name="hero-chevron-down" class="w-4 h-4" />
+                <% end %>
               <% else %>
-                <.icon name="hero-chevron-down" class="w-4 h-4" />
+                <.icon name="hero-chevron-up-down" class="w-4 h-4 opacity-50" />
               <% end %>
-            <% else %>
-              <.icon name="hero-chevron-up-down" class="w-4 h-4 opacity-50" />
-            <% end %>
-          </span>
+            </span>
+          </button>
         </th>
-        <th class="cursor-pointer select-none" phx-click="sort" phx-value-column="views">
-          <span class="inline-flex items-center gap-1">
-            {gettext("Views")}
-            <%= if @sort_by == "views" do %>
-              <%= if @sort_order == "asc" do %>
-                <.icon name="hero-chevron-up" class="w-4 h-4" />
+        <th
+          class="select-none"
+          aria-sort={
+            if @sort_by == "views" do
+              if @sort_order == "asc", do: "ascending", else: "descending"
+            else
+              "none"
+            end
+          }
+        >
+          <button
+            type="button"
+            class="cursor-pointer select-none w-full text-left"
+            phx-click="sort"
+            phx-value-column="views"
+          >
+            <span class="inline-flex items-center gap-1">
+              {gettext("Views")}
+              <%= if @sort_by == "views" do %>
+                <%= if @sort_order == "asc" do %>
+                  <.icon name="hero-chevron-up" class="w-4 h-4" />
+                <% else %>
+                  <.icon name="hero-chevron-down" class="w-4 h-4" />
+                <% end %>
               <% else %>
-                <.icon name="hero-chevron-down" class="w-4 h-4" />
+                <.icon name="hero-chevron-up-down" class="w-4 h-4 opacity-50" />
               <% end %>
-            <% else %>
-              <.icon name="hero-chevron-up-down" class="w-4 h-4 opacity-50" />
-            <% end %>
-          </span>
+            </span>
+          </button>
         </th>
-        <th class="cursor-pointer select-none" phx-click="sort" phx-value-column="status">
-          <span class="inline-flex items-center gap-1">
-            {gettext("Status")}
-            <%= if @sort_by == "status" do %>
-              <%= if @sort_order == "asc" do %>
-                <.icon name="hero-chevron-up" class="w-4 h-4" />
+        <th
+          class="select-none"
+          aria-sort={
+            if @sort_by == "status" do
+              if @sort_order == "asc", do: "ascending", else: "descending"
+            else
+              "none"
+            end
+          }
+        >
+          <button
+            type="button"
+            class="cursor-pointer select-none w-full text-left"
+            phx-click="sort"
+            phx-value-column="status"
+          >
+            <span class="inline-flex items-center gap-1">
+              {gettext("Status")}
+              <%= if @sort_by == "status" do %>
+                <%= if @sort_order == "asc" do %>
+                  <.icon name="hero-chevron-up" class="w-4 h-4" />
+                <% else %>
+                  <.icon name="hero-chevron-down" class="w-4 h-4" />
+                <% end %>
               <% else %>
-                <.icon name="hero-chevron-down" class="w-4 h-4" />
+                <.icon name="hero-chevron-up-down" class="w-4 h-4 opacity-50" />
               <% end %>
-            <% else %>
-              <.icon name="hero-chevron-up-down" class="w-4 h-4 opacity-50" />
-            <% end %>
-          </span>
+            </span>
+          </button>
         </th>
         <th></th>
       </tr>
