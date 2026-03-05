@@ -244,8 +244,6 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
     |> then(&{:noreply, &1})
   end
 
-  def page_published?(cms_page), do: CmsPages.published?(cms_page)
-
   defdelegate get_new_directory_path(current_directory), to: CmsDirectoryHelper
   defdelegate get_new_page_path(current_directory), to: CmsDirectoryHelper
 end

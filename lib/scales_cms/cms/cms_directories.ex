@@ -144,11 +144,11 @@ defmodule ScalesCms.Cms.CmsDirectories do
   end
 
   @doc """
-  Returns the list of cms_directories under its parent id.
+  Returns the list of cms_directories under its parent id matching the search query.
 
   ## Examples
 
-      iex> list_cms_directories(12)
+      iex> search_cms_directories_for_parent_id(12, "blog")
       [%CmsDirectory{}, ...]
 
   """
