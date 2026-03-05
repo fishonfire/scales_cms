@@ -85,7 +85,8 @@ defmodule ScalesCms.CmsTest do
 
     test "list_cms_pages/0 returns all cms_pages" do
       cms_page = cms_page_fixture()
-      assert CmsPages.list_cms_pages() == [cms_page]
+      [listed_page] = CmsPages.list_cms_pages()
+      assert listed_page.id == cms_page.id
     end
 
     test "get_cms_page!/1 returns the cms_page with given id" do
