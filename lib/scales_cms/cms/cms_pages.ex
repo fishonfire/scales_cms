@@ -81,7 +81,7 @@ defmodule ScalesCms.Cms.CmsPages do
 
   ## Examples
 
-      iex> list_pages_for_directory_id(23)
+      iex> search_cms_pages_for_directory_id(23, "search term")
       [%CmsPage{}, ...]
 
   """
