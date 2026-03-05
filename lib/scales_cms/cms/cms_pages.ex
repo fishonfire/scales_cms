@@ -137,7 +137,7 @@ defmodule ScalesCms.Cms.CmsPages do
 
   ## Examples
 
-      iex> list_pages_for_directory_id(23)
+      iex> search_cms_pages_for_directory_id(23, "search term")
       [%CmsPage{}, ...]
 
   """
@@ -172,7 +172,7 @@ defmodule ScalesCms.Cms.CmsPages do
     do: search_cms_pages_for_directory_id(directory_id, search)
 
   @doc """
-  Returns the list of searched pages.
+  Returns the root list of searched pages.
 
   ## Examples
 
@@ -182,6 +182,7 @@ defmodule ScalesCms.Cms.CmsPages do
   """
   def search_cms_pages(query) do
     CmsPage
+    |> where([cp], is_nil(cp.cms_directory_id))
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> with_published_status()
     |> preload(:directory)
