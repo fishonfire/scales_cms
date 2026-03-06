@@ -24,7 +24,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
 
     socket
     |> assign(assigns)
-    |> assign(:show_media_library, false)
+    |> assign_new(:show_media_library, fn -> false end)
     |> assign(form: form)
     |> then(&{:ok, &1})
   end
