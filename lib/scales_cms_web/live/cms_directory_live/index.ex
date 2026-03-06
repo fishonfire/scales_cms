@@ -177,9 +177,10 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
 
   def handle_event("search", %{"query" => query}, socket) do
     status = socket.assigns.status
+    cms_directory = socket.assigns.current_directory
 
     socket
-    |> push_patch(to: build_filter_path(socket.assigns.current_directory, query, status))
+    |> push_patch(to: build_filter_path(cms_directory, query, status))
     |> then(&{:noreply, &1})
   end
 
