@@ -109,14 +109,13 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButton.ImageButtonEditor do
           </button>
         </div>
 
-        <%= if @show_media_library do %>
-          <.live_component
-            module={MediaLibraryModal}
-            id={"media-library-modal-#{@block.id}"}
-            filter_type="image"
-            target={@myself}
-          />
-        <% end %>
+        <.live_component
+          :if={@show_media_library}
+          module={MediaLibraryModal}
+          id={"media-library-modal-#{@block.id}"}
+          filter_type="image"
+          target={@myself}
+        />
 
         <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
           <.input type="text" field={@form[:title]} label="Title" disabled={@published} />

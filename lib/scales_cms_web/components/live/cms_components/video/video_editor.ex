@@ -81,14 +81,13 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
         </.simple_form>
       </.live_component>
 
-      <%= if @show_media_library do %>
-        <.live_component
-          module={MediaLibraryModal}
-          id={"media-library-modal-#{@block.id}"}
-          filter_type="video"
-          target={@myself}
-        />
-      <% end %>
+      <.live_component
+        :if={@show_media_library}
+        module={MediaLibraryModal}
+        id={"media-library-modal-#{@block.id}"}
+        filter_type="video"
+        target={@myself}
+      />
     </div>
     """
   end

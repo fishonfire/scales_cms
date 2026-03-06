@@ -133,14 +133,13 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Lottie.LottieEditor do
         </.simple_form>
       </.live_component>
 
-      <%= if @show_media_library do %>
-        <.live_component
-          id={"media-library-modal-#{@block.id}"}
-          module={MediaLibraryModal}
-          filter_type="lottie"
-          target={@myself}
-        />
-      <% end %>
+      <.live_component
+        :if={@show_media_library}
+        id={"media-library-modal-#{@block.id}"}
+        module={MediaLibraryModal}
+        filter_type="lottie"
+        target={@myself}
+      />
     </div>
     """
   end

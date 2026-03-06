@@ -113,14 +113,13 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
         </button>
       </div>
 
-      <%= if @show_media_library do %>
-        <.live_component
-          module={MediaLibraryModal}
-          id={"media-library-modal-#{@block.id}-#{@index}"}
-          filter_type="image"
-          target={@myself}
-        />
-      <% end %>
+      <.live_component
+        :if={@show_media_library}
+        module={MediaLibraryModal}
+        id={"media-library-modal-#{@block.id}-#{@index}"}
+        filter_type="image"
+        target={@myself}
+      />
 
       <.simple_form
         id={"button-form-#{@index}-#{@block.id}"}
