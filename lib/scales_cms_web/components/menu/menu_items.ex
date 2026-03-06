@@ -24,6 +24,11 @@ defmodule ScalesCmsWeb.Components.MenuItems do
       alternative_routes: ["/cms/page_builder/*"]
     },
     %ScalesCmsWeb.Components.MenuItem{
+      title: gettext("Media Library"),
+      icon: "hero-photo",
+      route: "/cms/media"
+    },
+    %ScalesCmsWeb.Components.MenuItem{
       title: gettext("Settings"),
       icon: "hero-wrench-screwdriver",
       route: "/cms/settings"

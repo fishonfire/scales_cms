@@ -159,8 +159,6 @@ defmodule ScalesCmsWeb.UserAuth do
   end
 
   def on_mount(:ensure_authenticated, _params, session, socket) do
-    IO.puts("ensure authenticated my man")
-
     socket = mount_current_user(socket, session)
 
     if socket.assigns.current_user do

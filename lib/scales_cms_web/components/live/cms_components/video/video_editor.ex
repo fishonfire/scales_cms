@@ -1,14 +1,13 @@
 defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
   @moduledoc """
-  An image components editor
+  A video components editor with media library support
   """
   alias ScalesCmsWeb.Components.HelperComponents.BlockWrapper
   alias ScalesCmsWeb.Components.CmsComponents.Video.VideoProperties
+  alias ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryModal
+  alias ScalesCms.Cms.Helpers.S3Upload
 
   use ScalesCmsWeb, :live_component
-
-  use ScalesCmsWeb.Components.CmsComponents.Helpers.FileUploader,
-    entity_name: "video"
 
   @impl Phoenix.LiveComponent
   def update(assigns, socket) do
@@ -25,12 +24,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
 
     socket
     |> assign(assigns)
-    |> allow_upload(:video,
-      accept: ~w(.mp4 .webm),
-      max_entries: 1,
-      auto_upload: true,
-      external: &presign_entry/2
-    )
+    |> assign(:show_media_library, false)
     |> assign(form: form)
     |> then(&{:ok, &1})
   end
@@ -48,21 +42,24 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
         <div class="flex">
           <%= if has_video(@block.properties) do %>
             <video controls class="max-w-[200px] max-h-[200px] object-cover mr-[24px]">
-              <source :if={has_video(@block.properties)} src={get_video_url(@block.properties)} />
+              <source src={get_video_url(@block.properties)} />
             </video>
           <% end %>
 
-          <%= if can_upload(@block.properties) do %>
-            <.file_uploader {assigns} entity_name="video" />
-          <% end %>
+          <button
+            type="button"
+            phx-click="open_media_library"
+            phx-target={@myself}
+            class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg transition-colors text-sm"
+          >
+            <.icon name="hero-film" class="h-4 w-4" />
+            {gettext("Select from library")}
+          </button>
         </div>
 
         <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
           <.input
-            :if={
-              Map.get(@block.properties, "video_path", nil) == nil &&
-                length(assigns.uploads.video.entries) == 0
-            }
+            :if={Map.get(@block.properties, "video_path", nil) == nil}
             type="text"
             field={@form[:video_url]}
             label="Video url"
@@ -83,44 +80,61 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
           </:actions>
         </.simple_form>
       </.live_component>
+
+      <%= if @show_media_library do %>
+        <.live_component
+          module={MediaLibraryModal}
+          id={"media-library-modal-#{@block.id}"}
+          filter_type="video"
+          target={@myself}
+        />
+      <% end %>
     </div>
     """
   end
 
   @impl Phoenix.LiveComponent
-  def handle_event("validate", _params, socket) do
-    {:noreply, socket}
+  def handle_event("open_media_library", _params, socket) do
+    {:noreply, assign(socket, :show_media_library, true)}
+  end
+
+  @impl Phoenix.LiveComponent
+  def handle_event("close_media_library", _params, socket) do
+    {:noreply, assign(socket, :show_media_library, false)}
+  end
+
+  @impl Phoenix.LiveComponent
+  def handle_event("media_selected", %{"id" => id}, socket) do
+    item = ScalesCms.Cms.CmsMediaLibrary.get_media_library_item!(id)
+
+    properties =
+      socket.assigns.block.properties
+      |> Map.put("video_path", item.url)
+      |> Map.put("video_url", nil)
+
+    with {:ok, block} <-
+           ScalesCms.Cms.CmsPageVariantBlocks.update_cms_page_variant_block(
+             socket.assigns.block,
+             %{properties: properties}
+           ) do
+      socket
+      |> assign(block: block)
+      |> assign(:show_media_library, false)
+      |> then(&{:noreply, &1})
+    end
   end
 
   @impl Phoenix.LiveComponent
   def handle_event("store-properties", %{"video_properties" => properties}, socket) do
     properties = Map.merge(socket.assigns.block.properties, properties)
 
-    with _block <-
+    with {:ok, _block} <-
            ScalesCms.Cms.CmsPageVariantBlocks.update_cms_page_variant_block(
              socket.assigns.block,
              %{properties: properties}
            ) do
       {:noreply, socket}
     end
-  end
-
-  def handle_event("save", %{"video_properties" => properties}, socket) do
-    properties = put_file_urls(socket, properties)
-
-    with {:ok, block} <-
-           ScalesCms.Cms.CmsPageVariantBlocks.update_cms_page_variant_block(
-             socket.assigns.block,
-             %{properties: Map.merge(socket.assigns.block.properties, properties)}
-           ) do
-      socket
-      |> assign(block: block)
-      |> then(&{:noreply, &1})
-    end
-  end
-
-  def handle_event("save", %{}, socket) do
-    {:noreply, socket}
   end
 
   def has_video(block_properties) do
@@ -134,9 +148,4 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
 
   defp get_video_url(%{"video_url" => video_url}), do: video_url
   defp get_video_url(_), do: nil
-
-  def can_upload(block_properties) do
-    Map.get(block_properties, "video_url", nil) == nil ||
-      Map.get(block_properties, "video_path", nil) != nil
-  end
 end

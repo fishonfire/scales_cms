@@ -29,6 +29,12 @@ defmodule ScalesCmsWeb.Components.DashboardTiles do
       route: "/cms/directories"
     },
     %DashboardTile{
+      title: gettext("Media Library"),
+      description: gettext("Upload and manage images, videos, and documents"),
+      icon: "hero-photo",
+      route: "/cms/media"
+    },
+    %DashboardTile{
       title: gettext("Settings"),
       description: gettext("Configure CMS settings"),
       icon: "hero-wrench-screwdriver",

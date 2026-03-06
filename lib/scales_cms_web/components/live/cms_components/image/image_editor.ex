@@ -4,11 +4,10 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image.ImageEditor do
   """
   alias ScalesCmsWeb.Components.HelperComponents.BlockWrapper
   alias ScalesCmsWeb.Components.CmsComponents.Image.ImageProperties
+  alias ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryModal
+  alias ScalesCms.Cms.Helpers.S3Upload
 
   use ScalesCmsWeb, :live_component
-
-  use ScalesCmsWeb.Components.CmsComponents.Helpers.FileUploader,
-    entity_name: "image"
 
   @impl Phoenix.LiveComponent
   def update(assigns, socket) do
@@ -25,12 +24,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image.ImageEditor do
 
     socket
     |> assign(assigns)
-    |> allow_upload(:image,
-      accept: ~w(.png .jpeg .jpg .webp),
-      max_entries: 1,
-      auto_upload: true,
-      external: &presign_entry/2
-    )
+    |> assign_new(:show_media_library, fn -> false end)
     |> assign(form: form)
     |> then(&{:ok, &1})
   end
@@ -46,7 +40,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image.ImageEditor do
         component={ScalesCmsWeb.Components.CmsComponents.Image}
         published={@published}
       >
-        <div class="flex">
+        <div class="flex items-start gap-4">
           <img
             :if={Map.get(@block.properties || %{}, "image_path", nil) != nil}
             src={
@@ -54,23 +48,47 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image.ImageEditor do
                 Map.get(@block.properties || %{}, "image_path", nil)
               )
             }
-            class="max-w-[200px] max-h-[200px] object-cover mr-[24px]"
+            class="max-w-[200px] max-h-[200px] object-cover rounded-lg"
           />
 
-          <.file_uploader :if={!@published} {assigns} entity_name="image" />
+          <button
+            :if={!@published}
+            type="button"
+            phx-click="open_media_library"
+            phx-target={@myself}
+            class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg transition-colors text-sm"
+          >
+            <.icon name="hero-photo" class="h-4 w-4" />
+            {gettext("Select from library")}
+          </button>
         </div>
+
+        <%= if @show_media_library do %>
+          <.live_component
+            module={MediaLibraryModal}
+            id={"media-library-modal-#{@block.id}"}
+            filter_type="image"
+            target={@myself}
+          />
+        <% end %>
       </.live_component>
     </div>
     """
   end
 
   @impl Phoenix.LiveComponent
-  def handle_event("validate", _params, socket) do
-    {:noreply, socket}
+  def handle_event("open_media_library", _params, socket) do
+    {:noreply, assign(socket, :show_media_library, true)}
   end
 
-  def handle_event("save", %{"image_properties" => properties}, socket) do
-    properties = put_file_urls(socket, properties)
+  def handle_event("media_selected", %{"id" => id}, socket) do
+    item = ScalesCms.Cms.CmsMediaLibrary.get_media_library_item!(id)
+
+    properties =
+      Map.merge(socket.assigns.block.properties || %{}, %{
+        "image_path" => item.url,
+        "image_url" => S3Upload.get_presigned_url_for_display(item.url)
+      })
 
     with {:ok, block} <-
            ScalesCms.Cms.CmsPageVariantBlocks.update_cms_page_variant_block(
@@ -79,11 +97,12 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image.ImageEditor do
            ) do
       socket
       |> assign(block: block)
+      |> assign(show_media_library: false)
       |> then(&{:noreply, &1})
     end
   end
 
-  def handle_event("save", %{}, socket) do
-    {:noreply, socket}
+  def handle_event("close_media_library", _params, socket) do
+    {:noreply, assign(socket, :show_media_library, false)}
   end
 end

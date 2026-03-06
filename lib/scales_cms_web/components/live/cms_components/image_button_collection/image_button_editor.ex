@@ -4,20 +4,13 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
   alias ScalesCmsWeb.Components.CmsComponents.ImageButton.ImageButtonProperties
   alias ScalesCms.Cms.CmsPageVariantBlocks
   alias ScalesCms.Cms.Helpers.S3Upload
-
-  import ScalesCmsWeb.Components.CmsComponents.Helpers.FileUploaderMultiple
+  alias ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryModal
 
   @impl Phoenix.LiveComponent
   def update(assigns, socket) do
     socket
     |> assign(assigns)
-    |> allow_upload(
-      String.to_atom("image-upload-#{assigns.index}-#{assigns.block.id}"),
-      accept: ~w(.png .jpeg .jpg .webp),
-      max_entries: 1,
-      auto_upload: true,
-      external: &presign_entry/2
-    )
+    |> assign_new(:show_media_library, fn -> false end)
     |> assign_form(assigns.button)
     |> then(&{:ok, &1})
   end
@@ -40,24 +33,6 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
   end
 
   def handle_event(
-        "save",
-        %{"image_button_properties" => properties},
-        socket
-      ) do
-    properties = Map.merge(socket.assigns.button, properties)
-
-    properties =
-      put_file_urls(
-        "image-upload-#{socket.assigns.index}-#{socket.assigns.block.id}",
-        "image",
-        socket,
-        properties
-      )
-
-    save(properties, socket.assigns.index, socket)
-  end
-
-  def handle_event(
         "store-properties",
         %{"image_button_properties" => properties, "index" => index},
         socket
@@ -65,6 +40,39 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
     properties = Map.merge(socket.assigns.button, properties)
 
     save(properties, String.to_integer(index), socket)
+  end
+
+  def handle_event("open_media_library", _params, socket) do
+    {:noreply, assign(socket, :show_media_library, true)}
+  end
+
+  def handle_event("close_media_library", _params, socket) do
+    {:noreply, assign(socket, :show_media_library, false)}
+  end
+
+  def handle_event("media_selected", %{"id" => id}, socket) do
+    item = ScalesCms.Cms.CmsMediaLibrary.get_media_library_item!(id)
+
+    properties =
+      socket.assigns.button
+      |> Map.put("image_path", item.url)
+      |> Map.put("image_url", S3Upload.get_presigned_url_for_display(item.url))
+
+    buttons =
+      Map.get(socket.assigns.block.properties, "buttons", [])
+      |> List.replace_at(socket.assigns.index, properties)
+
+    with {:ok, block} <-
+           CmsPageVariantBlocks.update_cms_page_variant_block(
+             socket.assigns.block,
+             %{properties: Map.merge(socket.assigns.block.properties, %{"buttons" => buttons})}
+           ) do
+      notify_parent({:saved, block})
+
+      socket
+      |> assign(:show_media_library, false)
+      |> then(&{:noreply, &1})
+    end
   end
 
   defp save(properties, index, socket) do
@@ -86,11 +94,33 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
   def render(assigns) do
     ~H"""
     <div>
-      <.file_upload_component
-        {assigns}
-        entity_name={"image-upload-#{@index}-#{@block.id}"}
-        target_name="image"
-      />
+      <div class="mb-4">
+        <.label>{gettext("Image")}</.label>
+        <%= if Map.get(@button || %{}, "image_path", nil) != nil do %>
+          <img
+            src={S3Upload.get_presigned_url_for_display(Map.get(@button, "image_path", nil))}
+            class="max-w-[200px] max-h-[200px] object-cover mb-2"
+          />
+        <% end %>
+
+        <button
+          type="button"
+          phx-click="open_media_library"
+          phx-target={@myself}
+          class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors text-sm"
+        >
+          {gettext("Choose from library")}
+        </button>
+      </div>
+
+      <%= if @show_media_library do %>
+        <.live_component
+          module={MediaLibraryModal}
+          id={"media-library-modal-#{@block.id}-#{@index}"}
+          filter_type="image"
+          target={@myself}
+        />
+      <% end %>
 
       <.simple_form
         id={"button-form-#{@index}-#{@block.id}"}
@@ -106,14 +136,6 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
           field={@form[:subtitle]}
           label="Subtitle"
         />
-
-        <.label>{gettext("Image")}</.label>
-        <%= if Map.get(@block.properties || %{}, "image_path", nil) != nil do %>
-          <img
-            src={S3Upload.get_presigned_url_for_display(Map.get(@button, "image_path", nil))}
-            class="max-w-[200px] max-h-[200px] object-cover mr-[24px]"
-          />
-        <% end %>
 
         <.input id={"icon-#{@index}-#{@block.id}"} type="text" field={@form[:icon]} label="Icon" />
 

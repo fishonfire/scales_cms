@@ -1,14 +1,13 @@
 defmodule ScalesCmsWeb.Components.CmsComponents.Lottie.LottieEditor do
   @moduledoc """
-  An image components editor
+  A lottie animation components editor
   """
   alias ScalesCmsWeb.Components.HelperComponents.BlockWrapper
   alias ScalesCmsWeb.Components.CmsComponents.Lottie.LottieProperties
+  alias ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryModal
+  alias ScalesCms.Cms.Helpers.S3Upload
 
   use ScalesCmsWeb, :live_component
-
-  use ScalesCmsWeb.Components.CmsComponents.Helpers.FileUploader,
-    entity_name: "lottie"
 
   @impl Phoenix.LiveComponent
   def update(assigns, socket) do
@@ -22,12 +21,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Lottie.LottieEditor do
 
     socket
     |> assign(assigns)
-    |> allow_upload(:lottie,
-      accept: ~w(.json),
-      max_entries: 1,
-      auto_upload: true,
-      external: &presign_entry/2
-    )
+    |> assign_new(:show_media_library, fn -> false end)
     |> assign(form: form)
     |> then(&{:ok, &1})
   end
@@ -42,30 +36,38 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Lottie.LottieEditor do
              %{properties: properties}
            ) do
       notify_parent({:saved, block})
-      {:noreply, socket}
+      {:noreply, assign(socket, :block, block)}
     end
   end
 
-  @impl Phoenix.LiveComponent
-  def handle_event("validate", _params, socket) do
-    {:noreply, socket}
+  def handle_event("open_media_library", _params, socket) do
+    {:noreply, assign(socket, :show_media_library, true)}
   end
 
-  def handle_event("save", %{"lottie_properties" => properties}, socket) do
-    properties = put_file_urls(socket, properties)
+  def handle_event("close_media_library", _params, socket) do
+    {:noreply, assign(socket, :show_media_library, false)}
+  end
+
+  def handle_event("media_selected", %{"id" => id}, socket) do
+    item = ScalesCms.Cms.CmsMediaLibrary.get_media_library_item!(id)
+
+    properties =
+      socket.assigns.block.properties
+      |> Map.put("lottie_path", item.url)
+      |> Map.put("lottie_url", S3Upload.get_presigned_url_for_display(item.url))
 
     with {:ok, block} <-
            ScalesCms.Cms.CmsPageVariantBlocks.update_cms_page_variant_block(
              socket.assigns.block,
-             %{properties: Map.merge(socket.assigns.block.properties, properties)}
+             %{properties: properties}
            ) do
       notify_parent({:saved, block})
-      {:noreply, socket}
-    end
-  end
 
-  def handle_event("save", %{}, socket) do
-    {:noreply, socket}
+      socket
+      |> assign(:block, block)
+      |> assign(:show_media_library, false)
+      |> then(&{:noreply, &1})
+    end
   end
 
   @impl Phoenix.LiveComponent
@@ -105,7 +107,15 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Lottie.LottieEditor do
             </dotlottie-player>
           <% end %>
 
-          <.file_uploader {assigns} entity_name="lottie" />
+          <button
+            type="button"
+            phx-click="open_media_library"
+            phx-target={@myself}
+            class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg transition-colors text-sm"
+          >
+            <.icon name="hero-film" class="h-4 w-4" />
+            {gettext("Select from library")}
+          </button>
         </div>
 
         <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
@@ -122,6 +132,15 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Lottie.LottieEditor do
           </:actions>
         </.simple_form>
       </.live_component>
+
+      <%= if @show_media_library do %>
+        <.live_component
+          id={"media-library-modal-#{@block.id}"}
+          module={MediaLibraryModal}
+          filter_type="lottie"
+          target={@myself}
+        />
+      <% end %>
     </div>
     """
   end
