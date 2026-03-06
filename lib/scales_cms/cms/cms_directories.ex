@@ -255,15 +255,16 @@ defmodule ScalesCms.Cms.CmsDirectories do
       #Ecto.Query<...>
 
   """
-  def apply_sorting(query, sort_by, sort_order)
+  def apply_sorting(query, sort_by, sort_order) do
+    cond do
+      sort_by == "created" && sort_order == "desc" ->
+        query |> order_by([cd], desc: cd.inserted_at)
 
-  def apply_sorting(query, "created", "desc") do
-    query |> order_by([cd], desc: cd.inserted_at)
+      sort_by == "created" ->
+        query |> order_by([cd], asc: cd.inserted_at)
+
+      true ->
+        query
+    end
   end
-
-  def apply_sorting(query, "created", _sort_order) do
-    query |> order_by([cd], asc: cd.inserted_at)
-  end
-
-  def apply_sorting(query, _sort_by, _sort_order), do: query
 end
