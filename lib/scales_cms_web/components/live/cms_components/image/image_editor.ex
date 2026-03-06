@@ -30,52 +30,6 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image.ImageEditor do
   end
 
   @impl Phoenix.LiveComponent
-  def render(assigns) do
-    ~H"""
-    <div>
-      <.live_component
-        id={"head-#{@block.id}"}
-        module={BlockWrapper}
-        block={@block}
-        component={ScalesCmsWeb.Components.CmsComponents.Image}
-        published={@published}
-      >
-        <div class="flex items-start gap-4">
-          <img
-            :if={Map.get(@block.properties || %{}, "image_path", nil) != nil}
-            src={
-              S3Upload.get_presigned_url_for_display(
-                Map.get(@block.properties || %{}, "image_path", nil)
-              )
-            }
-            class="max-w-[200px] max-h-[200px] object-cover rounded-lg"
-          />
-
-          <button
-            :if={!@published}
-            type="button"
-            phx-click="open_media_library"
-            phx-target={@myself}
-            class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg transition-colors text-sm"
-          >
-            <.icon name="hero-photo" class="h-4 w-4" />
-            {gettext("Select from library")}
-          </button>
-        </div>
-
-        <.live_component
-          :if={@show_media_library}
-          module={MediaLibraryModal}
-          id={"media-library-modal-#{@block.id}"}
-          filter_type="image"
-          target={@myself}
-        />
-      </.live_component>
-    </div>
-    """
-  end
-
-  @impl Phoenix.LiveComponent
   def handle_event("open_media_library", _params, socket) do
     {:noreply, assign(socket, :show_media_library, true)}
   end

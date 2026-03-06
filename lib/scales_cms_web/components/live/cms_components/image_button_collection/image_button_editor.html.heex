@@ -1,0 +1,65 @@
+<div>
+  <div class="mb-4">
+    <.label>{gettext("Image")}</.label>
+    <img
+      :if={Map.get(@button || %{}, "image_path", nil) != nil}
+      src={S3Upload.get_presigned_url_for_display(Map.get(@button, "image_path", nil))}
+      class="max-w-[200px] max-h-[200px] object-cover mb-2"
+    />
+
+    <button
+      type="button"
+      phx-click="open_media_library"
+      phx-target={@myself}
+      class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors text-sm"
+    >
+      {gettext("Choose from library")}
+    </button>
+  </div>
+
+  <.live_component
+    :if={@show_media_library}
+    module={MediaLibraryModal}
+    id={"media-library-modal-#{@block.id}-#{@index}"}
+    filter_type="image"
+    target={@myself}
+  />
+
+  <.simple_form
+    id={"button-form-#{@index}-#{@block.id}"}
+    for={@form}
+    phx-submit="store-properties"
+    phx-target={@myself}
+    phx-value-index={@index}
+  >
+    <.input id={"title-#{@index}-#{@block.id}"} type="text" field={@form[:title]} label="Title" />
+    <.input
+      id={"subtitle-#{@index}-#{@block.id}"}
+      type="text"
+      field={@form[:subtitle]}
+      label="Subtitle"
+    />
+
+    <.input id={"icon-#{@index}-#{@block.id}"} type="text" field={@form[:icon]} label="Icon" />
+
+    <.live_component
+      id={"page-input-#{@block.id}-#{@index}"}
+      module={ScalesCmsWeb.Components.HelperComponents.PageSearch}
+      field={@form[:page_id]}
+      field_id={"page-input-#{@block.id}-#{@index}"}
+    />
+
+    <.input id={"url-#{@index}-#{@block.id}"} type="text" field={@form[:url]} label="URL" />
+    <.input
+      id={"payload-#{@index}-#{@block.id}"}
+      type="text"
+      field={@form[:payload]}
+      label="Payload"
+    />
+    <:actions>
+      <.button phx-disable-with="Saving..." class="btn-secondary">
+        {gettext("Save")}
+      </.button>
+    </:actions>
+  </.simple_form>
+</div>

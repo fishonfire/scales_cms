@@ -70,47 +70,4 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
       |> then(&{:noreply, &1})
     end
   end
-
-  @impl Phoenix.LiveComponent
-  def render(assigns) do
-    ~H"""
-    <div>
-      <.live_component
-        id={"head-#{@block.id}"}
-        module={BlockWrapper}
-        block={@block}
-        component={ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection}
-        published={@published}
-      >
-        <%= for {button, index} <- Enum.with_index(@buttons || [] ) do %>
-          <.live_component
-            id={"button-#{@block.id}-#{index}"}
-            embedded_index={index}
-            module={ButtonCollectionWrapper}
-            block={@block}
-            component={ScalesCmsWeb.Components.CmsComponents.ImageButton}
-            title={Map.get(button, "title", "#{gettext("Button")} #{index + 1}")}
-          >
-            <.live_component
-              id={"button-#{@block.id}-#{index}-form-data"}
-              index={index}
-              module={ImageButtonEditor}
-              button={button}
-              block={@block}
-              target={@myself}
-            />
-          </.live_component>
-        <% end %>
-
-        <.simple_form for={@form} phx-submit="add-button" phx-target={@myself}>
-          <:actions>
-            <.button :if={!@published} phx-disable-with="Adding..." class="btn-primary">
-              {gettext("Add button")}
-            </.button>
-          </:actions>
-        </.simple_form>
-      </.live_component>
-    </div>
-    """
-  end
 end

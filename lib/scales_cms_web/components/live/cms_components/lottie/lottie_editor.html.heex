@@ -1,0 +1,67 @@
+<div>
+  <.live_component
+    id={"head-#{@block.id}"}
+    module={BlockWrapper}
+    block={@block}
+    component={ScalesCmsWeb.Components.CmsComponents.Lottie}
+  >
+    <div class="flex">
+      <script
+        src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
+        type="module"
+      >
+      </script>
+
+      <dotlottie-player
+        :if={Map.get(@block.properties || %{}, "lottie_path", nil) != nil}
+        src={
+          S3Upload.get_presigned_url_for_display(
+            Map.get(@block.properties || %{}, "lottie_path", nil)
+          )
+        }
+        background="transparent"
+        speed="1"
+        style="width: 300px; height: 300px"
+        class="max-w-[200px] max-h-[200px] object-cover mr-[24px]"
+        direction="1"
+        playMode="normal"
+        loop
+        controls
+        autoplay
+      >
+      </dotlottie-player>
+
+      <button
+        type="button"
+        phx-click="open_media_library"
+        phx-target={@myself}
+        class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg transition-colors text-sm"
+      >
+        <.icon name="hero-film" class="h-4 w-4" />
+        {gettext("Select from library")}
+      </button>
+    </div>
+
+    <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
+      <.input type="text" field={@form[:title]} label="Title" />
+      <.input type="text" field={@form[:subtitle]} label="Subtitle" />
+
+      <div class="my-2">
+        <.input type="checkbox" field={@form[:autoplay]} label="Autoplay" />
+        <.input type="checkbox" field={@form[:looping]} label="Looping" />
+      </div>
+
+      <:actions>
+        <.button phx-disable-with="Saving..." class="btn-secondary">{gettext("Save")}</.button>
+      </:actions>
+    </.simple_form>
+  </.live_component>
+
+  <.live_component
+    :if={@show_media_library}
+    id={"media-library-modal-#{@block.id}"}
+    module={MediaLibraryModal}
+    filter_type="lottie"
+    target={@myself}
+  />
+</div>

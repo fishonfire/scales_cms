@@ -56,14 +56,6 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryModal do
     {:ok, socket}
   end
 
-  defp close_modal_action(nil, myself) do
-    JS.push("close_modal", target: myself)
-  end
-
-  defp close_modal_action(target, _myself) do
-    JS.push("close_media_library", target: target)
-  end
-
   @impl Phoenix.LiveComponent
   def handle_event("search", %{"query" => query}, socket) do
     media_items = MediaLibraryUtils.list_media_items(query, socket.assigns.media_type)
@@ -85,12 +77,6 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryModal do
 
   def handle_event("cancel-upload", %{"ref" => ref}, socket) do
     {:noreply, cancel_upload(socket, :media, ref)}
-  end
-
-  def handle_event("select_media", %{"id" => id}, socket) do
-    item = CmsMediaLibrary.get_media_library_item!(id)
-    send(self(), {__MODULE__, :media_selected, item})
-    {:noreply, socket}
   end
 
   def handle_event("close_modal", _params, socket) do

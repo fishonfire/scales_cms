@@ -1,5 +1,9 @@
 <div id={@id}>
-  <.modal id={"#{@id}-modal"} show={true} on_cancel={close_modal_action(@target, @myself)}>
+  <.modal
+    id={"#{@id}-modal"}
+    show={true}
+    on_cancel={JS.push("close_media_library", target: @target)}
+  >
     <div class="max-h-[80vh] overflow-y-auto">
       <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
         {gettext("Media Library")}
@@ -144,7 +148,7 @@
           <%= for item <- @media_items do %>
             <div
               class="group relative bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden p-1.5 cursor-pointer border-2 border-transparent hover:border-emerald-500 transition-all"
-              phx-click={JS.push("select_media", target: @target, value: %{id: item.id})}
+              phx-click={JS.push("media_selected", target: @target, value: %{id: item.id})}
               phx-value-id={item.id}
             >
               <div class="relative w-full aspect-square bg-gray-200 dark:bg-gray-700 rounded overflow-hidden">
