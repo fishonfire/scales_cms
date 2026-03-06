@@ -56,14 +56,6 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryModal do
     {:ok, socket}
   end
 
-  defp select_media_action(nil, myself, id) do
-    JS.push("select_media", target: myself, value: %{id: id})
-  end
-
-  defp select_media_action(target, _myself, id) do
-    JS.push("media_selected", target: target, value: %{id: id})
-  end
-
   defp close_modal_action(nil, myself) do
     JS.push("close_modal", target: myself)
   end
@@ -89,10 +81,6 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryModal do
      socket
      |> assign(:media_type, media_type)
      |> assign(:media_items, media_items)}
-  end
-
-  def handle_event("validate", _params, socket) do
-    {:noreply, socket}
   end
 
   def handle_event("cancel-upload", %{"ref" => ref}, socket) do

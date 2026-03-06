@@ -50,10 +50,6 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.Index do
      |> assign(:media_items, media_items)}
   end
 
-  def handle_event("validate", _params, socket) do
-    {:noreply, socket}
-  end
-
   def handle_event("cancel-upload", %{"ref" => ref}, socket) do
     {:noreply, cancel_upload(socket, :media, ref)}
   end

@@ -12,7 +12,6 @@
 
         <form
           id={"#{@id}-upload-form"}
-          phx-change="validate"
           phx-target={@myself}
           class="space-y-4"
         >
@@ -40,55 +39,46 @@
             {upload_error_to_string(err)}
           </p>
 
-          <%= if Enum.count(@uploads.media.entries) > 0 do %>
-            <div class="space-y-3">
-              <div
-                :for={entry <- @uploads.media.entries}
-                class="bg-gray-100 dark:bg-gray-800 rounded-lg p-3"
-              >
-                <div class="flex items-center justify-between mb-2">
-                  <div class="flex items-center gap-3">
-                    <.icon name="hero-document-arrow-up" class="h-4 w-4 text-emerald-500" />
-                    <span class="text-sm text-gray-700 dark:text-gray-300 truncate max-w-xs">
-                      {entry.client_name}
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    phx-click="cancel-upload"
-                    phx-target={@myself}
-                    phx-value-ref={entry.ref}
-                    class="text-red-500 hover:text-red-700"
-                    aria-label={gettext("Cancel upload")}
-                  >
-                    <.icon name="hero-x-mark" class="h-4 w-4" />
-                  </button>
+          <div :if={Enum.count(@uploads.media.entries) > 0} class="space-y-3">
+            <div
+              :for={entry <- @uploads.media.entries}
+              class="bg-gray-100 dark:bg-gray-800 rounded-lg p-3"
+            >
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-3">
+                  <.icon name="hero-document-arrow-up" class="h-4 w-4 text-emerald-500" />
+                  <span class="text-sm text-gray-700 dark:text-gray-300 truncate max-w-xs">
+                    {entry.client_name}
+                  </span>
                 </div>
-
-                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-                  <div
-                    class="bg-emerald-500 h-1.5 rounded-full transition-all duration-300"
-                    style={"width: #{entry.progress}%"}
-                  >
-                  </div>
-                </div>
-
-                <p
-                  :for={err <- upload_errors(@uploads.media, entry)}
-                  class="text-red-500 text-xs mt-1"
+                <button
+                  type="button"
+                  phx-click="cancel-upload"
+                  phx-target={@myself}
+                  phx-value-ref={entry.ref}
+                  class="text-red-500 hover:text-red-700"
+                  aria-label={gettext("Cancel upload")}
                 >
-                  {upload_error_to_string(err)}
-                </p>
-
-                <%= if entry.progress == 100 do %>
-                  <p class="text-emerald-500 text-xs mt-1 flex items-center gap-1">
-                    <.icon name="hero-check-circle" class="h-3 w-3" />
-                    {gettext("Saved")}
-                  </p>
-                <% end %>
+                  <.icon name="hero-x-mark" class="h-4 w-4" />
+                </button>
               </div>
+
+              <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                <div
+                  class="bg-emerald-500 h-1.5 rounded-full transition-all duration-300"
+                  style={"width: #{entry.progress}%"}
+                >
+                </div>
+              </div>
+
+              <p
+                :for={err <- upload_errors(@uploads.media, entry)}
+                class="text-red-500 text-xs mt-1"
+              >
+                {upload_error_to_string(err)}
+              </p>
             </div>
-          <% end %>
+          </div>
         </form>
 
         <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">
@@ -154,7 +144,7 @@
           <%= for item <- @media_items do %>
             <div
               class="group relative bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden p-1.5 cursor-pointer border-2 border-transparent hover:border-emerald-500 transition-all"
-              phx-click={select_media_action(@target, @myself, item.id)}
+              phx-click={JS.push("select_media", target: @target, value: %{id: item.id})}
               phx-value-id={item.id}
             >
               <div class="relative w-full aspect-square bg-gray-200 dark:bg-gray-700 rounded overflow-hidden">
