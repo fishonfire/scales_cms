@@ -1,9 +1,11 @@
-<.live_component
-  id="app-layout-component"
-  module={ScalesCmsWeb.Live.AppLayoutComponent}
-  inner_flash={@flash}
-  sidebar_open={Map.get(assigns, :sidebar_open, true)}
-  current_uri={@current_uri}
->
-  {@inner_content}
-</.live_component>
+<div class="h-screen">
+  <.live_component
+    id="app-layout-component"
+    module={ScalesCmsWeb.Live.AppLayoutComponent}
+    inner_flash={@flash}
+    sidebar_open={Map.get(assigns, :sidebar_open, true)}
+    current_uri={@current_uri}
+  >
+    {@inner_content}
+  </.live_component>
+</div>
