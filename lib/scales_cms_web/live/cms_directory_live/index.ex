@@ -178,12 +178,13 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
     status = socket.assigns.status
     sort_by = socket.assigns.sort_by
     sort_order = socket.assigns.sort_order
+    cms_directory = socket.assigns.current_directory
 
     socket
     |> push_patch(
       to:
         CmsDirectoryHelper.build_filter_path(
-          socket.assigns.current_directory,
+          cms_directory,
           query,
           status,
           sort_by,

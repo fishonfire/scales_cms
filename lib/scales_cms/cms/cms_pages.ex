@@ -463,44 +463,43 @@ defmodule ScalesCms.Cms.CmsPages do
       #Ecto.Query<...>
 
   """
-  def apply_sorting(query, sort_by, sort_order)
+  def apply_sorting(query, sort_by, sort_order) do
+    cond do
+      sort_by == "created" && sort_order == "desc" ->
+        query |> order_by([cp], desc: cp.inserted_at)
 
-  def apply_sorting(query, "created", "desc") do
-    query |> order_by([cp], desc: cp.inserted_at)
+      sort_by == "created" ->
+        query |> order_by([cp], asc: cp.inserted_at)
+
+      sort_by == "views" && sort_order == "desc" ->
+        query |> order_by([cp], desc_nulls_last: cp.views)
+
+      sort_by == "views" ->
+        query |> order_by([cp], asc_nulls_first: cp.views)
+
+      sort_by == "status" ->
+        sort_by_status(query, sort_order)
+
+      true ->
+        query
+    end
   end
 
-  def apply_sorting(query, "created", _sort_order) do
-    query |> order_by([cp], asc: cp.inserted_at)
-  end
-
-  def apply_sorting(query, "views", "desc") do
-    query |> order_by([cp], desc_nulls_last: cp.views)
-  end
-
-  def apply_sorting(query, "views", _sort_order) do
-    query |> order_by([cp], asc_nulls_first: cp.views)
-  end
-
-  def apply_sorting(query, "status", sort_order) do
-    # For status sorting, we need to join with the variants table
-    # and sort by whether the page has a published variant
+  defp sort_by_status(query, sort_order) do
     published_page_ids =
       from(v in CmsPageLocaleLatestVariant,
         where: not is_nil(v.cms_page_latest_published_variant_id),
         select: v.cms_page_id
       )
 
-    # Add a virtual field for sorting: published pages get 1, drafts get 0
-    case sort_order do
-      "desc" ->
+    cond do
+      sort_order == "desc" ->
         query
         |> order_by([cp], desc: cp.id in subquery(published_page_ids))
 
-      _ ->
+      sort_order == "asc" ->
         query
         |> order_by([cp], asc: cp.id in subquery(published_page_ids))
     end
   end
-
-  def apply_sorting(query, _sort_by, _sort_order), do: query
 end
