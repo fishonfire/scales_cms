@@ -40,7 +40,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLiveTest do
 
       assert index_live
              |> form("#cms_directory-form", cms_directory: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "mag niet leeg zijn"
 
       assert index_live
              |> form("#cms_directory-form", cms_directory: @create_attrs)
@@ -66,7 +66,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLiveTest do
 
       assert index_live
              |> form("#cms_directory-form", cms_directory: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "mag niet leeg zijn"
 
       assert index_live
              |> form("#cms_directory-form", cms_directory: @update_attrs)

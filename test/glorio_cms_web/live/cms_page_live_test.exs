@@ -37,7 +37,7 @@ defmodule ScalesCmsWeb.CmsPageLiveTest do
 
       assert index_live
              |> form("#cms_page-form", cms_page: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "mag niet leeg zijn"
 
       assert index_live
              |> form("#cms_page-form", cms_page: @create_attrs)
