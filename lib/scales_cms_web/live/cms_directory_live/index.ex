@@ -183,14 +183,18 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
     cms_directory = socket.assigns.current_directory
 
     path =
-      if cms_directory != nil do
-        if query != "",
-          do: ~p"/cms/directories/#{cms_directory.id}?query=#{query}",
-          else: ~p"/cms/directories/#{cms_directory.id}"
-      else
-        if query != "",
-          do: ~p"/cms/directories?query=#{query}",
-          else: ~p"/cms/directories"
+      cond do
+        cms_directory != nil and query != "" ->
+          ~p"/cms/directories/#{cms_directory.id}?query=#{query}"
+
+        cms_directory != nil ->
+          ~p"/cms/directories/#{cms_directory.id}"
+
+        query != "" ->
+          ~p"/cms/directories?query=#{query}"
+
+        true ->
+          ~p"/cms/directories"
       end
 
     socket
