@@ -1,0 +1,21 @@
+<div class={["grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6", @class]}>
+  <%= for tile <- @tiles do %>
+    <%= if tile.external do %>
+      <a
+        href={tile.route}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group block p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200 dark:border-gray-700"
+      >
+        <.tile_content tile={tile} />
+      </a>
+    <% else %>
+      <.link
+        patch={tile.route}
+        class="group block p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200 dark:border-gray-700"
+      >
+        <.tile_content tile={tile} />
+      </.link>
+    <% end %>
+  <% end %>
+</div>

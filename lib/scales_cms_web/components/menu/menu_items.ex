@@ -56,51 +56,23 @@ defmodule ScalesCmsWeb.Components.MenuItems do
     end
   end
 
+  embed_templates "*.html"
+
   attr :sidebar_open, :boolean, default: true
   attr :current_uri, :any, required: true
+  attr :menu_items, :list, required: true
+
+  def menu_items_layout(assigns)
 
   def render(assigns) do
+    assigns = assign(assigns, :menu_items, menu_items())
+
     ~H"""
-    <ul class="sidebar-menu">
-      <li :for={menu_item <- menu_items()}>
-        <.link
-          patch={menu_item.route}
-          class={[
-            "sidebar-menu-item",
-            !@sidebar_open && "sidebar-menu-item-closed",
-            active_class(@current_uri, menu_item)
-          ]}
-          title={if !@sidebar_open, do: menu_item.title, else: nil}
-        >
-          <span class={[
-            "sidebar-menu-icon-left",
-            "transition-opacity duration-300 ease-in-out",
-            !@sidebar_open && "opacity-0 w-0 overflow-hidden"
-          ]}>
-            <.icon name={menu_item.icon} />
-          </span>
-
-          <span class={[
-            "sidebar-menu-title ms-2",
-            "transition-all duration-300 ease-in-out",
-            !@sidebar_open && "opacity-0 w-0 overflow-hidden whitespace-nowrap"
-          ]}>
-            {menu_item.title}
-          </span>
-
-          <span class="flex-grow"></span>
-
-          <span class={[
-            "sidebar-menu-icon-right",
-            "transition-opacity duration-300 ease-in-out",
-            @sidebar_open && "opacity-0 w-0 overflow-hidden",
-            !@sidebar_open && "opacity-100"
-          ]}>
-            <.icon name={menu_item.icon} />
-          </span>
-        </.link>
-      </li>
-    </ul>
+    <.menu_items_layout
+      sidebar_open={@sidebar_open}
+      current_uri={@current_uri}
+      menu_items={@menu_items}
+    />
     """
   end
 end
