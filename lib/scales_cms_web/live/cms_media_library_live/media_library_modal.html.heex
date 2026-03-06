@@ -17,6 +17,8 @@
         <form
           id={"#{@id}-upload-form"}
           phx-target={@myself}
+          phx-change="validate"
+          phx-submit="validate"
           class="space-y-4"
         >
           <div

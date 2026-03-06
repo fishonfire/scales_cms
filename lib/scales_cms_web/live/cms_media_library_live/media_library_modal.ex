@@ -11,13 +11,25 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryModal do
 
   @impl Phoenix.LiveComponent
   def mount(socket) do
-    {:ok,
-     socket
-     |> assign(:query, "")
-     |> assign(:media_type, "")
-     |> assign(:filter_type, nil)
-     |> assign(:media_items, [])
-     |> assign(:target, nil)}
+    upload_config = MediaLibraryUtils.upload_config()
+
+    socket =
+      socket
+      |> assign(:query, "")
+      |> assign(:media_type, "")
+      |> assign(:filter_type, nil)
+      |> assign(:media_items, [])
+      |> assign(:target, nil)
+      |> allow_upload(:media,
+        accept: MediaLibraryUtils.get_accepted_types(nil),
+        max_entries: upload_config.max_entries,
+        max_file_size: upload_config.max_file_size,
+        auto_upload: true,
+        external: &presign_entry/2,
+        progress: &handle_progress/3
+      )
+
+    {:ok, socket}
   end
 
   @impl Phoenix.LiveComponent
@@ -31,11 +43,9 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryModal do
         socket.assigns[:media_type] || ""
       end
 
-    accept = MediaLibraryUtils.get_accepted_types(filter_type)
     query = socket.assigns[:query] || ""
     media_items = MediaLibraryUtils.list_media_items(query, media_type)
     target = Map.get(assigns, :target, nil)
-    upload_config = MediaLibraryUtils.upload_config()
 
     socket =
       socket
@@ -44,14 +54,6 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryModal do
       |> assign(:media_type, media_type)
       |> assign(:media_items, media_items)
       |> assign(:target, target)
-      |> allow_upload(:media,
-        accept: accept,
-        max_entries: upload_config.max_entries,
-        max_file_size: upload_config.max_file_size,
-        auto_upload: true,
-        external: &presign_entry/2,
-        progress: &handle_progress/3
-      )
 
     {:ok, socket}
   end
@@ -81,6 +83,11 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryModal do
 
   def handle_event("close_modal", _params, socket) do
     send(self(), {__MODULE__, :modal_closed})
+    {:noreply, socket}
+  end
+
+  # This event is used to enable uploads.
+  def handle_event("validate", _params, socket) do
     {:noreply, socket}
   end
 

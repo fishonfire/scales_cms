@@ -54,6 +54,11 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.Index do
     {:noreply, cancel_upload(socket, :media, ref)}
   end
 
+  # This event is used to trigger the upload process.
+  def handle_event("validate", _, socket) do
+    {:noreply, socket}
+  end
+
   def handle_event("show_delete_modal", %{"id" => id}, socket) do
     item = CmsMediaLibrary.get_media_library_item!(id)
 
