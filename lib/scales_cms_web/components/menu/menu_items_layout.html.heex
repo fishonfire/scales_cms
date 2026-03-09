@@ -1,0 +1,40 @@
+<ul class="sidebar-menu">
+  <li :for={menu_item <- menu_items()}>
+    <.link
+      patch={menu_item.route}
+      class={[
+        "sidebar-menu-item",
+        !@sidebar_open && "sidebar-menu-item-closed",
+        active_class(@current_uri, menu_item)
+      ]}
+      title={if !@sidebar_open, do: menu_item.title, else: nil}
+    >
+      <span class={[
+        "sidebar-menu-icon-left",
+        "transition-opacity duration-300 ease-in-out",
+        !@sidebar_open && "opacity-0 w-0 overflow-hidden"
+      ]}>
+        <.icon name={menu_item.icon} />
+      </span>
+
+      <span class={[
+        "sidebar-menu-title ms-2",
+        "transition-all duration-300 ease-in-out",
+        !@sidebar_open && "opacity-0 w-0 overflow-hidden whitespace-nowrap"
+      ]}>
+        {menu_item.title}
+      </span>
+
+      <span class="flex-grow"></span>
+
+      <span class={[
+        "sidebar-menu-icon-right",
+        "transition-opacity duration-300 ease-in-out",
+        @sidebar_open && "opacity-0 w-0 overflow-hidden",
+        !@sidebar_open && "opacity-100"
+      ]}>
+        <.icon name={menu_item.icon} />
+      </span>
+    </.link>
+  </li>
+</ul>
