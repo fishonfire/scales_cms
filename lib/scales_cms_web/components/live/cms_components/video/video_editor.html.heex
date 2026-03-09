@@ -12,7 +12,7 @@
         </video>
       <% end %>
 
-      <.media_library_button target={@myself} type="video" />
+      <.media_library_button modal_id={"media-library-modal-#{@block.id}-modal"} type="video" />
     </div>
 
     <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>

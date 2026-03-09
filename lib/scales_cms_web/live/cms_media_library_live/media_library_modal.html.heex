@@ -1,7 +1,7 @@
 <div id={@id}>
   <.modal
     id={"#{@id}-modal"}
-    on_cancel={JS.push("close_media_library", target: @target)}
+    on_cancel={hide_modal("#{@id}-modal")}
   >
     <div class="max-h-[80vh] overflow-y-auto">
       <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">

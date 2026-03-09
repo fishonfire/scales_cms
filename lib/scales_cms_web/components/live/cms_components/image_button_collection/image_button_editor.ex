@@ -41,26 +41,6 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
     save(properties, String.to_integer(index), socket)
   end
 
-  def handle_event("open_media_library", _params, socket) do
-    modal_id = "media-library-modal-#{socket.assigns.block.id}-#{socket.assigns.index}-modal"
-
-    {:noreply,
-     push_event(socket, "open-modal", %{
-       to: "##{modal_id}",
-       id: modal_id
-     })}
-  end
-
-  def handle_event("close_media_library", _params, socket) do
-    modal_id = "media-library-modal-#{socket.assigns.block.id}-#{socket.assigns.index}-modal"
-
-    {:noreply,
-     push_event(socket, "close-modal", %{
-       to: "##{modal_id}",
-       id: modal_id
-     })}
-  end
-
   def handle_event("media_selected", %{"id" => id}, socket) do
     item = ScalesCms.Cms.CmsMediaLibrary.get_media_library_item!(id)
 
@@ -83,10 +63,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
       notify_parent({:saved, block})
 
       socket
-      |> push_event("close-modal", %{
-        to: "##{modal_id}",
-        id: modal_id
-      })
+      |> close_modal(modal_id)
       |> then(&{:noreply, &1})
     end
   end

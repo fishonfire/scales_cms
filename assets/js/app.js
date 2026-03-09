@@ -78,6 +78,16 @@ window.addEventListener("phx:close-modal", ({ detail }) => {
   }
 });
 
+window.addEventListener("phx:modal-click-away", (event) => {
+  const modal = event.target;
+  if (modal && modal.dataset.open === "true") {
+    const cancelAttr = modal.getAttribute("data-cancel");
+    if (cancelAttr) {
+      liveSocket.execJS(modal, cancelAttr);
+    }
+  }
+});
+
 // connect if there are any LiveViews on the page
 liveSocket.connect();
 

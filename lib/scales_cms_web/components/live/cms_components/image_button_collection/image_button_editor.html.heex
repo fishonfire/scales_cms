@@ -7,7 +7,10 @@
       class="max-w-[200px] max-h-[200px] object-cover mb-2"
     />
 
-    <.media_library_button target={@myself} type="image" />
+    <.media_library_button
+      modal_id={"media-library-modal-#{@block.id}-#{@index}-modal"}
+      type="image"
+    />
   </div>
 
   <.live_component

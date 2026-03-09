@@ -70,7 +70,7 @@ defmodule ScalesCmsWeb.CoreComponents do
               id={"#{@id}-container"}
               phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
               phx-key="escape"
-              phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
+              phx-click-away={JS.dispatch("phx:modal-click-away", to: "##{@id}")}
               class="shadow-zinc-700/10 ring-zinc-700/10 relative rounded-2xl bg-white p-14 shadow-lg ring-1 transition-all duration-200 ease-out scale-95 data-[open=true]:scale-100"
               data-open="false"
             >
@@ -643,11 +643,11 @@ defmodule ScalesCmsWeb.CoreComponents do
 
   ## Examples
 
-      <.media_library_button target={@myself} />
-      <.media_library_button target={@myself} type="video" />
-      <.media_library_button target={@myself} type="image" disabled={@published} />
+      <.media_library_button modal_id="media-library-modal-123" />
+      <.media_library_button modal_id="media-library-modal-123" type="video" />
+      <.media_library_button modal_id="media-library-modal-123" type="image" disabled={@published} />
   """
-  attr :target, :any, required: true, doc: "The LiveView target for the phx-click event"
+  attr :modal_id, :string, required: true, doc: "The ID of the media library modal to open"
 
   attr :type, :string,
     default: "image",
@@ -677,8 +677,7 @@ defmodule ScalesCmsWeb.CoreComponents do
     <button
       :if={!@disabled}
       type="button"
-      phx-click="open_media_library"
-      phx-target={@target}
+      phx-click={show_modal(@modal_id)}
       class={[
         "inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg transition-colors text-sm",
         @class
