@@ -1467,88 +1467,101 @@ select {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
-}
-
-.sidebar.closed {
-  /* w-64 = 256px, we want to show 48px, so hide 208px */
-}
-
-.sidebar.\!closed {
-  /* w-64 = 256px, we want to show 48px, so hide 208px */
-}
-
-.sidebar.closed {
-  --tw-translate-x: -208px;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.sidebar.\!closed {
-  --tw-translate-x: -208px;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.sidebar .scales-logo {
-  --tw-bg-opacity: 1;
-  background-color: rgb(12 33 54 / var(--tw-bg-opacity));
-}
-
-.sidebar .chevron-container {
-  display: flex;
-  justify-content: flex-end;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  padding-top: 0.5rem;
-}
-
-.sidebar .chevron-wrapper {
-  border-radius: 0.25rem;
-  border-width: 0px;
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 0.5rem;
-  padding-right: 10px;
-}
-
-.sidebar .chevron-wrapper:hover {
-  cursor: pointer;
-  --tw-bg-opacity: 1;
-  background-color: rgb(12 33 54 / var(--tw-bg-opacity));
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
-  transition-duration: 150ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.sidebar .chevron-wrapper:focus {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(33 195 157 / var(--tw-ring-opacity));
-  --tw-ring-offset-width: 2px;
-}
-
-.sidebar .chevron-wrapper svg {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
-  transition-duration: 150ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.sidebar.closed .chevron-wrapper svg {
-  --tw-rotate: 180deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.sidebar.\!closed .chevron-wrapper svg {
-  --tw-rotate: 180deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  &.closed {
+    /* w-64 = 256px, we want to show 48px, so hide 208px */
+  }
+  &.closed {
+    --tw-translate-x: -208px;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+  &.closed {
+    .chevron-wrapper svg {
+      --tw-rotate: 180deg;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+  }
+  .scales-logo {
+    --tw-bg-opacity: 1;
+    background-color: rgb(12 33 54 / var(--tw-bg-opacity));
+  }
+  .chevron-container {
+    display: flex;
+  }
+  .chevron-container {
+    justify-content: flex-end;
+  }
+  .chevron-container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .chevron-container {
+    padding-top: 0.5rem;
+  }
+  .chevron-wrapper {
+    border-radius: 0.25rem;
+  }
+  .chevron-wrapper {
+    border-width: 0px;
+  }
+  .chevron-wrapper {
+    --tw-bg-opacity: 1;
+    background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  }
+  .chevron-wrapper {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  .chevron-wrapper {
+    padding-left: 0.5rem;
+  }
+  .chevron-wrapper {
+    padding-right: 10px;
+  }
+  .chevron-wrapper {
+    &:hover {
+      cursor: pointer;
+    }
+    &:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(12 33 54 / var(--tw-bg-opacity));
+    }
+    &:hover {
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+    &:hover {
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    &:focus {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
+    &:focus {
+      --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+      --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+      box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+    }
+    &:focus {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(33 195 157 / var(--tw-ring-opacity));
+    }
+    &:focus {
+      --tw-ring-offset-width: 2px;
+    }
+    svg {
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+    svg {
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
 }
 
 .sidebar-menu > :not([hidden]) ~ :not([hidden]) {
@@ -1560,38 +1573,47 @@ select {
 .sidebar-menu {
   padding: 0.5rem;
   font-weight: 500;
-}
-
-.sidebar-menu .sidebar-menu-item {
-  display: flex;
-  align-items: center;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  --tw-text-opacity: 1;
-  color: rgb(17 24 39 / var(--tw-text-opacity));
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-.sidebar-menu .sidebar-menu-item:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
-}
-
-.sidebar-menu .sidebar-menu-item.active {
-  --tw-bg-opacity: 1;
-  background-color: rgb(33 195 157 / var(--tw-bg-opacity));
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-/* Closed state: justify content to end so icon appears in visible strip */
-
-.sidebar-menu .sidebar-menu-item.sidebar-menu-item-closed {
-  justify-content: flex-end;
+  .sidebar-menu-item {
+    display: flex;
+  }
+  .sidebar-menu-item {
+    align-items: center;
+  }
+  .sidebar-menu-item {
+    border-radius: 0.5rem;
+  }
+  .sidebar-menu-item {
+    padding: 0.5rem;
+  }
+  .sidebar-menu-item {
+    --tw-text-opacity: 1;
+    color: rgb(17 24 39 / var(--tw-text-opacity));
+  }
+  .sidebar-menu-item {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  .sidebar-menu-item {
+    &:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+    }
+    &.active {
+      --tw-bg-opacity: 1;
+      background-color: rgb(33 195 157 / var(--tw-bg-opacity));
+    }
+    &.active {
+      --tw-text-opacity: 1;
+      color: rgb(255 255 255 / var(--tw-text-opacity));
+    }
+    /* Closed state: justify content to end so icon appears in visible strip */
+    &.sidebar-menu-item-closed {
+      justify-content: flex-end;
+    }
+  }
 }
 
 /* Icon containers */
@@ -1628,11 +1650,12 @@ select {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
-}
-
-.main-content.sidebar-closed {
-  margin-left: 3rem;
-  /* 48px = 3rem */
+  &.sidebar-closed {
+    margin-left: 3rem;
+  }
+  &.sidebar-closed {
+    /* 48px = 3rem */
+  }
 }
 
 /* Mobile: sidebar starts hidden, main content has no margin */
@@ -1641,19 +1664,17 @@ select {
   .sidebar {
     --tw-translate-x: -100%;
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-  }
-
-  .sidebar:not(.closed) {
-    --tw-translate-x: 0px;
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    &:not(.closed) {
+      --tw-translate-x: 0px;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
   }
 
   .main-content {
     margin-left: 0px;
-  }
-
-  .main-content.sidebar-closed {
-    margin-left: 0px;
+    &.sidebar-closed {
+      margin-left: 0px;
+    }
   }
 }
 

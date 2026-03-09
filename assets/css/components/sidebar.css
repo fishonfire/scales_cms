@@ -1,60 +1,60 @@
 @layer components {
     .sidebar {
         @apply fixed top-0 left-0 z-40 w-64 h-screen bg-lightGrey transition;
-    }
 
-    .sidebar.closed {
-        /* w-64 = 256px, we want to show 48px, so hide 208px */
-        @apply -translate-x-[208px];
-    }
+        &.closed {
+            /* w-64 = 256px, we want to show 48px, so hide 208px */
+            @apply -translate-x-[208px];
 
-    .sidebar .scales-logo {
-        @apply bg-secondary;
-    }
+            .chevron-wrapper svg {
+                @apply rotate-180;
+            }
+        }
 
-    .sidebar .chevron-container {
-        @apply flex justify-end px-2 pt-2;
-    }
+        .scales-logo {
+            @apply bg-secondary;
+        }
 
-    .sidebar .chevron-wrapper {
-        @apply bg-white rounded py-2 pl-2 pr-[10px] border-0;
-    }
+        .chevron-container {
+            @apply flex justify-end px-2 pt-2;
+        }
 
-    .sidebar .chevron-wrapper:hover {
-        @apply bg-secondary cursor-pointer transition ease-in-out;
-    }
+        .chevron-wrapper {
+            @apply bg-white rounded py-2 pl-2 pr-[10px] border-0;
 
-    .sidebar .chevron-wrapper:focus {
-        @apply outline-none ring-2 ring-primary ring-offset-2;
-    }
+            &:hover {
+                @apply bg-secondary cursor-pointer transition ease-in-out;
+            }
 
-    .sidebar .chevron-wrapper svg {
-        @apply transition ease-in-out;
-    }
+            &:focus {
+                @apply outline-none ring-2 ring-primary ring-offset-2;
+            }
 
-    .sidebar.closed .chevron-wrapper svg {
-        @apply rotate-180;
+            svg {
+                @apply transition ease-in-out;
+            }
+        }
     }
 
     .sidebar-menu {
         @apply space-y-2 font-medium p-2;
-    }
 
-    .sidebar-menu .sidebar-menu-item {
-        @apply flex items-center p-2 text-gray-900 rounded-lg transition;
-    }
+        .sidebar-menu-item {
+            @apply flex items-center p-2 text-gray-900 rounded-lg transition;
 
-    .sidebar-menu .sidebar-menu-item:hover {
-        @apply bg-gray-100;
-    }
+            &:hover {
+                @apply bg-gray-100;
+            }
 
-    .sidebar-menu .sidebar-menu-item.active {
-        @apply bg-primary text-white;
-    }
+            &.active {
+                @apply bg-primary text-white;
+            }
 
-    /* Closed state: justify content to end so icon appears in visible strip */
-    .sidebar-menu .sidebar-menu-item.sidebar-menu-item-closed {
-        @apply justify-end;
+            /* Closed state: justify content to end so icon appears in visible strip */
+            &.sidebar-menu-item-closed {
+                @apply justify-end;
+            }
+        }
     }
 
     /* Icon containers */
@@ -72,28 +72,28 @@
     .main-content {
         /* w-64 = 16rem = 256px */
         @apply transition ml-64;
-    }
 
-    .main-content.sidebar-closed {
-        @apply ml-12; /* 48px = 3rem */
+        &.sidebar-closed {
+            @apply ml-12; /* 48px = 3rem */
+        }
     }
 
     /* Mobile: sidebar starts hidden, main content has no margin */
     @media (max-width: 639px) {
         .sidebar {
             @apply -translate-x-full;
-        }
 
-        .sidebar:not(.closed) {
-            @apply translate-x-0;
+            &:not(.closed) {
+                @apply translate-x-0;
+            }
         }
 
         .main-content {
             @apply ml-0;
-        }
 
-        .main-content.sidebar-closed {
-            @apply ml-0;
+            &.sidebar-closed {
+                @apply ml-0;
+            }
         }
     }
 
