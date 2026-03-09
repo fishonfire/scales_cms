@@ -270,6 +270,129 @@ defmodule ScalesCms.Cms.CmsPages do
   def fetch_pages(query, _status, opts), do: fetch_pages(query, "", opts)
 
   @doc """
+  Fetches paginated pages with optional query, status filters, and sorting.
+  Used for root-level page listing with pagination.
+
+  ## Options
+
+    * `:sort_by` - Column to sort by: "created", "views", or "status"
+    * `:sort_order` - Sort direction: "asc" or "desc" (default: "asc")
+
+  ## Examples
+
+      iex> fetch_paginated_pages("", "", 1, 20)
+      [%CmsPage{}, ...]
+
+  """
+  def fetch_paginated_pages(query, status, page, per_page, opts \\ [])
+
+  def fetch_paginated_pages("", "", page, per_page, opts) do
+    offset = (page - 1) * per_page
+
+    CmsPage
+    |> where([cp], is_nil(cp.cms_directory_id))
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> with_published_status()
+    |> limit(^per_page)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_paginated_pages("", status, page, per_page, opts)
+      when status in ["published", "draft"] do
+    offset = (page - 1) * per_page
+
+    CmsPage
+    |> where([cp], is_nil(cp.cms_directory_id))
+    |> filter_by_status(status)
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> with_published_status()
+    |> limit(^per_page)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_paginated_pages("", _status, page, per_page, opts),
+    do: fetch_paginated_pages("", "", page, per_page, opts)
+
+  def fetch_paginated_pages(query, "", page, per_page, opts) do
+    offset = (page - 1) * per_page
+
+    CmsPage
+    |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> preload(:directory)
+    |> with_published_status()
+    |> limit(^per_page)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_paginated_pages(query, status, page, per_page, opts)
+      when status in ["published", "draft"] do
+    offset = (page - 1) * per_page
+
+    CmsPage
+    |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> filter_by_status(status)
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> preload(:directory)
+    |> with_published_status()
+    |> limit(^per_page)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_paginated_pages(query, _status, page, per_page, opts),
+    do: fetch_paginated_pages(query, "", page, per_page, opts)
+
+  @doc """
+  Counts pages with optional query and status filters.
+  Used for pagination calculation.
+
+  ## Examples
+
+      iex> count_pages("", "")
+      42
+
+  """
+  def count_pages(query, status)
+
+  def count_pages("", "") do
+    CmsPage
+    |> where([cp], is_nil(cp.cms_directory_id))
+    |> select([cp], count(cp.id))
+    |> repo().one()
+  end
+
+  def count_pages("", status) when status in ["published", "draft"] do
+    CmsPage
+    |> where([cp], is_nil(cp.cms_directory_id))
+    |> filter_by_status(status)
+    |> select([cp], count(cp.id, :distinct))
+    |> repo().one()
+  end
+
+  def count_pages("", _status), do: count_pages("", "")
+
+  def count_pages(query, "") do
+    CmsPage
+    |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> select([cp], count(cp.id))
+    |> repo().one()
+  end
+
+  def count_pages(query, status) when status in ["published", "draft"] do
+    CmsPage
+    |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> filter_by_status(status)
+    |> select([cp], count(cp.id, :distinct))
+    |> repo().one()
+  end
+
+  def count_pages(query, _status), do: count_pages(query, "")
+
+  @doc """
   Fetches pages for a directory with optional query, status filters, and sorting.
 
   ## Options
@@ -331,6 +454,133 @@ defmodule ScalesCms.Cms.CmsPages do
 
   def fetch_pages_for_directory(directory_id, query, _status, opts),
     do: fetch_pages_for_directory(directory_id, query, "", opts)
+
+  @doc """
+  Fetches paginated pages for a directory with optional query, status filters, and sorting.
+
+  ## Options
+
+    * `:sort_by` - Column to sort by: "created", "views", or "status"
+    * `:sort_order` - Sort direction: "asc" or "desc" (default: "asc")
+
+  ## Examples
+
+      iex> fetch_paginated_pages_for_directory(123, "", "", 1, 20)
+      [%CmsPage{}, ...]
+
+  """
+  def fetch_paginated_pages_for_directory(directory_id, query, status, page, per_page, opts \\ [])
+
+  def fetch_paginated_pages_for_directory(directory_id, "", "", page, per_page, opts) do
+    offset = (page - 1) * per_page
+
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> with_published_status()
+    |> limit(^per_page)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_paginated_pages_for_directory(directory_id, "", status, page, per_page, opts)
+      when status in ["published", "draft"] do
+    offset = (page - 1) * per_page
+
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> filter_by_status(status)
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> with_published_status()
+    |> limit(^per_page)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_paginated_pages_for_directory(directory_id, "", _status, page, per_page, opts),
+    do: fetch_paginated_pages_for_directory(directory_id, "", "", page, per_page, opts)
+
+  def fetch_paginated_pages_for_directory(directory_id, query, "", page, per_page, opts) do
+    offset = (page - 1) * per_page
+
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> with_published_status()
+    |> limit(^per_page)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_paginated_pages_for_directory(directory_id, query, status, page, per_page, opts)
+      when status in ["published", "draft"] do
+    offset = (page - 1) * per_page
+
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> filter_by_status(status)
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> with_published_status()
+    |> limit(^per_page)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_paginated_pages_for_directory(directory_id, query, _status, page, per_page, opts),
+    do: fetch_paginated_pages_for_directory(directory_id, query, "", page, per_page, opts)
+
+  @doc """
+  Counts pages for a directory with optional query and status filters.
+  Used for pagination calculation.
+
+  ## Examples
+
+      iex> count_pages_for_directory(123, "", "")
+      15
+
+  """
+  def count_pages_for_directory(directory_id, query, status)
+
+  def count_pages_for_directory(directory_id, "", "") do
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> select([cp], count(cp.id))
+    |> repo().one()
+  end
+
+  def count_pages_for_directory(directory_id, "", status) when status in ["published", "draft"] do
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> filter_by_status(status)
+    |> select([cp], count(cp.id, :distinct))
+    |> repo().one()
+  end
+
+  def count_pages_for_directory(directory_id, "", _status),
+    do: count_pages_for_directory(directory_id, "", "")
+
+  def count_pages_for_directory(directory_id, query, "") do
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> select([cp], count(cp.id))
+    |> repo().one()
+  end
+
+  def count_pages_for_directory(directory_id, query, status)
+      when status in ["published", "draft"] do
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> filter_by_status(status)
+    |> select([cp], count(cp.id, :distinct))
+    |> repo().one()
+  end
+
+  def count_pages_for_directory(directory_id, query, _status),
+    do: count_pages_for_directory(directory_id, query, "")
 
   @doc """
   Gets a single cms_page.
@@ -502,4 +752,121 @@ defmodule ScalesCms.Cms.CmsPages do
         |> order_by([cp], asc: cp.id in subquery(published_page_ids))
     end
   end
+
+  @doc """
+  Fetches a slice of root pages using offset/limit.
+  Used by CmsListing for combined pagination.
+  """
+  def fetch_pages_slice(query, status, offset, limit, opts \\ [])
+
+  def fetch_pages_slice("", "", offset, limit, opts) do
+    CmsPage
+    |> where([cp], is_nil(cp.cms_directory_id))
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> with_published_status()
+    |> limit(^limit)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_pages_slice("", status, offset, limit, opts) when status in ["published", "draft"] do
+    CmsPage
+    |> where([cp], is_nil(cp.cms_directory_id))
+    |> filter_by_status(status)
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> with_published_status()
+    |> limit(^limit)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_pages_slice("", _status, offset, limit, opts),
+    do: fetch_pages_slice("", "", offset, limit, opts)
+
+  def fetch_pages_slice(query, "", offset, limit, opts) do
+    CmsPage
+    |> where([cp], is_nil(cp.cms_directory_id))
+    |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> preload(:directory)
+    |> with_published_status()
+    |> limit(^limit)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_pages_slice(query, status, offset, limit, opts)
+      when status in ["published", "draft"] do
+    CmsPage
+    |> where([cp], is_nil(cp.cms_directory_id))
+    |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> filter_by_status(status)
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> preload(:directory)
+    |> with_published_status()
+    |> limit(^limit)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_pages_slice(query, _status, offset, limit, opts),
+    do: fetch_pages_slice(query, "", offset, limit, opts)
+
+  @doc """
+  Fetches a slice of directory pages using offset/limit.
+  Used by CmsListing for combined pagination.
+  """
+  def fetch_pages_for_directory_slice(directory_id, query, status, offset, limit, opts \\ [])
+
+  def fetch_pages_for_directory_slice(directory_id, "", "", offset, limit, opts) do
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> with_published_status()
+    |> limit(^limit)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_pages_for_directory_slice(directory_id, "", status, offset, limit, opts)
+      when status in ["published", "draft"] do
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> filter_by_status(status)
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> with_published_status()
+    |> limit(^limit)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_pages_for_directory_slice(directory_id, "", _status, offset, limit, opts),
+    do: fetch_pages_for_directory_slice(directory_id, "", "", offset, limit, opts)
+
+  def fetch_pages_for_directory_slice(directory_id, query, "", offset, limit, opts) do
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> with_published_status()
+    |> limit(^limit)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_pages_for_directory_slice(directory_id, query, status, offset, limit, opts)
+      when status in ["published", "draft"] do
+    CmsPage
+    |> where([cp], cp.cms_directory_id == ^directory_id)
+    |> where([cp], ilike(cp.title, ^"%#{query}%"))
+    |> filter_by_status(status)
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> with_published_status()
+    |> limit(^limit)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_pages_for_directory_slice(directory_id, query, _status, offset, limit, opts),
+    do: fetch_pages_for_directory_slice(directory_id, query, "", offset, limit, opts)
 end

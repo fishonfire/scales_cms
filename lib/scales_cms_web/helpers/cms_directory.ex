@@ -15,6 +15,8 @@ defmodule ScalesCmsWeb.Helpers.CmsDirectory do
     * `status` - Status filter ("published", "draft", or "")
     * `sort_by` - Column to sort by ("created", "views", "status", or "")
     * `sort_order` - Sort direction ("asc" or "desc")
+    * `page` - Current page number (optional)
+    * `per_page` - Items per page (optional)
 
   ## Examples
 
@@ -24,8 +26,19 @@ defmodule ScalesCmsWeb.Helpers.CmsDirectory do
       iex> build_filter_path(nil, "search", "published", "created", "desc")
       "/cms/directories?query=search&status=published&sort_by=created&sort_order=desc"
 
+      iex> build_filter_path(nil, "", "", "", "asc", 2, 20)
+      "/cms/directories?page=2&per_page=20"
+
   """
-  def build_filter_path(current_directory, query, status, sort_by, sort_order) do
+  def build_filter_path(
+        current_directory,
+        query,
+        status,
+        sort_by,
+        sort_order,
+        page \\ nil,
+        per_page \\ nil
+      ) do
     base_path =
       if current_directory != nil,
         do: ~p"/cms/directories/#{current_directory.id}",
@@ -37,6 +50,8 @@ defmodule ScalesCmsWeb.Helpers.CmsDirectory do
       |> maybe_add_param("status", status)
       |> maybe_add_param("sort_by", sort_by)
       |> maybe_add_param("sort_order", if(sort_by != "", do: sort_order, else: ""))
+      |> maybe_add_pagination_param("page", page)
+      |> maybe_add_pagination_param("per_page", per_page)
 
     if params == %{},
       do: base_path,
@@ -46,4 +61,9 @@ defmodule ScalesCmsWeb.Helpers.CmsDirectory do
   defp maybe_add_param(params, _key, ""), do: params
   defp maybe_add_param(params, _key, nil), do: params
   defp maybe_add_param(params, key, value), do: Map.put(params, key, value)
+
+  defp maybe_add_pagination_param(params, _key, nil), do: params
+  defp maybe_add_pagination_param(params, _key, 1), do: params
+  defp maybe_add_pagination_param(params, "per_page", 20), do: params
+  defp maybe_add_pagination_param(params, key, value), do: Map.put(params, key, value)
 end
