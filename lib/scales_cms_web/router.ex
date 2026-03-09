@@ -33,6 +33,13 @@ defmodule ScalesCmsWeb.Router do
     post "/users/log_in", UserSessionController, :create
   end
 
+  # UI state persistence endpoints (called by LiveView hooks via fetch)
+  scope "/ui", ScalesCmsWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    post "/sidebar", SidebarController, :update
+  end
+
   scope "/" do
     cms_assets()
   end
