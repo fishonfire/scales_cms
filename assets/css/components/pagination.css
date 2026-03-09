@@ -1,0 +1,19 @@
+.pagination-button {
+    @apply font-bold w-[27px] h-[27px] text-gray-400 bg-gray-200 rounded;
+
+    &.current {
+        @apply text-white bg-primary;
+    }
+}
+
+.pagination-chevron {
+    @apply text-center text-gray-300 text-sm w-[27px] h-[27px] rounded bg-gray-200;
+
+    &.active {
+        @apply text-gray-400;
+    }
+}
+
+.pagination-container {
+    @apply flex justify-center gap-2;
+}

@@ -264,12 +264,21 @@
       </tr>
     </tbody>
   </table>
+  <div :if={@max_page > 1} class="flex my-4">
+    <PaginationComponent.render
+      id="cms-directory-pagination"
+      page={@page}
+      per_page={@per_page}
+      max_page={@max_page}
+      target={nil}
+    />
+  </div>
 
   <div :if={!@current_directory}>
     <.link
       navigate={~p"/cms/stats"}
       target="_blank"
-      class="mt-4 btn btn-secondary inline-block text-sm"
+      class="btn btn-secondary inline-block text-sm"
     >
       {gettext("Get page statistics in CSV")}
     </.link>

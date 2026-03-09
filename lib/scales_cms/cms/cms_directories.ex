@@ -56,6 +56,79 @@ defmodule ScalesCms.Cms.CmsDirectories do
   end
 
   @doc """
+  Fetches paginated directories with optional search query and sorting.
+  Used for root-level directory listing.
+
+  ## Options
+
+    * `:sort_by` - Column to sort by: "created"
+    * `:sort_order` - Sort direction: "asc" or "desc" (default: "asc")
+    * `:page` - Page number (1-based)
+    * `:per_page` - Number of items per page
+
+  ## Examples
+
+      iex> fetch_paginated_directories("", page: 1, per_page: 20, sort_by: "created", sort_order: "desc")
+      [%CmsDirectory{}, ...]
+
+  """
+  def fetch_paginated_directories(query, opts \\ [])
+
+  def fetch_paginated_directories("", opts) do
+    page = Keyword.get(opts, :page, 1)
+    per_page = Keyword.get(opts, :per_page, 20)
+    offset = (page - 1) * per_page
+
+    CmsDirectory
+    |> where([cd], is_nil(cd.cms_directory_id))
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> limit(^per_page)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_paginated_directories(query, opts) do
+    page = Keyword.get(opts, :page, 1)
+    per_page = Keyword.get(opts, :per_page, 20)
+    offset = (page - 1) * per_page
+
+    CmsDirectory
+    |> where([cd], is_nil(cd.cms_directory_id))
+    |> where([cd], ilike(cd.title, ^"%#{query}%"))
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> limit(^per_page)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  @doc """
+  Counts directories with optional search query.
+  Used for root-level directory listing pagination.
+
+  ## Examples
+
+      iex> count_directories("")
+      10
+
+  """
+  def count_directories(query \\ "")
+
+  def count_directories("") do
+    CmsDirectory
+    |> where([cd], is_nil(cd.cms_directory_id))
+    |> select([cd], count(cd.id))
+    |> repo().one()
+  end
+
+  def count_directories(query) do
+    CmsDirectory
+    |> where([cd], is_nil(cd.cms_directory_id))
+    |> where([cd], ilike(cd.title, ^"%#{query}%"))
+    |> select([cd], count(cd.id))
+    |> repo().one()
+  end
+
+  @doc """
   Fetches directories for a parent with optional search query and sorting.
 
   ## Options
@@ -84,6 +157,78 @@ defmodule ScalesCms.Cms.CmsDirectories do
     |> where([cd], ilike(cd.title, ^"%#{query}%"))
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
     |> repo().all()
+  end
+
+  @doc """
+  Fetches paginated directories for a parent with optional search query and sorting.
+
+  ## Options
+
+    * `:sort_by` - Column to sort by: "created"
+    * `:sort_order` - Sort direction: "asc" or "desc" (default: "asc")
+    * `:page` - Page number (1-based)
+    * `:per_page` - Number of items per page
+
+  ## Examples
+
+      iex> fetch_paginated_directories_for_parent(123, "", page: 1, per_page: 20, sort_by: "created", sort_order: "asc")
+      [%CmsDirectory{}, ...]
+
+  """
+  def fetch_paginated_directories_for_parent(parent_id, query, opts \\ [])
+
+  def fetch_paginated_directories_for_parent(parent_id, "", opts) do
+    page = Keyword.get(opts, :page, 1)
+    per_page = Keyword.get(opts, :per_page, 20)
+    offset = (page - 1) * per_page
+
+    CmsDirectory
+    |> where([cd], cd.cms_directory_id == ^parent_id)
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> limit(^per_page)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_paginated_directories_for_parent(parent_id, query, opts) do
+    page = Keyword.get(opts, :page, 1)
+    per_page = Keyword.get(opts, :per_page, 20)
+    offset = (page - 1) * per_page
+
+    CmsDirectory
+    |> where([cd], cd.cms_directory_id == ^parent_id)
+    |> where([cd], ilike(cd.title, ^"%#{query}%"))
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> limit(^per_page)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  @doc """
+  Counts directories for a parent with optional search query.
+  Used for pagination.
+
+  ## Examples
+
+      iex> count_directories_for_parent(123, "")
+      5
+
+  """
+  def count_directories_for_parent(parent_id, query \\ "")
+
+  def count_directories_for_parent(parent_id, "") do
+    CmsDirectory
+    |> where([cd], cd.cms_directory_id == ^parent_id)
+    |> select([cd], count(cd.id))
+    |> repo().one()
+  end
+
+  def count_directories_for_parent(parent_id, query) do
+    CmsDirectory
+    |> where([cd], cd.cms_directory_id == ^parent_id)
+    |> where([cd], ilike(cd.title, ^"%#{query}%"))
+    |> select([cd], count(cd.id))
+    |> repo().one()
   end
 
   @doc """
@@ -266,5 +411,55 @@ defmodule ScalesCms.Cms.CmsDirectories do
       true ->
         query
     end
+  end
+
+  @doc """
+  Fetches a slice of root directories using offset/limit.
+  Used by CmsListing for combined pagination.
+  """
+  def fetch_directories_slice(query, offset, limit, opts \\ [])
+
+  def fetch_directories_slice("", offset, limit, opts) do
+    CmsDirectory
+    |> where([cd], is_nil(cd.cms_directory_id))
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> limit(^limit)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_directories_slice(query, offset, limit, opts) do
+    CmsDirectory
+    |> where([cd], is_nil(cd.cms_directory_id))
+    |> where([cd], ilike(cd.title, ^"%#{query}%"))
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> limit(^limit)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  @doc """
+  Fetches a slice of child directories using offset/limit.
+  Used by CmsListing for combined pagination.
+  """
+  def fetch_directories_for_parent_slice(parent_id, query, offset, limit, opts \\ [])
+
+  def fetch_directories_for_parent_slice(parent_id, "", offset, limit, opts) do
+    CmsDirectory
+    |> where([cd], cd.cms_directory_id == ^parent_id)
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> limit(^limit)
+    |> offset(^offset)
+    |> repo().all()
+  end
+
+  def fetch_directories_for_parent_slice(parent_id, query, offset, limit, opts) do
+    CmsDirectory
+    |> where([cd], cd.cms_directory_id == ^parent_id)
+    |> where([cd], ilike(cd.title, ^"%#{query}%"))
+    |> apply_sorting(opts[:sort_by], opts[:sort_order])
+    |> limit(^limit)
+    |> offset(^offset)
+    |> repo().all()
   end
 end

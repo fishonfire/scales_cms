@@ -1206,6 +1206,32 @@ select {
   height: 1.5rem;
 }
 
+.hero-chevron-left {
+  --hero-chevron-left: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>');
+  -webkit-mask: var(--hero-chevron-left);
+  mask: var(--hero-chevron-left);
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  background-color: currentColor;
+  vertical-align: middle;
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.hero-chevron-right {
+  --hero-chevron-right: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">  <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>');
+  -webkit-mask: var(--hero-chevron-right);
+  mask: var(--hero-chevron-right);
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  background-color: currentColor;
+  vertical-align: middle;
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
 .hero-chevron-up {
   --hero-chevron-up: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">  <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5"/></svg>');
   -webkit-mask: var(--hero-chevron-up);
@@ -2087,6 +2113,11 @@ select:not([size]) {
 .my-\[8px\] {
   margin-top: 8px;
   margin-bottom: 8px;
+}
+
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .mb-10 {
@@ -3498,6 +3529,48 @@ select:not([size]) {
 
 .\[scrollbar-gutter\:stable\] {
   scrollbar-gutter: stable;
+}
+
+.pagination-button {
+  height: 27px;
+  width: 27px;
+  border-radius: 0.25rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+  font-weight: 700;
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
+  &.current {
+    --tw-bg-opacity: 1;
+    background-color: rgb(33 195 157 / var(--tw-bg-opacity));
+  }
+  &.current {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255 / var(--tw-text-opacity));
+  }
+}
+
+.pagination-chevron {
+  height: 27px;
+  width: 27px;
+  border-radius: 0.25rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  --tw-text-opacity: 1;
+  color: rgb(209 213 219 / var(--tw-text-opacity));
+  &.active {
+    --tw-text-opacity: 1;
+    color: rgb(156 163 175 / var(--tw-text-opacity));
+  }
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 /* This file is for your main application CSS */
