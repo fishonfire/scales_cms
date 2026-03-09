@@ -30,69 +30,6 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
   end
 
   @impl Phoenix.LiveComponent
-  def render(assigns) do
-    ~H"""
-    <div>
-      <.live_component
-        id={"head-#{@block.id}"}
-        module={BlockWrapper}
-        block={@block}
-        component={ScalesCmsWeb.Components.CmsComponents.Video}
-      >
-        <div class="flex">
-          <%= if has_video(@block.properties) do %>
-            <video controls class="max-w-[200px] max-h-[200px] object-cover mr-[24px]">
-              <source src={get_video_url(@block.properties)} />
-            </video>
-          <% end %>
-
-          <button
-            type="button"
-            phx-click="open_media_library"
-            phx-target={@myself}
-            class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg transition-colors text-sm"
-          >
-            <.icon name="hero-film" class="h-4 w-4" />
-            {gettext("Select from library")}
-          </button>
-        </div>
-
-        <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
-          <.input
-            :if={Map.get(@block.properties, "video_path", nil) == nil}
-            type="text"
-            field={@form[:video_url]}
-            label="Video url"
-          />
-          <.input type="text" field={@form[:title]} label="Title" />
-          <.input type="text" field={@form[:subtitle]} label="Subtitle" />
-
-          <div class="my-2">
-            <.input type="checkbox" field={@form[:autoplay]} label="Autoplay" />
-            <.input type="checkbox" field={@form[:controls]} label="Controls" />
-            <.input type="checkbox" field={@form[:fullscreen]} label="Fullscreen" />
-            <.input type="checkbox" field={@form[:looping]} label="Looping" />
-            <.input type="checkbox" field={@form[:mute]} label="Mute" />
-          </div>
-
-          <:actions>
-            <.button phx-disable-with="Saving..." class="btn-secondary">{gettext("Save")}</.button>
-          </:actions>
-        </.simple_form>
-      </.live_component>
-
-      <.live_component
-        :if={@show_media_library}
-        module={MediaLibraryModal}
-        id={"media-library-modal-#{@block.id}"}
-        filter_type="video"
-        target={@myself}
-      />
-    </div>
-    """
-  end
-
-  @impl Phoenix.LiveComponent
   def handle_event("open_media_library", _params, socket) do
     {:noreply, assign(socket, :show_media_library, true)}
   end

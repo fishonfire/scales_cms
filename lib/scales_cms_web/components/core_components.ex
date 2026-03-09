@@ -631,6 +631,61 @@ defmodule ScalesCmsWeb.CoreComponents do
     """
   end
 
+  @doc """
+  Renders a button to open the media library.
+
+  This component standardizes the "Select from library" button used across
+  various CMS component editors (image, video, lottie, etc.).
+
+  ## Examples
+
+      <.media_library_button target={@myself} />
+      <.media_library_button target={@myself} type="video" />
+      <.media_library_button target={@myself} type="image" disabled={@published} />
+  """
+  attr :target, :any, required: true, doc: "The LiveView target for the phx-click event"
+
+  attr :type, :string,
+    default: "image",
+    values: ~w(image video lottie),
+    doc: "The media type, determines the icon"
+
+  attr :label, :string, default: nil, doc: "Custom label text (defaults to 'Select from library')"
+  attr :disabled, :boolean, default: false, doc: "Whether the button is disabled/hidden"
+  attr :class, :string, default: nil, doc: "Additional CSS classes"
+
+  def media_library_button(assigns) do
+    assigns =
+      assign_new(assigns, :icon_name, fn ->
+        case assigns.type do
+          "video" -> "hero-film"
+          "lottie" -> "hero-film"
+          _ -> "hero-photo"
+        end
+      end)
+
+    assigns =
+      assign_new(assigns, :display_label, fn ->
+        assigns.label || gettext("Select from library")
+      end)
+
+    ~H"""
+    <button
+      :if={!@disabled}
+      type="button"
+      phx-click="open_media_library"
+      phx-target={@target}
+      class={[
+        "inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg transition-colors text-sm",
+        @class
+      ]}
+    >
+      <.icon name={@icon_name} class="h-4 w-4" />
+      {@display_label}
+    </button>
+    """
+  end
+
   ## JS Commands
 
   def show(js \\ %JS{}, selector) do

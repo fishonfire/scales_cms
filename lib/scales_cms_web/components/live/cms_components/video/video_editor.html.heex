@@ -1,0 +1,49 @@
+<div>
+  <.live_component
+    id={"head-#{@block.id}"}
+    module={BlockWrapper}
+    block={@block}
+    component={ScalesCmsWeb.Components.CmsComponents.Video}
+  >
+    <div class="flex">
+      <%= if has_video(@block.properties) do %>
+        <video controls class="max-w-[200px] max-h-[200px] object-cover mr-[24px]">
+          <source src={get_video_url(@block.properties)} />
+        </video>
+      <% end %>
+
+      <.media_library_button target={@myself} type="video" />
+    </div>
+
+    <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
+      <.input
+        :if={Map.get(@block.properties, "video_path", nil) == nil}
+        type="text"
+        field={@form[:video_url]}
+        label="Video url"
+      />
+      <.input type="text" field={@form[:title]} label="Title" />
+      <.input type="text" field={@form[:subtitle]} label="Subtitle" />
+
+      <div class="my-2">
+        <.input type="checkbox" field={@form[:autoplay]} label="Autoplay" />
+        <.input type="checkbox" field={@form[:controls]} label="Controls" />
+        <.input type="checkbox" field={@form[:fullscreen]} label="Fullscreen" />
+        <.input type="checkbox" field={@form[:looping]} label="Looping" />
+        <.input type="checkbox" field={@form[:mute]} label="Mute" />
+      </div>
+
+      <:actions>
+        <.button phx-disable-with="Saving..." class="btn-secondary">{gettext("Save")}</.button>
+      </:actions>
+    </.simple_form>
+  </.live_component>
+
+  <.live_component
+    :if={@show_media_library}
+    module={MediaLibraryModal}
+    id={"media-library-modal-#{@block.id}"}
+    filter_type="video"
+    target={@myself}
+  />
+</div>

@@ -7,14 +7,7 @@
       class="max-w-[200px] max-h-[200px] object-cover mb-2"
     />
 
-    <button
-      type="button"
-      phx-click="open_media_library"
-      phx-target={@myself}
-      class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors text-sm"
-    >
-      {gettext("Choose from library")}
-    </button>
+    <.media_library_button target={@myself} type="image" />
   </div>
 
   <.live_component

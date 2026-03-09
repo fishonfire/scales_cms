@@ -17,16 +17,7 @@
         class="max-w-[200px] max-h-[200px] object-cover mb-2"
       />
 
-      <button
-        :if={!@published}
-        type="button"
-        phx-click="open_media_library"
-        phx-target={@myself}
-        class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg transition-colors text-sm"
-      >
-        <.icon name="hero-photo" class="h-4 w-4" />
-        {gettext("Select from library")}
-      </button>
+      <.media_library_button target={@myself} type="image" disabled={@published} />
     </div>
 
     <.live_component
