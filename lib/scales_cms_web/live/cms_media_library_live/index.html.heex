@@ -13,7 +13,7 @@
         id="upload-drop-zone"
         phx-drop-target={@uploads.media.ref}
         phx-hook="DragDropZone"
-        class="border-2 border-dashed border-emerald-400 rounded-lg bg-gray-50 dark:bg-gray-800 p-12 text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200"
+        class="border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all duration-200 border-gray-300 hover:border-gray-400 dark:border-gray-600 dark:hover:border-gray-500"
         data-active-class="border-emerald-600 bg-emerald-100 dark:bg-emerald-900/20"
       >
         <.live_file_input upload={@uploads.media} class="hidden" />
