@@ -59,7 +59,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
   def handle_event("close", _, socket), do: {:noreply, assign(socket, closed: true)}
 
   def handle_event("search", %{"search" => search}, socket),
-    do: {:noreply, assign(socket, pages: ScalesCms.Cms.CmsPages.search_pages(search))}
+    do: {:noreply, assign(socket, pages: ScalesCms.Cms.CmsPages.search_cms_pages(search))}
 
   def handle_event("set-value", %{"value" => nil}, socket) do
     {:noreply, assign(socket, value: nil, display: nil, closed: true)}
