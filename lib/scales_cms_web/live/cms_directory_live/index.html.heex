@@ -278,8 +278,10 @@
     <.live_component
       module={ScalesCmsWeb.CmsDirectoryLive.FormComponent}
       id={(@cms_directory && @cms_directory.id) || :new}
-      title={gettext("New directory")}
-      action={:new}
+      title={
+        if @live_action == :edit, do: gettext("Edit directory"), else: gettext("New directory")
+      }
+      action={if @live_action == :edit, do: :edit, else: :new}
       cms_directory={
         @cms_directory ||
           %ScalesCms.Cms.CmsDirectory{

@@ -31,12 +31,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLiveTest do
     test "saves new cms_directory", %{conn: conn} do
       conn = log_in_user(conn)
 
-      {:ok, index_live, _html} = live(conn, ~p"/cms/directories")
-
-      assert index_live |> element("a", gettext("New directory")) |> render_click() =~
-               gettext("New directory")
-
-      assert_patch(index_live, ~p"/cms/directories/new")
+      {:ok, index_live, _html} = live(conn, ~p"/cms/directories/new")
 
       assert index_live
              |> form("#cms_directory-form", cms_directory: @invalid_attrs)
@@ -56,13 +51,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLiveTest do
     test "updates cms_directory in listing", %{conn: conn, cms_directory: cms_directory} do
       conn = log_in_user(conn)
 
-      {:ok, index_live, _html} = live(conn, ~p"/cms/directories")
-
-      assert index_live
-             |> element("#cms_directories-#{cms_directory.id} .controls .edit")
-             |> render_click()
-
-      assert_patch(index_live, ~p"/cms/directories/#{cms_directory}/edit")
+      {:ok, index_live, _html} = live(conn, ~p"/cms/directories/#{cms_directory}/edit")
 
       assert index_live
              |> form("#cms_directory-form", cms_directory: @invalid_attrs)

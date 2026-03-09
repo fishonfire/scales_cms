@@ -20,6 +20,51 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
   def handle_params(params, _url, socket),
     do: {:noreply, apply_action(socket, socket.assigns.live_action, params)}
 
+  defp apply_action(socket, :edit, %{"id" => id}) do
+    socket
+    |> assign(:page_title, gettext("Edit directory"))
+    |> assign(:cms_directory, CmsDirectories.get_cms_directory!(id))
+    |> assign(:cms_page, nil)
+    |> assign(:current_directory, nil)
+    |> assign(:cms_directories, [])
+    |> assign(:cms_pages, [])
+    |> assign(:query, "")
+    |> assign(:status, "")
+    |> assign(:sort_by, "")
+    |> assign(:sort_order, "asc")
+    |> open_modal("cms_directory-modal")
+  end
+
+  defp apply_action(socket, :new, %{"id" => id}) do
+    socket
+    |> assign(:page_title, gettext("New directory"))
+    |> assign(:cms_directory, %ScalesCms.Cms.CmsDirectory{cms_directory_id: id})
+    |> assign(:cms_page, nil)
+    |> assign(:current_directory, nil)
+    |> assign(:cms_directories, [])
+    |> assign(:cms_pages, [])
+    |> assign(:query, "")
+    |> assign(:status, "")
+    |> assign(:sort_by, "")
+    |> assign(:sort_order, "asc")
+    |> open_modal("cms_directory-modal")
+  end
+
+  defp apply_action(socket, :new, _params) do
+    socket
+    |> assign(:page_title, gettext("New directory"))
+    |> assign(:cms_directory, %ScalesCms.Cms.CmsDirectory{})
+    |> assign(:cms_page, nil)
+    |> assign(:current_directory, nil)
+    |> assign(:cms_directories, [])
+    |> assign(:cms_pages, [])
+    |> assign(:query, "")
+    |> assign(:status, "")
+    |> assign(:sort_by, "")
+    |> assign(:sort_order, "asc")
+    |> open_modal("cms_directory-modal")
+  end
+
   defp apply_action(socket, :index, %{"id" => id} = params) do
     query = Map.get(params, "query", "")
     status = Map.get(params, "status", "")

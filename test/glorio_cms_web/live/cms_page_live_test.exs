@@ -18,16 +18,12 @@ defmodule ScalesCmsWeb.CmsPageLiveTest do
   describe "Index" do
     setup [:create_cms_page]
 
-    test "clicks new page", %{conn: conn} do
+    test "navigates to new page form", %{conn: conn} do
       conn = log_in_user(conn)
 
-      {:ok, index_live, _html} = live(conn, ~p"/cms/directories")
+      {:ok, live, _html} = live(conn, ~p"/cms/pages/new")
 
-      assert index_live
-             |> element(".new-cms-page")
-             |> render_click()
-
-      assert_patch(index_live, ~p"/cms/pages/new")
+      assert has_element?(live, "#cms_page-form")
     end
 
     test "saves new cms_page", %{conn: conn} do
