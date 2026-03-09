@@ -39,7 +39,6 @@ defmodule ScalesCmsWeb.CoreComponents do
 
   """
   attr :id, :string, required: true
-  attr :show, :boolean, default: false
   attr :on_cancel, JS, default: %JS{}
   slot :inner_block, required: true
 
@@ -47,12 +46,16 @@ defmodule ScalesCmsWeb.CoreComponents do
     ~H"""
     <div
       id={@id}
-      phx-mounted={@show && show_modal(@id)}
       phx-remove={hide_modal(@id)}
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
-      class="relative z-50 hidden"
+      data-open="false"
+      class="relative z-50 pointer-events-none opacity-0 transition-opacity duration-200 ease-out data-[open=true]:pointer-events-auto data-[open=true]:opacity-100"
     >
-      <div id={"#{@id}-bg"} class="bg-zinc-50/90 fixed inset-0 transition-opacity" aria-hidden="true" />
+      <div
+        id={"#{@id}-bg"}
+        class="bg-zinc-50/90 fixed inset-0 transition-opacity"
+        aria-hidden="true"
+      />
       <div
         class="fixed inset-0 overflow-y-auto"
         aria-labelledby={"#{@id}-title"}
@@ -67,8 +70,9 @@ defmodule ScalesCmsWeb.CoreComponents do
               id={"#{@id}-container"}
               phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
               phx-key="escape"
-              phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
-              class="shadow-zinc-700/10 ring-zinc-700/10 relative hidden rounded-2xl bg-white p-14 shadow-lg ring-1 transition"
+              phx-click-away={JS.dispatch("phx:modal-click-away", to: "##{@id}")}
+              class="shadow-zinc-700/10 ring-zinc-700/10 relative rounded-2xl bg-white p-14 shadow-lg ring-1 transition-all duration-200 ease-out scale-95 data-[open=true]:scale-100"
+              data-open="false"
             >
               <div class="absolute top-6 right-5">
                 <button
@@ -639,11 +643,11 @@ defmodule ScalesCmsWeb.CoreComponents do
 
   ## Examples
 
-      <.media_library_button target={@myself} />
-      <.media_library_button target={@myself} type="video" />
-      <.media_library_button target={@myself} type="image" disabled={@published} />
+      <.media_library_button modal_id="media-library-modal-123" />
+      <.media_library_button modal_id="media-library-modal-123" type="video" />
+      <.media_library_button modal_id="media-library-modal-123" type="image" disabled={@published} />
   """
-  attr :target, :any, required: true, doc: "The LiveView target for the phx-click event"
+  attr :modal_id, :string, required: true, doc: "The ID of the media library modal to open"
 
   attr :type, :string,
     default: "image",
@@ -673,8 +677,7 @@ defmodule ScalesCmsWeb.CoreComponents do
     <button
       :if={!@disabled}
       type="button"
-      phx-click="open_media_library"
-      phx-target={@target}
+      phx-click={show_modal(@modal_id)}
       class={[
         "inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg transition-colors text-sm",
         @class
@@ -710,29 +713,22 @@ defmodule ScalesCmsWeb.CoreComponents do
     )
   end
 
-  def show_modal(js \\ %JS{}, id) when is_binary(id) do
-    js
-    |> JS.show(to: "##{id}")
-    |> JS.show(
-      to: "##{id}-bg",
-      time: 300,
-      transition: {"transition-all transform ease-out duration-300", "opacity-0", "opacity-100"}
-    )
-    |> show("##{id}-container")
-    |> JS.add_class("overflow-hidden", to: "body")
-    |> JS.focus_first(to: "##{id}-content")
+  def show_modal(_js \\ %JS{}, id) do
+    JS.dispatch("phx:open-modal", %{to: "##{id}", detail: %{id: id}})
   end
 
-  def hide_modal(js \\ %JS{}, id) do
-    js
-    |> JS.hide(
-      to: "##{id}-bg",
-      transition: {"transition-all transform ease-in duration-200", "opacity-100", "opacity-0"}
-    )
-    |> hide("##{id}-container")
-    |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
-    |> JS.remove_class("overflow-hidden", to: "body")
-    |> JS.pop_focus()
+  def hide_modal(_js \\ %JS{}, id) do
+    JS.dispatch("phx:close-modal", %{to: "##{id}", detail: %{id: id}})
+  end
+
+  def open_modal(socket, id) do
+    socket
+    |> Phoenix.LiveView.push_event("open-modal", %{to: "##{id}", id: id})
+  end
+
+  def close_modal(socket, id) do
+    socket
+    |> Phoenix.LiveView.push_event("close-modal", %{to: "##{id}", id: id})
   end
 
   @doc """

@@ -40,25 +40,14 @@ defmodule ScalesCmsWeb.CmsRouter do
             live "/settings", CmsSettingsLive.Index, :index
 
             live "/directories", CmsDirectoryLive.Index, :index
-            live "/directories/new", CmsDirectoryLive.Index, :new
             live "/directories/:id", CmsDirectoryLive.Index, :index
-            live "/directories/:id/new", CmsDirectoryLive.Index, :new
-
-            live "/directories/:id/edit", CmsDirectoryLive.Index, :edit
-
-            live "/directories/:id/show/edit", CmsDirectoryLive.Show, :edit
 
             live "/pages", CmsPageLive.Index, :index
-            live "/pages/new", CmsPageLive.Index, :new
-            live "/pages/:id/new", CmsPageLive.Index, :new
-            live "/pages/:id/edit", CmsPageLive.Index, :edit
 
             live "/pages/:id", CmsPageLive.Show, :show
             live "/pages/:id/show/edit", CmsPageLive.Show, :edit
 
             live "/page_variants", CmsPageVariantLive.Index, :index
-            live "/page_variants/new", CmsPageVariantLive.Index, :new
-            live "/page_variants/:id/edit", CmsPageVariantLive.Index, :edit
 
             live "/page_variants/:id", CmsPageVariantLive.Show, :show
             live "/page_variants/:id/show/edit", CmsPageVariantLive.Show, :edit

@@ -24,19 +24,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
 
     socket
     |> assign(assigns)
-    |> assign_new(:show_media_library, fn -> false end)
     |> assign(form: form)
     |> then(&{:ok, &1})
-  end
-
-  @impl Phoenix.LiveComponent
-  def handle_event("open_media_library", _params, socket) do
-    {:noreply, assign(socket, :show_media_library, true)}
-  end
-
-  @impl Phoenix.LiveComponent
-  def handle_event("close_media_library", _params, socket) do
-    {:noreply, assign(socket, :show_media_library, false)}
   end
 
   @impl Phoenix.LiveComponent
@@ -55,7 +44,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
            ) do
       socket
       |> assign(block: block)
-      |> assign(:show_media_library, false)
+      |> close_modal("media-library-modal-#{socket.assigns.block.id}-modal")
       |> then(&{:noreply, &1})
     end
   end

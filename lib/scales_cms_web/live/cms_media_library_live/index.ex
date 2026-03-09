@@ -14,7 +14,6 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.Index do
       |> assign(:query, "")
       |> assign(:media_type, "")
       |> assign(:media_items, MediaLibraryUtils.list_media_items("", ""))
-      |> assign(:show_delete_modal, false)
       |> assign(:item_to_delete, nil)
       |> allow_upload(:media,
         accept: MediaLibraryUtils.get_accepted_types(nil),
@@ -64,15 +63,15 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.Index do
 
     {:noreply,
      socket
-     |> assign(:show_delete_modal, true)
-     |> assign(:item_to_delete, item)}
+     |> assign(:item_to_delete, item)
+     |> open_modal("delete-media-modal")}
   end
 
   def handle_event("hide_delete_modal", _params, socket) do
     {:noreply,
      socket
-     |> assign(:show_delete_modal, false)
-     |> assign(:item_to_delete, nil)}
+     |> assign(:item_to_delete, nil)
+     |> close_modal("delete-media-modal")}
   end
 
   def handle_event("confirm_delete", _params, socket) do
@@ -85,8 +84,8 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.Index do
     {:noreply,
      socket
      |> assign(:media_items, media_items)
-     |> assign(:show_delete_modal, false)
-     |> assign(:item_to_delete, nil)}
+     |> assign(:item_to_delete, nil)
+     |> close_modal("delete-media-modal")}
   end
 
   defp handle_progress(:media, entry, socket) do

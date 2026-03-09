@@ -31,7 +31,7 @@
       >
       </dotlottie-player>
 
-      <.media_library_button target={@myself} type="lottie" />
+      <.media_library_button modal_id={"media-library-modal-#{@block.id}-modal"} type="lottie" />
     </div>
 
     <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
@@ -50,7 +50,6 @@
   </.live_component>
 
   <.live_component
-    :if={@show_media_library}
     id={"media-library-modal-#{@block.id}"}
     module={MediaLibraryModal}
     filter_type="lottie"

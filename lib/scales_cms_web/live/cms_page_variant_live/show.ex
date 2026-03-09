@@ -13,8 +13,12 @@ defmodule ScalesCmsWeb.CmsPageVariantLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:cms_page_variant, CmsPageVariants.get_cms_page_variant!(id))}
+     |> assign(:cms_page_variant, CmsPageVariants.get_cms_page_variant!(id))
+     |> maybe_open_modal(socket.assigns.live_action)}
   end
+
+  defp maybe_open_modal(socket, :edit), do: open_modal(socket, "cms_page_variant-modal")
+  defp maybe_open_modal(socket, _), do: socket
 
   defp page_title(:show), do: "Show Cms page variant"
   defp page_title(:edit), do: "Edit Cms page variant"

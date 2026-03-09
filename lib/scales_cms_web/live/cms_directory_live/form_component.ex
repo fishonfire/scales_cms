@@ -14,13 +14,18 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.FormComponent do
 
       <.simple_form
         for={@form}
-        id="cms_directory-form"
+        id={"cms_directory-form-#{@id}"}
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:title]} type="text" placeholder="Directory name" />
-        <.input field={@form[:cms_directory_id]} type="hidden" />
+        <.input
+          field={@form[:title]}
+          type="text"
+          placeholder="Directory name"
+          id={"cms_directory-title-#{@action}"}
+        />
+        <.input field={@form[:cms_directory_id]} type="hidden" id={"cms_directory-parent-#{@action}"} />
 
         <:actions>
           <.button phx-disable-with="Saving..." class="btn-primary">
@@ -37,9 +42,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.FormComponent do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign_new(:form, fn ->
-       to_form(CmsDirectories.change_cms_directory(cms_directory))
-     end)}
+     |> assign(:form, to_form(CmsDirectories.change_cms_directory(cms_directory)))}
   end
 
   @impl Phoenix.LiveComponent

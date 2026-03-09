@@ -24,7 +24,6 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButton.ImageButtonEditor do
 
     socket
     |> assign(assigns)
-    |> assign_new(:show_media_library, fn -> false end)
     |> assign(form: form)
     |> then(&{:ok, &1})
   end
@@ -47,14 +46,6 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButton.ImageButtonEditor do
     end
   end
 
-  def handle_event("open_media_library", _params, socket) do
-    {:noreply, assign(socket, :show_media_library, true)}
-  end
-
-  def handle_event("close_media_library", _params, socket) do
-    {:noreply, assign(socket, :show_media_library, false)}
-  end
-
   def handle_event("media_selected", %{"id" => id}, socket) do
     item = ScalesCms.Cms.CmsMediaLibrary.get_media_library_item!(id)
 
@@ -70,7 +61,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButton.ImageButtonEditor do
            ) do
       socket
       |> assign(block: block)
-      |> assign(:show_media_library, false)
+      |> close_modal("media-library-modal-#{socket.assigns.block.id}-modal")
       |> then(&{:noreply, &1})
     end
   end

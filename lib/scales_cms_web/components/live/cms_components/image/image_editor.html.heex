@@ -17,11 +17,14 @@
         class="max-w-[200px] max-h-[200px] object-cover rounded-lg"
       />
 
-      <.media_library_button target={@myself} type="image" disabled={@published} />
+      <.media_library_button
+        modal_id={"media-library-modal-#{@block.id}-modal"}
+        type="image"
+        disabled={@published}
+      />
     </div>
 
     <.live_component
-      :if={@show_media_library}
       module={MediaLibraryModal}
       id={"media-library-modal-#{@block.id}"}
       filter_type="image"

@@ -18,31 +18,19 @@ defmodule ScalesCmsWeb.CmsPageLiveTest do
   describe "Index" do
     setup [:create_cms_page]
 
-    test "clicks new page", %{conn: conn} do
+    test "saves new cms_page via modal", %{conn: conn} do
       conn = log_in_user(conn)
 
       {:ok, index_live, _html} = live(conn, ~p"/cms/directories")
 
-      assert index_live
-             |> element(".new-cms-page")
-             |> render_click()
-
-      assert_patch(index_live, ~p"/cms/pages/new")
-    end
-
-    test "saves new cms_page", %{conn: conn} do
-      conn = log_in_user(conn)
-
-      {:ok, index_live, _html} = live(conn, ~p"/cms/pages/new")
-
+      # The modal form is always in the DOM, we can interact with it directly
       assert index_live
              |> form("#cms_page-form", cms_page: @invalid_attrs)
              |> render_change() =~ "mag niet leeg zijn"
 
-      assert index_live
-             |> form("#cms_page-form", cms_page: @create_attrs)
-             |> render_submit()
-             |> follow_redirect(conn)
+      index_live
+      |> form("#cms_page-form", cms_page: @create_attrs)
+      |> render_submit()
 
       assert_redirect(index_live, ~p"/cms/directories")
     end

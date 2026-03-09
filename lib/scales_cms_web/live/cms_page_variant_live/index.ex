@@ -2,7 +2,6 @@ defmodule ScalesCmsWeb.CmsPageVariantLive.Index do
   use ScalesCmsWeb, :live_view
 
   alias ScalesCms.Cms.CmsPageVariants
-  alias ScalesCms.Cms.CmsPageVariant
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
@@ -14,22 +13,9 @@ defmodule ScalesCmsWeb.CmsPageVariantLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Cms page variant")
-    |> assign(:cms_page_variant, CmsPageVariants.get_cms_page_variant!(id))
-  end
-
-  defp apply_action(socket, :new, _params) do
-    socket
-    |> assign(:page_title, "New Cms page variant")
-    |> assign(:cms_page_variant, %CmsPageVariant{})
-  end
-
   defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "Listing Cms page variants")
-    |> assign(:cms_page_variant, nil)
   end
 
   @impl Phoenix.LiveView
