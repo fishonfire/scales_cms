@@ -13,8 +13,12 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:cms_directory, CmsDirectories.get_cms_directory!(id))}
+     |> assign(:cms_directory, CmsDirectories.get_cms_directory!(id))
+     |> maybe_open_modal(socket.assigns.live_action)}
   end
+
+  defp maybe_open_modal(socket, :edit), do: open_modal(socket, "cms_directory-modal")
+  defp maybe_open_modal(socket, _), do: socket
 
   defp page_title(:show), do: gettext("Show directory")
   defp page_title(:edit), do: gettext("Edit directory")

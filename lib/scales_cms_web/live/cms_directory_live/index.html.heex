@@ -9,17 +9,13 @@
       <div class="flex space-x-4">
         <.live_component id="locale_switcher" module={LocaleSwitcher} class="flex" />
 
-        <.link patch={get_new_directory_path(@current_directory)}>
-          <.button class="btn-primary">
-            <.icon name="hero-plus" /> {gettext("New directory")}
-          </.button>
-        </.link>
+        <.button class="btn-primary" phx-click={show_modal("cms_directory-modal")}>
+          <.icon name="hero-plus" /> {gettext("New directory")}
+        </.button>
 
-        <.link patch={get_new_page_path(@current_directory)} class="new-cms-page">
-          <.button class="btn-secondary">
-            <.icon name="hero-plus" /> {gettext("New page")}
-          </.button>
-        </.link>
+        <.button class="btn-secondary new-cms-page" phx-click={show_modal("cms_page-modal")}>
+          <.icon name="hero-plus" /> {gettext("New page")}
+        </.button>
       </div>
     </:actions>
   </.header>
@@ -276,17 +272,37 @@
   </div>
 
   <.modal
-    :if={@live_action in [:new, :edit]}
     id="cms_directory-modal"
-    show
-    on_cancel={JS.patch(~p"/cms/directories")}
+    on_cancel={hide_modal("cms_directory-modal")}
   >
     <.live_component
       module={ScalesCmsWeb.CmsDirectoryLive.FormComponent}
-      id={@cms_directory.id || :new}
-      title={@page_title}
-      action={@live_action}
-      cms_directory={@cms_directory}
+      id={(@cms_directory && @cms_directory.id) || :new}
+      title={gettext("New directory")}
+      action={:new}
+      cms_directory={
+        @cms_directory ||
+          %ScalesCms.Cms.CmsDirectory{
+            cms_directory_id: @current_directory && @current_directory.id
+          }
+      }
+      patch={~p"/cms/directories"}
+    />
+  </.modal>
+
+  <.modal
+    id="cms_page-modal"
+    on_cancel={hide_modal("cms_page-modal")}
+  >
+    <.live_component
+      module={ScalesCmsWeb.CmsPageLive.FormComponent}
+      id={(@cms_page && @cms_page.id) || :new}
+      title={gettext("New page")}
+      action={:new}
+      cms_page={
+        @cms_page ||
+          %ScalesCms.Cms.CmsPage{cms_directory_id: @current_directory && @current_directory.id}
+      }
       patch={~p"/cms/directories"}
     />
   </.modal>

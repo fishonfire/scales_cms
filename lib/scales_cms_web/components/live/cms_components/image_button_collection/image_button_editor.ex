@@ -10,7 +10,6 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
   def update(assigns, socket) do
     socket
     |> assign(assigns)
-    |> assign_new(:show_media_library, fn -> false end)
     |> assign_form(assigns.button)
     |> then(&{:ok, &1})
   end
@@ -43,11 +42,23 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
   end
 
   def handle_event("open_media_library", _params, socket) do
-    {:noreply, assign(socket, :show_media_library, true)}
+    modal_id = "media-library-modal-#{socket.assigns.block.id}-#{socket.assigns.index}-modal"
+
+    {:noreply,
+     push_event(socket, "open-modal", %{
+       to: "##{modal_id}",
+       id: modal_id
+     })}
   end
 
   def handle_event("close_media_library", _params, socket) do
-    {:noreply, assign(socket, :show_media_library, false)}
+    modal_id = "media-library-modal-#{socket.assigns.block.id}-#{socket.assigns.index}-modal"
+
+    {:noreply,
+     push_event(socket, "close-modal", %{
+       to: "##{modal_id}",
+       id: modal_id
+     })}
   end
 
   def handle_event("media_selected", %{"id" => id}, socket) do
@@ -62,6 +73,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
       Map.get(socket.assigns.block.properties, "buttons", [])
       |> List.replace_at(socket.assigns.index, properties)
 
+    modal_id = "media-library-modal-#{socket.assigns.block.id}-#{socket.assigns.index}-modal"
+
     with {:ok, block} <-
            CmsPageVariantBlocks.update_cms_page_variant_block(
              socket.assigns.block,
@@ -70,7 +83,10 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
       notify_parent({:saved, block})
 
       socket
-      |> assign(:show_media_library, false)
+      |> push_event("close-modal", %{
+        to: "##{modal_id}",
+        id: modal_id
+      })
       |> then(&{:noreply, &1})
     end
   end

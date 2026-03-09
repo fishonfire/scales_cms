@@ -24,14 +24,17 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image.ImageEditor do
 
     socket
     |> assign(assigns)
-    |> assign_new(:show_media_library, fn -> false end)
     |> assign(form: form)
     |> then(&{:ok, &1})
   end
 
   @impl Phoenix.LiveComponent
   def handle_event("open_media_library", _params, socket) do
-    {:noreply, assign(socket, :show_media_library, true)}
+    {:noreply,
+     push_event(socket, "open-modal", %{
+       to: "#media-library-modal-#{socket.assigns.block.id}-modal",
+       id: "media-library-modal-#{socket.assigns.block.id}-modal"
+     })}
   end
 
   def handle_event("media_selected", %{"id" => id}, socket) do
@@ -50,12 +53,19 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image.ImageEditor do
            ) do
       socket
       |> assign(block: block)
-      |> assign(show_media_library: false)
+      |> push_event("close-modal", %{
+        to: "#media-library-modal-#{socket.assigns.block.id}-modal",
+        id: "media-library-modal-#{socket.assigns.block.id}-modal"
+      })
       |> then(&{:noreply, &1})
     end
   end
 
   def handle_event("close_media_library", _params, socket) do
-    {:noreply, assign(socket, :show_media_library, false)}
+    {:noreply,
+     push_event(socket, "close-modal", %{
+       to: "#media-library-modal-#{socket.assigns.block.id}-modal",
+       id: "media-library-modal-#{socket.assigns.block.id}-modal"
+     })}
   end
 end

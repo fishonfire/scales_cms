@@ -1,7 +1,6 @@
 <div id={@id}>
   <.modal
     id={"#{@id}-modal"}
-    show={true}
     on_cancel={JS.push("close_media_library", target: @target)}
   >
     <div class="max-h-[80vh] overflow-y-auto">
@@ -114,6 +113,7 @@
                 class="input w-full text-sm"
                 phx-debounce="300"
                 autocomplete="off"
+                id={"#{@id}-search-query"}
               />
             </.form>
 

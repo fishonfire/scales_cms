@@ -18,6 +18,7 @@ defmodule ScalesCmsWeb.CmsPageLive.Index do
     socket
     |> assign(:page_title, gettext("Edit page"))
     |> assign(:cms_page, CmsPages.get_cms_page!(id))
+    |> open_modal("cms_page-modal")
   end
 
   defp apply_action(socket, :new, %{"id" => cms_directory_id})
@@ -25,12 +26,14 @@ defmodule ScalesCmsWeb.CmsPageLive.Index do
     socket
     |> assign(:page_title, gettext("New page"))
     |> assign(:cms_page, %CmsPage{cms_directory_id: cms_directory_id})
+    |> open_modal("cms_page-modal")
   end
 
   defp apply_action(socket, :new, _) do
     socket
     |> assign(:page_title, gettext("New page"))
     |> assign(:cms_page, %CmsPage{})
+    |> open_modal("cms_page-modal")
   end
 
   defp apply_action(socket, :index, _params) do

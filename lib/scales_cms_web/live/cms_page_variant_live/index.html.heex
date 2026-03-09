@@ -37,12 +37,11 @@
 </.table>
 
 <.modal
-  :if={@live_action in [:new, :edit]}
   id="cms_page_variant-modal"
-  show
   on_cancel={JS.patch(~p"/cms/page_variants")}
 >
   <.live_component
+    :if={@cms_page_variant}
     module={ScalesCmsWeb.CmsPageVariantLive.FormComponent}
     id={@cms_page_variant.id || :new}
     title={@page_title}

@@ -18,12 +18,14 @@ defmodule ScalesCmsWeb.CmsPageVariantLive.Index do
     socket
     |> assign(:page_title, "Edit Cms page variant")
     |> assign(:cms_page_variant, CmsPageVariants.get_cms_page_variant!(id))
+    |> open_modal("cms_page_variant-modal")
   end
 
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Cms page variant")
     |> assign(:cms_page_variant, %CmsPageVariant{})
+    |> open_modal("cms_page_variant-modal")
   end
 
   defp apply_action(socket, :index, _params) do

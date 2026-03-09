@@ -56,6 +56,28 @@ window.addEventListener("phx:page-loading-stop", (_info) => topbar.hide());
 // Browser back button support
 window.addEventListener("app:back", () => history.back());
 
+window.addEventListener("phx:open-modal", ({ detail }) => {
+  const modal = document.getElementById(detail.id);
+  if (modal) {
+    modal.dataset.open = "true";
+    const container = document.getElementById(`${detail.id}-container`);
+    if (container) {
+      container.dataset.open = "true";
+    }
+  }
+});
+
+window.addEventListener("phx:close-modal", ({ detail }) => {
+  const modal = document.getElementById(detail.id);
+  if (modal) {
+    modal.dataset.open = "false";
+    const container = document.getElementById(`${detail.id}-container`);
+    if (container) {
+      container.dataset.open = "false";
+    }
+  }
+});
+
 // connect if there are any LiveViews on the page
 liveSocket.connect();
 

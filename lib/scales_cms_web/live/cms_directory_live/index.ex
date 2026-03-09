@@ -3,7 +3,6 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
 
   alias ScalesCms.Cms.CmsDirectories
   alias ScalesCms.Cms.CmsPages
-  alias ScalesCms.Cms.CmsDirectory
 
   alias ScalesCmsWeb.Components.LocaleSwitcher
   alias ScalesCmsWeb.Helpers.CmsDirectory, as: CmsDirectoryHelper
@@ -20,28 +19,6 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
   @impl Phoenix.LiveView
   def handle_params(params, _url, socket),
     do: {:noreply, apply_action(socket, socket.assigns.live_action, params)}
-
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, gettext("Edit directory"))
-    |> assign(:cms_directory, CmsDirectories.get_cms_directory!(id))
-  end
-
-  defp apply_action(socket, :new, %{"id" => id}) do
-    socket
-    |> assign(:page_title, gettext("New directory"))
-    |> assign(:current_directory, nil)
-    |> assign(:cms_directory, %CmsDirectory{
-      cms_directory_id: id
-    })
-  end
-
-  defp apply_action(socket, :new, _params) do
-    socket
-    |> assign(:page_title, gettext("New directory"))
-    |> assign(:current_directory, nil)
-    |> assign(:cms_directory, %CmsDirectory{})
-  end
 
   defp apply_action(socket, :index, %{"id" => id} = params) do
     query = Map.get(params, "query", "")
@@ -60,6 +37,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
     |> assign(:current_directory, current_directory)
     |> assign(:page_title, gettext("Directories"))
     |> assign(:cms_directory, nil)
+    |> assign(:cms_page, nil)
     |> assign(:query, query)
     |> assign(:status, status)
     |> assign(:sort_by, sort_by)
@@ -82,6 +60,7 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
     |> assign(:current_directory, nil)
     |> assign(:page_title, gettext("Directories"))
     |> assign(:cms_directory, nil)
+    |> assign(:cms_page, nil)
     |> assign(:query, query)
     |> assign(:status, status)
     |> assign(:sort_by, sort_by)
@@ -96,10 +75,20 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
         else: CmsDirectories.list_cms_directories()
 
     socket
-    |> assign(
-      :cms_directories,
-      cms_directories
-    )
+    |> assign(:cms_directories, cms_directories)
+    |> close_modal("cms_directory-modal")
+    |> then(&{:noreply, &1})
+  end
+
+  def handle_info({ScalesCmsWeb.CmsPageLive.FormComponent, {:saved, cms_page}}, socket) do
+    url =
+      if is_nil(cms_page.cms_directory_id),
+        do: ~p"/cms/directories",
+        else: ~p"/cms/directories/#{cms_page.cms_directory_id}"
+
+    socket
+    |> close_modal("cms_page-modal")
+    |> push_navigate(to: url)
     |> then(&{:noreply, &1})
   end
 
@@ -244,7 +233,4 @@ defmodule ScalesCmsWeb.CmsDirectoryLive.Index do
     )
     |> then(&{:noreply, &1})
   end
-
-  defdelegate get_new_directory_path(current_directory), to: CmsDirectoryHelper
-  defdelegate get_new_page_path(current_directory), to: CmsDirectoryHelper
 end
