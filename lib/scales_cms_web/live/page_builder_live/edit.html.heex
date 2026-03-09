@@ -24,7 +24,7 @@
     <div class="flex space-x-4">
       <.live_component id="locale_switcher" module={LocaleSwitcher} />
 
-      <.button type="button" phx-click="edit-title" class="btn btn-secondary">
+      <.button type="button" phx-click={show_modal("edit-title-modal")} class="btn btn-secondary">
         {gettext("Edit page title")}
       </.button>
 

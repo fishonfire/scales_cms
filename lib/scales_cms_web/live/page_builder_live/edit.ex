@@ -162,12 +162,6 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
       |> then(&{:noreply, &1})
   end
 
-  def handle_event("edit-title", _, socket) do
-    socket
-    |> maybe_show_modal("edit-title-modal")
-    |> then(&{:noreply, &1})
-  end
-
   def handle_event("add_embedded", %{"id" => id, "embedded_field" => embedded_field}, socket) do
     CmsPageVariantBlocks.get_cms_page_variant_block!(id)
     |> CmsPageVariantBlocks.add_cms_page_variant_block_embedded_element(embedded_field)
@@ -283,15 +277,4 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
 
   defp page_title(:edit), do: gettext("Show page")
   defp page_title(:edit_variant), do: gettext("Edit page")
-
-  defp maybe_show_modal(socket, modal_id) do
-    if socket.assigns.cms_page_variant.published_at == nil do
-      push_event(socket, "open-modal", %{
-        to: "##{modal_id}",
-        id: modal_id
-      })
-    else
-      socket
-    end
-  end
 end
