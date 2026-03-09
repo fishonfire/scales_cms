@@ -6,7 +6,7 @@
       <.live_component id="locale_switcher" module={LocaleSwitcher} class="flex" />
 
       <.link patch={~p"/cms/pages/#{@cms_page}/show/edit"} phx-click={JS.push_focus()}>
-        <.button>Edit cms_page</.button>
+        <.button>{gettext("Edit page title")}</.button>
       </.link>
     </div>
   </:actions>

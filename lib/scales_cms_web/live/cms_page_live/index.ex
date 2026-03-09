@@ -2,7 +2,6 @@ defmodule ScalesCmsWeb.CmsPageLive.Index do
   use ScalesCmsWeb, :live_view
 
   alias ScalesCms.Cms.CmsPages
-  alias ScalesCms.Cms.CmsPage
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
@@ -14,32 +13,9 @@ defmodule ScalesCmsWeb.CmsPageLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, gettext("Edit page"))
-    |> assign(:cms_page, CmsPages.get_cms_page!(id))
-    |> open_modal("cms_page-modal")
-  end
-
-  defp apply_action(socket, :new, %{"id" => cms_directory_id})
-       when is_binary(cms_directory_id) do
-    socket
-    |> assign(:page_title, gettext("New page"))
-    |> assign(:cms_page, %CmsPage{cms_directory_id: cms_directory_id})
-    |> open_modal("cms_page-modal")
-  end
-
-  defp apply_action(socket, :new, _) do
-    socket
-    |> assign(:page_title, gettext("New page"))
-    |> assign(:cms_page, %CmsPage{})
-    |> open_modal("cms_page-modal")
-  end
-
   defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, gettext("List pages"))
-    |> assign(:cms_page, nil)
   end
 
   @impl Phoenix.LiveView

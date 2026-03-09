@@ -9,7 +9,7 @@
       <div class="flex space-x-4">
         <.live_component id="locale_switcher" module={LocaleSwitcher} class="flex" />
 
-        <.button class="btn-primary" phx-click={show_modal("cms_directory-modal")}>
+        <.button class="btn-primary" phx-click="new-directory">
           <.icon name="hero-plus" /> {gettext("New directory")}
         </.button>
 
@@ -205,9 +205,13 @@
         <td></td>
         <td></td>
         <td class="text-right controls">
-          <.link patch={~p"/cms/directories/#{directory.id}/edit"} class="edit">
+          <button
+            phx-click="edit-directory"
+            phx-value-id={directory.id}
+            class="edit"
+          >
             <.icon name="hero-pencil" class="icon-small" />
-          </.link>
+          </button>
 
           <span phx-click="delete" phx-value-id={directory.id} class="delete">
             <.icon name="hero-trash" class="icon-small" />
@@ -272,23 +276,40 @@
   </div>
 
   <.modal
+    :if={@new_directory}
     id="cms_directory-modal"
     on_cancel={hide_modal("cms_directory-modal")}
   >
     <.live_component
       module={ScalesCmsWeb.CmsDirectoryLive.FormComponent}
-      id={(@cms_directory && @cms_directory.id) || :new}
-      title={
-        if @live_action == :edit, do: gettext("Edit directory"), else: gettext("New directory")
+      id={:new_directory}
+      title={gettext("New directory")}
+      action={:new}
+      cms_directory={@new_directory}
+      patch={
+        if @current_directory,
+          do: ~p"/cms/directories/#{@current_directory.id}",
+          else: ~p"/cms/directories"
       }
-      action={if @live_action == :edit, do: :edit, else: :new}
-      cms_directory={
-        @cms_directory ||
-          %ScalesCms.Cms.CmsDirectory{
-            cms_directory_id: @current_directory && @current_directory.id
-          }
+    />
+  </.modal>
+
+  <.modal
+    :if={@edit_directory}
+    id="cms_directory-edit-modal"
+    on_cancel={hide_modal("cms_directory-edit-modal")}
+  >
+    <.live_component
+      module={ScalesCmsWeb.CmsDirectoryLive.FormComponent}
+      id={"edit-directory-#{@edit_directory.id}"}
+      title={gettext("Edit directory")}
+      action={:edit}
+      cms_directory={@edit_directory}
+      patch={
+        if @current_directory,
+          do: ~p"/cms/directories/#{@current_directory.id}",
+          else: ~p"/cms/directories"
       }
-      patch={~p"/cms/directories"}
     />
   </.modal>
 
@@ -298,12 +319,11 @@
   >
     <.live_component
       module={ScalesCmsWeb.CmsPageLive.FormComponent}
-      id={(@cms_page && @cms_page.id) || :new}
+      id={:new}
       title={gettext("New page")}
       action={:new}
       cms_page={
-        @cms_page ||
-          %ScalesCms.Cms.CmsPage{cms_directory_id: @current_directory && @current_directory.id}
+        %ScalesCms.Cms.CmsPage{cms_directory_id: @current_directory && @current_directory.id}
       }
       patch={~p"/cms/directories"}
     />

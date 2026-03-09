@@ -209,9 +209,9 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
       assert html =~ ~s(data-sidebar-open="false")
       assert html =~ ~s(class="sidebar closed")
 
-      # Navigate using live_patch (sidebar menu link)
+      # Navigate using live_patch (to a subdirectory or with query params)
       # The sidebar state should persist because we're staying in the same LiveView process
-      html = render_patch(view, ~p"/cms/directories/new")
+      html = render_patch(view, ~p"/cms/directories?query=test")
 
       # The sidebar should still be closed
       assert html =~ ~s(data-sidebar-open="false")

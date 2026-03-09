@@ -43,39 +43,6 @@ defmodule ScalesCmsWeb.Helpers.CmsDirectory do
       else: base_path <> "?" <> URI.encode_query(params)
   end
 
-  @doc """
-  Returns the path for creating a new directory.
-
-  ## Examples
-
-      iex> get_new_directory_path(nil)
-      "/cms/directories/new"
-
-      iex> get_new_directory_path(%{id: 123})
-      "/cms/directories/123/new"
-
-  """
-  def get_new_directory_path(nil), do: ~p"/cms/directories/new"
-
-  def get_new_directory_path(current_directory),
-    do: ~p"/cms/directories/#{current_directory.id}/new"
-
-  @doc """
-  Returns the path for creating a new page.
-
-  ## Examples
-
-      iex> get_new_page_path(nil)
-      "/cms/pages/new"
-
-      iex> get_new_page_path(%{id: 123})
-      "/cms/pages/123/new"
-
-  """
-  def get_new_page_path(nil), do: ~p"/cms/pages/new"
-
-  def get_new_page_path(current_directory), do: ~p"/cms/pages/#{current_directory.id}/new"
-
   defp maybe_add_param(params, _key, ""), do: params
   defp maybe_add_param(params, _key, nil), do: params
   defp maybe_add_param(params, key, value), do: Map.put(params, key, value)

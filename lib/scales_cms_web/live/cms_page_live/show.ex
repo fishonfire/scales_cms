@@ -31,6 +31,13 @@ defmodule ScalesCmsWeb.CmsPageLive.Show do
   defp maybe_open_modal(socket, _), do: socket
 
   @impl Phoenix.LiveView
+  def handle_info({ScalesCmsWeb.CmsPageLive.FormComponent, {:saved, cms_page}}, socket) do
+    socket
+    |> assign(:cms_page, cms_page)
+    |> close_modal("cms_page-modal")
+    |> then(&{:noreply, &1})
+  end
+
   def handle_info({ScalesCmsWeb.Components.LocaleSwitcher, {:locale_switched, locale}}, socket) do
     socket
     |> assign(:locale, locale)
