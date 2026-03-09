@@ -26,21 +26,19 @@
 
   <.form
     :let={f}
-    class="mb-4"
+    class="mb-4 flex"
     for={to_form(%{"query" => @query})}
     phx-change="search"
     phx-submit="search"
   >
-    <div class="flex flex-row">
-      <.input
-        type="search"
-        field={f[:query]}
-        placeholder={gettext("Search by directory or page")}
-        class="input w-full"
-        phx-debounce="300"
-        autocomplete="off"
-      />
-    </div>
+    <.input
+      type="search"
+      field={f[:query]}
+      placeholder={gettext("Search by directory or page")}
+      class="input w-full"
+      phx-debounce="300"
+      autocomplete="off"
+    />
   </.form>
 
   <table class="cms-table w-full">
