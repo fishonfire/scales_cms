@@ -14,26 +14,6 @@
         .scales-logo {
             @apply bg-secondary;
         }
-
-        .chevron-container {
-            @apply flex justify-end px-2 pt-2;
-        }
-
-        .chevron-wrapper {
-            @apply bg-white rounded py-2 pl-2 pr-[10px] border-0;
-
-            &:hover {
-                @apply bg-secondary cursor-pointer transition ease-in-out;
-            }
-
-            &:focus {
-                @apply outline-none ring-2 ring-primary ring-offset-2;
-            }
-
-            svg {
-                @apply transition ease-in-out;
-            }
-        }
     }
 
     .sidebar-menu {

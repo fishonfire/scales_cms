@@ -18,7 +18,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
   def mount(_params, _session, socket) do
     Phoenix.PubSub.subscribe(ScalesCms.PubSub, Topics.get_block_updated_topic())
 
-    {:ok, socket}
+    {:ok, assign(socket, :drawer_open, false)}
   end
 
   @impl Phoenix.LiveView
@@ -135,6 +135,10 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
       |> then(&{:noreply, &1})
   end
 
+  def handle_event("toggle-drawer", _, socket) do
+    {:noreply, update(socket, :drawer_open, &(!&1))}
+  end
+
   def handle_event(
         "delete_embedded",
         %{"id" => id, "embedded_field" => embedded_field, "embedded_index" => embedded_index},
@@ -182,18 +186,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
       |> then(&{:noreply, &1})
   end
 
-  def handle_event("start-new-version", _, socket) do
-    with {:ok, new_page_variant} <-
-           StartVersion.perform(socket.assigns.cms_page_variant) do
-      socket
-      |> push_navigate(to: ~p"/cms/page_builder/#{new_page_variant.id}")
-      |> then(&{:noreply, &1})
-    end
-  rescue
-    _exception ->
-      socket
-      |> put_flash(:error, gettext("Could not start a new version"))
-  end
+  def handle_event("start-new-version", _, socket), do: {:noreply, start_new_version(socket)}
 
   def handle_event("publish", _, socket) do
     with {:ok, page_variant} <-
@@ -201,6 +194,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
       socket
       |> assign(:cms_page_variant, page_variant)
       |> put_flash(:info, gettext("Page published"))
+      |> start_new_version()
       |> then(&{:noreply, &1})
     end
   end
@@ -277,4 +271,15 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
 
   defp page_title(:edit), do: gettext("Show page")
   defp page_title(:edit_variant), do: gettext("Edit page")
+
+  defp start_new_version(socket) do
+    with {:ok, page_variant} <-
+           StartVersion.perform(socket.assigns.cms_page_variant) do
+      socket
+      |> push_patch(to: ~p"/cms/page_builder/#{page_variant.id}")
+    end
+  rescue
+    _exception ->
+      socket
+  end
 end

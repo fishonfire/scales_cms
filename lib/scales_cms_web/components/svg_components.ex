@@ -10,9 +10,10 @@ defmodule ScalesCmsWeb.SvgComponents do
   attr :class, :any, default: nil
   attr :id, :any, default: nil
   attr :style, :string, default: ""
+  attr :fill, :string, default: nil
 
   attr :type, :string, values: ~w(
-      scales_logo scales_logo_small chevron drag_handle toggle_up cms_rich_text
+      scales_logo scales_logo_small chevron drag_handle toggle_up cms_rich_text spinner
     )
 
   def svg(%{type: "scales_logo"} = assigns) do
@@ -430,6 +431,26 @@ defmodule ScalesCmsWeb.SvgComponents do
       <path
         d="M22.413 16.5C21.914 16.5 21.5 16.9534 21.5 17.5V25.5C21.5 26.0466 21.914 26.5 22.413 26.5H32.587C33.086 26.5 33.5 26.0466 33.5 25.5V17.5C33.5 16.9534 33.086 16.5 32.587 16.5H22.413ZM22.413 17.3571H32.587C32.666 17.3571 32.7174 17.4135 32.7174 17.5V23.1786L30.7446 21.4509C30.6155 21.3365 30.4176 21.327 30.2799 21.4286L28.4293 22.8214L25.9185 20.5938C25.8384 20.5223 25.7317 20.4878 25.6291 20.5C25.5648 20.5085 25.5025 20.5349 25.4497 20.5759L22.2826 22.9687V17.5C22.2826 17.4135 22.334 17.3571 22.413 17.3571ZM28.413 18.5C27.7693 18.5 27.2391 19.0807 27.2391 19.7857C27.2391 20.4907 27.7693 21.0714 28.413 21.0714C29.0567 21.0714 29.587 20.4907 29.587 19.7857C29.587 19.0807 29.0567 18.5 28.413 18.5ZM28.413 19.3572C28.6338 19.3572 28.8043 19.544 28.8043 19.7857C28.8043 20.0275 28.6338 20.2143 28.413 20.2143C28.1923 20.2143 28.0217 20.0275 28.0217 19.7857C28.0217 19.544 28.1923 19.3572 28.413 19.3572ZM25.6576 21.4643L28.1685 23.6875C28.2976 23.8019 28.4954 23.8114 28.6332 23.7098L30.4796 22.317L32.7174 24.2768V25.5C32.7174 25.5865 32.666 25.6429 32.587 25.6429H22.413C22.334 25.6429 22.2826 25.5865 22.2826 25.5V24.0134L25.6576 21.4643Z"
         fill="#C711B8"
+      />
+    </svg>
+    """
+  end
+
+  def svg(%{type: "spinner"} = assigns) do
+    ~H"""
+    <svg
+      class={["animate-spin", "svg", @class]}
+      width={[@width, "px"]}
+      height={[@height, "px"]}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke={@fill || "#000000"} stroke-width="4" />
+      <path
+        class="opacity-75"
+        fill={@fill || "#000000"}
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
       />
     </svg>
     """

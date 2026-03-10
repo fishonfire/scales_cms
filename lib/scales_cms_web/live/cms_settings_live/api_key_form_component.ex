@@ -29,7 +29,7 @@ defmodule ScalesCmsWeb.CmsSettingsLive.ApiKeyFormComponent do
   @impl Phoenix.LiveComponent
   def render(assigns) do
     ~H"""
-    <div>
+    <div class="p-4">
       <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
         <.input type="textarea" field={@form[:token]} label="API Access Token" />
         <:actions>

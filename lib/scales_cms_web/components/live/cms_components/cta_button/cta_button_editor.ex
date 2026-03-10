@@ -49,7 +49,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.CTAButton.CTAButtonEditor do
         component={ScalesCmsWeb.Components.CmsComponents.CTAButton}
         published={@published}
       >
-        <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
+        <.simple_form for={@form} phx-change="store-properties" phx-target={@myself}>
           <.input
             type="select"
             field={@form[:bg_color_variant]}
@@ -57,9 +57,27 @@ defmodule ScalesCmsWeb.Components.CmsComponents.CTAButton.CTAButtonEditor do
             label="Background color"
             disabled={@published}
           />
-          <.input type="text" field={@form[:title]} label="Title" disabled={@published} />
-          <.input type="text" field={@form[:subtitle]} label="Subtitle" disabled={@published} />
-          <.input type="text" field={@form[:icon]} label="Icon" disabled={@published} />
+          <.input
+            type="text"
+            field={@form[:title]}
+            label="Title"
+            disabled={@published}
+            phx-debounce="400"
+          />
+          <.input
+            type="text"
+            field={@form[:subtitle]}
+            label="Subtitle"
+            disabled={@published}
+            phx-debounce="400"
+          />
+          <.input
+            type="text"
+            field={@form[:icon]}
+            label="Icon"
+            disabled={@published}
+            phx-debounce="400"
+          />
 
           <.live_component
             id={"page-input-#{@block.id}"}
@@ -68,14 +86,20 @@ defmodule ScalesCmsWeb.Components.CmsComponents.CTAButton.CTAButtonEditor do
             disabled={@published}
           />
 
-          <.input type="text" field={@form[:url]} label="URL" disabled={@published} />
-          <.input type="textarea" field={@form[:payload]} label="Payload" disabled={@published} />
-
-          <:actions>
-            <.button :if={!@published} phx-disable-with="Saving..." class="btn-secondary">
-              {gettext("Save")}
-            </.button>
-          </:actions>
+          <.input
+            type="text"
+            field={@form[:url]}
+            label="URL"
+            disabled={@published}
+            phx-debounce="400"
+          />
+          <.input
+            type="textarea"
+            field={@form[:payload]}
+            label="Payload"
+            disabled={@published}
+            phx-debounce="400"
+          />
         </.simple_form>
       </.live_component>
     </div>

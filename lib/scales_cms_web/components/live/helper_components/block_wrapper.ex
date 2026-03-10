@@ -28,25 +28,28 @@ defmodule ScalesCmsWeb.Components.HelperComponents.BlockWrapper do
   @impl Phoenix.LiveComponent
   def render(assigns) do
     ~H"""
-    <div>
-      <div class={"#{if !@published, do: "drag-handle"} cursor-move w-full flex justify-between align-center bg-lightGrey py-[8px] transition-all ease-in-out delay-150 duration-300"}>
+    <div class="block-wrapper">
+      <div class={"#{if !@published, do: "drag-handle"} cursor-move w-full flex justify-between align-center bg-lightGrey py-[8px] transition-all ease-in-out delay-150 duration-300 "}>
         <div class="align-middle ml-[12px] text-sm font-semibold leading-[32px]">
           {@component.title()}
         </div>
-        <div class="flex">
-          <div class="mr-[8px] bg-white rounded flex">
+        <div class="flex gap-[8px] items-center">
+          <div class="loading-indicator w-[24px] h-[24px] items-center justify-center flex">
+            <.svg type="spinner" width="24" height="24" />
+          </div>
+          <div class="action-buttons bg-white rounded flex">
             <div
               :if={!@published}
               phx-click="delete"
               phx-value-id={@block.id}
-              class="py-[4px] border-r-2 cursor-pointer flex items-center justify-center p-2"
+              class="py-[8px] border-r-2 cursor-pointer flex items-center justify-center p-2"
             >
               <.icon name="hero-trash" class="icon-small" />
             </div>
             <div
               phx-click="toggle-open"
               phx-target={@myself}
-              class="py-[4px] cursor-pointer flex items-center justify-center p-2"
+              class="py-[8px] cursor-pointer flex items-center justify-center p-2"
             >
               <.svg
                 type="toggle_up"

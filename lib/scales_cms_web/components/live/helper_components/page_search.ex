@@ -87,7 +87,13 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
     ~H"""
     <div id={@id}>
       <.focus_wrap id={"#{@id}-container"} phx-click-away="close" phx-target={@myself}>
-        <.input type="hidden" field={@field} value={@value} id={"#{@id}-page-value"} />
+        <.input
+          class="hidden"
+          field={@field}
+          value={@value}
+          id={"#{@id}-page-value"}
+          phx-hook="DispatchChangeOnUpdate"
+        />
         <.label>{gettext("Page")}</.label>
 
         <div

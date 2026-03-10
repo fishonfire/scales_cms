@@ -1,25 +1,45 @@
 @layer components {
-  .btn {
-    @apply rounded bg-secondary py-[12px] px-[16px] text-sm text-white transition ease-in-out;
-  }
-
-  .btn:disabled,
-  .btn:disabled:hover {
-    @apply bg-lightGrey text-black;
-  }
-
-  .btn-primary {
-    @apply bg-primary text-white;
-    &:hover {
-      @apply bg-primary_dark;
+    .btn {
+        @apply rounded bg-secondary py-[12px] px-[16px] text-sm text-white transition ease-in-out;
     }
-  }
 
-  .btn-secondary {
-    @apply bg-secondary text-white;
-  }
+    .btn:disabled,
+    .btn:disabled:hover {
+        @apply bg-lightGrey text-black;
+    }
 
-  .btn-secondary:hover {
-    @apply bg-black text-white;
-  }
+    .btn-primary {
+        @apply bg-primary text-white;
+        &:hover {
+            @apply bg-primary_dark;
+        }
+    }
+
+    .btn-secondary {
+        @apply bg-secondary text-white;
+    }
+
+    .btn-secondary:hover {
+        @apply bg-black text-white;
+    }
+
+    .chevron-container {
+        @apply flex justify-end px-2 pt-2;
+    }
+
+    .chevron-wrapper {
+        @apply bg-white rounded py-2 pl-2 pr-[10px] border-0;
+
+        &:hover {
+            @apply bg-secondary cursor-pointer transition ease-in-out;
+        }
+
+        &:focus {
+            @apply outline-none ring-2 ring-primary ring-offset-2;
+        }
+
+        svg {
+            @apply transition ease-in-out;
+        }
+    }
 }

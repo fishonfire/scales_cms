@@ -48,7 +48,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Dev.DevEditor do
         component={ScalesCmsWeb.Components.CmsComponents.Dev}
         published={@published}
       >
-        <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
+        <.simple_form for={@form} phx-change="store-properties" phx-target={@myself}>
           <.input
             type="text"
             field={@form[:component_type]}
