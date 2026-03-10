@@ -99,7 +99,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
           >
             <.simple_form
               for={button}
-              phx-submit="store-properties"
+              phx-change="store-properties"
               phx-target={@myself}
               phx-value-index={index}
             >
@@ -110,7 +110,13 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
                 label="Background color"
                 disabled={@published}
               />
-              <.input id={"title-#{index}"} type="text" field={button[:title]} label="Title" />
+              <.input
+                id={"title-#{index}"}
+                type="text"
+                field={button[:title]}
+                label="Title"
+                phx-debounce="400"
+              />
 
               <.live_component
                 id={"page-input-#{@block.id}-#{index}"}
@@ -119,13 +125,20 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
                 disabled={@published}
               />
 
-              <.input id={"url-#{index}"} type="text" field={button[:url]} label="URL" />
-              <.input id={"payload-#{index}"} type="text" field={button[:payload]} label="Payload" />
-              <:actions>
-                <.button :if={!@published} phx-disable-with="Saving..." class="btn-secondary">
-                  {gettext("Save")}
-                </.button>
-              </:actions>
+              <.input
+                id={"url-#{index}"}
+                type="text"
+                field={button[:url]}
+                label="URL"
+                phx-debounce="400"
+              />
+              <.input
+                id={"payload-#{index}"}
+                type="text"
+                field={button[:payload]}
+                label="Payload"
+                phx-debounce="400"
+              />
             </.simple_form>
           </.live_component>
         <% end %>

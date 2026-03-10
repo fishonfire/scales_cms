@@ -48,15 +48,21 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Header.HeaderEditor do
         component={ScalesCmsWeb.Components.CmsComponents.Header}
         published={@published}
       >
-        <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
-          <.input type="text" field={@form[:title]} label="Title" disabled={@published} />
-          <.input type="text" field={@form[:subtitle]} label="Subtitle" disabled={@published} />
-
-          <:actions>
-            <.button :if={!@published} phx-disable-with="Saving..." class="btn-secondary">
-              {gettext("Save")}
-            </.button>
-          </:actions>
+        <.simple_form for={@form} phx-change="store-properties" phx-target={@myself}>
+          <.input
+            type="text"
+            field={@form[:title]}
+            label="Title"
+            disabled={@published}
+            phx-debounce="400"
+          />
+          <.input
+            type="text"
+            field={@form[:subtitle]}
+            label="Subtitle"
+            disabled={@published}
+            phx-debounce="400"
+          />
         </.simple_form>
       </.live_component>
     </div>

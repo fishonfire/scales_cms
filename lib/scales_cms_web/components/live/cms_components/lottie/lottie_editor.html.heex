@@ -34,18 +34,14 @@
       <.media_library_button modal_id={"media-library-modal-#{@block.id}-modal"} type="lottie" />
     </div>
 
-    <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
-      <.input type="text" field={@form[:title]} label="Title" />
-      <.input type="text" field={@form[:subtitle]} label="Subtitle" />
+    <.simple_form for={@form} phx-change="store-properties" phx-target={@myself}>
+      <.input type="text" field={@form[:title]} label="Title" phx-debounce="400" />
+      <.input type="text" field={@form[:subtitle]} label="Subtitle" phx-debounce="400" />
 
       <div class="my-2">
         <.input type="checkbox" field={@form[:autoplay]} label="Autoplay" />
         <.input type="checkbox" field={@form[:looping]} label="Looping" />
       </div>
-
-      <:actions>
-        <.button phx-disable-with="Saving..." class="btn-secondary">{gettext("Save")}</.button>
-      </:actions>
     </.simple_form>
   </.live_component>
 

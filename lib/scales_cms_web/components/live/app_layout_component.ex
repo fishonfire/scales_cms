@@ -91,7 +91,7 @@ defmodule ScalesCmsWeb.Live.AppLayoutComponent do
 
       <main
         id="main-content"
-        class={"main-content p-4 #{if @sidebar_open, do: "", else: "sidebar-closed"}"}
+        class={"main-content #{if @sidebar_open, do: "", else: "sidebar-closed"}"}
       >
         <.flash_group flash={@inner_flash} />
         {render_slot(@inner_block)}
