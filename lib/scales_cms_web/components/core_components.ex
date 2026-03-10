@@ -292,6 +292,7 @@ defmodule ScalesCmsWeb.CoreComponents do
   attr :prompt, :string, default: nil, doc: "the prompt for select inputs"
   attr :options, :list, doc: "the options to pass to Phoenix.HTML.Form.options_for_select/2"
   attr :multiple, :boolean, default: false, doc: "the multiple flag for select inputs"
+  attr :class, :string, default: ""
 
   attr :rest, :global,
     include: ~w(accept autocomplete capture cols disabled form list max maxlength min minlength
@@ -324,7 +325,7 @@ defmodule ScalesCmsWeb.CoreComponents do
           name={@name}
           value="true"
           checked={@checked}
-          class="rounded border-zinc-300 text-zinc-900 focus:ring-0"
+          class={["rounded border-zinc-300 text-zinc-900 focus:ring-0", @class]}
           {@rest}
         />
         {@label}
@@ -341,7 +342,10 @@ defmodule ScalesCmsWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="mt-1 block w-full rounded border border-gray-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm sm:leading-6"
+        class={[
+          "mt-1 block w-full rounded border border-gray-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm sm:leading-6",
+          @class
+        ]}
         multiple={@multiple}
         {@rest}
       >
@@ -363,7 +367,8 @@ defmodule ScalesCmsWeb.CoreComponents do
         class={[
           "mt-1 block w-full rounded text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 min-h-[6rem]",
           @errors == [] && "border-zinc-300 focus:border-zinc-400",
-          @errors != [] && "border-rose-400 focus:border-rose-400"
+          @errors != [] && "border-rose-400 focus:border-rose-400",
+          @class
         ]}
         {@rest}
       ><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
@@ -394,7 +399,8 @@ defmodule ScalesCmsWeb.CoreComponents do
           class={[
             "mt-1 block w-full rounded text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 pl-10",
             @errors == [] && "border-zinc-300 focus:border-zinc-400",
-            @errors != [] && "border-rose-400 focus:border-rose-400"
+            @errors != [] && "border-rose-400 focus:border-rose-400",
+            @class
           ]}
           {@rest}
         />
@@ -417,7 +423,8 @@ defmodule ScalesCmsWeb.CoreComponents do
         class={[
           "mt-1 block w-full rounded text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
           @errors == [] && "border-zinc-300 focus:border-zinc-400",
-          @errors != [] && "border-rose-400 focus:border-rose-400"
+          @errors != [] && "border-rose-400 focus:border-rose-400",
+          @class
         ]}
         {@rest}
       />

@@ -69,7 +69,12 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Md.MdEditor do
         </div>
 
         <.simple_form for={@form} phx-change="store-properties" phx-target={@myself}>
-          <.input type="hidden" field={@form[:content]} id={"markdown-#{@block.id}-content"} />
+          <.input
+            phx-debounce="400"
+            class="hidden"
+            field={@form[:content]}
+            id={"markdown-#{@block.id}-content"}
+          />
         </.simple_form>
       </.live_component>
     </div>

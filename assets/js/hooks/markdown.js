@@ -65,11 +65,7 @@ export default {
       const markdown = turndownService.turndown(innerHTML);
       this.inputTarget.value = markdown;
 
-      clearTimeout(this.changeTimer);
-
-      this.changeTimer = setTimeout(() => {
-        this.inputTarget.dispatchEvent(new Event("input", { bubbles: true }));
-      }, 400);
+      this.inputTarget.dispatchEvent(new Event("input", { bubbles: true }));
     });
   },
 
