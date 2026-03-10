@@ -27,6 +27,7 @@ import S3Uploader from "./uploaders/s3";
 import LocalLocaleStorage from "./hooks/local_locale_storage";
 import SidebarState from "./hooks/sidebar_state";
 import DragDropZone from "./hooks/drag_drop_zone";
+import DispatchChangeOnUpdate from "./hooks/dispatch_change_on_update";
 import "flowbite/dist/flowbite.phoenix.js";
 import "./delete_confirm";
 
@@ -36,6 +37,7 @@ const Hooks = {
   LocalLocaleStorage: LocalLocaleStorage,
   SidebarState: SidebarState,
   DragDropZone: DragDropZone,
+  DispatchChangeOnUpdate: DispatchChangeOnUpdate,
 };
 
 let csrfToken = document

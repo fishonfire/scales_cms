@@ -1828,6 +1828,33 @@ select:not([size]) {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2321C39D' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
 }
 
+.block-wrapper {
+  & .action-buttons {
+    display: flex;
+  }
+  & .loading-indicator {
+    display: none;
+  }
+}
+
+.block-wrapper:has(form.phx-submit-loading) {
+  & .action-buttons {
+    display: none;
+  }
+  & .loading-indicator {
+    display: block;
+  }
+}
+
+.block-wrapper:has(form.phx-change-loading) {
+  & .action-buttons {
+    display: none;
+  }
+  & .loading-indicator {
+    display: block;
+  }
+}
+
 .cms-table {
   thead {
     th {
@@ -2686,6 +2713,10 @@ select:not([size]) {
   gap: 1.5rem;
 }
 
+.gap-\[8px\] {
+  gap: 8px;
+}
+
 .gap-x-6 {
   -moz-column-gap: 1.5rem;
        column-gap: 1.5rem;
@@ -3406,12 +3437,20 @@ select:not([size]) {
   opacity: 0.2;
 }
 
+.opacity-25 {
+  opacity: 0.25;
+}
+
 .opacity-40 {
   opacity: 0.4;
 }
 
 .opacity-50 {
   opacity: 0.5;
+}
+
+.opacity-75 {
+  opacity: 0.75;
 }
 
 .shadow-lg {
