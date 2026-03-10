@@ -15,7 +15,21 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
     })
   end
 
+  defp clear_sidebar_ets(_conn) do
+    case :ets.whereis(:sidebar_state) do
+      :undefined ->
+        :ok
+
+      _tid ->
+        :ets.delete_all_objects(:sidebar_state)
+    end
+
+    :ok
+  end
+
   describe "sidebar state from session" do
+    setup [:clear_sidebar_ets]
+
     test "renders sidebar open by default when no session value", %{conn: conn} do
       conn = log_in_user(conn)
 
@@ -67,6 +81,8 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
   end
 
   describe "sidebar toggle interaction" do
+    setup [:clear_sidebar_ets]
+
     test "clicking toggle button closes sidebar when open", %{conn: conn} do
       conn = log_in_with_sidebar(conn, true)
 
@@ -149,6 +165,8 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
   end
 
   describe "sidebar state data attribute" do
+    setup [:clear_sidebar_ets]
+
     test "app-layout has data-sidebar-open attribute matching state when open", %{conn: conn} do
       conn = log_in_with_sidebar(conn, true)
 
@@ -193,6 +211,8 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
   end
 
   describe "sidebar state persistence across navigation" do
+    setup [:clear_sidebar_ets]
+
     test "sidebar state persists when navigating via live_patch", %{conn: conn} do
       conn = log_in_with_sidebar(conn, true)
 

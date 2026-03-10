@@ -45,7 +45,7 @@ defmodule ScalesCmsWeb.Hooks.SidebarState do
 
   @session_key "sidebar_open"
   @default_state true
-  @ets_table :sidebar_state
+  @ets_table ScalesCmsWeb.SidebarStateStore.table()
 
   @doc """
   Returns the session key used to store sidebar state.
@@ -191,16 +191,10 @@ defmodule ScalesCmsWeb.Hooks.SidebarState do
   defp ensure_ets_table_exists do
     case :ets.whereis(@ets_table) do
       :undefined ->
-        # Create table if it doesn't exist
-        # Using public so LiveComponents can also access it
-        # Using set for simple key-value storage
-        try do
-          :ets.new(@ets_table, [:set, :public, :named_table])
-        rescue
-          ArgumentError ->
-            # Table might have been created by another process between check and create
-            :ok
-        end
+        raise """
+        ETS table #{@ets_table} is missing.
+        Expected it to be started by ScalesCmsWeb.SidebarStateStore.
+        """
 
       _tid ->
         :ok
