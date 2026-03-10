@@ -51,6 +51,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 ## Contributors
 - Simon de la Court (https://github.com/simondelacourt)
 - Alexey Pikulik (https://github.com/alexeyfof)
+- Menno Jongejan (https://github.com/mennolpFoF)
 
 ## Copyright and Licence
 Copyright (c) 2024, Fish on Fire.
