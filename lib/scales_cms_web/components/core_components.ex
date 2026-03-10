@@ -39,6 +39,7 @@ defmodule ScalesCmsWeb.CoreComponents do
 
   """
   attr :id, :string, required: true
+  attr :show, :boolean, default: false
   attr :on_cancel, JS, default: %JS{}
   slot :inner_block, required: true
 
@@ -46,14 +47,16 @@ defmodule ScalesCmsWeb.CoreComponents do
     ~H"""
     <div
       id={@id}
+      phx-mounted={@show && show_modal(@id)}
       phx-remove={hide_modal(@id)}
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
-      data-open="false"
-      class="relative z-50 pointer-events-none opacity-0 transition-opacity duration-200 ease-out data-[open=true]:pointer-events-auto data-[open=true]:opacity-100"
+      data-modal-open={show_modal(@id)}
+      data-modal-close={hide_modal(@id)}
+      class="relative z-50 hidden"
     >
       <div
         id={"#{@id}-bg"}
-        class="bg-zinc-50/90 fixed inset-0 transition-opacity"
+        class="bg-zinc-50/90 fixed inset-0 hidden"
         aria-hidden="true"
       />
       <div
@@ -70,9 +73,8 @@ defmodule ScalesCmsWeb.CoreComponents do
               id={"#{@id}-container"}
               phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
               phx-key="escape"
-              phx-click-away={JS.dispatch("phx:modal-click-away", to: "##{@id}")}
-              class="shadow-zinc-700/10 ring-zinc-700/10 relative rounded-2xl bg-white p-14 shadow-lg ring-1 transition-all duration-200 ease-out scale-95 data-[open=true]:scale-100"
-              data-open="false"
+              phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
+              class="shadow-zinc-700/10 ring-zinc-700/10 relative hidden rounded-2xl bg-white p-14 shadow-lg ring-1"
             >
               <div class="absolute top-6 right-5">
                 <button
@@ -84,6 +86,7 @@ defmodule ScalesCmsWeb.CoreComponents do
                   <.icon name="hero-x-mark-solid" class="h-5 w-5" />
                 </button>
               </div>
+
               <div id={"#{@id}-content"}>
                 {render_slot(@inner_block)}
               </div>
@@ -713,22 +716,38 @@ defmodule ScalesCmsWeb.CoreComponents do
     )
   end
 
-  def show_modal(_js \\ %JS{}, id) do
-    JS.dispatch("phx:open-modal", %{to: "##{id}", detail: %{id: id}})
+  def show_modal(js \\ %JS{}, id) when is_binary(id) do
+    js
+    |> JS.show(to: "##{id}")
+    |> JS.show(
+      to: "##{id}-bg",
+      transition: {"transition-all transform ease-out duration-300", "opacity-0", "opacity-100"}
+    )
+    |> show("##{id}-container")
+    |> JS.add_class("overflow-hidden", to: "body")
+    |> JS.focus_first(to: "##{id}-content")
   end
 
-  def hide_modal(_js \\ %JS{}, id) do
-    JS.dispatch("phx:close-modal", %{to: "##{id}", detail: %{id: id}})
+  def hide_modal(js \\ %JS{}, id) do
+    js
+    |> JS.hide(
+      to: "##{id}-bg",
+      transition: {"transition-all transform ease-in duration-200", "opacity-100", "opacity-0"}
+    )
+    |> hide("##{id}-container")
+    |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
+    |> JS.remove_class("overflow-hidden", to: "body")
+    |> JS.pop_focus()
   end
 
   def open_modal(socket, id) do
     socket
-    |> Phoenix.LiveView.push_event("open-modal", %{to: "##{id}", id: id})
+    |> Phoenix.LiveView.push_event("js-exec", %{to: "##{id}", attr: "data-modal-open"})
   end
 
   def close_modal(socket, id) do
     socket
-    |> Phoenix.LiveView.push_event("close-modal", %{to: "##{id}", id: id})
+    |> Phoenix.LiveView.push_event("js-exec", %{to: "##{id}", attr: "data-modal-close"})
   end
 
   @doc """
