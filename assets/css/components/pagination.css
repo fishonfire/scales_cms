@@ -1,16 +1,23 @@
 .pagination-button {
-    @apply font-bold w-[27px] h-[27px] text-gray-400 bg-gray-200 rounded;
+    @apply font-bold w-[27px] h-[27px] text-gray-400 bg-gray-200 rounded transition;
 
+    &:hover {
+        @apply bg-primary text-white;
+    }
     &.current {
         @apply text-white bg-primary;
     }
 }
 
 .pagination-chevron {
-    @apply text-center text-gray-300 text-sm w-[27px] h-[27px] rounded bg-gray-200;
+    @apply text-center text-gray-300 text-sm w-[27px] h-[27px] rounded bg-gray-200 transition;
 
     &.active {
         @apply text-gray-400;
+
+        &:hover {
+            @apply bg-primary text-white;
+        }
     }
 }
 
