@@ -3,6 +3,15 @@ defmodule ScalesCmsWeb.Hooks.SidebarStateTest do
 
   alias ScalesCmsWeb.Hooks.SidebarState
 
+  defp clear_ets_table(_conn) do
+    case :ets.whereis(:sidebar_state) do
+      :undefined -> :ok
+      _ -> :ets.delete_all_objects(:sidebar_state)
+    end
+
+    :ok
+  end
+
   describe "session_key/0" do
     test "returns the expected session key" do
       assert SidebarState.session_key() == "sidebar_open"
@@ -16,6 +25,7 @@ defmodule ScalesCmsWeb.Hooks.SidebarStateTest do
   end
 
   describe "on_mount/4" do
+    setup [:clear_ets_table]
     # Helper to create a properly initialized socket for testing
     defp build_socket do
       %Phoenix.LiveView.Socket{
