@@ -2535,10 +2535,6 @@ select:not([size]) {
   max-width: 48rem;
 }
 
-.max-w-6xl {
-  max-width: 72rem;
-}
-
 .max-w-\[200px\] {
   max-width: 200px;
 }
