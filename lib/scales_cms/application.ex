@@ -11,10 +11,11 @@ defmodule ScalesCms.Application do
       {DNSCluster, query: Application.get_env(:scales_cms, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: ScalesCms.PubSub},
       # Start the Finch HTTP client for sending emails
-      {Finch, name: ScalesCms.Finch}
+      {Finch, name: ScalesCms.Finch},
       # Start a worker by calling: ScalesCms.Worker.start_link(arg)
       # {ScalesCms.Worker, arg},
       # Start to serve requests, typically the last entry
+      ScalesCmsWeb.SidebarStateStore
     ]
 
     children =
