@@ -1,133 +1,189 @@
-<div class="w-[calc(100%-400px)]">
-  <button
-    type="button"
-    class="p-0 m-0 mt-4 mb-4"
-    phx-click={JS.dispatch("app:back")}
-  >
-    &lt; {gettext("Back")}
-  </button>
-  <div class="flex space-between mt-4 mb-4">
-    <div class="flex items-center flex-1 space-x-2">
-      <h2 class="text-2xl">
-        <.link patch={~p"/cms/directories"} class="p-0 m-0">
-          {gettext("Pages")}
-        </.link>
-      </h2>
-      <h2 class="text-2xl">
+<div class="flex min-h-screen flex-row bg-white">
+  <div class="transition-all duration-300 pr-6 flex-1 p-4">
+    <button
+      type="button"
+      class="p-0 m-0 mt-4 mb-4"
+      phx-click={JS.dispatch("app:back")}
+    >
+      &lt; {gettext("Back")}
+    </button>
+
+    <div class="flex space-between mt-4 mb-4">
+      <div class="flex items-center flex-1 space-x-2">
+        <h2 class="text-2xl">
+          <.link patch={~p"/cms/directories"} class="p-0 m-0">
+            {gettext("Pages")}
+          </.link>
+        </h2>
+
+        <h2 class="text-2xl">&gt;</h2>
+
+        <h2 class="text-2xl">
+          {@cms_page_variant.title}
+        </h2>
+      </div>
+
+      <div class="flex space-x-4">
+        <.live_component id="locale_switcher" module={LocaleSwitcher} />
+
+        <.button
+          type="button"
+          phx-click={show_modal("edit-title-modal")}
+          class="btn btn-secondary"
         >
-      </h2>
-      <h2 class="text-2xl">
-        {@cms_page_variant.title}
-      </h2>
-    </div>
-
-    <div class="flex space-x-4">
-      <.live_component id="locale_switcher" module={LocaleSwitcher} />
-
-      <.button type="button" phx-click={show_modal("edit-title-modal")} class="btn btn-secondary">
-        {gettext("Edit page title")}
-      </.button>
-
-      <.button :if={@cms_page_variant.published_at == nil} class="btn-primary" phx-click="publish">
-        {gettext("Publish")}
-      </.button>
-
-      <.button
-        :if={@cms_page_variant.published_at != nil}
-        phx-click="start-new-version"
-        class="btn-secondary"
-      >
-        {gettext("Start new version")}
-      </.button>
-    </div>
-  </div>
-  <.modal id="edit-title-modal">
-    <.simple_form for={@form} class="mb-[24px]" phx-submit="update-page">
-      <.input field={@form[:title]} label={gettext("Title")} />
-
-      <:actions>
-        <.button class="btn-secondary">
-          {gettext("Save")}
+          {gettext("Edit page title")}
         </.button>
-      </:actions>
-    </.simple_form>
-  </.modal>
 
-  <div :if={@cms_page_variant.published_at != nil} class="w-3/4  p-8 mb-7 bg-slate-300	rounded">
-    <p class="mb-5 ">
-      {gettext("This page has been published. You can not edit this page anymore")}
-      {gettext("If you want to keep editing this page please start a new version")}
-    </p>
-    <p>
-      <.button phx-click="start-new-version" class="btn-secondary">
-        {gettext("Start new version")}
-      </.button>
-    </p>
-  </div>
+        <.button
+          :if={@cms_page_variant.published_at == nil}
+          class="btn-primary"
+          phx-click="publish"
+        >
+          {gettext("Publish")}
+        </.button>
 
-  <div class="drop-zone  min-h-16 " id="page-drop-zone" phx-hook="Drag">
-    <%= for block <- @blocks do %>
-      <.render_preview
-        id={"block-#{block.id}"}
-        block={block}
-        published={@cms_page_variant.published_at != nil}
-      />
-    <% end %>
-
-    <div :if={Enum.count(@blocks) == 0} class="min-h-6 sortable-ghost">
-      <.icon name="hero-ellipsis-horizontal" />
+        <.button
+          :if={@cms_page_variant.published_at != nil}
+          phx-click="start-new-version"
+          class="btn-secondary"
+        >
+          {gettext("Start new version")}
+        </.button>
+      </div>
     </div>
-  </div>
-</div>
 
-<aside
-  id="drawer-sidebar"
-  class="fixed top-0 right-0 z-40 w-[390px] h-screen transition-transform -translate-x-full sm:translate-x-0 bg-slate-100 overflow-auto"
-  aria-label="Sidebar"
->
-  <div class="relative px-[24px]">
-    <h2 class="mt-[48px] mb-[4px] font-semibold text-2xl">
-      {gettext("Component library")}
-    </h2>
+    <.modal id="edit-title-modal">
+      <.simple_form for={@form} class="mb-[24px]" phx-submit="update-page">
+        <.input field={@form[:title]} label={gettext("Title")} />
 
-    <p class="mb-[32px] text-xs	">
-      {gettext("Drag & drop the components and start building your page")}
-    </p>
+        <:actions>
+          <.button class="btn-secondary">
+            {gettext("Save")}
+          </.button>
+        </:actions>
+      </.simple_form>
+    </.modal>
 
-    <ul class="flex bg-white rounded justify-between">
-      <li
-        phx-value-category="All"
-        phx-click="select-component-category"
-        class={"cursor-pointer transition-all rounded m-[4px] p-[8px] px-[16px] hover:bg-gray-50 font-semibold #{if @active_category == "All", do: " bg-gray-100", else: ""}"}
-      >
-        {gettext("All")}
-      </li>
-      <li
-        :for={category <- @categories}
-        phx-value-category={category}
-        phx-click="select-component-category"
-        class={"cursor-pointer transition-all rounded m-[4px] p-[8px] px-[16px] hover:bg-gray-50 font-semibold #{if @active_category == category, do: " bg-gray-100", else: ""}"}
-      >
-        {category}
-      </li>
-    </ul>
+    <div :if={@cms_page_variant.published_at != nil} class="w-3/4 p-8 mb-7 bg-slate-300 rounded">
+      <p class="mb-5">
+        {gettext("This page has been published. You can not edit this page anymore")}
+        {gettext("If you want to keep editing this page please start a new version")}
+      </p>
+      <p>
+        <.button phx-click="start-new-version" class="btn-secondary">
+          {gettext("Start new version")}
+        </.button>
+      </p>
+    </div>
 
-    <div id="drawer" class="drawer" phx-hook="Drag">
-      <div
-        :for={
-          {type, component} <-
-            ScalesCmsWeb.Components.CmsComponents.get_components_for_category(@active_category)
-        }
-        id={type}
-        class={" p-2 rounded my-[8px] bg-white #{if @cms_page_variant.published_at == nil, do: "draggable"}"}
-        data-id={type}
-      >
-        {component.render_draweritem(%{
-          type: type,
-          component: component,
-          published: @cms_page_variant.published_at != nil
-        })}
+    <div class="drop-zone min-h-16" id="page-drop-zone" phx-hook="Drag">
+      <%= for block <- @blocks do %>
+        <.render_preview
+          id={"block-#{block.id}"}
+          block={block}
+          published={@cms_page_variant.published_at != nil}
+        />
+      <% end %>
+
+      <div :if={Enum.count(@blocks) == 0} class="min-h-6 sortable-ghost">
+        <.icon name="hero-ellipsis-horizontal" />
       </div>
     </div>
   </div>
-</aside>
+
+  <aside
+    id="drawer-sidebar"
+    phx-mouseenter={!@drawer_open && "open-drawer"}
+    phx-mouseleave={!@drawer_open && "close-drawer"}
+    class={"relative top-0 right-0 z-40 h-screen overflow-hidden transition-all duration-300 #{if @drawer_open, do: "w-[390px]", else: "w-[64px]"}"}
+    aria-label="Sidebar"
+  >
+    <div class="fixed h-full bg-slate-100 border-l border-slate-200 transition-all">
+      <div
+        :if={@drawer_open}
+        class="flex items-center justify-between px-[24px] pt-[16px] pb-[8px] gap-2"
+      >
+        <div>
+          <h2 class="mt-[24px] mb-[4px] font-semibold text-2xl">
+            {gettext("Component library")}
+          </h2>
+
+          <p :if={@drawer_open} class="mb-[32px] text-xs">
+            {gettext("Drag & drop the components and start building your page")}
+          </p>
+        </div>
+
+        <div class="chevron-container">
+          <button
+            type="button"
+            class="chevron-wrapper rotate-180"
+            phx-click="toggle-drawer"
+            aria-expanded={to_string(@drawer_open)}
+            aria-controls="default-drawer-close"
+            aria-label="Close component drawer"
+          >
+            <.svg type="chevron" id="chevron" width="12" height="12" />
+          </button>
+        </div>
+      </div>
+      <div
+        :if={!@drawer_open}
+        class="flex items-center justify-between px-[16px] pt-[16px] pb-[8px]"
+      >
+        <div class="chevron-container">
+          <button
+            type="button"
+            class="chevron-wrapper"
+            phx-click="toggle-drawer"
+            aria-expanded={to_string(!@drawer_open)}
+            aria-controls="default-drawer-open"
+            aria-label="Open component drawer"
+          >
+            <.svg type="chevron" id="chevron" width="12" height="12" />
+          </button>
+        </div>
+      </div>
+
+      <div :if={@drawer_open} class="px-[24px] pb-[24px] overflow-y-auto h-[calc(100%-57px)]">
+        <ul class="flex bg-white rounded justify-between">
+          <li
+            phx-value-category="All"
+            phx-click="select-component-category"
+            class={"cursor-pointer transition-all rounded m-[4px] p-[8px] px-[16px] hover:bg-gray-50 font-semibold #{if @active_category == "All", do: "bg-gray-100", else: ""}"}
+          >
+            {gettext("All")}
+          </li>
+
+          <li
+            :for={category <- @categories}
+            phx-value-category={category}
+            phx-click="select-component-category"
+            class={"cursor-pointer transition-all rounded m-[4px] p-[8px] px-[16px] hover:bg-gray-50 font-semibold #{if @active_category == category, do: "bg-gray-100", else: ""}"}
+          >
+            {category}
+          </li>
+        </ul>
+
+        <div id="drawer" class="drawer mt-4" phx-hook="Drag">
+          <div
+            :for={
+              {type, component} <-
+                ScalesCmsWeb.Components.CmsComponents.get_components_for_category(
+                  @active_category
+                )
+            }
+            id={type}
+            class={"p-2 rounded my-[8px] bg-white #{if @cms_page_variant.published_at == nil, do: "draggable"}"}
+            data-id={type}
+          >
+            {component.render_draweritem(%{
+              type: type,
+              component: component,
+              published: @cms_page_variant.published_at != nil
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>

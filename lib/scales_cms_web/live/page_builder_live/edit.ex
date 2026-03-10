@@ -18,7 +18,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
   def mount(_params, _session, socket) do
     Phoenix.PubSub.subscribe(ScalesCms.PubSub, Topics.get_block_updated_topic())
 
-    {:ok, socket}
+    {:ok, assign(socket, :drawer_open, false)}
   end
 
   @impl Phoenix.LiveView
@@ -133,6 +133,10 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
         CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
       )
       |> then(&{:noreply, &1})
+  end
+
+  def handle_event("toggle-drawer", _, socket) do
+    {:noreply, update(socket, :drawer_open, &(!&1))}
   end
 
   def handle_event(
