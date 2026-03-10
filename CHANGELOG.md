@@ -18,6 +18,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -
 
+## [0.2.0] - 2026-03-10
+### Added
+- Media library
+- Breadcrumbs
+- Table sorting on the page list
+- Table searching on the page list
+- Table pagination on the page list
+- Sidebar toggle and persistent state
+- Component drawer toggle
+- Dashboard tiles
+- Auto save logic in page editor
+- Auto create new draft on publish page in page editor
+- Missing translations
+
+### Changed
+- Renamed component 'markdown' to 'rich text'
+- Media components (Lottie, Image and video) now use the media library for uploading and selecting media
+- Complete modal overhaul to render modal inline instead of on seperate page with mount hook
+
 ## [0.1.18] - 2025-02-07
 ### Added
 - Manual added
