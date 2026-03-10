@@ -6,9 +6,9 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Md do
   use ScalesCmsWeb, :live_component
 
   use ScalesCmsWeb.Components.HelperComponents.RootComponent,
-    title: gettext("Markdown"),
+    title: gettext("Richtext editor"),
     category: "Content",
-    description: gettext("Small or lang text like title or description"),
+    description: gettext("Small or long text like title or description"),
     icon_type: "cms_rich_text",
     preview_module: ScalesCmsWeb.Components.CmsComponents.Md.MdEditor,
     version: "0.0.1"
