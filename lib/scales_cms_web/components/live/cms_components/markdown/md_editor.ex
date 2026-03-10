@@ -48,7 +48,13 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Md.MdEditor do
         component={ScalesCmsWeb.Components.CmsComponents.Md}
         published={@published}
       >
-        <div id={"markdown-#{@block.id}"} phx-hook="Markdown" phx-block-id={@block.id} class="m-[4px]">
+        <div
+          id={"markdown-#{@block.id}"}
+          phx-hook="Markdown"
+          data-disabled={to_string(@published)}
+          phx-block-id={@block.id}
+          class="m-[4px]"
+        >
           <trix-toolbar id={"markdown-#{@block.id}-toolbar"}>
             <MdToolbar.render :if={!@published} id={"markdown-#{@block.id}-toolbar-content"} />
           </trix-toolbar>

@@ -11,7 +11,6 @@ turndownService.addRule("paragraph", {
   },
 });
 
-// document.addEventListener("trix-before-initialize", () => { /* Change Trix.config if you need */
 Trix.config.blockAttributes.heading2 = {
   tagName: "h2",
   terminal: true,
@@ -35,15 +34,14 @@ Trix.config.blockAttributes.heading5 = {
 
 export default {
   mounted() {
-    const targetNode = this.el.getElementsByTagName("trix-editor")?.[0];
-    const editor = targetNode.editor;
+    this.targetNode = this.el.getElementsByTagName("trix-editor")?.[0];
+    this.editor = this.targetNode?.editor;
 
-    const inputTarget = document.getElementById(
-      targetNode.id.replace("editor", "content"),
+    this.inputTarget = document.getElementById(
+      this.targetNode.id.replace("editor", "content"),
     );
 
-    let input = inputTarget.value;
-
+    let input = this.inputTarget.value;
     input = input.replaceAll(/\n/g, "<br>");
 
     const convertedHTML = marked.parse(
@@ -54,17 +52,48 @@ export default {
       },
     );
 
-    editor.insertHTML(convertedHTML);
+    this.editor.insertHTML(convertedHTML);
 
-    this.el.addEventListener("trix-change", (event) => {
-      let innerHTML = targetNode.innerHTML;
+    this.syncDisabledState();
 
+    this.el.addEventListener("trix-change", () => {
+      if (this.isDisabled()) return;
+
+      let innerHTML = this.targetNode.innerHTML;
       innerHTML = innerHTML.replace("<br>", "\n");
 
       const markdown = turndownService.turndown(innerHTML);
-      inputTarget.value = markdown;
-
-      inputTarget.dispatchEvent(new Event("input", { bubbles: true }));
+      this.inputTarget.value = markdown;
+      this.inputTarget.dispatchEvent(new Event("input", { bubbles: true }));
     });
+  },
+
+  updated() {
+    this.syncDisabledState();
+  },
+
+  isDisabled() {
+    return this.el.dataset.disabled === "true";
+  },
+
+  syncDisabledState() {
+    const disabled = this.isDisabled();
+
+    if (!this.targetNode) return;
+
+    this.targetNode.toggleAttribute("disabled", disabled);
+    this.targetNode.setAttribute(
+      "contenteditable",
+      disabled ? "false" : "true",
+    );
+
+    const toolbarId = this.targetNode.getAttribute("toolbar");
+    if (toolbarId) {
+      const toolbar = document.getElementById(toolbarId);
+      if (toolbar) {
+        toolbar.style.pointerEvents = disabled ? "none" : "";
+        toolbar.style.opacity = disabled ? "0.5" : "";
+      }
+    }
   },
 };
