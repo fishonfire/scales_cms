@@ -1,0 +1,29 @@
+@layer components {
+    .block-wrapper {
+        & .action-buttons {
+            @apply flex;
+        }
+
+        & .loading-indicator {
+            @apply hidden;
+        }
+    }
+
+    .block-wrapper:has(form.phx-submit-loading) {
+        & .action-buttons {
+            @apply hidden;
+        }
+        & .loading-indicator {
+            @apply block;
+        }
+    }
+
+    .block-wrapper:has(form.phx-change-loading) {
+        & .action-buttons {
+            @apply hidden;
+        }
+        & .loading-indicator {
+            @apply block;
+        }
+    }
+}

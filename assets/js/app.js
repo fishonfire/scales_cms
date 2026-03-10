@@ -27,6 +27,7 @@ import S3Uploader from "./uploaders/s3";
 import LocalLocaleStorage from "./hooks/local_locale_storage";
 import SidebarState from "./hooks/sidebar_state";
 import DragDropZone from "./hooks/drag_drop_zone";
+import DispatchChangeOnUpdate from "./hooks/dispatch_change_on_update";
 import "flowbite/dist/flowbite.phoenix.js";
 import "./delete_confirm";
 
@@ -36,6 +37,7 @@ const Hooks = {
   LocalLocaleStorage: LocalLocaleStorage,
   SidebarState: SidebarState,
   DragDropZone: DragDropZone,
+  DispatchChangeOnUpdate: DispatchChangeOnUpdate,
 };
 
 let csrfToken = document
@@ -56,35 +58,12 @@ window.addEventListener("phx:page-loading-stop", (_info) => topbar.hide());
 // Browser back button support
 window.addEventListener("app:back", () => history.back());
 
-window.addEventListener("phx:open-modal", ({ detail }) => {
-  const modal = document.getElementById(detail.id);
-  if (modal) {
-    modal.dataset.open = "true";
-    const container = document.getElementById(`${detail.id}-container`);
-    if (container) {
-      container.dataset.open = "true";
-    }
-  }
-});
-
-window.addEventListener("phx:close-modal", ({ detail }) => {
-  const modal = document.getElementById(detail.id);
-  if (modal) {
-    modal.dataset.open = "false";
-    const container = document.getElementById(`${detail.id}-container`);
-    if (container) {
-      container.dataset.open = "false";
-    }
-  }
-});
-
-window.addEventListener("phx:modal-click-away", (event) => {
-  const modal = event.target;
-  if (modal && modal.dataset.open === "true") {
-    const cancelAttr = modal.getAttribute("data-cancel");
-    if (cancelAttr) {
-      liveSocket.execJS(modal, cancelAttr);
-    }
+window.addEventListener("phx:js-exec", ({ detail }) => {
+  if (detail.to && detail.to !== "#") {
+    console.log("Executing JS for", detail.to);
+    document.querySelectorAll(detail.to).forEach((el) => {
+      liveSocket.execJS(el, el.getAttribute(detail.attr));
+    });
   }
 });
 

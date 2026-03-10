@@ -23,19 +23,32 @@
   <.simple_form
     id={"button-form-#{@index}-#{@block.id}"}
     for={@form}
-    phx-submit="store-properties"
+    phx-change="store-properties"
     phx-target={@myself}
     phx-value-index={@index}
   >
-    <.input id={"title-#{@index}-#{@block.id}"} type="text" field={@form[:title]} label="Title" />
+    <.input
+      id={"title-#{@index}-#{@block.id}"}
+      type="text"
+      field={@form[:title]}
+      label="Title"
+      phx-debounce="400"
+    />
     <.input
       id={"subtitle-#{@index}-#{@block.id}"}
       type="text"
       field={@form[:subtitle]}
       label="Subtitle"
+      phx-debounce="400"
     />
 
-    <.input id={"icon-#{@index}-#{@block.id}"} type="text" field={@form[:icon]} label="Icon" />
+    <.input
+      id={"icon-#{@index}-#{@block.id}"}
+      type="text"
+      field={@form[:icon]}
+      label="Icon"
+      phx-debounce="400"
+    />
 
     <.live_component
       id={"page-input-#{@block.id}-#{@index}"}
@@ -44,17 +57,19 @@
       field_id={"page-input-#{@block.id}-#{@index}"}
     />
 
-    <.input id={"url-#{@index}-#{@block.id}"} type="text" field={@form[:url]} label="URL" />
+    <.input
+      id={"url-#{@index}-#{@block.id}"}
+      type="text"
+      field={@form[:url]}
+      label="URL"
+      phx-debounce="400"
+    />
     <.input
       id={"payload-#{@index}-#{@block.id}"}
       type="text"
       field={@form[:payload]}
       label="Payload"
+      phx-debounce="400"
     />
-    <:actions>
-      <.button phx-disable-with="Saving..." class="btn-secondary">
-        {gettext("Save")}
-      </.button>
-    </:actions>
   </.simple_form>
 </div>

@@ -49,7 +49,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Button.ButtonEditor do
         component={ScalesCmsWeb.Components.CmsComponents.Button}
         published={@published}
       >
-        <.simple_form for={@form} phx-submit="store-properties" phx-target={@myself}>
+        <.simple_form for={@form} phx-change="store-properties" phx-target={@myself}>
           <.input
             type="select"
             field={@form[:bg_color_variant]}
@@ -66,14 +66,20 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Button.ButtonEditor do
             disabled={@published}
           />
 
-          <.input type="text" field={@form[:url]} label="URL" disabled={@published} />
-          <.input type="textarea" field={@form[:payload]} label="Payload" disabled={@published} />
-
-          <:actions>
-            <.button :if={!@published} phx-disable-with="Saving..." class="btn-secondary">
-              {gettext("Save")}
-            </.button>
-          </:actions>
+          <.input
+            type="text"
+            field={@form[:url]}
+            label="URL"
+            disabled={@published}
+            phx-debounce="400"
+          />
+          <.input
+            type="textarea"
+            field={@form[:payload]}
+            label="Payload"
+            disabled={@published}
+            phx-debounce="400"
+          />
         </.simple_form>
       </.live_component>
     </div>
