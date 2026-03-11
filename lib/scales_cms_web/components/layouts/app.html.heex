@@ -6,6 +6,8 @@
     sidebar_open={Map.get(assigns, :sidebar_open, true)}
     current_uri={@current_uri}
   >
-    {@inner_content}
+    <div class="container p-4">
+      {@inner_content}
+    </div>
   </.live_component>
 </div>

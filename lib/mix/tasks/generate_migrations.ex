@@ -139,6 +139,18 @@ if Code.ensure_loaded?(Ecto) do
         end
 
         create index(:cms_api_tokens, [:token], unique: true)
+
+        create table(:cms_media_library) do
+          add :name, :text
+          add :type, :string
+          add :url, :text
+          add :deleted_at, :naive_datetime
+
+          timestamps(type: :utc_datetime)
+        end
+
+        create index(:cms_media_library, [:type])
+        create index(:cms_media_library, [:deleted_at])
       end
     end
     """)
