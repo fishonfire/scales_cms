@@ -15,7 +15,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href={cms_asset_path(@conn, :css)} />
+    <link :if={dev_mode()} rel="stylesheet" href={cms_asset_path(@conn, :css)} />
     <script src={cms_asset_path(@conn, :js)} defer>
     </script>
 
