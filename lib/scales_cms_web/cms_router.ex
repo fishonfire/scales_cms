@@ -1,54 +1,41 @@
 defmodule ScalesCmsWeb.CmsRouter do
   @moduledoc """
-  The Macros for defining the routes in the main application
+  The macros for defining the routes in the main application.
   """
+
   defmacro cms_admin(opts, do: block) do
     scope =
-      quote bind_quoted: binding() do
+      quote bind_quoted: [opts: opts, block: Macro.escape(block)] do
         session_opts = [root_layout: {ScalesCmsWeb.Layouts, :root}]
 
-        # Always include the SidebarState hook for session-based sidebar persistence
         sidebar_hook = {ScalesCmsWeb.Hooks.SidebarState, :default}
         request_uri_hook = {ScalesCmsWeb.SaveRequestUri, :save_request_uri}
 
         existing_hooks = opts[:on_mount] || []
-        # Ensure existing_hooks is a list
         existing_hooks = if is_list(existing_hooks), do: existing_hooks, else: [existing_hooks]
-        # Append sidebar hook to existing hooks
+
         all_hooks = existing_hooks ++ [sidebar_hook, request_uri_hook]
 
-        session_opts = Keyword.put(session_opts, :on_mount, all_hooks)
-
-        # Copy sidebar_open from Plug session to LiveView session
-        # This allows the on_mount hook to read the persisted sidebar state
         session_opts =
-          Keyword.put(
-            session_opts,
-            :session,
-            {ScalesCmsWeb.Hooks.SidebarState, :copy_session, []}
-          )
+          session_opts
+          |> Keyword.put(:on_mount, all_hooks)
+          |> Keyword.put(:session, {ScalesCmsWeb.Hooks.SidebarState, :copy_session, []})
 
         live_session :cms_admin, session_opts do
           scope "/cms", ScalesCmsWeb do
-            # cms assets
-
             get "/stats", CmsStatsController, :index
 
-            # cms routes
             live "/", CmsIndexLive.Index, :index
-
             live "/settings", CmsSettingsLive.Index, :index
 
             live "/directories", CmsDirectoryLive.Index, :index
             live "/directories/:id", CmsDirectoryLive.Index, :index
 
             live "/pages", CmsPageLive.Index, :index
-
             live "/pages/:id", CmsPageLive.Show, :show
             live "/pages/:id/show/edit", CmsPageLive.Show, :edit
 
             live "/page_variants", CmsPageVariantLive.Index, :index
-
             live "/page_variants/:id", CmsPageVariantLive.Show, :show
             live "/page_variants/:id/show/edit", CmsPageVariantLive.Show, :edit
 
@@ -56,8 +43,10 @@ defmodule ScalesCmsWeb.CmsRouter do
             live "/page_builder/:id/edit", PageBuilderLive.Edit, :edit_variant
 
             live "/media", CmsMediaLibraryLive.Index, :index
+          end
 
-            block
+          scope "/" do
+            unquote(block)
           end
         end
       end
@@ -92,12 +81,11 @@ defmodule ScalesCmsWeb.CmsRouter do
   defmacro api_public() do
     scope =
       quote bind_quoted: binding() do
-        # Other scopes may use custom stacks.
         scope "/public", ScalesCmsWeb.Api.Public do
-          get("/pages", PagesController, :index)
-          get("/pages/:id", PagesController, :show)
-          get("/pages/slug/:slug", PagesController, :show)
-          get("/components", ComponentsController, :index)
+          get "/pages", PagesController, :index
+          get "/pages/:id", PagesController, :show
+          get "/pages/slug/:slug", PagesController, :show
+          get "/components", ComponentsController, :index
         end
       end
 
