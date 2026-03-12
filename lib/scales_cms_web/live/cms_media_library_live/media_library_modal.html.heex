@@ -4,12 +4,12 @@
     on_cancel={hide_modal("#{@id}-modal")}
   >
     <div class="max-h-[80vh] overflow-y-auto">
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">
         {gettext("Media Library")}
       </h2>
 
       <section class="mb-8">
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+        <h3 class="text-lg font-semibold text-gray-900 mb-3">
           {gettext("Upload media")}
         </h3>
 
@@ -25,11 +25,11 @@
             phx-drop-target={@uploads.media.ref}
             phx-hook="DragDropZone"
             data-target={@myself}
-            class="border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all duration-200 border-gray-300 hover:border-gray-400 dark:border-gray-600 dark:hover:border-gray-500"
-            data-active-class="border-emerald-600 bg-emerald-100 dark:bg-emerald-900/20"
+            class="border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all duration-200 border-gray-300 hover:border-gray-400"
+            data-active-class="border-emerald-600 bg-emerald-100"
           >
             <.live_file_input upload={@uploads.media} class="hidden" />
-            <p class="text-gray-600 dark:text-gray-300">
+            <p class="text-gray-600">
               {gettext("Drag & drop or")}
               <label
                 for={@uploads.media.ref}
@@ -47,12 +47,12 @@
           <div :if={Enum.count(@uploads.media.entries) > 0} class="space-y-3">
             <div
               :for={entry <- @uploads.media.entries}
-              class="bg-gray-100 dark:bg-gray-800 rounded-lg p-3"
+              class="bg-gray-100 rounded-lg p-3"
             >
               <div class="flex items-center justify-between mb-2">
                 <div class="flex items-center gap-3">
                   <.icon name="hero-document-arrow-up" class="h-4 w-4 text-emerald-500" />
-                  <span class="text-sm text-gray-700 dark:text-gray-300 truncate max-w-xs">
+                  <span class="text-sm text-gray-700 truncate max-w-xs">
                     {entry.client_name}
                   </span>
                 </div>
@@ -68,7 +68,7 @@
                 </button>
               </div>
 
-              <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+              <div class="w-full bg-gray-200 rounded-full h-1.5">
                 <div
                   class="bg-emerald-500 h-1.5 rounded-full transition-all duration-300"
                   style={"width: #{entry.progress}%"}
@@ -86,14 +86,14 @@
           </div>
         </form>
 
-        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">
+        <p class="text-xs text-gray-500 mt-2">
           {supported_formats_text(@filter_type)}
         </p>
       </section>
 
       <section>
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+          <h3 class="text-lg font-semibold">
             {gettext("Select from library")}
           </h3>
 
@@ -149,11 +149,11 @@
         >
           <%= for item <- @media_items do %>
             <div
-              class="group relative bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden p-1.5 cursor-pointer border-2 border-transparent hover:border-emerald-500 transition-all"
+              class="group relative bg-gray-200 rounded-lg overflow-hidden p-1.5 cursor-pointer border-2 border-transparent hover:border-emerald-500 transition-all"
               phx-click={JS.push("media_selected", target: @target, value: %{id: item.id})}
               phx-value-id={item.id}
             >
-              <div class="relative w-full aspect-square bg-gray-200 dark:bg-gray-700 rounded overflow-hidden">
+              <div class="relative w-full aspect-square bg-gray-200 rounded overflow-hidden">
                 <%= case item.type do %>
                   <% "image" -> %>
                     <img
@@ -162,22 +162,22 @@
                       alt={item.name}
                     />
                   <% "video" -> %>
-                    <div class="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700 flex items-center justify-center">
+                    <div class="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
                       <.icon
                         name="hero-video-camera"
-                        class="h-8 w-8 text-gray-400 dark:text-gray-500"
+                        class="h-8 w-8 text-gray-400"
                       />
                     </div>
                   <% "lottie" -> %>
-                    <div class="absolute inset-0 bg-gradient-to-br from-purple-200 to-purple-300 dark:from-purple-800 dark:to-purple-900 flex items-center justify-center">
+                    <div class="absolute inset-0 bg-gradient-to-br from-purple-200 to-purple-300 flex items-center justify-center">
                       <.icon
                         name="hero-sparkles"
-                        class="h-8 w-8 text-purple-400 dark:text-purple-300"
+                        class="h-8 w-8 text-purple-400"
                       />
                     </div>
                   <% _ -> %>
-                    <div class="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700 flex items-center justify-center">
-                      <.icon name="hero-photo" class="h-8 w-8 text-gray-400 dark:text-gray-500" />
+                    <div class="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
+                      <.icon name="hero-photo" class="h-8 w-8 text-gray-400" />
                     </div>
                 <% end %>
 
@@ -189,7 +189,7 @@
               </div>
 
               <p
-                class="text-[10px] text-gray-900 dark:text-white truncate mt-1"
+                class="text-[10px] text-gray-900 truncate mt-1"
                 title={item.name}
               >
                 {item.name}
@@ -202,9 +202,9 @@
           <div class="text-center py-8">
             <.icon
               name="hero-photo"
-              class="h-12 w-12 mx-auto text-gray-300 dark:text-gray-600 mb-3"
+              class="h-12 w-12 mx-auto text-gray-300 mb-3"
             />
-            <p class="text-gray-500 dark:text-gray-400 text-sm">
+            <p class="text-gray-500 text-sm">
               {gettext("No media files found.")}
             </p>
           </div>

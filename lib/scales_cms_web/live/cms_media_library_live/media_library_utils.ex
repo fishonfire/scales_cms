@@ -116,14 +116,14 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryUtils do
   Returns the CSS classes for a media type badge.
   """
   def type_badge_class("image"),
-    do: "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
+    do: "bg-gray-100 text-gray-800"
 
   def type_badge_class("video"),
-    do: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+    do: "bg-red-100 text-red-800"
 
   def type_badge_class("lottie"),
-    do: "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200"
+    do: "bg-purple-100 text-purple-800"
 
   def type_badge_class(_),
-    do: "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
+    do: "bg-gray-100 text-gray-800"
 end
