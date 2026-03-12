@@ -4,14 +4,16 @@ defmodule ScalesCmsWeb.CmsRouter do
   """
 
   defmacro cms_admin(opts, do: block) do
+    escaped_block = Macro.escape(block)
+
     scope =
-      quote bind_quoted: [opts: opts, block: Macro.escape(block)] do
+      quote do
         session_opts = [root_layout: {ScalesCmsWeb.Layouts, :root}]
 
         sidebar_hook = {ScalesCmsWeb.Hooks.SidebarState, :default}
         request_uri_hook = {ScalesCmsWeb.SaveRequestUri, :save_request_uri}
 
-        existing_hooks = opts[:on_mount] || []
+        existing_hooks = unquote(opts)[:on_mount] || []
         existing_hooks = if is_list(existing_hooks), do: existing_hooks, else: [existing_hooks]
 
         all_hooks = existing_hooks ++ [sidebar_hook, request_uri_hook]
@@ -46,7 +48,7 @@ defmodule ScalesCmsWeb.CmsRouter do
           end
 
           scope "/" do
-            unquote(block)
+            unquote(escaped_block)
           end
         end
       end
