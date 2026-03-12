@@ -1,38 +1,29 @@
 @layer components {
-    .cms-table {
-        thead {
-            th {
-                @apply bg-lightGrey px-3 py-3 text-xs font-semibold text-black uppercase tracking-wider text-left;
+    .cms-table thead th {
+        @apply bg-lightGrey px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-black;
+    }
 
-                &:first-child {
-                    @apply rounded-tl-[4px];
-                }
+    .cms-table thead th:first-child {
+        @apply rounded-tl;
+    }
 
-                &:last-child {
-                    @apply rounded-tr-[4px];
-                }
-            }
-        }
-        tbody {
-            tr {
-                @apply border-b-[1px] border-b-lightGrey transition ease-in-out;
+    .cms-table thead th:last-child {
+        @apply rounded-tr;
+    }
 
-                &:hover {
-                    @apply bg-slate-50;
-                }
+    .cms-table tbody tr {
+        @apply border-b border-b-lightGrey transition ease-in-out hover:bg-slate-50;
+    }
 
-                td {
-                    @apply px-3 py-3  font-light text-black text-sm;
+    .cms-table tbody td {
+        @apply px-3 py-3 text-sm font-light text-black;
+    }
 
-                    &:first-child {
-                        @apply border-l-lightGrey border-l-[1px];
-                    }
+    .cms-table tbody td:first-child {
+        @apply border-l border-l-lightGrey;
+    }
 
-                    &:last-child {
-                        @apply border-r-lightGrey border-r-[1px];
-                    }
-                }
-            }
-        }
+    .cms-table tbody td:last-child {
+        @apply border-r border-r-lightGrey;
     }
 }
