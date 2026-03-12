@@ -25,6 +25,11 @@ defmodule CmsDemoWeb.Router do
 
     cms_admin(on_mount: [{CmsDemoWeb.UserAuth, :ensure_authenticated}]) do
       # custom routes
+      # 
+      # Use full package name to avoid conflicts with the cms_admin macro
+      # live "/cms/example_page/new",
+      #     ExampleAppWeb.Cms.ExamplePage.Index,
+      #     :index
     end
   end
 
