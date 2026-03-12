@@ -2,7 +2,7 @@ defmodule ScalesCms.Repo.Migrations.CreateCmsMediaLibrary do
   use Ecto.Migration
 
   def change do
-    create table(:cms_media_library) do
+    create_if_not_exists table(:cms_media_library) do
       add :name, :text
       add :type, :string
       add :url, :text
@@ -11,7 +11,7 @@ defmodule ScalesCms.Repo.Migrations.CreateCmsMediaLibrary do
       timestamps(type: :utc_datetime)
     end
 
-    create index(:cms_media_library, [:type])
-    create index(:cms_media_library, [:deleted_at])
+    create_if_not_exists index(:cms_media_library, [:type])
+    create_if_not_exists index(:cms_media_library, [:deleted_at])
   end
 end
