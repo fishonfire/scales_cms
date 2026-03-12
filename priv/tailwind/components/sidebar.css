@@ -6,33 +6,33 @@
             @apply -translate-x-[208px];
         }
 
-        &.closed .chevron-wrapper svg {
-            @apply rotate-180;
-        }
-
         & .scales-logo {
             @apply bg-[#0C2136];
         }
     }
 
+    .sidebar.closed .chevron-wrapper svg {
+        @apply rotate-180;
+    }
+
     .sidebar-menu {
         @apply space-y-2 font-medium p-2;
+    }
 
-        &.sidebar-menu-item {
-            @apply flex items-center p-2 text-gray-900 rounded-lg transition;
+    .sidebar-menu .sidebar-menu-item {
+        @apply flex items-center p-2 text-gray-900 rounded-lg transition;
 
-            &:hover {
-                @apply bg-gray-100;
-            }
+        &:hover {
+            @apply bg-gray-100;
+        }
 
-            &.active {
-                @apply bg-primary text-white;
-            }
+        &.active {
+            @apply bg-primary text-white;
+        }
 
-            /* Closed state: justify content to end so icon appears in visible strip */
-            &.sidebar-menu-item-closed {
-                @apply justify-end;
-            }
+        /* Closed state: justify content to end so icon appears in visible strip */
+        &.sidebar-menu-item-closed {
+            @apply justify-end;
         }
     }
 
