@@ -29,7 +29,10 @@ defmodule ScalesCmsWeb.Router do
 
     get "/", PageController, :home
 
-    live "/users/log_in", DevEnv.UserLoginLive
+    if Application.compile_env(:scales_cms, :dev_mode) do
+      live "/users/log_in", DevEnv.UserLoginLive
+    end
+
     post "/users/log_in", UserSessionController, :create
   end
 
