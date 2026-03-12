@@ -42,12 +42,12 @@ if Code.ensure_loaded?(Ecto) do
         if pending == [] do
           Mix.shell().info("No pending ScalesCMS migrations found for #{inspect(repo)}")
         else
-          copy_pending_migrations()
+          copy_pending_migrations(pending, target_path)
         end
       end)
     end
 
-    defp copy_pending_migrations do
+    defp copy_pending_migrations(pending, target_path) do
       Enum.each(pending, fn {_version, source_file} ->
         destination_file = Path.join(target_path, Path.basename(source_file))
         copy_file(source_file, destination_file)
@@ -55,7 +55,7 @@ if Code.ensure_loaded?(Ecto) do
       end)
 
       Mix.shell().info("""
-      ScalesCMS migrations copied for #{inspect(repo)}.
+      ScalesCMS migrations copied.
 
       Next step:
           mix ecto.migrate
