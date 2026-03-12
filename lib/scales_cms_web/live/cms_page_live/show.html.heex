@@ -1,50 +1,59 @@
-<.header class="mt-12">
-  Cms page {@cms_page.id}
-  <:subtitle>This is a cms_page record from your database.</:subtitle>
-  <:actions>
-    <div class="flex">
-      <.live_component id="locale_switcher" module={LocaleSwitcher} class="flex" />
+<div class="container">
+  <.header>
+    {@cms_page.title}
+    <:subtitle>{gettext("You can edit the page title and manage its variants.")}</:subtitle>
+    <:actions>
+      <div class="flex space-x-4">
+        <.live_component id="locale_switcher" module={LocaleSwitcher} class="flex" />
 
-      <.link patch={~p"/cms/pages/#{@cms_page}/show/edit"} phx-click={JS.push_focus()}>
-        <.button>{gettext("Edit page title")}</.button>
-      </.link>
-    </div>
-  </:actions>
-</.header>
+        <.button class="btn-secondary" phx-click={show_modal("cms_page-modal")}>
+          <.icon name="hero-pencil" /> {gettext("Edit page title")}
+        </.button>
+      </div>
+    </:actions>
+  </.header>
 
-<.list>
-  <:item title="Title">{@cms_page.title}</:item>
-  <:item title="Slug">{@cms_page.slug}</:item>
-  <:item title="Deleted at">{@cms_page.deleted_at}</:item>
-</.list>
+  <.list>
+    <:item title="Title">{@cms_page.title}</:item>
+    <:item title="Slug">{@cms_page.slug}</:item>
+    <:item title="Deleted at">{@cms_page.deleted_at}</:item>
+  </.list>
 
-<.table
-  id="cms_page_variants"
-  rows={@streams.variants}
-  row_click={
-    fn {_id, cms_page_variant} -> JS.navigate(~p"/cms/page_builder/#{cms_page_variant}") end
-  }
->
-  <:col :let={{_id, cms_page_variant}} label="Title">{cms_page_variant.title}</:col>
-  <:col :let={{_id, cms_page_variant}} label="Locale">{cms_page_variant.locale}</:col>
-  <:col :let={{_id, cms_page_variant}} label="Published at">
-    {cms_page_variant.published_at}
-  </:col>
-  <:col :let={{_id, cms_page_variant}} label={gettext("Version")}>
-    {cms_page_variant.version}
-  </:col>
-</.table>
+  <table class="cms-table w-full mt-4">
+    <thead>
+      <tr>
+        <th>{gettext("Title")}</th>
+        <th>{gettext("Locale")}</th>
+        <th>{gettext("Published at")}</th>
+        <th>{gettext("Version")}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        :for={{id, cms_page_variant} <- @streams.variants}
+        id={id}
+        class="cursor-pointer"
+        phx-click={JS.navigate(~p"/cms/page_builder/#{cms_page_variant}")}
+      >
+        <td>{cms_page_variant.title}</td>
+        <td>{cms_page_variant.locale}</td>
+        <td>{cms_page_variant.published_at}</td>
+        <td>{cms_page_variant.version}</td>
+      </tr>
+    </tbody>
+  </table>
 
-<.modal
-  id="cms_page-modal"
-  on_cancel={JS.patch(~p"/cms/pages/#{@cms_page}")}
->
-  <.live_component
-    module={ScalesCmsWeb.CmsPageLive.FormComponent}
-    id={@cms_page.id}
-    title={@page_title}
-    action={@live_action}
-    cms_page={@cms_page}
-    patch={~p"/cms/pages/#{@cms_page}"}
-  />
-</.modal>
+  <.modal
+    id="cms_page-modal"
+    on_cancel={JS.patch(~p"/cms/pages/#{@cms_page}")}
+  >
+    <.live_component
+      module={ScalesCmsWeb.CmsPageLive.FormComponent}
+      id={@cms_page.id}
+      title={gettext("Edit page")}
+      action={:edit}
+      cms_page={@cms_page}
+      patch={~p"/cms/pages/#{@cms_page}"}
+    />
+  </.modal>
+</div>

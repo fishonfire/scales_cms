@@ -21,7 +21,7 @@ defmodule ScalesCmsWeb.Components.MenuItems do
       title: gettext("Pages"),
       icon: "hero-document",
       route: "/cms/directories",
-      alternative_routes: ["/cms/page_builder/*", "/cms/directories/*"]
+      alternative_routes: ["/cms/page_builder/*", "/cms/directories/*", "/cms/pages/*"]
     },
     %ScalesCmsWeb.Components.MenuItem{
       title: gettext("Media Library"),
