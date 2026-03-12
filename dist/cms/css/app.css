@@ -1620,14 +1620,14 @@ select {
   &:focus {
     --tw-ring-offset-width: 2px;
   }
-  svg {
+  & svg {
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
   }
-  svg {
+  & svg {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
@@ -1640,26 +1640,21 @@ select {
   height: 100vh;
   width: 16rem;
   --tw-bg-opacity: 1;
-  background-color: rgb(231 234 238 / var(--tw-bg-opacity));
+  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
   &.closed {
-    /* w-64 = 256px, we want to show 48px, so hide 208px */
-  }
-  &.closed {
     --tw-translate-x: -208px;
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   }
-  &.closed {
-    .chevron-wrapper svg {
-      --tw-rotate: 180deg;
-      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-    }
+  &.closed .chevron-wrapper svg {
+    --tw-rotate: 180deg;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   }
-  .scales-logo {
+  & .scales-logo {
     --tw-bg-opacity: 1;
     background-color: rgb(12 33 54 / var(--tw-bg-opacity));
   }
@@ -1674,30 +1669,30 @@ select {
 .sidebar-menu {
   padding: 0.5rem;
   font-weight: 500;
-  .sidebar-menu-item {
+  &.sidebar-menu-item {
     display: flex;
   }
-  .sidebar-menu-item {
+  &.sidebar-menu-item {
     align-items: center;
   }
-  .sidebar-menu-item {
+  &.sidebar-menu-item {
     border-radius: 0.5rem;
   }
-  .sidebar-menu-item {
+  &.sidebar-menu-item {
     padding: 0.5rem;
   }
-  .sidebar-menu-item {
+  &.sidebar-menu-item {
     --tw-text-opacity: 1;
     color: rgb(17 24 39 / var(--tw-text-opacity));
   }
-  .sidebar-menu-item {
+  &.sidebar-menu-item {
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
   }
-  .sidebar-menu-item {
+  &.sidebar-menu-item {
     &:hover {
       --tw-bg-opacity: 1;
       background-color: rgb(243 244 246 / var(--tw-bg-opacity));

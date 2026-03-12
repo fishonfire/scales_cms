@@ -1,25 +1,24 @@
 @layer components {
     .sidebar {
-        @apply fixed top-0 left-0 z-40 w-64 h-screen bg-lightGrey transition;
+        @apply fixed top-0 left-0 z-40 h-screen w-64 bg-slate-200 transition;
 
         &.closed {
-            /* w-64 = 256px, we want to show 48px, so hide 208px */
             @apply -translate-x-[208px];
-
-            .chevron-wrapper svg {
-                @apply rotate-180;
-            }
         }
 
-        .scales-logo {
-            @apply bg-secondary;
+        &.closed .chevron-wrapper svg {
+            @apply rotate-180;
+        }
+
+        & .scales-logo {
+            @apply bg-[#0C2136];
         }
     }
 
     .sidebar-menu {
         @apply space-y-2 font-medium p-2;
 
-        .sidebar-menu-item {
+        &.sidebar-menu-item {
             @apply flex items-center p-2 text-gray-900 rounded-lg transition;
 
             &:hover {
