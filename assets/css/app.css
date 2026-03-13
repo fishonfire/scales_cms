@@ -1,14 +1,5 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-@import url("./components/buttons.css");
-@import url("./components/sidebar.css");
-@import url("./components/icons.css");
-@import url("./components/pagination.css");
-@import url("./components/block_wrapper.css");
 
-/* This file is for your main application CSS */
-
-@import "./trix_overrides.css";
-@import "./sortable.css";
-@import "./tables.css";
+@import "../../priv/tailwind/scales_cms.css";

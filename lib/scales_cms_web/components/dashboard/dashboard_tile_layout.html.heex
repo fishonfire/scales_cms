@@ -5,14 +5,14 @@
         href={tile.route}
         target="_blank"
         rel="noopener noreferrer"
-        class="group block p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200 dark:border-gray-700"
+        class="group block p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200"
       >
         <.tile_content tile={tile} />
       </a>
     <% else %>
       <.link
         patch={tile.route}
-        class="group block p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200 dark:border-gray-700"
+        class="group block p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200"
       >
         <.tile_content tile={tile} />
       </.link>

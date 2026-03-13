@@ -3,7 +3,7 @@
     <.icon name={@tile.icon} class="h-6 w-6" />
   </div>
   <div class="flex-1 min-w-0">
-    <h3 class="text-lg font-semibold text-gray-900 dark:text-white transition-colors">
+    <h3 class="text-lg font-semibold transition-colors">
       {@tile.title}
       <.icon
         :if={@tile.external}
@@ -11,7 +11,7 @@
         class="inline-block h-4 w-4 ml-1 opacity-50"
       />
     </h3>
-    <p :if={@tile.description} class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+    <p :if={@tile.description} class="mt-1 text-sm text-gray-500">
       {@tile.description}
     </p>
   </div>

@@ -12,26 +12,22 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: lib/scales_cms_web/components/live/cms_components/helpers/file_uploader_multiple.ex:73
-#: lib/scales_cms_web/components/live/cms_components/image/image_editor.ex:71
-#: lib/scales_cms_web/components/live/cms_components/image_button/image_button_editor.ex:71
-#: lib/scales_cms_web/components/live/cms_components/lottie/lottie_editor.ex:71
-#: lib/scales_cms_web/components/live/cms_components/video/video_editor.ex:71
 #, elixir-autogen, elixir-format
 msgid ".."
-msgstr ""
+msgstr ".."
 
-#: lib/scales_cms_web/components/core_components.ex:516
+#: lib/scales_cms_web/components/core_components.ex:530
 #, elixir-autogen, elixir-format
 msgid "Actions"
 msgstr "Acties"
 
-#: lib/scales_cms_web/components/live/cms_components/button_collection/button_collection_editor.ex:136
-#: lib/scales_cms_web/components/live/cms_components/image_button_collection/image_button_collection_editor.ex:108
+#: lib/scales_cms_web/components/live/cms_components/button_collection/button_collection_editor.ex:149
+#: lib/scales_cms_web/components/live/cms_components/image_button_collection/image_button_collection_editor.html.heex:31
 #, elixir-autogen, elixir-format
 msgid "Add button"
 msgstr "Voeg knop toe"
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:103
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:154
 #, elixir-autogen, elixir-format
 msgid "All"
 msgstr "Alle"
@@ -41,23 +37,18 @@ msgstr "Alle"
 msgid "Are you sure you want to delete this page?"
 msgstr "Weet je zeker dat je deze pagina wil verwijderen?"
 
-#: lib/scales_cms_web/components/core_components.ex:162
+#: lib/scales_cms_web/components/core_components.ex:169
 #, elixir-autogen, elixir-format
 msgid "Attempting to reconnect"
 msgstr "Proberen te verbinden"
 
-#: lib/scales_cms_web/live/cms_directory_live/show.html.heex:17
-#, elixir-autogen, elixir-format
-msgid "Back to directories"
-msgstr "Terug naar folders"
-
 #: lib/scales_cms_web/components/live/cms_components/button_collection/button_collection_editor.ex:97
-#: lib/scales_cms_web/components/live/cms_components/image_button_collection/image_button_collection_editor.ex:92
+#: lib/scales_cms_web/components/live/cms_components/image_button_collection/image_button_collection_editor.html.heex:16
 #, elixir-autogen, elixir-format
 msgid "Button"
 msgstr "Knop"
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:90
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:108
 #, elixir-autogen, elixir-format
 msgid "Component library"
 msgstr "Componenten bibliotheek"
@@ -66,11 +57,6 @@ msgstr "Componenten bibliotheek"
 #, elixir-autogen, elixir-format
 msgid "Could not find the page"
 msgstr "Can de pagina niet vinden"
-
-#: lib/scales_cms_web/live/page_builder_live/edit.ex:195
-#, elixir-autogen, elixir-format
-msgid "Could not start a new version"
-msgstr "Kan geen nieuwe versie starten"
 
 #: lib/scales_cms_web/live/cms_directory_live/form_component.ex:12
 #, elixir-autogen, elixir-format
@@ -82,18 +68,19 @@ msgstr "Maak een nieuwe folder aan"
 msgid "Create a new page"
 msgstr "Maak een nieuwe pagina aan"
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:84
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:80
 #, elixir-autogen, elixir-format
 msgid "Created"
 msgstr "Aangemaakt"
 
 #: lib/scales_cms_web/components/menu/menu_items.ex:16
+#: lib/scales_cms_web/live/cms_index_live/index.html.heex:3
 #, elixir-autogen, elixir-format
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: lib/scales_cms_web/live/cms_directory_live/index.ex:61
-#: lib/scales_cms_web/live/cms_directory_live/index.ex:83
+#: lib/scales_cms_web/live/cms_directory_live/index.ex:64
+#: lib/scales_cms_web/live/cms_directory_live/index.ex:102
 #, elixir-autogen, elixir-format
 msgid "Directories"
 msgstr "Folders"
@@ -103,34 +90,33 @@ msgstr "Folders"
 msgid "Directories & pages"
 msgstr "Folders & Pagina's"
 
-#: lib/scales_cms_web/live/cms_directory_live/form_component.ex:93
+#: lib/scales_cms_web/live/cms_directory_live/form_component.ex:96
 #, elixir-autogen, elixir-format
 msgid "Directory created successfully"
 msgstr "Folder aangemaakt"
 
-#: lib/scales_cms_web/live/cms_directory_live/form_component.ex:71
+#: lib/scales_cms_web/live/cms_directory_live/form_component.ex:74
 #, elixir-autogen, elixir-format
 msgid "Directory updated successfully"
 msgstr "Folder gewijzigd"
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:94
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:112
 #, elixir-autogen, elixir-format
 msgid "Drag & drop the components and start building your page"
 msgstr "Sleep de componenten en start met het opbouwen van je pagina"
 
-#: lib/scales_cms_web/live/cms_directory_live/index.ex:26
-#: lib/scales_cms_web/live/cms_directory_live/show.ex:20
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:314
 #, elixir-autogen, elixir-format
 msgid "Edit directory"
 msgstr "Wijzig folder"
 
-#: lib/scales_cms_web/live/cms_page_live/index.ex:19
-#: lib/scales_cms_web/live/page_builder_live/edit.ex:279
+#: lib/scales_cms_web/live/cms_page_live/show.html.heex:53
+#: lib/scales_cms_web/live/page_builder_live/edit.ex:273
 #, elixir-autogen, elixir-format
 msgid "Edit page"
 msgstr "Wijzig pagina"
 
-#: lib/scales_cms_web/components/core_components.ex:153
+#: lib/scales_cms_web/components/core_components.ex:160
 #, elixir-autogen, elixir-format
 msgid "Error!"
 msgstr "Fout!"
@@ -140,57 +126,49 @@ msgstr "Fout!"
 msgid "Generate Token"
 msgstr "Genereer token"
 
-#: lib/scales_cms_web/components/core_components.ex:174
+#: lib/scales_cms_web/components/core_components.ex:181
 #, elixir-autogen, elixir-format
 msgid "Hang in there while we get back on track"
 msgstr "Een momentje geduld terwijl, wij proberen het nogmaals"
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:59
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:70
 #, elixir-autogen, elixir-format
 msgid "If you want to keep editing this page please start a new version"
 msgstr "Om deze pagina te bewerken moet je een nieuwe versie starten"
 
-#: lib/scales_cms_web/components/live/cms_components/image_button_collection/image_button_editor.ex:110
+#: lib/scales_cms_web/components/live/cms_components/image_button_collection/image_button_editor.html.heex:3
 #: lib/scales_cms_web/components/live/cms_components/image_component.ex:12
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:116
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_modal.html.heex:132
 #, elixir-autogen, elixir-format
 msgid "Image"
 msgstr "Afbeelding"
 
-#: lib/scales_cms_web/live/cms_page_live/index.ex:38
-#, elixir-autogen, elixir-format
-msgid "List pages"
-msgstr "Pagina's"
-
 #: lib/scales_cms_web/components/live/cms_components/lottie_component.ex:12
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:118
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_modal.html.heex:134
 #, elixir-autogen, elixir-format
 msgid "Lottie"
 msgstr "Lottie"
 
-#: lib/scales_cms_web/components/live/cms_components/md_component.ex:9
-#, elixir-autogen, elixir-format
-msgid "Markdown"
-msgstr "Markdown"
-
-#: lib/scales_cms_web/live/cms_directory_live/index.ex:32
-#: lib/scales_cms_web/live/cms_directory_live/index.ex:41
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:14
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:13
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:295
 #, elixir-autogen, elixir-format
 msgid "New directory"
 msgstr "Nieuwe folder"
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:20
-#: lib/scales_cms_web/live/cms_page_live/index.ex:26
-#: lib/scales_cms_web/live/cms_page_live/index.ex:32
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:17
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:332
 #, elixir-autogen, elixir-format
 msgid "New page"
 msgstr "Nieuwe pagina"
 
-#: lib/scales_cms_web/components/live/helper_components/page_search.ex:136
+#: lib/scales_cms_web/components/live/helper_components/page_search.ex:142
 #, elixir-autogen, elixir-format
 msgid "None"
 msgstr "Geen"
 
-#: lib/scales_cms_web/components/live/helper_components/page_search.ex:91
+#: lib/scales_cms_web/components/live/helper_components/page_search.ex:97
 #, elixir-autogen, elixir-format
 msgid "Page"
 msgstr "Pagina"
@@ -200,7 +178,7 @@ msgstr "Pagina"
 msgid "Page created successfully"
 msgstr "Pagina succesvol aangemaakt"
 
-#: lib/scales_cms_web/live/page_builder_live/edit.ex:203
+#: lib/scales_cms_web/live/page_builder_live/edit.ex:196
 #, elixir-autogen, elixir-format
 msgid "Page published"
 msgstr "Pagina gepubliceerd"
@@ -212,31 +190,24 @@ msgstr "Pagina succesvol gewijzigd"
 
 #: lib/scales_cms_web/components/dashboard/dashboard_tiles.ex:26
 #: lib/scales_cms_web/components/menu/menu_items.ex:21
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:13
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:15
 #, elixir-autogen, elixir-format
 msgid "Pages"
 msgstr "Pagina's"
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:32
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:42
 #, elixir-autogen, elixir-format
 msgid "Publish"
 msgstr "Publiceren"
 
-#: lib/scales_cms_web/components/live/cms_components/button/button_editor.ex:74
-#: lib/scales_cms_web/components/live/cms_components/button_collection/button_collection_editor.ex:126
-#: lib/scales_cms_web/components/live/cms_components/cta_button/cta_button_editor.ex:76
 #: lib/scales_cms_web/components/live/cms_components/dev/dev_editor.ex:68
-#: lib/scales_cms_web/components/live/cms_components/header/header_editor.ex:57
-#: lib/scales_cms_web/components/live/cms_components/image_button/image_button_editor.ex:110
-#: lib/scales_cms_web/components/live/cms_components/image_button_collection/image_button_editor.ex:136
-#: lib/scales_cms_web/components/live/cms_components/lottie/lottie_editor.ex:121
-#: lib/scales_cms_web/components/live/cms_components/video/video_editor.ex:82
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:50
+#: lib/scales_cms_web/components/live/cms_components/video/video_editor.html.heex:37
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:61
 #, elixir-autogen, elixir-format
 msgid "Save"
 msgstr "Opslaan"
 
-#: lib/scales_cms_web/live/cms_directory_live/form_component.ex:27
+#: lib/scales_cms_web/live/cms_directory_live/form_component.ex:32
 #, elixir-autogen, elixir-format
 msgid "Save directory"
 msgstr "Sla folder op"
@@ -246,79 +217,63 @@ msgstr "Sla folder op"
 msgid "Save page"
 msgstr "Sla pagina op"
 
-#: lib/scales_cms_web/components/live/helper_components/page_search.ex:126
+#: lib/scales_cms_web/components/live/helper_components/page_search.ex:132
 #, elixir-autogen, elixir-format
 msgid "Search for a page"
 msgstr "Zoek naar een pagina"
 
-#: lib/scales_cms_web/components/live/helper_components/page_search.ex:101
+#: lib/scales_cms_web/components/live/helper_components/page_search.ex:107
 #, elixir-autogen, elixir-format
 msgid "Select page"
 msgstr "Selecteer pagina"
 
-#: lib/scales_cms_web/components/dashboard/dashboard_tiles.ex:32
-#: lib/scales_cms_web/components/menu/menu_items.ex:27
+#: lib/scales_cms_web/components/dashboard/dashboard_tiles.ex:38
+#: lib/scales_cms_web/components/menu/menu_items.ex:32
 #, elixir-autogen, elixir-format
 msgid "Settings"
 msgstr "Instellingen"
 
-#: lib/scales_cms_web/live/cms_directory_live/show.ex:19
-#, elixir-autogen, elixir-format
-msgid "Show directory"
-msgstr "Toon folder"
-
-#: lib/scales_cms_web/components/live/cms_components/md_component.ex:11
-#, elixir-autogen, elixir-format
-msgid "Small or lang text like title or description"
-msgstr "Kort of lange tekst zoals titel of beschrijving"
-
 #: lib/scales_cms_web/components/live/cms_components/helpers/file_uploader_multiple.ex:129
-#: lib/scales_cms_web/components/live/cms_components/image/image_editor.ex:10
-#: lib/scales_cms_web/components/live/cms_components/image_button/image_button_editor.ex:10
-#: lib/scales_cms_web/components/live/cms_components/lottie/lottie_editor.ex:10
-#: lib/scales_cms_web/components/live/cms_components/video/video_editor.ex:10
 #, elixir-autogen, elixir-format
 msgid "Something went terribly wrong"
 msgstr "Er is iets misgegaan"
 
-#: lib/scales_cms_web/components/core_components.ex:169
+#: lib/scales_cms_web/components/core_components.ex:176
 #, elixir-autogen, elixir-format
 msgid "Something went wrong!"
 msgstr "Er is iets misgegaan"
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:40
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:63
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:50
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:74
 #, elixir-autogen, elixir-format
 msgid "Start new version"
 msgstr "Start nieuwe versie"
 
-#: lib/scales_cms_web/components/core_components.ex:152
+#: lib/scales_cms_web/components/core_components.ex:159
 #, elixir-autogen, elixir-format
 msgid "Success!"
 msgstr "Gelukt!"
 
 #: lib/scales_cms_web/components/live/cms_components/helpers/file_uploader_multiple.ex:123
-#: lib/scales_cms_web/components/live/cms_components/image/image_editor.ex:10
-#: lib/scales_cms_web/components/live/cms_components/image_button/image_button_editor.ex:10
-#: lib/scales_cms_web/components/live/cms_components/lottie/lottie_editor.ex:10
-#: lib/scales_cms_web/components/live/cms_components/video/video_editor.ex:10
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_utils.ex:104
 #, elixir-autogen, elixir-format
 msgid "The file is too large"
 msgstr "Het bestand is te groot"
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:58
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:69
 #, elixir-autogen, elixir-format
 msgid "This page has been published. You can not edit this page anymore"
 msgstr "De pagina is gepubliceerd. Je kan deze versie niet meer wijzigen"
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:66
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:46
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:62
+#: lib/scales_cms_web/live/cms_page_live/show.html.heex:25
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:57
 #, elixir-autogen, elixir-format
 msgid "Title"
 msgstr "Titel"
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:175
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:192
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:171
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:188
 #, elixir-autogen, elixir-format
 msgid "Up"
 msgstr "Omhoog"
@@ -338,82 +293,82 @@ msgstr "Upload een animatie"
 msgid "Upload a nice video"
 msgstr "Upload een video"
 
-#: lib/scales_cms_web/live/cms_page_live/show.html.heex:33
+#: lib/scales_cms_web/live/cms_page_live/show.html.heex:28
 #, elixir-autogen, elixir-format
 msgid "Version"
 msgstr "Versie"
 
 #: lib/scales_cms_web/components/live/cms_components/video_component.ex:13
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:117
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_modal.html.heex:133
 #, elixir-autogen, elixir-format
 msgid "Video"
 msgstr "Video"
 
-#: lib/scales_cms_web/components/core_components.ex:157
+#: lib/scales_cms_web/components/core_components.ex:164
 #, elixir-autogen, elixir-format
 msgid "We can't find the internet"
 msgstr "We zijn het internet kwijt"
 
 #: lib/scales_cms_web/components/live/cms_components/helpers/file_uploader_multiple.ex:126
-#: lib/scales_cms_web/components/live/cms_components/image/image_editor.ex:10
-#: lib/scales_cms_web/components/live/cms_components/image_button/image_button_editor.ex:10
-#: lib/scales_cms_web/components/live/cms_components/lottie/lottie_editor.ex:10
-#: lib/scales_cms_web/components/live/cms_components/video/video_editor.ex:10
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_utils.ex:108
 #, elixir-autogen, elixir-format
 msgid "You have selected an unacceptable file type"
 msgstr "Je hebt een niet toegestaan bestandstype geselecteerd"
 
-#: lib/scales_cms_web/components/core_components.ex:78
-#: lib/scales_cms_web/components/core_components.ex:132
+#: lib/scales_cms_web/components/core_components.ex:84
+#: lib/scales_cms_web/components/core_components.ex:139
 #, elixir-autogen, elixir-format
 msgid "close"
 msgstr "sluiten"
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:28
+#: lib/scales_cms_web/live/cms_page_live/show.html.heex:10
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:34
 #, elixir-autogen, elixir-format
 msgid "Edit page title"
 msgstr "Wijzig paginatitel"
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:274
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:283
 #, elixir-autogen, elixir-format
 msgid "Get page statistics in CSV"
 msgstr "Download pagina statistieken in CSV"
 
-#: lib/scales_cms_web/live/page_builder_live/edit.ex:222
+#: lib/scales_cms_web/live/page_builder_live/edit.ex:216
 #, elixir-autogen, elixir-format
 msgid "Page edited"
 msgstr "Pagina gewijzigd"
 
-#: lib/scales_cms_web/live/page_builder_live/edit.ex:278
+#: lib/scales_cms_web/live/page_builder_live/edit.ex:272
 #, elixir-autogen, elixir-format
 msgid "Show page"
 msgstr "Toon pagina"
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:114
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:110
 #, elixir-autogen, elixir-format
 msgid "Views"
 msgstr "Weergaven"
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:54
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:50
 #, elixir-autogen, elixir-format
 msgid "All statuses"
 msgstr "Alle statussen"
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:7
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:8
 #, elixir-autogen, elixir-format
 msgid "Back"
 msgstr "Terug"
 
-#: lib/scales_cms_web/components/dashboard/dashboard_tiles.ex:33
+#: lib/scales_cms_web/components/dashboard/dashboard_tiles.ex:39
 #, elixir-autogen, elixir-format
 msgid "Configure CMS settings"
 msgstr "Configureer CMS instellingen"
 
-#: lib/scales_cms_web/components/dashboard/dashboard_tiles.ex:40
+#: lib/scales_cms_web/components/dashboard/dashboard_tiles.ex:46
 #, elixir-autogen, elixir-format
 msgid "Documentation"
 msgstr "Documentatie"
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:56
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:52
 #: lib/scales_cms_web/live/cms_directory_live/index.html.heex:242
 #, elixir-autogen, elixir-format
 msgid "Draft"
@@ -424,23 +379,23 @@ msgstr "Concept"
 msgid "Manage your content pages and directories"
 msgstr "Beheer je contentpagina's en folders"
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:55
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:51
 #: lib/scales_cms_web/live/cms_directory_live/index.html.heex:238
 #, elixir-autogen, elixir-format
 msgid "Published"
 msgstr "Gepubliceerd"
 
-#: lib/scales_cms_web/components/dashboard/dashboard_tiles.ex:41
+#: lib/scales_cms_web/components/dashboard/dashboard_tiles.ex:47
 #, elixir-autogen, elixir-format
 msgid "Read the CMS handbook and guides"
 msgstr "Lees het CMS handboek en handleidingen"
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:38
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:34
 #, elixir-autogen, elixir-format
 msgid "Search by directory or page"
 msgstr "Zoek op folder of pagina"
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:144
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:140
 #, elixir-autogen, elixir-format
 msgid "Status"
 msgstr "Status"
@@ -449,3 +404,138 @@ msgstr "Status"
 #, elixir-autogen, elixir-format
 msgid "Welcome to the CMS. Select an option below to get started."
 msgstr "Welkom bij het CMS. Selecteer een optie hieronder om te beginnen."
+
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:115
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_modal.html.heex:131
+#, elixir-autogen, elixir-format
+msgid "All types"
+msgstr "Alle typen"
+
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_utils.ex:113
+#, elixir-autogen, elixir-format
+msgid "An error occurred"
+msgstr "Er is een fout opgetreden"
+
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:193
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Are you sure you want to remove this item from the media library?"
+msgstr "Weet je zeker dat je dit item uit de mediabibliotheek wilt verwijderen?"
+
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:201
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:53
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_modal.html.heex:65
+#, elixir-autogen, elixir-format
+msgid "Cancel upload"
+msgstr "Upload annuleren"
+
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:208
+#, elixir-autogen, elixir-format
+msgid "Delete"
+msgstr "Verwijderen"
+
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:190
+#, elixir-autogen, elixir-format
+msgid "Delete media item"
+msgstr "Media-item verwijderen"
+
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:21
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_modal.html.heex:33
+#, elixir-autogen, elixir-format
+msgid "Drag & drop or"
+msgstr "Sleep & zet neer of"
+
+#: lib/scales_cms_web/live/cms_page_live/show.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Locale"
+msgstr "Taal"
+
+#: lib/scales_cms_web/components/dashboard/dashboard_tiles.ex:32
+#: lib/scales_cms_web/components/menu/menu_items.ex:27
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_modal.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "Media Library"
+msgstr "Mediabibliotheek"
+
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:85
+#, elixir-autogen, elixir-format
+msgid "Media library"
+msgstr "Mediabibliotheek"
+
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_modal.html.heex:208
+#, elixir-autogen, elixir-format
+msgid "No media files found."
+msgstr "Geen mediabestanden gevonden."
+
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:219
+#, elixir-autogen, elixir-format
+msgid "No media files uploaded yet."
+msgstr "Nog geen mediabestanden geüpload."
+
+#: lib/scales_cms_web/live/cms_page_live/show.html.heex:27
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Published at"
+msgstr "Gepubliceerd op"
+
+#: lib/scales_cms_web/components/live/cms_components/md_component.ex:9
+#, elixir-autogen, elixir-format
+msgid "Richtext editor"
+msgstr "Richtext editor"
+
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:99
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_modal.html.heex:112
+#, elixir-autogen, elixir-format
+msgid "Search by name"
+msgstr "Zoek op naam"
+
+#: lib/scales_cms_web/components/core_components.ex:683
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_modal.html.heex:97
+#, elixir-autogen, elixir-format
+msgid "Select from library"
+msgstr "Selecteer uit bibliotheek"
+
+#: lib/scales_cms_web/components/live/cms_components/md_component.ex:11
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Small or long text like title or description"
+msgstr "Kort of lange tekst zoals titel of beschrijving"
+
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_utils.ex:111
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Something went wrong uploading the file"
+msgstr "Er is iets misgegaan"
+
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_utils.ex:66
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_utils.ex:72
+#, elixir-autogen, elixir-format
+msgid "Supported formats: %{formats}"
+msgstr "Ondersteunde formaten: %{formats}"
+
+#: lib/scales_cms_web/components/dashboard/dashboard_tiles.ex:33
+#, elixir-autogen, elixir-format
+msgid "Upload and manage images, videos, and documents"
+msgstr "Upload en beheer afbeeldingen, video's en documenten"
+
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:4
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_modal.html.heex:13
+#, elixir-autogen, elixir-format
+msgid "Upload media"
+msgstr "Media uploaden"
+
+#: lib/scales_cms_web/live/cms_page_live/show.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "You can edit the page title and manage its variants."
+msgstr "Je kunt de paginatitel bewerken en varianten beheren."
+
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_utils.ex:105
+#, elixir-autogen, elixir-format
+msgid "You have selected too many files"
+msgstr "Je hebt te veel bestanden geselecteerd"
+
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:26
+#: lib/scales_cms_web/live/cms_media_library_live/media_library_modal.html.heex:38
+#, elixir-autogen, elixir-format
+msgid "select file"
+msgstr "selecteer bestand"

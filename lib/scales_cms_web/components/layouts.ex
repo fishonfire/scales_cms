@@ -16,6 +16,8 @@ defmodule ScalesCmsWeb.Layouts do
 
   defp has_custom_js(), do: assets_config()[:js_enabled]
 
+  defp dev_mode(), do: Application.get_env(:scales_cms, :dev_mode, false)
+
   defp custom_asset_path(asset) when asset in [:css, :js] do
     Phoenix.VerifiedRoutes.static_path(
       endpoint(),

@@ -1,39 +1,38 @@
 @layer components {
     .sidebar {
-        @apply fixed top-0 left-0 z-40 w-64 h-screen bg-lightGrey transition;
+        @apply fixed top-0 left-0 z-40 h-screen w-64 bg-slate-200 transition;
 
         &.closed {
-            /* w-64 = 256px, we want to show 48px, so hide 208px */
             @apply -translate-x-[208px];
-
-            .chevron-wrapper svg {
-                @apply rotate-180;
-            }
         }
 
-        .scales-logo {
-            @apply bg-secondary;
+        & .scales-logo {
+            @apply bg-[#0C2136];
         }
+    }
+
+    .sidebar.closed .chevron-wrapper svg {
+        @apply rotate-180;
     }
 
     .sidebar-menu {
         @apply space-y-2 font-medium p-2;
+    }
 
-        .sidebar-menu-item {
-            @apply flex items-center p-2 text-gray-900 rounded-lg transition;
+    .sidebar-menu .sidebar-menu-item {
+        @apply flex items-center p-2 text-gray-900 rounded-lg transition;
 
-            &:hover {
-                @apply bg-gray-100;
-            }
+        &:hover {
+            @apply bg-gray-100;
+        }
 
-            &.active {
-                @apply bg-primary text-white;
-            }
+        &.active {
+            @apply bg-primary text-white;
+        }
 
-            /* Closed state: justify content to end so icon appears in visible strip */
-            &.sidebar-menu-item-closed {
-                @apply justify-end;
-            }
+        /* Closed state: justify content to end so icon appears in visible strip */
+        &.sidebar-menu-item-closed {
+            @apply justify-end;
         }
     }
 
