@@ -15,7 +15,7 @@ defmodule ScalesCms.Application do
       # Start a worker by calling: ScalesCms.Worker.start_link(arg)
       # {ScalesCms.Worker, arg},
       # Start to serve requests, typically the last entry
-      ScalesCmsWeb.SidebarStateStore
+      ScalesCmsWeb.PersistedStateStore
     ]
 
     children =

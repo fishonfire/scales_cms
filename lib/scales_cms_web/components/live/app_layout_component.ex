@@ -11,7 +11,7 @@ defmodule ScalesCmsWeb.Live.AppLayoutComponent do
 
   ## Sidebar State Flow
 
-  1. Router's live_session includes `SidebarState` on_mount hook
+  1. Router's live_session includes `PersistedState` on_mount hook
   2. Hook reads "sidebar_open" from session/ETS, assigns to socket
   3. Layout passes `@sidebar_open` to this component
   4. On toggle:
@@ -23,7 +23,7 @@ defmodule ScalesCmsWeb.Live.AppLayoutComponent do
 
   ## Default State
 
-  The sidebar defaults to open (`true`). See `ScalesCmsWeb.Hooks.SidebarState`
+  The sidebar defaults to open (`true`). See `ScalesCmsWeb.Hooks.PersistedState`
   for the authoritative default.
   """
   use ScalesCmsWeb, :live_component
@@ -41,12 +41,12 @@ defmodule ScalesCmsWeb.Live.AppLayoutComponent do
     new_state = !socket.assigns.sidebar_open
 
     # Notify parent LiveView to update ETS state (for navigation persistence)
-    send(self(), {:update_sidebar_state, new_state})
+    send(self(), {:update_persisted_state, :sidebar_open, new_state})
 
     socket
     |> assign(:sidebar_open, new_state)
     # Push event to JS hook for session persistence (for page refresh)
-    |> push_event("sidebar-state-changed", %{open: new_state})
+    |> push_event("persisted-state-changed", %{name: :sidebar_open, value: new_state})
     |> then(&{:noreply, &1})
   end
 
@@ -56,7 +56,7 @@ defmodule ScalesCmsWeb.Live.AppLayoutComponent do
     <div
       id="app-layout"
       class="app-layout"
-      phx-hook="SidebarState"
+      phx-hook="PersistedState"
       data-sidebar-open={to_string(@sidebar_open)}
     >
       <aside

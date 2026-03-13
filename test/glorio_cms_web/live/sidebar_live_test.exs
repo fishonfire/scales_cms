@@ -3,25 +3,21 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
 
   import Phoenix.LiveViewTest
 
-  alias ScalesCmsWeb.Hooks.SidebarState
-
-  # Helper to log in user with optional sidebar state
-  # Note: Phoenix sessions use string keys, so we use the string key from SidebarState
   defp log_in_with_sidebar(conn, sidebar_open) do
     conn
     |> Phoenix.ConnTest.init_test_session(%{
       "user_token" => "bla_bla_bla",
-      SidebarState.session_key() => sidebar_open
+      "sidebar_open" => sidebar_open
     })
   end
 
-  defp clear_sidebar_ets(_conn) do
-    case :ets.whereis(:sidebar_state) do
+  defp clear_sidebar_ets(_context) do
+    case :ets.whereis(ScalesCmsWeb.PersistedStateStore.table()) do
       :undefined ->
         :ok
 
       _tid ->
-        :ets.delete_all_objects(:sidebar_state)
+        :ets.delete_all_objects(ScalesCmsWeb.PersistedStateStore.table())
     end
 
     :ok
@@ -35,7 +31,6 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
 
       {:ok, _view, html} = live(conn, ~p"/cms")
 
-      # Sidebar should be open (no "closed" class)
       assert html =~ ~s(id="default-sidebar")
       assert html =~ ~s(data-sidebar-open="true")
       refute html =~ ~s(class="sidebar closed")
@@ -46,7 +41,6 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
 
       {:ok, _view, html} = live(conn, ~p"/cms")
 
-      # Sidebar should be closed
       assert html =~ ~s(class="sidebar closed")
       assert html =~ ~s(data-sidebar-open="false")
     end
@@ -56,7 +50,6 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
 
       {:ok, _view, html} = live(conn, ~p"/cms")
 
-      # Sidebar should be open (no "closed" class)
       assert html =~ ~s(data-sidebar-open="true")
       refute html =~ ~s(class="sidebar closed")
     end
@@ -75,7 +68,6 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
 
       {:ok, _view, html} = live(conn, ~p"/cms")
 
-      # Main content should not have sidebar-closed class
       refute html =~ "sidebar-closed"
     end
   end
@@ -88,13 +80,11 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
 
       {:ok, view, _html} = live(conn, ~p"/cms")
 
-      # Click the toggle button
       html =
         view
         |> element("button[aria-controls='default-sidebar']")
         |> render_click()
 
-      # Sidebar should now be closed
       assert html =~ ~s(class="sidebar closed")
     end
 
@@ -103,13 +93,11 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
 
       {:ok, view, _html} = live(conn, ~p"/cms")
 
-      # Click the toggle button
       html =
         view
         |> element("button[aria-controls='default-sidebar']")
         |> render_click()
 
-      # Sidebar should now be open (no "closed" class)
       refute html =~ ~s(class="sidebar closed")
     end
 
@@ -134,16 +122,13 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
 
       {:ok, view, html} = live(conn, ~p"/cms")
 
-      # Initially aria-expanded should be true
       assert html =~ ~s(aria-expanded="true")
 
-      # Click the toggle button
       html =
         view
         |> element("button[aria-controls='default-sidebar']")
         |> render_click()
 
-      # After click, aria-expanded should be false
       assert html =~ ~s(aria-expanded="false")
     end
 
@@ -183,12 +168,12 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
       assert html =~ ~s(data-sidebar-open="false")
     end
 
-    test "SidebarState hook is attached to app-layout", %{conn: conn} do
+    test "PersistedState hook is attached to app-layout", %{conn: conn} do
       conn = log_in_user(conn)
 
       {:ok, _view, html} = live(conn, ~p"/cms")
 
-      assert html =~ ~s(phx-hook="SidebarState")
+      assert html =~ ~s(phx-hook="PersistedState")
     end
 
     test "data-sidebar-open updates after toggle", %{conn: conn} do
@@ -196,16 +181,13 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
 
       {:ok, view, html} = live(conn, ~p"/cms")
 
-      # Initially should be true
       assert html =~ ~s(data-sidebar-open="true")
 
-      # Click the toggle button
       html =
         view
         |> element("button[aria-controls='default-sidebar']")
         |> render_click()
 
-      # After click, should be false
       assert html =~ ~s(data-sidebar-open="false")
     end
   end
@@ -216,11 +198,9 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
     test "sidebar state persists when navigating via live_patch", %{conn: conn} do
       conn = log_in_with_sidebar(conn, true)
 
-      # Start with sidebar open on the directories page (which has navigation links)
       {:ok, view, html} = live(conn, ~p"/cms/directories")
       assert html =~ ~s(data-sidebar-open="true")
 
-      # Close the sidebar
       html =
         view
         |> element("button[aria-controls='default-sidebar']")
@@ -229,11 +209,8 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
       assert html =~ ~s(data-sidebar-open="false")
       assert html =~ ~s(class="sidebar closed")
 
-      # Navigate using live_patch (to a subdirectory or with query params)
-      # The sidebar state should persist because we're staying in the same LiveView process
       html = render_patch(view, ~p"/cms/directories?query=test")
 
-      # The sidebar should still be closed
       assert html =~ ~s(data-sidebar-open="false")
       assert html =~ ~s(class="sidebar closed")
     end
@@ -243,10 +220,8 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
 
       {:ok, view, html} = live(conn, ~p"/cms")
 
-      # Initially open
       assert html =~ ~s(data-sidebar-open="true")
 
-      # Close
       html =
         view
         |> element("button[aria-controls='default-sidebar']")
@@ -254,7 +229,6 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
 
       assert html =~ ~s(data-sidebar-open="false")
 
-      # Open again
       html =
         view
         |> element("button[aria-controls='default-sidebar']")
@@ -262,7 +236,6 @@ defmodule ScalesCmsWeb.SidebarLiveTest do
 
       assert html =~ ~s(data-sidebar-open="true")
 
-      # Close again
       html =
         view
         |> element("button[aria-controls='default-sidebar']")

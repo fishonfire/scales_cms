@@ -23,6 +23,10 @@ config :scales_cms, ScalesCmsWeb.Endpoint,
 # In test we don't send emails
 config :scales_cms, ScalesCms.Mailer, adapter: Swoosh.Adapters.Test
 
+config :scales_cms,
+  enabled_sidebar: true,
+  custom_persistence_states: [:filters_open]
+
 # Disable swoosh api client as it is only required for production adapters
 config :swoosh, :api_client, false
 
