@@ -1,62 +1,55 @@
 defmodule ScalesCmsWeb.Live.AppLayoutComponent do
   @moduledoc """
   Main layout component that wraps all CMS pages.
-
-  Manages the sidebar open/closed state with the following features:
-  - Reads initial state from session via on_mount hook (`:sidebar_open` assign)
-  - Toggles state on user interaction with immediate UI feedback
-  - Persists state changes via:
-    - ETS (for LiveView navigations) - via event to parent LiveView
-    - Session (for page refreshes) - via push_event + JS hook POST
-
-  ## Sidebar State Flow
-
-  1. Router's live_session includes `SidebarState` on_mount hook
-  2. Hook reads "sidebar_open" from session/ETS, assigns to socket
-  3. Layout passes `@sidebar_open` to this component
-  4. On toggle:
-     a. Component updates local state for immediate UI feedback
-     b. Sends event to parent LiveView to update ETS (for navigation persistence)
-     c. Pushes event to JS hook to POST to server (for session persistence)
-  5. On LiveView navigation: hook reads from ETS (current state)
-  6. On full page refresh: hook reads from session (persisted state)
-
-  ## Default State
-
-  The sidebar defaults to open (`true`). See `ScalesCmsWeb.Hooks.SidebarState`
-  for the authoritative default.
   """
+
   use ScalesCmsWeb, :live_component
+
+  @sidebar_enabled Application.compile_env(:scales_cms, :enabled_sidebar, true)
 
   @impl Phoenix.LiveComponent
   def update(assigns, socket) do
-    socket
-    |> assign(assigns)
-    |> assign_new(:sidebar_open, fn -> true end)
-    |> then(&{:ok, &1})
+    socket =
+      socket
+      |> assign(assigns)
+
+    socket =
+      if @sidebar_enabled do
+        assign_new(socket, :sidebar_open, fn -> true end)
+      else
+        socket
+      end
+
+    {:ok, socket}
   end
 
   @impl Phoenix.LiveComponent
   def handle_event("toggle-sidebar", _params, socket) do
     new_state = !socket.assigns.sidebar_open
 
-    # Notify parent LiveView to update ETS state (for navigation persistence)
-    send(self(), {:update_sidebar_state, new_state})
+    send(self(), {:update_persisted_state, :sidebar_open, new_state})
 
     socket
     |> assign(:sidebar_open, new_state)
-    # Push event to JS hook for session persistence (for page refresh)
-    |> push_event("sidebar-state-changed", %{open: new_state})
+    |> push_event("persisted-state-changed", %{name: :sidebar_open, value: new_state})
     |> then(&{:noreply, &1})
   end
 
   @impl Phoenix.LiveComponent
   def render(assigns) do
+    if @sidebar_enabled do
+      render_with_sidebar(assigns)
+    else
+      render_without_sidebar(assigns)
+    end
+  end
+
+  defp render_with_sidebar(assigns) do
     ~H"""
     <div
       id="app-layout"
       class="app-layout"
-      phx-hook="SidebarState"
+      phx-hook="PersistedState"
       data-sidebar-open={to_string(@sidebar_open)}
     >
       <aside
@@ -91,8 +84,19 @@ defmodule ScalesCmsWeb.Live.AppLayoutComponent do
 
       <main
         id="main-content"
-        class={"main-content #{if @sidebar_open, do: "", else: "sidebar-closed"}"}
+        class={"main-content has-sidebar #{if @sidebar_open, do: "", else: "sidebar-closed"}"}
       >
+        <.flash_group flash={@inner_flash} />
+        {render_slot(@inner_block)}
+      </main>
+    </div>
+    """
+  end
+
+  defp render_without_sidebar(assigns) do
+    ~H"""
+    <div id="app-layout" class="app-layout no-sidebar">
+      <main id="main-content" class="main-content">
         <.flash_group flash={@inner_flash} />
         {render_slot(@inner_block)}
       </main>

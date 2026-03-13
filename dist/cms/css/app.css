@@ -1739,7 +1739,7 @@ select {
 
 /* Main content wrapper - applies to the main element */
 
-.main-content {
+.main-content.has-sidebar {
   /* w-64 = 16rem = 256px */
   margin-left: 16rem;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;

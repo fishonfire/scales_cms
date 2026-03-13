@@ -1,10 +1,10 @@
-defmodule ScalesCmsWeb.SidebarStateStore do
+defmodule ScalesCmsWeb.PersistedStateStore do
   @moduledoc """
-  SidebarStateStore is a GenServer that manages an ETS table for storing sidebar state across LiveView navigations.
+  PersistedStateStore is a GenServer that manages an ETS table for storing persisted state across LiveView navigations.
   """
   use GenServer
 
-  @table :sidebar_state
+  @table :persisted_state_store
 
   def start_link(opts \\ []) do
     GenServer.start_link(__MODULE__, :ok, Keyword.put_new(opts, :name, __MODULE__))

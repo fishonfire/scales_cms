@@ -25,7 +25,7 @@ import sortable from "./hooks/sortable";
 import markdown from "./hooks/markdown";
 import S3Uploader from "./uploaders/s3";
 import LocalLocaleStorage from "./hooks/local_locale_storage";
-import SidebarState from "./hooks/sidebar_state";
+import PersistedState from "./hooks/persisted_state";
 import DragDropZone from "./hooks/drag_drop_zone";
 import DispatchChangeOnUpdate from "./hooks/dispatch_change_on_update";
 import "flowbite/dist/flowbite.phoenix.js";
@@ -35,7 +35,7 @@ const Hooks = {
   Drag: sortable,
   Markdown: markdown,
   LocalLocaleStorage: LocalLocaleStorage,
-  SidebarState: SidebarState,
+  PersistedState: PersistedState,
   DragDropZone: DragDropZone,
   DispatchChangeOnUpdate: DispatchChangeOnUpdate,
 };

@@ -1,7 +1,7 @@
 /**
- * SidebarState Hook
+ * PersistedState Hook
  *
- * Manages sidebar state persistence to the server session.
+ * Manages state persistence to the server session.
  *
  * The initial sidebar state is rendered server-side from session data,
  * so there's no need for client-side state correction on page load.
@@ -14,21 +14,22 @@
  * 3. Hook catches event and POSTs to /ui/sidebar to persist to session
  * 4. On next page load, server reads from session and renders correct state
  */
-const SidebarState = {
+const PersistedState = {
   mounted() {
     // Listen for sidebar state changes from the server
     // and persist to session via AJAX
-    this.handleEvent("sidebar-state-changed", ({ open }) => {
-      this.persistSidebarState(open);
+    this.handleEvent("persisted-state-changed", ({ name, value }) => {
+      this.persistState(name, value);
     });
   },
 
   /**
    * Persist sidebar state to the server session via AJAX.
    *
-   * @param {boolean} open - Whether the sidebar should be open
+   * @param {string} name - The name of the state being persisted (e.g., "sidebarOpen")
+   * @param {any} value - The value of the state to persist (e.g., true/false)
    */
-  persistSidebarState(open) {
+  persistState(name, value) {
     const csrfToken = document
       .querySelector("meta[name='csrf-token']")
       ?.getAttribute("content");
@@ -38,19 +39,19 @@ const SidebarState = {
       return;
     }
 
-    fetch("/ui/sidebar", {
+    fetch("/ui/state", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "x-csrf-token": csrfToken,
       },
-      body: JSON.stringify({ open }),
+      body: JSON.stringify({ value }),
     }).catch((error) => {
       // Log but don't throw - sidebar state persistence is non-critical
       // The UI already reflects the correct state; this is just for persistence
-      console.error("SidebarState: Failed to persist state", error);
+      console.error("PersistedState: Failed to persist state", error);
     });
   },
 };
 
-export default SidebarState;
+export default PersistedState;
