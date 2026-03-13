@@ -32,6 +32,9 @@ config :scales_cms, ScalesCmsWeb.Endpoint,
 
 config :scales_cms, ScalesCmsWeb.Gettext, locales: ~w(en nl), default_locale: "nl"
 
+config :scales_cms,
+  enabled_sidebar: true
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
