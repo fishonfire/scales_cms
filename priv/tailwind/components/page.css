@@ -1,3 +1,5 @@
-.container {
-    @apply w-full p-4 mt-12;
+@layer components {
+    .container {
+        @apply w-full p-4 mt-12;
+    }
 }

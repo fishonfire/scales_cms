@@ -1518,6 +1518,12 @@ select {
   height: 1.5rem;
 }
 
+.container {
+  margin-top: 3rem;
+  width: 100%;
+  padding: 1rem;
+}
+
 .btn {
   border-radius: 0.25rem;
   --tw-bg-opacity: 1;
@@ -1735,7 +1741,7 @@ select {
 
 .main-content {
   /* w-64 = 16rem = 256px */
-  margin-left: 0.5rem;
+  margin-left: 16rem;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
@@ -2191,10 +2197,6 @@ select:not([size]) {
 
 .mt-11 {
   margin-top: 2.75rem;
-}
-
-.mt-12 {
-  margin-top: 3rem;
 }
 
 .mt-14 {
@@ -3506,12 +3508,6 @@ select:not([size]) {
 
 .\[scrollbar-gutter\:stable\] {
   scrollbar-gutter: stable;
-}
-
-.container {
-  margin-top: 3rem;
-  width: 100%;
-  padding: 1rem;
 }
 
 .pagination-button {
