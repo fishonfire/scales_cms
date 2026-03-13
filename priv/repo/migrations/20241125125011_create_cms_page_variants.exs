@@ -2,7 +2,7 @@ defmodule ScalesCms.Repo.Migrations.CreateCmsPageVariants do
   use Ecto.Migration
 
   def change do
-    create table(:cms_page_variants) do
+    create_if_not_exists table(:cms_page_variants) do
       add :title, :text
       add :published_at, :naive_datetime
       add :locale, :string
@@ -12,7 +12,7 @@ defmodule ScalesCms.Repo.Migrations.CreateCmsPageVariants do
       timestamps(type: :utc_datetime)
     end
 
-    create index(:cms_page_variants, [:cms_page_id])
-    create index(:cms_page_variants, [:cms_page_id, :locale, :published_at])
+    create_if_not_exists index(:cms_page_variants, [:cms_page_id])
+    create_if_not_exists index(:cms_page_variants, [:cms_page_id, :locale, :published_at])
   end
 end

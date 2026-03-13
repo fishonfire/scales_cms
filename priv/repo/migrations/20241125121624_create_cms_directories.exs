@@ -2,7 +2,7 @@ defmodule ScalesCms.Repo.Migrations.CreateCmsDirectories do
   use Ecto.Migration
 
   def change do
-    create table(:cms_directories) do
+    create_if_not_exists table(:cms_directories) do
       add :title, :text
       add :slug, :string
       add :deleted_at, :naive_datetime
@@ -11,6 +11,6 @@ defmodule ScalesCms.Repo.Migrations.CreateCmsDirectories do
       timestamps(type: :utc_datetime)
     end
 
-    create index(:cms_directories, [:cms_directory_id])
+    create_if_not_exists index(:cms_directories, [:cms_directory_id])
   end
 end

@@ -1,112 +1,84 @@
 defmodule ScalesCmsWeb.CmsRouter do
   @moduledoc """
-  The Macros for defining the routes in the main application
+  Macros for defining CMS routes in the host application.
   """
-  defmacro cms_admin(opts, do: block) do
-    scope =
-      quote bind_quoted: binding() do
-        session_opts = [root_layout: {ScalesCmsWeb.Layouts, :root}]
 
-        # Always include the SidebarState hook for session-based sidebar persistence
-        sidebar_hook = {ScalesCmsWeb.Hooks.SidebarState, :default}
-        request_uri_hook = {ScalesCmsWeb.SaveRequestUri, :save_request_uri}
+  defmacro cms_admin(opts \\ [], do: block) do
+    existing_hooks =
+      opts
+      |> Keyword.get(:on_mount, [])
+      |> List.wrap()
+      |> Enum.map(&expand_on_mount_hook(&1, __CALLER__))
 
-        existing_hooks = opts[:on_mount] || []
-        # Ensure existing_hooks is a list
-        existing_hooks = if is_list(existing_hooks), do: existing_hooks, else: [existing_hooks]
-        # Append sidebar hook to existing hooks
-        all_hooks = existing_hooks ++ [sidebar_hook, request_uri_hook]
+    all_hooks =
+      existing_hooks ++
+        [
+          {ScalesCmsWeb.Hooks.SidebarState, :default},
+          {ScalesCmsWeb.SaveRequestUri, :save_request_uri}
+        ]
 
-        session_opts = Keyword.put(session_opts, :on_mount, all_hooks)
+    session_opts = [
+      root_layout: {ScalesCmsWeb.Layouts, :root},
+      on_mount: all_hooks,
+      session: {ScalesCmsWeb.Hooks.SidebarState, :copy_session, []}
+    ]
 
-        # Copy sidebar_open from Plug session to LiveView session
-        # This allows the on_mount hook to read the persisted sidebar state
-        session_opts =
-          Keyword.put(
-            session_opts,
-            :session,
-            {ScalesCmsWeb.Hooks.SidebarState, :copy_session, []}
-          )
-
-        live_session :cms_admin, session_opts do
-          scope "/cms", ScalesCmsWeb do
-            # cms assets
-
-            get "/stats", CmsStatsController, :index
-
-            # cms routes
-            live "/", CmsIndexLive.Index, :index
-
-            live "/settings", CmsSettingsLive.Index, :index
-
-            live "/directories", CmsDirectoryLive.Index, :index
-            live "/directories/:id", CmsDirectoryLive.Index, :index
-
-            live "/pages", CmsPageLive.Index, :index
-
-            live "/pages/:id", CmsPageLive.Show, :show
-            live "/pages/:id/show/edit", CmsPageLive.Show, :edit
-
-            live "/page_variants", CmsPageVariantLive.Index, :index
-
-            live "/page_variants/:id", CmsPageVariantLive.Show, :show
-            live "/page_variants/:id/show/edit", CmsPageVariantLive.Show, :edit
-
-            live "/page_builder/:id", PageBuilderLive.Edit, :edit
-            live "/page_builder/:id/edit", PageBuilderLive.Edit, :edit_variant
-
-            live "/media", CmsMediaLibraryLive.Index, :index
-
-            block
-          end
-        end
-      end
-
-    if Code.ensure_loaded?(Phoenix.VerifiedRoutes) do
-      quote do
-        unquote(scope)
-      end
-    else
-      scope
-    end
-  end
-
-  defmacro cms_assets() do
-    scope =
-      quote bind_quoted: binding() do
+    quote do
+      live_session :cms_admin, unquote(Macro.escape(session_opts)) do
         scope "/cms", ScalesCmsWeb do
-          get "/css-:md5", Plugs.Assets, :css, as: :cms_asset
-          get "/js-:md5", Plugs.Assets, :js, as: :cms_asset
+          get "/stats", CmsStatsController, :index
+
+          live "/", CmsIndexLive.Index, :index
+          live "/settings", CmsSettingsLive.Index, :index
+
+          live "/directories", CmsDirectoryLive.Index, :index
+          live "/directories/:id", CmsDirectoryLive.Index, :index
+
+          live "/pages/:id", CmsPageLive.Show, :show
+          live "/pages/:id/show/edit", CmsPageLive.Show, :edit
+
+          live "/page_variants", CmsPageVariantLive.Index, :index
+          live "/page_variants/:id", CmsPageVariantLive.Show, :show
+          live "/page_variants/:id/show/edit", CmsPageVariantLive.Show, :edit
+
+          live "/page_builder/:id", PageBuilderLive.Edit, :edit
+          live "/page_builder/:id/edit", PageBuilderLive.Edit, :edit_variant
+
+          live "/media", CmsMediaLibraryLive.Index, :index
+        end
+
+        scope "/" do
+          unquote(block)
         end
       end
-
-    if Code.ensure_loaded?(Phoenix.VerifiedRoutes) do
-      quote do
-        unquote(scope)
-      end
-    else
-      scope
     end
   end
 
-  defmacro api_public() do
-    scope =
-      quote bind_quoted: binding() do
-        # Other scopes may use custom stacks.
-        scope "/public", ScalesCmsWeb.Api.Public do
-          get("/pages", PagesController, :index)
-          get("/pages/:id", PagesController, :show)
-          get("/pages/slug/:slug", PagesController, :show)
-          get("/components", ComponentsController, :index)
-        end
-      end
+  defp expand_on_mount_hook({module_ast, arg}, env) do
+    {Macro.expand(module_ast, env), arg}
+  end
 
-    if Code.ensure_loaded?(Phoenix.VerifiedRoutes) do
-      quote do
-        unquote(scope)
+  defp expand_on_mount_hook(module_ast, env) do
+    Macro.expand(module_ast, env)
+  end
+
+  defmacro cms_assets do
+    quote do
+      scope "/cms", ScalesCmsWeb do
+        get "/css-:md5", Plugs.Assets, :css, as: :cms_asset
+        get "/js-:md5", Plugs.Assets, :js, as: :cms_asset
       end
-    else
-      scope
+    end
+  end
+
+  defmacro api_public do
+    quote do
+      scope "/public", ScalesCmsWeb.Api.Public do
+        get "/pages", PagesController, :index
+        get "/pages/:id", PagesController, :show
+        get "/pages/slug/:slug", PagesController, :show
+        get "/components", ComponentsController, :index
+      end
     end
   end
 end
