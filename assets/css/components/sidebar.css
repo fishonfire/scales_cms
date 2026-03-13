@@ -51,7 +51,7 @@
     /* Main content wrapper - applies to the main element */
     .main-content {
         /* w-64 = 16rem = 256px */
-        @apply transition ml-64;
+        @apply transition ml-64 ml-2;
 
         &.sidebar-closed {
             @apply ml-12; /* 48px = 3rem */

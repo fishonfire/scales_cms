@@ -7,7 +7,5 @@ defmodule ScalesCms do
   if it comes from the database, an external API or others.
   """
 
-  @repo Application.compile_env(:scales_cms, :repo)
-
-  def repo(), do: @repo
+  def repo(), do: Application.get_env(:scales_cms, :repo, ScalesCms.Repo)
 end
