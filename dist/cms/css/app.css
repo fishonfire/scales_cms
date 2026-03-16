@@ -1835,6 +1835,17 @@ select:not([size]) {
   }
 }
 
+.media-preview-el {
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: 500ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.media-preview-el:has([data-loaded="true"]) {
+  opacity: 1;
+}
+
 .cms-table thead th {
   --tw-bg-opacity: 1;
   background-color: rgb(231 234 238 / var(--tw-bg-opacity));

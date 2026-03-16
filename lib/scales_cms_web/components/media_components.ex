@@ -26,7 +26,7 @@ defmodule ScalesCmsWeb.MediaComponents do
       >
         <div
           data-placeholder
-          class="absolute inset-0 animate-pulse flex items-center justify-center transition-opacity duration-300 bg-gradient-to-br from-gray-300 to-gray-400"
+          class="absolute inset-0 animate-pulse flex items-center justify-center animate-fade-in bg-gradient-to-br from-gray-300 to-gray-400"
         >
           <%= case @item.type do %>
             <% "image" -> %>
@@ -42,17 +42,19 @@ defmodule ScalesCmsWeb.MediaComponents do
 
         <%= case @item.type do %>
           <% "image" -> %>
-            <img
-              id={"image-library-#{@item.id}"}
-              data-media-el
-              data-loaded="false"
-              src={@item.display_url}
-              phx-update="ignore"
-              class="media-preview-el absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
-              alt={@item.name}
-            />
+            <div class="absolute inset-0 media-preview-el">
+              <img
+                id={"image-library-#{@item.id}"}
+                data-media-el
+                data-loaded="false"
+                src={@item.display_url}
+                phx-update="ignore"
+                class="w-full h-full object-cover"
+                alt={@item.name}
+              />
+            </div>
           <% "video" -> %>
-            <div class="absolute inset-0">
+            <div class="absolute inset-0 media-preview-el">
               <video
                 id={"video-player-#{@item.id}"}
                 data-media-el
@@ -62,7 +64,7 @@ defmodule ScalesCmsWeb.MediaComponents do
                 muted
                 playsinline
                 phx-update="ignore"
-                class="media-preview-el absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
+                class="absolute inset-0 w-full h-full object-cover"
               >
                 <source src={@item.display_url} />
               </video>
@@ -79,7 +81,7 @@ defmodule ScalesCmsWeb.MediaComponents do
               </div>
             </div>
           <% "lottie" -> %>
-            <div class="absolute inset-0">
+            <div class="absolute inset-0 media-preview-el">
               <dotlottie-player
                 id={"lottie-player-#{@item.id}"}
                 data-media-el
@@ -88,7 +90,7 @@ defmodule ScalesCmsWeb.MediaComponents do
                 src={@item.display_url}
                 background="white"
                 speed="1"
-                class="media-preview-el absolute inset-0 h-full w-full object-cover transition-opacity duration-300"
+                class="h-full w-full object-cover"
                 direction="1"
                 playMode="normal"
                 loop

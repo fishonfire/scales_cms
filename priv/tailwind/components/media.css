@@ -1,9 +1,9 @@
 @layer components {
     .media-preview-el {
-        @apply opacity-0;
+        @apply opacity-0 transition-opacity duration-500 ease-in-out;
     }
 
-    .media-preview-el[data-loaded="true"] {
+    .media-preview-el:has([data-loaded="true"]) {
         @apply opacity-100;
     }
 }
