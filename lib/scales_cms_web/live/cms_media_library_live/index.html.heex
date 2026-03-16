@@ -129,27 +129,34 @@
             <%= case item.type do %>
               <% "image" -> %>
                 <img
-                  src={ScalesCms.Cms.Helpers.S3Upload.get_presigned_url_for_display(item.url)}
+                  src={S3Upload.get_presigned_url_for_display(item.url)}
                   class="absolute inset-0 w-full h-full object-cover"
                   alt={item.name}
                 />
               <% "video" -> %>
                 <div class="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
-                  <.icon
-                    name="hero-video-camera"
-                    class="h-12 w-12 text-gray-400"
-                  />
+                  <video controls class="absolute inset-0 w-full h-full object-cover">
+                    <source src={S3Upload.get_presigned_url_for_display(item.url)} />
+                  </video>
                 </div>
               <% "lottie" -> %>
                 <div class="absolute inset-0 bg-gradient-to-br from-purple-200 to-purple-300 flex items-center justify-center">
-                  <.icon
-                    name="hero-sparkles"
-                    class="h-12 w-12 text-purple-400"
-                  />
+                  <dotlottie-player
+                    src={S3Upload.get_presigned_url_for_display(item.url)}
+                    background="transparent"
+                    speed="1"
+                    class="absolute inset-0 w-full h-full object-cover"
+                    direction="1"
+                    playMode="normal"
+                    loop
+                    controls
+                    autoplay
+                  >
+                  </dotlottie-player>
                 </div>
               <% _ -> %>
                 <div class="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
-                  <.icon name="hero-photo" class="h-12 w-12 text-gray-400" />
+                  <.icon name="hero-photo" class="h-8 w-8 text-gray-400" />
                 </div>
             <% end %>
 

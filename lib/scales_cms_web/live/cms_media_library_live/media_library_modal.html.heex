@@ -163,16 +163,22 @@
                     />
                   <% "video" -> %>
                     <div class="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
-                      <.icon
-                        name="hero-video-camera"
-                        class="h-8 w-8 text-gray-400"
-                      />
+                      <video controls class="absolute inset-0 w-full h-full object-cover">
+                        <source src={S3Upload.get_presigned_url_for_display(item.url)} />
+                      </video>
                     </div>
                   <% "lottie" -> %>
                     <div class="absolute inset-0 bg-gradient-to-br from-purple-200 to-purple-300 flex items-center justify-center">
-                      <.icon
-                        name="hero-sparkles"
-                        class="h-8 w-8 text-purple-400"
+                      <dotlottie-player
+                        src={S3Upload.get_presigned_url_for_display(item.url)}
+                        background="transparent"
+                        speed="1"
+                        class="absolute inset-0 w-full h-full object-cover"
+                        direction="1"
+                        playMode="normal"
+                        loop
+                        controls
+                        autoplay
                       />
                     </div>
                   <% _ -> %>
