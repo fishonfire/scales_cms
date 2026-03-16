@@ -59,11 +59,6 @@ const MediaPreview = {
       return;
     }
 
-    // LiveView may have patched classes back to opacity-0.
-    if (this.isActuallyLoaded()) {
-      this.showLoaded();
-    }
-
     this.updatePlayButton();
   },
 
@@ -107,27 +102,6 @@ const MediaPreview = {
     }
 
     return null;
-  },
-
-  isActuallyLoaded() {
-    if (!this.media) return false;
-
-    const tag = this.media.tagName.toUpperCase();
-
-    if (tag === "IMG") {
-      return this.media.complete;
-    }
-
-    if (tag === "VIDEO") {
-      return this.media.readyState >= 2;
-    }
-
-    if (tag === "DOTLOTTIE-PLAYER") {
-      // best-effort fallback
-      return this.loaded;
-    }
-
-    return true;
   },
 
   cleanup(media = this.media, playButton = this.playButton) {
