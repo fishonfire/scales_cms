@@ -6,12 +6,6 @@
     component={ScalesCmsWeb.Components.CmsComponents.Lottie}
   >
     <div class="flex">
-      <script
-        src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
-        type="module"
-      >
-      </script>
-
       <dotlottie-player
         :if={Map.get(@block.properties || %{}, "lottie_path", nil) != nil}
         src={

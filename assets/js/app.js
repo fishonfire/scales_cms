@@ -30,6 +30,7 @@ import DragDropZone from "./hooks/drag_drop_zone";
 import DispatchChangeOnUpdate from "./hooks/dispatch_change_on_update";
 import "flowbite/dist/flowbite.phoenix.js";
 import "./delete_confirm";
+import MediaPreview from "./hooks/media_preview";
 
 const Hooks = {
   Drag: sortable,
@@ -38,6 +39,7 @@ const Hooks = {
   PersistedState: PersistedState,
   DragDropZone: DragDropZone,
   DispatchChangeOnUpdate: DispatchChangeOnUpdate,
+  MediaPreview: MediaPreview,
 };
 
 let csrfToken = document

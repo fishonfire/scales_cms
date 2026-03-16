@@ -1,0 +1,9 @@
+@layer components {
+    .media-preview-el {
+        @apply opacity-0;
+    }
+
+    .media-preview-el[data-loaded="true"] {
+        @apply opacity-100;
+    }
+}

@@ -13,7 +13,13 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.Index do
       socket
       |> assign(:query, "")
       |> assign(:media_type, "")
-      |> assign(:media_items, MediaLibraryUtils.list_media_items("", ""))
+      |> assign(
+        :media_items,
+        MediaLibraryUtils.list_media_items("", "")
+        |> Enum.map(fn item ->
+          Map.put(item, :display_url, S3Upload.get_presigned_url_for_display(item.url))
+        end)
+      )
       |> assign(:item_to_delete, nil)
       |> allow_upload(:media,
         accept: MediaLibraryUtils.get_accepted_types(nil),
@@ -32,7 +38,11 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.Index do
 
   @impl Phoenix.LiveView
   def handle_event("search", %{"query" => query}, socket) do
-    media_items = MediaLibraryUtils.list_media_items(query, socket.assigns.media_type)
+    media_items =
+      MediaLibraryUtils.list_media_items(query, socket.assigns.media_type)
+      |> Enum.map(fn item ->
+        Map.put(item, :display_url, S3Upload.get_presigned_url_for_display(item.url))
+      end)
 
     {:noreply,
      socket
@@ -41,7 +51,11 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.Index do
   end
 
   def handle_event("filter_media_type", %{"media_type" => media_type}, socket) do
-    media_items = MediaLibraryUtils.list_media_items(socket.assigns.query, media_type)
+    media_items =
+      MediaLibraryUtils.list_media_items(socket.assigns.query, media_type)
+      |> Enum.map(fn item ->
+        Map.put(item, :display_url, S3Upload.get_presigned_url_for_display(item.url))
+      end)
 
     {:noreply,
      socket
@@ -80,6 +94,9 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.Index do
 
     media_items =
       MediaLibraryUtils.list_media_items(socket.assigns.query, socket.assigns.media_type)
+      |> Enum.map(fn item ->
+        Map.put(item, :display_url, S3Upload.get_presigned_url_for_display(item.url))
+      end)
 
     {:noreply,
      socket
@@ -108,6 +125,9 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.Index do
 
       media_items =
         MediaLibraryUtils.list_media_items(socket.assigns.query, socket.assigns.media_type)
+        |> Enum.map(fn item ->
+          Map.put(item, :display_url, S3Upload.get_presigned_url_for_display(item.url))
+        end)
 
       {:noreply, assign(socket, :media_items, media_items)}
     else
@@ -122,6 +142,5 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.Index do
 
   # Delegate to shared utilities for template access
   defdelegate upload_error_to_string(error), to: MediaLibraryUtils
-  defdelegate type_badge_class(type), to: MediaLibraryUtils
   defdelegate supported_formats_text(filter_type), to: MediaLibraryUtils
 end
