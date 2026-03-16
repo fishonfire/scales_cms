@@ -18,7 +18,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
   def mount(_params, _session, socket) do
     Phoenix.PubSub.subscribe(ScalesCms.PubSub, Topics.get_block_updated_topic())
 
-    {:ok, assign(socket, :drawer_open, false)}
+    {:ok, assign(socket, :drawer_open, true)}
   end
 
   @impl Phoenix.LiveView
