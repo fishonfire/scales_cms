@@ -6,6 +6,7 @@ defmodule ScalesCmsWeb.Components.CmsComponentsRenderer do
 
   attr :id, :string, required: true
   attr :published, :boolean, required: true
+  attr :deleting, :boolean, required: true
   attr :block, ScalesCms.Cms.CmsPageVariantBlock
 
   def render_preview(assigns) do
@@ -20,7 +21,11 @@ defmodule ScalesCmsWeb.Components.CmsComponentsRenderer do
     <div
       id={@id}
       data-id={@block.id}
-      class="draggable border border-slate-200 mb-8 rounded bg-white overflow-hidden"
+      phx-hook="TrackMaxHeightStyle"
+      class={[
+        "draggable border border-slate-200 mb-8 rounded bg-white overflow-hidden",
+        if(@deleting, do: "deleting", else: "")
+      ]}
     >
       <%= if @component do %>
         {@component.render_preview(assigns)}

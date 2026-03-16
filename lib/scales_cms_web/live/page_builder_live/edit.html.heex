@@ -82,6 +82,7 @@
           id={"block-#{block.id}"}
           block={block}
           published={@cms_page_variant.published_at != nil}
+          deleting={MapSet.member?(@deleting_block_ids, block.id)}
         />
       <% end %>
 
