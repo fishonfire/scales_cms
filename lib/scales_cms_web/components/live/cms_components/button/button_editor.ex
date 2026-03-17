@@ -18,7 +18,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Button.ButtonEditor do
             assigns.block.properties
           ),
           assigns.block.properties
-        )
+        ),
+        id: "button-properties-form-#{assigns.block.id}"
       )
 
     socket

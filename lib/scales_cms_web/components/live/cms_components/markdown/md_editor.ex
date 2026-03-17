@@ -17,7 +17,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Md.MdEditor do
             assigns.block.properties
           ),
           assigns.block.properties
-        )
+        ),
+        id: "md-properties-form-#{assigns.block.id}"
       )
 
     socket
