@@ -21,18 +21,19 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: lib/scales_cms_web/components/live/cms_components/button_collection/button_collection_editor.ex:149
+#: lib/scales_cms_web/components/live/cms_components/button_collection/button_collection_editor.ex:150
 #: lib/scales_cms_web/components/live/cms_components/image_button_collection/image_button_collection_editor.html.heex:31
 #, elixir-autogen, elixir-format
 msgid "Add button"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:154
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:153
 #, elixir-autogen, elixir-format
 msgid "All"
 msgstr ""
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:256
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:268
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:405
 #, elixir-autogen, elixir-format
 msgid "Are you sure you want to delete this page?"
 msgstr ""
@@ -42,13 +43,13 @@ msgstr ""
 msgid "Attempting to reconnect"
 msgstr ""
 
-#: lib/scales_cms_web/components/live/cms_components/button_collection/button_collection_editor.ex:97
+#: lib/scales_cms_web/components/live/cms_components/button_collection/button_collection_editor.ex:98
 #: lib/scales_cms_web/components/live/cms_components/image_button_collection/image_button_collection_editor.html.heex:16
 #, elixir-autogen, elixir-format
 msgid "Button"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:108
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:107
 #, elixir-autogen, elixir-format
 msgid "Component library"
 msgstr ""
@@ -100,18 +101,18 @@ msgstr ""
 msgid "Directory updated successfully"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:112
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:111
 #, elixir-autogen, elixir-format
 msgid "Drag & drop the components and start building your page"
 msgstr ""
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:314
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:326
 #, elixir-autogen, elixir-format
 msgid "Edit directory"
 msgstr ""
 
 #: lib/scales_cms_web/live/cms_page_live/show.html.heex:53
-#: lib/scales_cms_web/live/page_builder_live/edit.ex:273
+#: lib/scales_cms_web/live/page_builder_live/edit.ex:281
 #, elixir-autogen, elixir-format
 msgid "Edit page"
 msgstr ""
@@ -152,13 +153,13 @@ msgid "Lottie"
 msgstr ""
 
 #: lib/scales_cms_web/live/cms_directory_live/index.html.heex:13
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:295
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:307
 #, elixir-autogen, elixir-format
 msgid "New directory"
 msgstr ""
 
 #: lib/scales_cms_web/live/cms_directory_live/index.html.heex:17
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:332
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:344
 #, elixir-autogen, elixir-format
 msgid "New page"
 msgstr ""
@@ -178,7 +179,7 @@ msgstr ""
 msgid "Page created successfully"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.ex:196
+#: lib/scales_cms_web/live/page_builder_live/edit.ex:183
 #, elixir-autogen, elixir-format
 msgid "Page published"
 msgstr ""
@@ -200,7 +201,7 @@ msgstr ""
 msgid "Publish"
 msgstr ""
 
-#: lib/scales_cms_web/components/live/cms_components/dev/dev_editor.ex:68
+#: lib/scales_cms_web/components/live/cms_components/dev/dev_editor.ex:69
 #: lib/scales_cms_web/components/live/cms_components/video/video_editor.html.heex:37
 #: lib/scales_cms_web/live/page_builder_live/edit.html.heex:61
 #, elixir-autogen, elixir-format
@@ -328,17 +329,17 @@ msgstr ""
 msgid "Edit page title"
 msgstr ""
 
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:283
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:295
 #, elixir-autogen, elixir-format
 msgid "Get page statistics in CSV"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.ex:216
+#: lib/scales_cms_web/live/page_builder_live/edit.ex:203
 #, elixir-autogen, elixir-format
 msgid "Page edited"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.ex:272
+#: lib/scales_cms_web/live/page_builder_live/edit.ex:280
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Show page"
 msgstr ""
@@ -369,7 +370,7 @@ msgid "Documentation"
 msgstr ""
 
 #: lib/scales_cms_web/live/cms_directory_live/index.html.heex:52
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:242
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:254
 #, elixir-autogen, elixir-format
 msgid "Draft"
 msgstr ""
@@ -380,7 +381,7 @@ msgid "Manage your content pages and directories"
 msgstr ""
 
 #: lib/scales_cms_web/live/cms_directory_live/index.html.heex:51
-#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:238
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:250
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Published"
 msgstr ""
@@ -432,6 +433,8 @@ msgstr ""
 msgid "Cancel upload"
 msgstr ""
 
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:381
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:411
 #: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:208
 #, elixir-autogen, elixir-format
 msgid "Delete"
@@ -538,4 +541,21 @@ msgstr ""
 #: lib/scales_cms_web/live/cms_media_library_live/media_library_modal.html.heex:38
 #, elixir-autogen, elixir-format
 msgid "select file"
+msgstr ""
+
+#: lib/scales_cms_web/components/live/helper_components/block_wrapper.ex:47
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to delete %{title}?"
+msgstr ""
+
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:372
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:397
+#, elixir-autogen, elixir-format
+msgid "Edit"
+msgstr ""
+
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:363
+#: lib/scales_cms_web/live/cms_directory_live/index.html.heex:390
+#, elixir-autogen, elixir-format
+msgid "Open"
 msgstr ""

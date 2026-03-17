@@ -17,7 +17,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Header.HeaderEditor do
             assigns.block.properties
           ),
           assigns.block.properties
-        )
+        ),
+        id: "header-properties-form-#{assigns.block.id}"
       )
 
     socket

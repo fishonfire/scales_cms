@@ -19,7 +19,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Image.ImageEditor do
             assigns.block.properties || %{}
           ),
           assigns.block.properties || %{}
-        )
+        ),
+        id: "image-properties-form-#{assigns.block.id}"
       )
 
     socket

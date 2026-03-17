@@ -24,6 +24,35 @@ defmodule CmsDemoWeb.MenuItems do
 end
 ```
 
+## Setup dashboard tiles
+Dashboard tiles are configured in a similar way as menu items, but with a different config key.
+
+```elixir
+config :scales_cms,
+  dashboard_tiles: CmsDemoWeb.DashboardTiles.get_dashboard_tiles()
+```
+Where the `dashboard_tiles.ex` would be set up as following;
+
+```elixir 
+defmodule CmsDemoWeb.DashboardTiles do
+  @dashboard_tiles [
+    %ScalesCmsWeb.Components.DashboardTile{
+      title: gettext("My own tile"), # the title shown in the dashboard
+      icon: "hero-home", # a hero icon to represent your tile
+      route: "/a route" # starts with a slash, e.g. "/my-own-tile"
+    },
+    %ScalesCmsWeb.Components.DashboardTile{
+      title: gettext("My own external document"), # the title shown in the dashboard
+      icon: "hero-doc", # a hero icon to represent your tile
+      route: "https://docs.google.com/document/d/some_document/edit?usp=sharing", # an external link, can be used to link to a google doc for example
+      external: true # if set to true, the route will be opened in a new tab, and is expected to be an external link
+    },
+  ]
+  
+  def get_dashboard_tiles(), do: @dashboard_tiles
+end
+```
+
 ## Rendering a page in the CMS layout
 To render a page in the CMS layout you need to adapt your projects Web module.
 

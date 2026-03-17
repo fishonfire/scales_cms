@@ -1,29 +1,29 @@
 <div class="flex min-h-screen flex-row bg-white">
-  <div class="transition-all duration-300 flex-1 p-4">
+  <div class="flex min-w-0 flex-1 flex-col p-4">
     <button
       type="button"
-      class="p-0 m-0 mb-4"
+      class="mb-4 p-0 m-0 self-start"
       phx-click={JS.dispatch("app:back")}
     >
       &lt; {gettext("Back")}
     </button>
 
-    <div class="flex space-between mt-2 mb-4">
-      <div class="flex items-center flex-1 space-x-2">
-        <h2 class="text-2xl">
+    <div class="mt-2 mb-4 flex items-start justify-between gap-4">
+      <div class="flex min-w-0 flex-1 items-center space-x-2">
+        <h2 class="text-2xl shrink-0">
           <.link patch={~p"/cms/directories"} class="p-0 m-0">
             {gettext("Pages")}
           </.link>
         </h2>
 
-        <h2 class="text-2xl">&gt;</h2>
+        <h2 class="text-2xl shrink-0">&gt;</h2>
 
-        <h2 class="text-2xl">
+        <h2 class="min-w-0 truncate text-2xl">
           {@cms_page_variant.title}
         </h2>
       </div>
 
-      <div class="flex space-x-4">
+      <div class="flex shrink-0 space-x-4">
         <.live_component id="locale_switcher" module={LocaleSwitcher} />
 
         <.button
@@ -64,7 +64,10 @@
       </.simple_form>
     </.modal>
 
-    <div :if={@cms_page_variant.published_at != nil} class="w-3/4 p-8 mb-7 bg-slate-300 rounded">
+    <div
+      :if={@cms_page_variant.published_at != nil}
+      class="mb-7 w-full max-w-3xl rounded bg-slate-300 p-8"
+    >
       <p class="mb-5">
         {gettext("This page has been published. You can not edit this page anymore")}
         {gettext("If you want to keep editing this page please start a new version")}
@@ -76,9 +79,28 @@
       </p>
     </div>
 
-    <div class="drop-zone min-h-[50%]" id="page-drop-zone" phx-hook="Drag">
-      <%= for block <- @blocks do %>
+    <div class="relative flex min-h-0 flex-1 flex-col">
+      <div
+        :if={Enum.empty?(@blocks)}
+        class="absolute flex flex-1 flex-col top-0 bottom-0 left-0 right-0 items-center justify-center rounded-xl border-2 border-dashed border-slate-300 px-6 py-12 text-center"
+      >
+        <p class="mt-2 text-sm text-slate-500">
+          {gettext(
+            "Drag your first component from the component library on the right and drop it here."
+          )}
+        </p>
+
+        <p class="mt-1 text-sm text-slate-500">
+          {gettext("You can reorder components anytime by dragging them up and down.")}
+        </p>
+      </div>
+      <div
+        class="drop-zone flex min-h-16 flex-1 flex-col"
+        id="page-drop-zone"
+        phx-hook="Drag"
+      >
         <.render_preview
+          :for={block <- @blocks}
           id={"block-#{block.id}"}
           block={block}
           published={@cms_page_variant.published_at != nil}
@@ -86,10 +108,6 @@
           animate_in={to_string(@inserted_block_id == block.id)}
           ghost_height={@ghost_height}
         />
-      <% end %>
-
-      <div :if={Enum.count(@blocks) == 0} class="min-h-6">
-        <.icon name="hero-ellipsis-horizontal" />
       </div>
     </div>
   </div>
@@ -102,7 +120,7 @@
     <div class="fixed h-full bg-slate-100 border-l border-slate-200 transition-all">
       <div
         :if={@drawer_open}
-        class="flex items-center justify-between px-[24px] pt-[16px] pb-[8px] gap-2"
+        class="flex items-center justify-between gap-2 px-[24px] pt-[16px] pb-[8px]"
       >
         <div>
           <h2 class="mt-[24px] mb-[4px] font-semibold text-2xl">
@@ -127,6 +145,7 @@
           </button>
         </div>
       </div>
+
       <div
         :if={!@drawer_open}
         class="flex items-center justify-between px-[16px] pt-[16px] pb-[8px]"
@@ -145,12 +164,12 @@
         </div>
       </div>
 
-      <div :if={@drawer_open} class="px-[24px] pb-[24px] overflow-y-auto h-[calc(100%-57px)]">
-        <ul class="flex bg-white rounded justify-between">
+      <div :if={@drawer_open} class="h-[calc(100%-57px)] overflow-y-auto px-[24px] pb-[24px]">
+        <ul class="flex justify-between rounded bg-white">
           <li
             phx-value-category="All"
             phx-click="select-component-category"
-            class={"cursor-pointer transition-all rounded m-[4px] p-[8px] px-[16px] hover:bg-gray-50 font-semibold #{if @active_category == "All", do: "bg-gray-100", else: ""}"}
+            class={"cursor-pointer rounded m-[4px] p-[8px] px-[16px] font-semibold transition-all hover:bg-gray-50 #{if @active_category == "All", do: "bg-gray-100", else: ""}"}
           >
             {gettext("All")}
           </li>
@@ -159,7 +178,7 @@
             :for={category <- @categories}
             phx-value-category={category}
             phx-click="select-component-category"
-            class={"cursor-pointer transition-all rounded m-[4px] p-[8px] px-[16px] hover:bg-gray-50 font-semibold #{if @active_category == category, do: "bg-gray-100", else: ""}"}
+            class={"cursor-pointer rounded m-[4px] p-[8px] px-[16px] font-semibold transition-all hover:bg-gray-50 #{if @active_category == category, do: "bg-gray-100", else: ""}"}
           >
             {category}
           </li>
@@ -174,7 +193,7 @@
                 )
             }
             id={type}
-            class={"p-2 rounded my-[8px] bg-white #{if @cms_page_variant.published_at == nil, do: "draggable"}"}
+            class={"my-[8px] rounded bg-white p-2 #{if @cms_page_variant.published_at == nil, do: "draggable"}"}
             data-id={type}
           >
             {component.render_draweritem(%{
