@@ -192,7 +192,13 @@
         </tr>
       </tr>
 
-      <tr :for={directory <- @cms_directories} id={"cms_directories-#{directory.id}"}>
+      <tr
+        :for={directory <- @cms_directories}
+        id={"cms_directories-#{directory.id}"}
+        phx-hook="ContextMenu"
+        data-id={directory.id}
+        data-type="directory"
+      >
         <td phx-click="open-directory" phx-value-id={directory.id} class="w-8 cursor-pointer">
           <.icon name="hero-folder icon-small" />
         </td>
@@ -219,7 +225,13 @@
         </td>
       </tr>
 
-      <tr :for={cms_page <- @cms_pages} id={"cms_pages-#{cms_page.id}"}>
+      <tr
+        :for={cms_page <- @cms_pages}
+        id={"cms_pages-#{cms_page.id}"}
+        phx-hook="ContextMenu"
+        data-id={cms_page.id}
+        data-type="page"
+      >
         <td phx-click="open-page" phx-value-id={cms_page.id} class="w-8 cursor-pointer">
           <.icon name="hero-document icon-small" />
         </td>
@@ -338,3 +350,66 @@
     />
   </.modal>
 </div>
+
+<.context_menu context_menu={@context_menu}>
+  <:menu_slots :let={menu}>
+    <%= if menu.type == "directory" do %>
+      <button
+        type="button"
+        phx-click="open-directory"
+        phx-value-id={menu.id}
+        class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+      >
+        {gettext("Open")}
+      </button>
+
+      <button
+        type="button"
+        phx-click="edit-directory"
+        phx-value-id={menu.id}
+        class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+      >
+        {gettext("Edit")}
+      </button>
+
+      <button
+        type="button"
+        phx-click="delete"
+        phx-value-id={menu.id}
+        class="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
+      >
+        {gettext("Delete")}
+      </button>
+    <% else %>
+      <button
+        type="button"
+        phx-click="open-page"
+        phx-value-id={menu.id}
+        class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+      >
+        {gettext("Open")}
+      </button>
+
+      <.link
+        patch={~p"/cms/pages/#{menu.id}"}
+        class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+      >
+        {gettext("Edit")}
+      </.link>
+
+      <button
+        type="button"
+        phx-value-id={menu.id}
+        phx-click={
+          JS.dispatch("ultra-confirm",
+            detail: %{message: gettext("Are you sure you want to delete this page?")}
+          )
+        }
+        phx-ultra-confirm-ok={JS.push("delete-page")}
+        class="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
+      >
+        {gettext("Delete")}
+      </button>
+    <% end %>
+  </:menu_slots>
+</.context_menu>

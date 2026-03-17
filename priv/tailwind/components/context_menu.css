@@ -1,0 +1,9 @@
+@layer components {
+    .context-menu {
+        @apply fixed inset-0 z-40;
+    }
+
+    .context-menu-content {
+        @apply absolute z-50 min-w-40 rounded-md border bg-white shadow-lg py-1;
+    }
+}

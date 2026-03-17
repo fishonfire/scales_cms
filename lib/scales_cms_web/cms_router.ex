@@ -57,7 +57,8 @@ defmodule ScalesCmsWeb.CmsRouter do
         unquote(Macro.escape(existing_hooks)) ++
           scales_cms_persisted_state_hooks ++
           [
-            {ScalesCmsWeb.SaveRequestUri, :save_request_uri}
+            {ScalesCmsWeb.SaveRequestUri, :save_request_uri},
+            {ScalesCmsWeb.Hooks.ContextMenu, :default}
           ]
 
       scales_cms_session_opts = [
