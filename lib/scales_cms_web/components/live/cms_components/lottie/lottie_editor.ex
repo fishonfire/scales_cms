@@ -16,7 +16,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Lottie.LottieEditor do
         LottieProperties.changeset(
           %LottieProperties{},
           assigns.block.properties || %{}
-        )
+        ),
+        id: "lottie-properties-form-#{assigns.block.id}"
       )
 
     socket

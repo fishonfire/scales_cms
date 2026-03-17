@@ -19,7 +19,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
             assigns.block.properties || %{}
           ),
           assigns.block.properties || %{}
-        )
+        ),
+        id: "video-properties-form-#{assigns.block.id}"
       )
 
     socket

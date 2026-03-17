@@ -18,7 +18,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.CTAButton.CTAButtonEditor do
             assigns.block.properties
           ),
           assigns.block.properties
-        )
+        ),
+        id: "cta-button-properties-form-#{assigns.block.id}"
       )
 
     socket

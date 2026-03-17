@@ -29,7 +29,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
         ImageButtonCollectionProperties.changeset(
           %ImageButtonCollectionProperties{},
           block.properties
-        )
+        ),
+        id: "image-button-collection-properties-form-#{block.id}"
       )
 
     assign(socket, form: form)
