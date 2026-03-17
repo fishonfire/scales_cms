@@ -123,69 +123,68 @@
     </div>
 
     <div class="grid gap-4" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));">
-      <%= for item <- @media_items do %>
-        <div
-          id={"media-item-#{item.id}"}
-          phx-hook="ContextMenu"
-          data-id={item.id}
-          data-type="media"
-          class="group relative bg-gray-200 rounded-lg overflow-hidden p-2"
-        >
-          <div class="relative w-full aspect-[3/2] bg-gray-200 rounded-lg overflow-hidden">
-            <%= case item.type do %>
-              <% "image" -> %>
-                <img
-                  src={ScalesCms.Cms.Helpers.S3Upload.get_presigned_url_for_display(item.url)}
-                  class="absolute inset-0 w-full h-full object-cover"
-                  alt={item.name}
+      <div
+        :for={item <- @media_items}
+        id={"media-item-#{item.id}"}
+        phx-hook="ContextMenu"
+        data-id={item.id}
+        data-type="media"
+        class="group relative bg-gray-200 rounded-lg overflow-hidden p-2"
+      >
+        <div class="relative w-full aspect-[3/2] bg-gray-200 rounded-lg overflow-hidden">
+          <%= case item.type do %>
+            <% "image" -> %>
+              <img
+                src={ScalesCms.Cms.Helpers.S3Upload.get_presigned_url_for_display(item.url)}
+                class="absolute inset-0 w-full h-full object-cover"
+                alt={item.name}
+              />
+            <% "video" -> %>
+              <div class="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
+                <.icon
+                  name="hero-video-camera"
+                  class="h-12 w-12 text-gray-400"
                 />
-              <% "video" -> %>
-                <div class="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
-                  <.icon
-                    name="hero-video-camera"
-                    class="h-12 w-12 text-gray-400"
-                  />
-                </div>
-              <% "lottie" -> %>
-                <div class="absolute inset-0 bg-gradient-to-br from-purple-200 to-purple-300 flex items-center justify-center">
-                  <.icon
-                    name="hero-sparkles"
-                    class="h-12 w-12 text-purple-400"
-                  />
-                </div>
-              <% _ -> %>
-                <div class="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
-                  <.icon name="hero-photo" class="h-12 w-12 text-gray-400" />
-                </div>
-            <% end %>
+              </div>
+            <% "lottie" -> %>
+              <div class="absolute inset-0 bg-gradient-to-br from-purple-200 to-purple-300 flex items-center justify-center">
+                <.icon
+                  name="hero-sparkles"
+                  class="h-12 w-12 text-purple-400"
+                />
+              </div>
+            <% _ -> %>
+              <div class="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
+                <.icon name="hero-photo" class="h-12 w-12 text-gray-400" />
+              </div>
+          <% end %>
 
-            <button
-              phx-hook="ContextMenuButton"
-              id={"context-menu-btn-#{item.id}"}
-              data-type="media"
-              data-id={item.id}
-              class="absolute h-[24px] w-[24px] top-2 right-2 bg-white hover:bg-gray-200 rounded text-primary transition-colors"
-            >
-              <.icon name="hero-wrench-screwdriver" class="h-[14px] w-[12px]" />
-            </button>
+          <button
+            phx-hook="ContextMenuButton"
+            id={"context-menu-btn-#{item.id}"}
+            data-type="media"
+            data-id={item.id}
+            class="absolute h-[24px] w-[24px] top-2 right-2 bg-white hover:bg-gray-200 rounded text-primary transition-colors"
+          >
+            <.icon name="hero-wrench-screwdriver" class="h-[14px] w-[12px]" />
+          </button>
 
-            <div class="absolute bottom-2 left-2">
-              <span class={"px-2 py-0.5 text-xs font-medium rounded #{type_badge_class(item.type)}"}>
-                {item.type}
-              </span>
-            </div>
-          </div>
-
-          <div class="mt-2">
-            <p class="text-xs text-gray-900 truncate" title={item.name}>
-              {item.name}
-            </p>
-            <p class="text-xs text-gray-500 truncate">
-              {Calendar.strftime(item.inserted_at, "%d-%m-%Y")}
-            </p>
+          <div class="absolute bottom-2 left-2">
+            <span class={"px-2 py-0.5 text-xs font-medium rounded #{type_badge_class(item.type)}"}>
+              {item.type}
+            </span>
           </div>
         </div>
-      <% end %>
+
+        <div class="mt-2">
+          <p class="text-xs text-gray-900 truncate" title={item.name}>
+            {item.name}
+          </p>
+          <p class="text-xs text-gray-500 truncate">
+            {Calendar.strftime(item.inserted_at, "%d-%m-%Y")}
+          </p>
+        </div>
+      </div>
     </div>
 
     <%!-- Empty State (shown when no items) --%>
