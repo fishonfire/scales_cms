@@ -30,7 +30,10 @@ import DragDropZone from "./hooks/drag_drop_zone";
 import DispatchChangeOnUpdate from "./hooks/dispatch_change_on_update";
 import "flowbite/dist/flowbite.phoenix.js";
 import "./delete_confirm";
-import MediaPreview from "./hooks/media_preview";
+import ImagePreview from "./hooks/image_preview";
+import VideoPreview from "./hooks/video_preview";
+import LottiePreview from "./hooks/lottie_preview";
+import "@lottiefiles/dotlottie-wc";
 
 const Hooks = {
   Drag: sortable,
@@ -39,7 +42,9 @@ const Hooks = {
   PersistedState: PersistedState,
   DragDropZone: DragDropZone,
   DispatchChangeOnUpdate: DispatchChangeOnUpdate,
-  MediaPreview: MediaPreview,
+  ImagePreview: ImagePreview,
+  VideoPreview: VideoPreview,
+  LottiePreview: LottiePreview,
 };
 
 let csrfToken = document

@@ -6,7 +6,7 @@
     component={ScalesCmsWeb.Components.CmsComponents.Lottie}
   >
     <div class="flex">
-      <dotlottie-player
+      <dotlottie-wc
         :if={Map.get(@block.properties || %{}, "lottie_path", nil) != nil}
         src={
           S3Upload.get_presigned_url_for_display(

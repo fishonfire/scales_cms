@@ -20,7 +20,14 @@ defmodule ScalesCmsWeb.MediaComponents do
     <div class="group relative bg-gray-200 rounded-lg overflow-hidden p-2">
       <div
         id={"media-preview-#{@item.id}"}
-        phx-hook="MediaPreview"
+        phx-hook={
+          case @item.type do
+            "image" -> "ImagePreview"
+            "video" -> "VideoPreview"
+            "lottie" -> "LottiePreview"
+            _ -> nil
+          end
+        }
         data-type={@item.type}
         class="relative w-full aspect-[3/2] bg-gray-200 rounded-lg overflow-hidden"
       >
@@ -82,7 +89,7 @@ defmodule ScalesCmsWeb.MediaComponents do
             </div>
           <% "lottie" -> %>
             <div class="absolute inset-0 media-preview-el">
-              <dotlottie-player
+              <dotlottie-wc
                 id={"lottie-player-#{@item.id}"}
                 data-media-el
                 data-playable
@@ -97,7 +104,7 @@ defmodule ScalesCmsWeb.MediaComponents do
                 phx-update="ignore"
                 autoplay={false}
               >
-              </dotlottie-player>
+              </dotlottie-wc>
 
               <div class="absolute inset-0 z-10 flex items-center justify-center">
                 <button
