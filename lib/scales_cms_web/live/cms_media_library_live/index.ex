@@ -118,7 +118,7 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.Index do
     item = socket.assigns.item_to_edit
 
     case CmsMediaLibrary.update_media_library_item(item, params) do
-      {:ok, media_item} ->
+      {:ok, _media_item} ->
         media_items =
           MediaLibraryUtils.list_media_items(socket.assigns.query, socket.assigns.media_type)
 
