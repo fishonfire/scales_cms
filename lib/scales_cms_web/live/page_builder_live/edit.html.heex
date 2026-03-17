@@ -82,10 +82,11 @@
           id={"block-#{block.id}"}
           block={block}
           published={@cms_page_variant.published_at != nil}
+          deleting={MapSet.member?(@deleting_block_ids, block.id)}
         />
       <% end %>
 
-      <div :if={Enum.count(@blocks) == 0} class="min-h-6 sortable-ghost">
+      <div :if={Enum.count(@blocks) == 0} class="min-h-6">
         <.icon name="hero-ellipsis-horizontal" />
       </div>
     </div>
@@ -93,8 +94,6 @@
 
   <aside
     id="drawer-sidebar"
-    phx-mouseenter={!@drawer_open && "open-drawer"}
-    phx-mouseleave={!@drawer_open && "close-drawer"}
     class={"relative top-0 right-0 z-40 h-screen overflow-hidden transition-all duration-300 #{if @drawer_open, do: "w-[390px]", else: "w-[64px]"}"}
     aria-label="Sidebar"
   >

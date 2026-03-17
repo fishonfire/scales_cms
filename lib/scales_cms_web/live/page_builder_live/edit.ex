@@ -18,7 +18,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
   def mount(_params, _session, socket) do
     Phoenix.PubSub.subscribe(ScalesCms.PubSub, Topics.get_block_updated_topic())
 
-    {:ok, assign(socket, :drawer_open, false)}
+    {:ok, assign(socket, :drawer_open, false) |> assign(deleting_block_ids: MapSet.new())}
   end
 
   @impl Phoenix.LiveView
@@ -116,23 +116,10 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
       do: {:noreply, socket}
 
   def handle_event("delete", %{"id" => id}, socket) do
-    CmsPageVariantBlocks.get_cms_page_variant_block!(id)
-    |> CmsPageVariantBlocks.delete_cms_page_variant_block()
+    id = String.to_integer(id)
+    Process.send_after(self(), {:commit_delete, id}, 260)
 
-    socket
-    |> assign(
-      :blocks,
-      CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
-    )
-    |> then(&{:noreply, &1})
-  rescue
-    Ecto.NoResultsError ->
-      socket
-      |> assign(
-        :blocks,
-        CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
-      )
-      |> then(&{:noreply, &1})
+    {:noreply, update(socket, :deleting_block_ids, &MapSet.put(&1, id))}
   end
 
   def handle_event("toggle-drawer", _, socket) do
@@ -247,6 +234,27 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
       CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
     )
     |> then(&{:noreply, &1})
+  end
+
+  def handle_info({:commit_delete, id}, socket) do
+    CmsPageVariantBlocks.get_cms_page_variant_block!(id)
+    |> CmsPageVariantBlocks.delete_cms_page_variant_block()
+
+    socket
+    |> assign(
+      :blocks,
+      CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
+    )
+    |> update(:deleting_block_ids, &MapSet.delete(&1, id))
+    |> then(&{:noreply, &1})
+  rescue
+    Ecto.NoResultsError ->
+      socket
+      |> assign(
+        :blocks,
+        CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
+      )
+      |> then(&{:noreply, &1})
   end
 
   @impl Phoenix.LiveView

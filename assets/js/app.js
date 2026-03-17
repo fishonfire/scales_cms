@@ -30,6 +30,7 @@ import DragDropZone from "./hooks/drag_drop_zone";
 import DispatchChangeOnUpdate from "./hooks/dispatch_change_on_update";
 import "flowbite/dist/flowbite.phoenix.js";
 import "./delete_confirm";
+import TrackMaxHeightStyle from "./hooks/track_max_height_style";
 
 const Hooks = {
   Drag: sortable,
@@ -38,6 +39,7 @@ const Hooks = {
   PersistedState: PersistedState,
   DragDropZone: DragDropZone,
   DispatchChangeOnUpdate: DispatchChangeOnUpdate,
+  TrackMaxHeightStyle: TrackMaxHeightStyle,
 };
 
 let csrfToken = document
