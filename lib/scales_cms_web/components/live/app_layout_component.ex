@@ -8,17 +8,18 @@ defmodule ScalesCmsWeb.Live.AppLayoutComponent do
   @sidebar_enabled Application.compile_env(:scales_cms, :enabled_sidebar, true)
 
   @impl Phoenix.LiveComponent
+  def mount(socket) do
+    {:ok,
+     socket
+     |> assign_new(:sidebar_open, fn -> @sidebar_enabled end)
+     |> assign_new(:sidebar_enabled, fn -> @sidebar_enabled end)}
+  end
+
+  @impl Phoenix.LiveComponent
   def update(assigns, socket) do
     socket =
       socket
       |> assign(assigns)
-
-    socket =
-      if @sidebar_enabled do
-        assign_new(socket, :sidebar_open, fn -> true end)
-      else
-        socket
-      end
 
     {:ok, socket}
   end
@@ -37,7 +38,7 @@ defmodule ScalesCmsWeb.Live.AppLayoutComponent do
 
   @impl Phoenix.LiveComponent
   def render(assigns) do
-    if @sidebar_enabled do
+    if assigns.sidebar_enabled do
       render_with_sidebar(assigns)
     else
       render_without_sidebar(assigns)

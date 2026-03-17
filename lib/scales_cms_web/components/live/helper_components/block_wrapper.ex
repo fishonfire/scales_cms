@@ -40,7 +40,15 @@ defmodule ScalesCmsWeb.Components.HelperComponents.BlockWrapper do
           <div class="action-buttons bg-white rounded flex">
             <div
               :if={!@published}
-              phx-click="delete"
+              phx-click={
+                JS.dispatch("ultra-confirm",
+                  detail: %{
+                    message:
+                      gettext("Are you sure you want to delete %{title}?", title: @component.title)
+                  }
+                )
+              }
+              phx-ultra-confirm-ok={JS.push("delete")}
               phx-value-id={@block.id}
               class="py-[8px] border-r-2 cursor-pointer flex items-center justify-center p-2"
             >
