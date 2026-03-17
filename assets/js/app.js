@@ -32,6 +32,7 @@ import "flowbite/dist/flowbite.phoenix.js";
 import "./delete_confirm";
 import ContextMenu from "./hooks/context_menu";
 import TrackMaxHeightStyle from "./hooks/track_max_height_style";
+import ContextMenuButton from "./hooks/context_menu_button";
 
 const Hooks = {
   Drag: sortable,
@@ -41,6 +42,7 @@ const Hooks = {
   DragDropZone: DragDropZone,
   DispatchChangeOnUpdate: DispatchChangeOnUpdate,
   ContextMenu: ContextMenu,
+  ContextMenuButton: ContextMenuButton,
   TrackMaxHeightStyle: TrackMaxHeightStyle,
 };
 
