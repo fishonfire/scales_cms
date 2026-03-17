@@ -26,7 +26,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
         ButtonCollectionProperties.changeset(
           %ButtonCollectionProperties{},
           block.properties
-        )
+        ),
+        id: "button-collection-properties-form-#{block.id}"
       )
 
     assign(socket, form: form)

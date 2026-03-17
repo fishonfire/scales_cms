@@ -35,6 +35,7 @@ import VideoPreview from "./hooks/video_preview";
 import LottiePreview from "./hooks/lottie_preview";
 import ContextMenu from "./hooks/context_menu";
 import TrackMaxHeightStyle from "./hooks/track_max_height_style";
+import ContextMenuButton from "./hooks/context_menu_button";
 
 import "flowbite/dist/flowbite.phoenix.js";
 import "@lottiefiles/dotlottie-wc";
@@ -52,6 +53,7 @@ const Hooks = {
   VideoPreview: VideoPreview,
   LottiePreview: LottiePreview,
   ContextMenu: ContextMenu,
+  ContextMenuButton: ContextMenuButton,
   TrackMaxHeightStyle: TrackMaxHeightStyle,
 };
 

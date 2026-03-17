@@ -19,7 +19,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButton.ImageButtonEditor do
             assigns.block.properties
           ),
           assigns.block.properties
-        )
+        ),
+        id: "image_button-properties-form-#{assigns.block.id}"
       )
 
     socket

@@ -1,6 +1,7 @@
 defmodule ScalesCmsWeb.CmsMediaLibraryLive.Index do
   use ScalesCmsWeb, :live_view
 
+  alias ScalesCms.Cms.CmsMediaLibraryItem
   alias ScalesCms.Cms.CmsMediaLibrary
   alias ScalesCms.Cms.Helpers.S3Upload
   alias ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryUtils
@@ -19,6 +20,10 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.Index do
         |> Enum.map(fn item ->
           Map.put(item, :display_url, S3Upload.get_presigned_url_for_display(item.url))
         end)
+      )
+      |> assign(
+        :edit_form,
+        to_form(CmsMediaLibrary.change_media_library_item(%CmsMediaLibraryItem{}))
       )
       |> assign(:item_to_delete, nil)
       |> allow_upload(:media,
@@ -103,6 +108,52 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.Index do
      |> assign(:media_items, media_items)
      |> assign(:item_to_delete, nil)
      |> close_modal("delete-media-modal")}
+  end
+
+  def handle_event("show_edit_modal", %{"id" => id}, socket) do
+    item = CmsMediaLibrary.get_media_library_item!(id)
+
+    {:noreply,
+     socket
+     |> assign(:item_to_edit, item)
+     |> assign(:edit_form, to_form(CmsMediaLibrary.change_media_library_item(item)))
+     |> open_modal("edit-media-modal")}
+  end
+
+  def handle_event("hide_edit_modal", _params, socket) do
+    {:noreply,
+     socket
+     |> assign(:item_to_edit, nil)
+     |> close_modal("edit-media-modal")}
+  end
+
+  def handle_event(
+        "save_edit",
+        %{"name" => _name} = params,
+        socket
+      ) do
+    item = socket.assigns.item_to_edit
+
+    case CmsMediaLibrary.update_media_library_item(item, params) do
+      {:ok, _media_item} ->
+        media_items =
+          MediaLibraryUtils.list_media_items(socket.assigns.query, socket.assigns.media_type)
+          |> Enum.map(fn item ->
+            Map.put(item, :display_url, S3Upload.get_presigned_url_for_display(item.url))
+          end)
+
+        {:noreply,
+         socket
+         |> assign(:media_items, media_items)
+         |> assign(:item_to_edit, nil)
+         |> close_modal("edit-media-modal")}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply,
+         socket
+         |> assign(:edit_form, to_form(changeset))
+         |> open_modal("edit-media-modal")}
+    end
   end
 
   defp handle_progress(:media, entry, socket) do

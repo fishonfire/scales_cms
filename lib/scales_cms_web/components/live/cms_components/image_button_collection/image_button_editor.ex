@@ -20,7 +20,8 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
         ImageButtonProperties.changeset(
           %ImageButtonProperties{},
           button
-        )
+        ),
+        id: "image_button-properties-form-#{socket.assigns.block.id}-#{socket.assigns.index}"
       )
 
     assign(socket, form: form)

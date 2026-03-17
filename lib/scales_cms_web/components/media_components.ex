@@ -12,17 +12,24 @@ defmodule ScalesCmsWeb.MediaComponents do
 
   attr :item, :map, required: true
   attr :target, :any, default: nil
-  attr :with_delete, :boolean, default: false
+  attr :with_context_button, :boolean, default: false
   attr :show_date, :boolean, default: false
 
   def media_preview(%{item: %{type: "image"}} = assigns) do
     ~H"""
-    <div class="group relative bg-gray-200 rounded-lg overflow-hidden p-2">
+    <div
+      class="group relative bg-gray-200 rounded-lg overflow-hidden p-2"
+      id={"media-item-#{@item.id}"}
+      phx-hook="ContextMenu"
+      data-id={@item.id}
+      data-type="media"
+    >
       <div
         id={"media-preview-#{@item.id}"}
         phx-hook="ImagePreview"
         data-type={@item.type}
         class="relative w-full aspect-[3/2] bg-gray-200 rounded-lg overflow-hidden"
+        phx-update="ignore"
       >
         <div
           data-placeholder
@@ -44,14 +51,14 @@ defmodule ScalesCmsWeb.MediaComponents do
         </div>
 
         <button
-          :if={@with_delete}
-          type="button"
-          phx-click="show_delete_modal"
-          phx-target={@target}
-          phx-value-id={@item.id}
-          class="absolute top-2 right-2 z-20 h-[24px] w-[24px] rounded bg-white text-red-500 transition-colors hover:bg-gray-200"
+          :if={@with_context_button}
+          phx-hook="ContextMenuButton"
+          id={"context-menu-btn-#{@item.id}"}
+          data-type="media"
+          data-id={@item.id}
+          class="absolute h-[24px] w-[24px] top-2 right-2 bg-white hover:bg-gray-200 rounded text-primary transition-colors"
         >
-          <.icon name="hero-trash" class="h-[14px] w-[12px]" />
+          <.icon name="hero-wrench-screwdriver" class="h-[14px] w-[12px]" />
         </button>
 
         <div class="absolute bottom-2 left-2 z-20">
@@ -75,12 +82,19 @@ defmodule ScalesCmsWeb.MediaComponents do
 
   def media_preview(%{item: %{type: "video"}} = assigns) do
     ~H"""
-    <div class="group relative bg-gray-200 rounded-lg overflow-hidden p-2">
+    <div
+      class="group relative bg-gray-200 rounded-lg overflow-hidden p-2"
+      id={"media-item-#{@item.id}"}
+      phx-hook="ContextMenu"
+      data-id={@item.id}
+      data-type="media"
+    >
       <div
         id={"media-preview-#{@item.id}"}
         phx-hook="VideoPreview"
         data-type={@item.type}
         class="relative w-full aspect-[3/2] bg-gray-200 rounded-lg overflow-hidden"
+        phx-update="ignore"
       >
         <div
           data-placeholder
@@ -117,14 +131,14 @@ defmodule ScalesCmsWeb.MediaComponents do
         </div>
 
         <button
-          :if={@with_delete}
-          type="button"
-          phx-click="show_delete_modal"
-          phx-target={@target}
-          phx-value-id={@item.id}
-          class="absolute top-2 right-2 z-20 h-[24px] w-[24px] rounded bg-white text-red-500 transition-colors hover:bg-gray-200"
+          :if={@with_context_button}
+          phx-hook="ContextMenuButton"
+          id={"context-menu-btn-#{@item.id}"}
+          data-type="media"
+          data-id={@item.id}
+          class="absolute h-[24px] w-[24px] top-2 right-2 bg-white hover:bg-gray-200 rounded text-primary transition-colors"
         >
-          <.icon name="hero-trash" class="h-[14px] w-[12px]" />
+          <.icon name="hero-wrench-screwdriver" class="h-[14px] w-[12px]" />
         </button>
 
         <div class="absolute bottom-2 left-2 z-20">
@@ -148,12 +162,19 @@ defmodule ScalesCmsWeb.MediaComponents do
 
   def media_preview(%{item: %{type: "lottie"}} = assigns) do
     ~H"""
-    <div class="group relative bg-gray-200 rounded-lg overflow-hidden p-2">
+    <div
+      class="group relative bg-gray-200 rounded-lg overflow-hidden p-2"
+      id={"media-item-#{@item.id}"}
+      phx-hook="ContextMenu"
+      data-id={@item.id}
+      data-type="media"
+    >
       <div
         id={"media-preview-#{@item.id}"}
         phx-hook="LottiePreview"
         data-type={@item.type}
         class="relative w-full aspect-[3/2] bg-gray-200 rounded-lg overflow-hidden"
+        phx-update="ignore"
       >
         <div
           data-placeholder
@@ -193,14 +214,14 @@ defmodule ScalesCmsWeb.MediaComponents do
         </div>
 
         <button
-          :if={@with_delete}
-          type="button"
-          phx-click="show_delete_modal"
-          phx-target={@target}
-          phx-value-id={@item.id}
-          class="absolute top-2 right-2 z-20 h-[24px] w-[24px] rounded bg-white text-red-500 transition-colors hover:bg-gray-200"
+          :if={@with_context_button}
+          phx-hook="ContextMenuButton"
+          id={"context-menu-btn-#{@item.id}"}
+          data-type="media"
+          data-id={@item.id}
+          class="absolute h-[24px] w-[24px] top-2 right-2 bg-white hover:bg-gray-200 rounded text-primary transition-colors"
         >
-          <.icon name="hero-trash" class="h-[14px] w-[12px]" />
+          <.icon name="hero-wrench-screwdriver" class="h-[14px] w-[12px]" />
         </button>
 
         <div class="absolute bottom-2 left-2 z-20">
@@ -235,14 +256,14 @@ defmodule ScalesCmsWeb.MediaComponents do
         </div>
 
         <button
-          :if={@with_delete}
-          type="button"
-          phx-click="show_delete_modal"
-          phx-target={@target}
-          phx-value-id={@item.id}
-          class="absolute top-2 right-2 z-20 h-[24px] w-[24px] rounded bg-white text-red-500 transition-colors hover:bg-gray-200"
+          :if={@with_context_button}
+          phx-hook="ContextMenuButton"
+          id={"context-menu-btn-#{@item.id}"}
+          data-type="media"
+          data-id={@item.id}
+          class="absolute h-[24px] w-[24px] top-2 right-2 bg-white hover:bg-gray-200 rounded text-primary transition-colors"
         >
-          <.icon name="hero-trash" class="h-[14px] w-[12px]" />
+          <.icon name="hero-wrench-screwdriver" class="h-[14px] w-[12px]" />
         </button>
 
         <div class="absolute bottom-2 left-2 z-20">
