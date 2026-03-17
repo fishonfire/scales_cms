@@ -123,93 +123,69 @@
     </div>
 
     <div class="grid gap-4" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));">
-      <%= for item <- @media_items do %>
-        <div class="group relative bg-gray-200 rounded-lg overflow-hidden p-2">
-          <div class="relative w-full aspect-[3/2] bg-gray-200 rounded-lg overflow-hidden">
-            <%= case item.type do %>
-              <% "image" -> %>
-                <img
-                  src={ScalesCms.Cms.Helpers.S3Upload.get_presigned_url_for_display(item.url)}
-                  class="absolute inset-0 w-full h-full object-cover"
-                  alt={item.name}
+      <div
+        :for={item <- @media_items}
+        id={"media-item-#{item.id}"}
+        phx-hook="ContextMenu"
+        data-id={item.id}
+        data-type="media"
+        class="group relative bg-gray-200 rounded-lg overflow-hidden p-2"
+      >
+        <div class="relative w-full aspect-[3/2] bg-gray-200 rounded-lg overflow-hidden">
+          <%= case item.type do %>
+            <% "image" -> %>
+              <img
+                src={ScalesCms.Cms.Helpers.S3Upload.get_presigned_url_for_display(item.url)}
+                class="absolute inset-0 w-full h-full object-cover"
+                alt={item.name}
+              />
+            <% "video" -> %>
+              <div class="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
+                <.icon
+                  name="hero-video-camera"
+                  class="h-12 w-12 text-gray-400"
                 />
-              <% "video" -> %>
-                <div class="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
-                  <.icon
-                    name="hero-video-camera"
-                    class="h-12 w-12 text-gray-400"
-                  />
-                </div>
-              <% "lottie" -> %>
-                <div class="absolute inset-0 bg-gradient-to-br from-purple-200 to-purple-300 flex items-center justify-center">
-                  <.icon
-                    name="hero-sparkles"
-                    class="h-12 w-12 text-purple-400"
-                  />
-                </div>
-              <% _ -> %>
-                <div class="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
-                  <.icon name="hero-photo" class="h-12 w-12 text-gray-400" />
-                </div>
-            <% end %>
+              </div>
+            <% "lottie" -> %>
+              <div class="absolute inset-0 bg-gradient-to-br from-purple-200 to-purple-300 flex items-center justify-center">
+                <.icon
+                  name="hero-sparkles"
+                  class="h-12 w-12 text-purple-400"
+                />
+              </div>
+            <% _ -> %>
+              <div class="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
+                <.icon name="hero-photo" class="h-12 w-12 text-gray-400" />
+              </div>
+          <% end %>
 
-            <button
-              phx-click="show_delete_modal"
-              phx-value-id={item.id}
-              class="absolute h-[24px] w-[24px] top-2 right-2 bg-white hover:bg-gray-200 rounded text-red-500 transition-colors"
-            >
-              <.icon name="hero-trash" class="h-[14px] w-[12px]" />
-            </button>
+          <button
+            phx-hook="ContextMenuButton"
+            id={"context-menu-btn-#{item.id}"}
+            data-type="media"
+            data-id={item.id}
+            class="absolute h-[24px] w-[24px] top-2 right-2 bg-white hover:bg-gray-200 rounded text-primary transition-colors"
+          >
+            <.icon name="hero-wrench-screwdriver" class="h-[14px] w-[12px]" />
+          </button>
 
-            <div class="absolute bottom-2 left-2">
-              <span class={"px-2 py-0.5 text-xs font-medium rounded #{type_badge_class(item.type)}"}>
-                {item.type}
-              </span>
-            </div>
-          </div>
-
-          <div class="mt-2">
-            <p class="text-xs text-gray-900 truncate" title={item.name}>
-              {item.name}
-            </p>
-            <p class="text-xs text-gray-500 truncate">
-              {Calendar.strftime(item.inserted_at, "%d-%m-%Y")}
-            </p>
+          <div class="absolute bottom-2 left-2">
+            <span class={"px-2 py-0.5 text-xs font-medium rounded #{type_badge_class(item.type)}"}>
+              {item.type}
+            </span>
           </div>
         </div>
-      <% end %>
-    </div>
 
-    <.modal
-      id="delete-media-modal"
-      on_cancel={JS.push("hide_delete_modal")}
-    >
-      <div class="text-center">
-        <.icon name="hero-exclamation-triangle" class="h-12 w-12 mx-auto text-red-500 mb-4" />
-        <h3 class="text-lg font-semibold text-gray-900 mb-2">
-          {gettext("Delete media item")}
-        </h3>
-        <p class="text-gray-600 mb-6">
-          {gettext("Are you sure you want to remove this item from the media library?")}
-        </p>
-        <div class="flex justify-center gap-4">
-          <button
-            type="button"
-            phx-click="hide_delete_modal"
-            class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg transition-colors"
-          >
-            {gettext("Cancel")}
-          </button>
-          <button
-            type="button"
-            phx-click="confirm_delete"
-            class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
-          >
-            {gettext("Delete")}
-          </button>
+        <div class="mt-2">
+          <p class="text-xs text-gray-900 truncate" title={item.name}>
+            {item.name}
+          </p>
+          <p class="text-xs text-gray-500 truncate">
+            {Calendar.strftime(item.inserted_at, "%d-%m-%Y")}
+          </p>
         </div>
       </div>
-    </.modal>
+    </div>
 
     <%!-- Empty State (shown when no items) --%>
     <%= if Enum.empty?(@media_items) do %>
@@ -222,3 +198,86 @@
     <% end %>
   </section>
 </div>
+
+<.modal
+  id="delete-media-modal"
+  on_cancel={JS.push("hide_delete_modal")}
+>
+  <div class="text-center">
+    <.icon name="hero-exclamation-triangle" class="h-12 w-12 mx-auto text-red-500 mb-4" />
+    <h3 class="text-lg font-semibold text-gray-900 mb-2">
+      {gettext("Delete media item")}
+    </h3>
+    <p class="text-gray-600 mb-6">
+      {gettext("Are you sure you want to remove this item from the media library?")}
+    </p>
+    <div class="flex justify-center gap-4">
+      <button
+        type="button"
+        phx-click="hide_delete_modal"
+        class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg transition-colors"
+      >
+        {gettext("Cancel")}
+      </button>
+      <button
+        type="button"
+        phx-click="confirm_delete"
+        class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+      >
+        {gettext("Delete")}
+      </button>
+    </div>
+  </div>
+</.modal>
+
+<.modal
+  id="edit-media-modal"
+  on_cancel={JS.push("hide_edit_modal")}
+>
+  <div class="text-center">
+    <h3 class="text-lg font-semibold text-gray-900 mb-2">
+      {gettext("Edit media item")}
+    </h3>
+    <.simple_form
+      :let={f}
+      for={@edit_form}
+      phx-submit="save_edit"
+      class="space-y-4 text-left"
+    >
+      <.input
+        type="text"
+        field={f[:name]}
+        label={gettext("Name")}
+        class="input w-full"
+      />
+
+      <:actions>
+        <.button phx-disable-with="Saving..." class="btn-primary">
+          {gettext("Save directory")}
+        </.button>
+      </:actions>
+    </.simple_form>
+  </div>
+</.modal>
+
+<.context_menu context_menu={@context_menu}>
+  <:menu_slots :let={menu}>
+    <button
+      type="button"
+      phx-click="show_edit_modal"
+      phx-value-id={menu.id}
+      class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+    >
+      {gettext("Edit")}
+    </button>
+
+    <button
+      type="button"
+      phx-click="show_delete_modal"
+      phx-value-id={menu.id}
+      class="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
+    >
+      {gettext("Delete")}
+    </button>
+  </:menu_slots>
+</.context_menu>

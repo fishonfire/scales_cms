@@ -32,6 +32,7 @@ import "flowbite/dist/flowbite.phoenix.js";
 import "./delete_confirm";
 import ContextMenu from "./hooks/context_menu";
 import CMSComponentAnimator from "./hooks/cms_component_animator";
+import ContextMenuButton from "./hooks/context_menu_button";
 
 const Hooks = {
   Drag: sortable,
@@ -42,6 +43,7 @@ const Hooks = {
   DispatchChangeOnUpdate: DispatchChangeOnUpdate,
   ContextMenu: ContextMenu,
   CMSComponentAnimator: CMSComponentAnimator,
+  ContextMenuButton: ContextMenuButton,
 };
 
 let csrfToken = document
