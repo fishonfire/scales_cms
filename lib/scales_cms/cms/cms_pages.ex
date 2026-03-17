@@ -17,9 +17,8 @@ defmodule ScalesCms.Cms.CmsPages do
         select: 1,
         limit: 1
 
-    from cp in query,
-      as: :cms_page,
-      select_merge: %{published: exists(subquery(published_subquery))}
+    query
+    |> select_merge([cp], %{published: exists(subquery(published_subquery))})
   end
 
   @doc """
@@ -32,7 +31,7 @@ defmodule ScalesCms.Cms.CmsPages do
 
   """
   def list_cms_pages do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], is_nil(cp.cms_directory_id))
     |> with_published_status()
     |> repo().all()
@@ -48,7 +47,7 @@ defmodule ScalesCms.Cms.CmsPages do
 
   """
   def list_cms_pages(status) when status in ["published", "draft"] do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], is_nil(cp.cms_directory_id))
     |> filter_by_status(status)
     |> with_published_status()
@@ -69,7 +68,7 @@ defmodule ScalesCms.Cms.CmsPages do
   def list_root_paginated_cms_pages(page, amount) do
     offset = page * amount
 
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], is_nil(cp.cms_directory_id))
     |> limit(^amount)
     |> offset(^offset)
@@ -89,7 +88,7 @@ defmodule ScalesCms.Cms.CmsPages do
   def list_paginated_cms_pages(page, amount) do
     offset = page * amount
 
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> limit(^amount)
     |> offset(^offset)
     |> preload(:directory)
@@ -106,7 +105,7 @@ defmodule ScalesCms.Cms.CmsPages do
 
   """
   def list_pages_for_directory_id(directory_id) do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> with_published_status()
     |> repo().all()
@@ -122,7 +121,7 @@ defmodule ScalesCms.Cms.CmsPages do
 
   """
   def list_pages_for_directory_id(directory_id, status) when status in ["published", "draft"] do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> filter_by_status(status)
     |> with_published_status()
@@ -142,7 +141,7 @@ defmodule ScalesCms.Cms.CmsPages do
 
   """
   def search_cms_pages_for_directory_id(directory_id, search) do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> where([cp], ilike(cp.title, ^"%#{search}%"))
     |> with_published_status()
@@ -160,7 +159,7 @@ defmodule ScalesCms.Cms.CmsPages do
   """
   def search_cms_pages_for_directory_id(directory_id, search, status)
       when status in ["published", "draft"] do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> where([cp], ilike(cp.title, ^"%#{search}%"))
     |> filter_by_status(status)
@@ -181,7 +180,7 @@ defmodule ScalesCms.Cms.CmsPages do
 
   """
   def search_cms_pages(query) do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], is_nil(cp.cms_directory_id))
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> with_published_status()
@@ -199,7 +198,7 @@ defmodule ScalesCms.Cms.CmsPages do
 
   """
   def search_cms_pages(query, status) when status in ["published", "draft"] do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> filter_by_status(status)
     |> with_published_status()
@@ -230,7 +229,7 @@ defmodule ScalesCms.Cms.CmsPages do
   def fetch_pages(query, status, opts \\ [])
 
   def fetch_pages("", "", opts) do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], is_nil(cp.cms_directory_id))
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
     |> with_published_status()
@@ -238,7 +237,7 @@ defmodule ScalesCms.Cms.CmsPages do
   end
 
   def fetch_pages("", status, opts) when status in ["published", "draft"] do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], is_nil(cp.cms_directory_id))
     |> filter_by_status(status)
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
@@ -249,7 +248,7 @@ defmodule ScalesCms.Cms.CmsPages do
   def fetch_pages("", _status, opts), do: fetch_pages("", "", opts)
 
   def fetch_pages(query, "", opts) do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
     |> preload(:directory)
@@ -258,7 +257,7 @@ defmodule ScalesCms.Cms.CmsPages do
   end
 
   def fetch_pages(query, status, opts) when status in ["published", "draft"] do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> filter_by_status(status)
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
@@ -289,7 +288,7 @@ defmodule ScalesCms.Cms.CmsPages do
   def fetch_paginated_pages("", "", page, per_page, opts) do
     offset = (page - 1) * per_page
 
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], is_nil(cp.cms_directory_id))
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
     |> with_published_status()
@@ -302,7 +301,7 @@ defmodule ScalesCms.Cms.CmsPages do
       when status in ["published", "draft"] do
     offset = (page - 1) * per_page
 
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], is_nil(cp.cms_directory_id))
     |> filter_by_status(status)
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
@@ -318,7 +317,7 @@ defmodule ScalesCms.Cms.CmsPages do
   def fetch_paginated_pages(query, "", page, per_page, opts) do
     offset = (page - 1) * per_page
 
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
     |> preload(:directory)
@@ -332,7 +331,7 @@ defmodule ScalesCms.Cms.CmsPages do
       when status in ["published", "draft"] do
     offset = (page - 1) * per_page
 
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> filter_by_status(status)
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
@@ -359,14 +358,14 @@ defmodule ScalesCms.Cms.CmsPages do
   def count_pages(query, status)
 
   def count_pages("", "") do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], is_nil(cp.cms_directory_id))
     |> select([cp], count(cp.id))
     |> repo().one()
   end
 
   def count_pages("", status) when status in ["published", "draft"] do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], is_nil(cp.cms_directory_id))
     |> filter_by_status(status)
     |> select([cp], count(cp.id, :distinct))
@@ -376,14 +375,14 @@ defmodule ScalesCms.Cms.CmsPages do
   def count_pages("", _status), do: count_pages("", "")
 
   def count_pages(query, "") do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> select([cp], count(cp.id))
     |> repo().one()
   end
 
   def count_pages(query, status) when status in ["published", "draft"] do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> filter_by_status(status)
     |> select([cp], count(cp.id, :distinct))
@@ -412,7 +411,7 @@ defmodule ScalesCms.Cms.CmsPages do
   def fetch_pages_for_directory(directory_id, query, status, opts \\ [])
 
   def fetch_pages_for_directory(directory_id, "", "", opts) do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
     |> with_published_status()
@@ -421,7 +420,7 @@ defmodule ScalesCms.Cms.CmsPages do
 
   def fetch_pages_for_directory(directory_id, "", status, opts)
       when status in ["published", "draft"] do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> filter_by_status(status)
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
@@ -433,7 +432,7 @@ defmodule ScalesCms.Cms.CmsPages do
     do: fetch_pages_for_directory(directory_id, "", "", opts)
 
   def fetch_pages_for_directory(directory_id, query, "", opts) do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
@@ -443,7 +442,7 @@ defmodule ScalesCms.Cms.CmsPages do
 
   def fetch_pages_for_directory(directory_id, query, status, opts)
       when status in ["published", "draft"] do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> filter_by_status(status)
@@ -474,7 +473,7 @@ defmodule ScalesCms.Cms.CmsPages do
   def fetch_paginated_pages_for_directory(directory_id, "", "", page, per_page, opts) do
     offset = (page - 1) * per_page
 
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
     |> with_published_status()
@@ -487,7 +486,7 @@ defmodule ScalesCms.Cms.CmsPages do
       when status in ["published", "draft"] do
     offset = (page - 1) * per_page
 
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> filter_by_status(status)
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
@@ -503,7 +502,7 @@ defmodule ScalesCms.Cms.CmsPages do
   def fetch_paginated_pages_for_directory(directory_id, query, "", page, per_page, opts) do
     offset = (page - 1) * per_page
 
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
@@ -517,7 +516,7 @@ defmodule ScalesCms.Cms.CmsPages do
       when status in ["published", "draft"] do
     offset = (page - 1) * per_page
 
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> filter_by_status(status)
@@ -544,14 +543,14 @@ defmodule ScalesCms.Cms.CmsPages do
   def count_pages_for_directory(directory_id, query, status)
 
   def count_pages_for_directory(directory_id, "", "") do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> select([cp], count(cp.id))
     |> repo().one()
   end
 
   def count_pages_for_directory(directory_id, "", status) when status in ["published", "draft"] do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> filter_by_status(status)
     |> select([cp], count(cp.id, :distinct))
@@ -562,7 +561,7 @@ defmodule ScalesCms.Cms.CmsPages do
     do: count_pages_for_directory(directory_id, "", "")
 
   def count_pages_for_directory(directory_id, query, "") do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> select([cp], count(cp.id))
@@ -571,7 +570,7 @@ defmodule ScalesCms.Cms.CmsPages do
 
   def count_pages_for_directory(directory_id, query, status)
       when status in ["published", "draft"] do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> filter_by_status(status)
@@ -681,21 +680,27 @@ defmodule ScalesCms.Cms.CmsPages do
   end
 
   defp filter_by_status(query, "published") do
+    published_subquery =
+      from v in CmsPageLocaleLatestVariant,
+        where: parent_as(:cms_page).id == v.cms_page_id,
+        where: not is_nil(v.cms_page_latest_published_variant_id),
+        select: 1,
+        limit: 1
+
     query
-    |> join(:inner, [cp], v in CmsPageLocaleLatestVariant, on: v.cms_page_id == cp.id)
-    |> where([cp, v], not is_nil(v.cms_page_latest_published_variant_id))
-    |> distinct([cp], cp.id)
+    |> where([cp], exists(subquery(published_subquery)))
   end
 
   defp filter_by_status(query, "draft") do
-    published_page_ids =
-      from(v in CmsPageLocaleLatestVariant,
+    published_subquery =
+      from v in CmsPageLocaleLatestVariant,
+        where: parent_as(:cms_page).id == v.cms_page_id,
         where: not is_nil(v.cms_page_latest_published_variant_id),
-        select: v.cms_page_id
-      )
+        select: 1,
+        limit: 1
 
     query
-    |> where([cp], cp.id not in subquery(published_page_ids))
+    |> where([cp], not exists(subquery(published_subquery)))
   end
 
   @doc """
@@ -760,7 +765,7 @@ defmodule ScalesCms.Cms.CmsPages do
   def fetch_pages_slice(query, status, offset, limit, opts \\ [])
 
   def fetch_pages_slice("", "", offset, limit, opts) do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], is_nil(cp.cms_directory_id))
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
     |> with_published_status()
@@ -770,7 +775,7 @@ defmodule ScalesCms.Cms.CmsPages do
   end
 
   def fetch_pages_slice("", status, offset, limit, opts) when status in ["published", "draft"] do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], is_nil(cp.cms_directory_id))
     |> filter_by_status(status)
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
@@ -784,7 +789,7 @@ defmodule ScalesCms.Cms.CmsPages do
     do: fetch_pages_slice("", "", offset, limit, opts)
 
   def fetch_pages_slice(query, "", offset, limit, opts) do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], is_nil(cp.cms_directory_id))
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
@@ -797,7 +802,7 @@ defmodule ScalesCms.Cms.CmsPages do
 
   def fetch_pages_slice(query, status, offset, limit, opts)
       when status in ["published", "draft"] do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], is_nil(cp.cms_directory_id))
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> filter_by_status(status)
@@ -819,7 +824,7 @@ defmodule ScalesCms.Cms.CmsPages do
   def fetch_pages_for_directory_slice(directory_id, query, status, offset, limit, opts \\ [])
 
   def fetch_pages_for_directory_slice(directory_id, "", "", offset, limit, opts) do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
     |> with_published_status()
@@ -830,7 +835,7 @@ defmodule ScalesCms.Cms.CmsPages do
 
   def fetch_pages_for_directory_slice(directory_id, "", status, offset, limit, opts)
       when status in ["published", "draft"] do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> filter_by_status(status)
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
@@ -844,7 +849,7 @@ defmodule ScalesCms.Cms.CmsPages do
     do: fetch_pages_for_directory_slice(directory_id, "", "", offset, limit, opts)
 
   def fetch_pages_for_directory_slice(directory_id, query, "", offset, limit, opts) do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
@@ -856,7 +861,7 @@ defmodule ScalesCms.Cms.CmsPages do
 
   def fetch_pages_for_directory_slice(directory_id, query, status, offset, limit, opts)
       when status in ["published", "draft"] do
-    CmsPage
+    from(cp in CmsPage, as: :cms_page)
     |> where([cp], cp.cms_directory_id == ^directory_id)
     |> where([cp], ilike(cp.title, ^"%#{query}%"))
     |> filter_by_status(status)

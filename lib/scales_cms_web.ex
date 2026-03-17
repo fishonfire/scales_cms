@@ -96,6 +96,7 @@ defmodule ScalesCmsWeb do
       import ScalesCmsWeb.SvgComponents
       import ScalesCmsWeb.MediaComponents
       import ScalesCmsWeb.Gettext
+      import ScalesCmsWeb.ContextMenuComponents
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
