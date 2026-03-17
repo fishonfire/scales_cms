@@ -4,6 +4,7 @@ export default {
   mounted() {
     const isDrawer = this.el.id === "drawer";
     const isPageDropZone = this.el.id === "page-drop-zone";
+    this.ghostHeight = 0;
 
     this.sortable = new Sortable(this.el, {
       animation: isPageDropZone ? 180 : 120,
@@ -36,6 +37,12 @@ export default {
 
         if (isDrawer) {
           evt.item.classList.add("from-drawer");
+        }
+
+        const ghost = document.querySelector(".sortable-ghost");
+        if (ghost) {
+          const height = ghost.scrollHeight + 8;
+          this.ghostHeight = height;
         }
       },
 
@@ -73,17 +80,14 @@ export default {
           this.el.classList.remove("is-drop-target-active");
         }
 
-        const newOrder = Array.from(evt.to.children)
-          .map((el) => el.dataset.id || el.id)
-          .filter(Boolean);
-
         this.pushEvent("dropped", {
           draggedId: evt.item.id,
           toDropzoneId: evt.to.id,
           fromDropzoneId: evt.from.id,
           newDraggableIndex: evt.newDraggableIndex,
           oldDraggableIndex: evt.oldDraggableIndex,
-          newOrder,
+          newOrder: this.sortable.toArray(),
+          ghostHeight: this.ghostHeight,
         });
       },
     });

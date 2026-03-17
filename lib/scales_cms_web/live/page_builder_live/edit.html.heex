@@ -76,13 +76,15 @@
       </p>
     </div>
 
-    <div class="drop-zone min-h-16" id="page-drop-zone" phx-hook="Drag">
+    <div class="drop-zone min-h-[50%]" id="page-drop-zone" phx-hook="Drag">
       <%= for block <- @blocks do %>
         <.render_preview
           id={"block-#{block.id}"}
           block={block}
           published={@cms_page_variant.published_at != nil}
           deleting={MapSet.member?(@deleting_block_ids, block.id)}
+          animate_in={to_string(@inserted_block_id == block.id)}
+          ghost_height={@ghost_height}
         />
       <% end %>
 

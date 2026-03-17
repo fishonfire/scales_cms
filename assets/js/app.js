@@ -31,7 +31,7 @@ import DispatchChangeOnUpdate from "./hooks/dispatch_change_on_update";
 import "flowbite/dist/flowbite.phoenix.js";
 import "./delete_confirm";
 import ContextMenu from "./hooks/context_menu";
-import TrackMaxHeightStyle from "./hooks/track_max_height_style";
+import CMSComponentAnimator from "./hooks/cms_component_animator";
 
 const Hooks = {
   Drag: sortable,
@@ -41,7 +41,7 @@ const Hooks = {
   DragDropZone: DragDropZone,
   DispatchChangeOnUpdate: DispatchChangeOnUpdate,
   ContextMenu: ContextMenu,
-  TrackMaxHeightStyle: TrackMaxHeightStyle,
+  CMSComponentAnimator: CMSComponentAnimator,
 };
 
 let csrfToken = document

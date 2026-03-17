@@ -1,0 +1,56 @@
+const CMSComponentAnimator = {
+  mounted() {
+    this.setInitialHeight();
+    this.maybeAnimateIn();
+  },
+
+  updated() {
+    if (this.el.classList.contains("deleting")) {
+      // Let CSS handle collapse-out
+      this.el.style.maxHeight = null;
+      return;
+    }
+
+    // Keep height in sync for normal layout changes
+    this.setInitialHeight();
+
+    this.maybeAnimateIn();
+  },
+
+  setInitialHeight() {
+    this.el.style.maxHeight = `${this.el.scrollHeight}px`;
+  },
+
+  maybeAnimateIn() {
+    if (this.el.dataset.animateIn !== "true") return;
+    if (this.el.dataset.animated === "true") return;
+
+    this.el.dataset.animated = "true";
+
+    const el = this.el;
+    const ghostHeight = parseFloat(el.dataset.ghostHeight);
+    const startHeight = ghostHeight || 0;
+
+    // Start collapsed
+    el.style.maxHeight = `${startHeight}px`;
+    el.style.opacity = "0";
+
+    // Force reflow so browser applies initial state
+    el.getBoundingClientRect();
+
+    // Animate to full height
+    el.style.transition =
+      "max-height 250ms ease, opacity 200ms ease, transform 250ms ease";
+    el.style.maxHeight = `${el.scrollHeight}px`;
+    el.style.opacity = "1";
+
+    const cleanup = () => {
+      el.style.maxHeight = `${el.scrollHeight}px`; // keep flexible for future resizes
+      el.removeEventListener("transitionend", cleanup);
+    };
+
+    el.addEventListener("transitionend", cleanup);
+  },
+};
+
+export default CMSComponentAnimator;
