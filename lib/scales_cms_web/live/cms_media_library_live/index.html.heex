@@ -123,19 +123,14 @@
     </div>
 
     <div class="grid gap-4" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));">
-      <div
+      <.media_preview
         :for={item <- @media_items}
-        id={"media-container-#{item.id}"}
-        phx-value-id={item.id}
-        phx-click="show_media_preview_modal"
-      >
-        <.media_preview
-          id={item.id}
-          item={item}
-          with_context_button
-          show_date
-        />
-      </div>
+        id={item.id}
+        item={item}
+        with_context_button
+        show_date
+        on_click="show_media_preview_modal"
+      />
     </div>
 
     <%!-- Empty State (shown when no items) --%>

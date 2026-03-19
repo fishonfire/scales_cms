@@ -16,6 +16,7 @@ defmodule ScalesCmsWeb.MediaComponents do
   attr :with_context_button, :boolean, default: false
   attr :show_date, :boolean, default: false
   attr :keep_aspect, :boolean, default: false
+  attr :on_click, :any, default: nil
 
   def media_preview(%{item: %{type: "image"}} = assigns) do
     ~H"""
@@ -25,6 +26,8 @@ defmodule ScalesCmsWeb.MediaComponents do
       phx-hook="ContextMenu"
       data-id={@item.id}
       data-type="media"
+      phx-value-id={@item.id}
+      phx-click={@on_click}
     >
       <div
         id={"media-preview-#{@id}"}
@@ -35,7 +38,7 @@ defmodule ScalesCmsWeb.MediaComponents do
       >
         <div
           data-placeholder
-          class="absolute inset-0 animate-pulse flex items-center justify-center animate-fade-in bg-gradient-to-br from-gray-300 to-gray-400"
+          class="absolute inset-0 animate-pulse flex items-center justify-center bg-gradient-to-br from-gray-300 to-gray-400"
         >
           <.icon name="hero-photo" class="h-8 w-8 text-gray-500" />
         </div>
@@ -90,6 +93,8 @@ defmodule ScalesCmsWeb.MediaComponents do
       phx-hook="ContextMenu"
       data-id={@item.id}
       data-type="media"
+      phx-value-id={@item.id}
+      phx-click={@on_click}
     >
       <div
         id={"media-preview-#{@id}"}
@@ -100,7 +105,7 @@ defmodule ScalesCmsWeb.MediaComponents do
       >
         <div
           data-placeholder
-          class="absolute inset-0 animate-pulse flex items-center justify-center animate-fade-in bg-gradient-to-br from-gray-300 to-gray-400"
+          class="absolute inset-0 animate-pulse flex items-center justify-center bg-gradient-to-br from-gray-300 to-gray-400"
         >
           <.icon name="hero-film" class="h-8 w-8 text-gray-500" />
         </div>
@@ -173,6 +178,8 @@ defmodule ScalesCmsWeb.MediaComponents do
       phx-hook="ContextMenu"
       data-id={@item.id}
       data-type="media"
+      phx-value-id={@item.id}
+      phx-click={@on_click}
     >
       <div
         id={"media-preview-#{@id}"}
@@ -183,7 +190,7 @@ defmodule ScalesCmsWeb.MediaComponents do
       >
         <div
           data-placeholder
-          class="absolute inset-0 animate-pulse flex items-center justify-center animate-fade-in bg-gradient-to-br from-gray-300 to-gray-400"
+          class="absolute inset-0 animate-pulse flex items-center justify-center bg-gradient-to-br from-gray-300 to-gray-400"
         >
           <.icon name="hero-sparkles" class="h-8 w-8 text-gray-500" />
         </div>
