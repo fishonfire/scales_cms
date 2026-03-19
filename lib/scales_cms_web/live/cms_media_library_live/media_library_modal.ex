@@ -44,7 +44,14 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryModal do
       end
 
     query = socket.assigns[:query] || ""
-    media_items = MediaLibraryUtils.list_media_items(query, media_type)
+
+    media_items =
+      MediaLibraryUtils.list_media_items(query, media_type)
+      # Add display URLs to media items for template rendering to prevent rerenders from regenerating URLs
+      |> Enum.map(fn item ->
+        Map.put(item, :display_url, S3Upload.get_presigned_url_for_display(item.url))
+      end)
+
     target = Map.get(assigns, :target, nil)
 
     socket =
@@ -60,7 +67,11 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryModal do
 
   @impl Phoenix.LiveComponent
   def handle_event("search", %{"query" => query}, socket) do
-    media_items = MediaLibraryUtils.list_media_items(query, socket.assigns.media_type)
+    media_items =
+      MediaLibraryUtils.list_media_items(query, socket.assigns.media_type)
+      |> Enum.map(fn item ->
+        Map.put(item, :display_url, S3Upload.get_presigned_url_for_display(item.url))
+      end)
 
     {:noreply,
      socket
@@ -69,7 +80,11 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryModal do
   end
 
   def handle_event("filter_media_type", %{"media_type" => media_type}, socket) do
-    media_items = MediaLibraryUtils.list_media_items(socket.assigns.query, media_type)
+    media_items =
+      MediaLibraryUtils.list_media_items(socket.assigns.query, media_type)
+      |> Enum.map(fn item ->
+        Map.put(item, :display_url, S3Upload.get_presigned_url_for_display(item.url))
+      end)
 
     {:noreply,
      socket
@@ -113,6 +128,9 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryModal do
 
       media_items =
         MediaLibraryUtils.list_media_items(socket.assigns.query, socket.assigns.media_type)
+        |> Enum.map(fn item ->
+          Map.put(item, :display_url, S3Upload.get_presigned_url_for_display(item.url))
+        end)
 
       {:noreply, assign(socket, :media_items, media_items)}
     else
@@ -128,5 +146,4 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryModal do
   # Delegate to shared utilities for template access
   defdelegate supported_formats_text(filter_type), to: MediaLibraryUtils
   defdelegate upload_error_to_string(error), to: MediaLibraryUtils
-  defdelegate type_badge_class(type), to: MediaLibraryUtils
 end

@@ -94,6 +94,7 @@ defmodule ScalesCmsWeb do
       # Core UI components and translation
       import ScalesCmsWeb.CoreComponents
       import ScalesCmsWeb.SvgComponents
+      import ScalesCmsWeb.MediaComponents
       import ScalesCmsWeb.Gettext
       import ScalesCmsWeb.ContextMenuComponents
 

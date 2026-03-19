@@ -122,7 +122,7 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryUtils do
     do: "bg-red-100 text-red-800"
 
   def type_badge_class("lottie"),
-    do: "bg-purple-100 text-purple-800"
+    do: "bg-green-100 text-green-800"
 
   def type_badge_class(_),
     do: "bg-gray-100 text-gray-800"

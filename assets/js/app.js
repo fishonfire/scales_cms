@@ -20,19 +20,27 @@ import "phoenix_html";
 // Establish Phoenix Socket and LiveView configuration.
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
+
 import topbar from "../vendor/topbar";
+import S3Uploader from "./uploaders/s3";
+
 import sortable from "./hooks/sortable";
 import markdown from "./hooks/markdown";
-import S3Uploader from "./uploaders/s3";
 import LocalLocaleStorage from "./hooks/local_locale_storage";
 import PersistedState from "./hooks/persisted_state";
 import DragDropZone from "./hooks/drag_drop_zone";
 import DispatchChangeOnUpdate from "./hooks/dispatch_change_on_update";
-import "flowbite/dist/flowbite.phoenix.js";
-import "./delete_confirm";
+import ImagePreview from "./hooks/image_preview";
+import VideoPreview from "./hooks/video_preview";
+import LottiePreview from "./hooks/lottie_preview";
 import ContextMenu from "./hooks/context_menu";
 import CMSComponentAnimator from "./hooks/cms_component_animator";
 import ContextMenuButton from "./hooks/context_menu_button";
+
+import "flowbite/dist/flowbite.phoenix.js";
+import "@lottiefiles/dotlottie-wc";
+
+import "./delete_confirm";
 
 const Hooks = {
   Drag: sortable,
@@ -41,6 +49,9 @@ const Hooks = {
   PersistedState: PersistedState,
   DragDropZone: DragDropZone,
   DispatchChangeOnUpdate: DispatchChangeOnUpdate,
+  ImagePreview: ImagePreview,
+  VideoPreview: VideoPreview,
+  LottiePreview: LottiePreview,
   ContextMenu: ContextMenu,
   CMSComponentAnimator: CMSComponentAnimator,
   ContextMenuButton: ContextMenuButton,

@@ -6,13 +6,7 @@
     component={ScalesCmsWeb.Components.CmsComponents.Lottie}
   >
     <div class="flex">
-      <script
-        src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
-        type="module"
-      >
-      </script>
-
-      <dotlottie-player
+      <dotlottie-wc
         :if={Map.get(@block.properties || %{}, "lottie_path", nil) != nil}
         src={
           S3Upload.get_presigned_url_for_display(
@@ -28,8 +22,7 @@
         loop
         controls
         autoplay
-      >
-      </dotlottie-player>
+      />
 
       <.media_library_button modal_id={"media-library-modal-#{@block.id}-modal"} type="lottie" />
     </div>

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@lottiefiles/dotlottie-wc": "^0.9.7",
     "flowbite": "^2.5.2",
     "marked": "^16.4.1",
     "showdown": "^2.1.0",

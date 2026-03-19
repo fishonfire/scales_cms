@@ -4,7 +4,7 @@
     module={ScalesCmsWeb.Live.AppLayoutComponent}
     inner_flash={@flash}
     sidebar_open={Map.get(assigns, :sidebar_open, true)}
-    current_uri={@current_uri}
+    current_uri={Map.get(assigns, :current_uri, "")}
   >
     <div>
       {@inner_content}
