@@ -34,7 +34,7 @@ import ImagePreview from "./hooks/image_preview";
 import VideoPreview from "./hooks/video_preview";
 import LottiePreview from "./hooks/lottie_preview";
 import ContextMenu from "./hooks/context_menu";
-import TrackMaxHeightStyle from "./hooks/track_max_height_style";
+import CMSComponentAnimator from "./hooks/cms_component_animator";
 import ContextMenuButton from "./hooks/context_menu_button";
 
 import "flowbite/dist/flowbite.phoenix.js";
@@ -53,8 +53,8 @@ const Hooks = {
   VideoPreview: VideoPreview,
   LottiePreview: LottiePreview,
   ContextMenu: ContextMenu,
+  CMSComponentAnimator: CMSComponentAnimator,
   ContextMenuButton: ContextMenuButton,
-  TrackMaxHeightStyle: TrackMaxHeightStyle,
 };
 
 let csrfToken = document
