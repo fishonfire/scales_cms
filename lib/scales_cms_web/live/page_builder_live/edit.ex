@@ -18,7 +18,13 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
   def mount(_params, _session, socket) do
     Phoenix.PubSub.subscribe(ScalesCms.PubSub, Topics.get_block_updated_topic())
 
-    {:ok, assign(socket, :drawer_open, true) |> assign(deleting_block_ids: MapSet.new())}
+    {
+      :ok,
+      assign(socket, :drawer_open, true)
+      |> assign(deleting_block_ids: MapSet.new())
+      |> assign(inserted_block_id: nil)
+      |> assign(ghost_height: 0)
+    }
   end
 
   @impl Phoenix.LiveView
@@ -54,6 +60,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
     case ReorderBlocks.perform(new_order) do
       {:ok, _} ->
         socket
+        |> assign(:inserted_block_id, nil)
         |> assign(
           :blocks,
           CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
@@ -75,15 +82,15 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
     new_block_index = params["newDraggableIndex"]
     page_variant_id = socket.assigns.cms_page_variant.id
     type = params["draggedId"]
+    ghost_height = params["ghostHeight"]
 
-    with {:ok, _block} <-
+    with {:ok, block} <-
            InsertBlock.perform(new_block_index, type, page_variant_id) do
-      socket
-      |> assign(
-        :blocks,
-        CmsPageVariantBlocks.list_blocks_for_page_variant(page_variant_id)
-      )
-      |> then(&{:noreply, &1})
+      {:noreply,
+       socket
+       |> assign(:blocks, CmsPageVariantBlocks.list_blocks_for_page_variant(page_variant_id))
+       |> assign(:inserted_block_id, block.id)
+       |> assign(:ghost_height, ghost_height)}
     end
   end
 
@@ -101,6 +108,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
     |> CmsPageVariantBlocks.delete_cms_page_variant_block()
 
     socket
+    |> assign(:inserted_block_id, nil)
     |> assign(
       :blocks,
       CmsPageVariantBlocks.list_blocks_for_page_variant(pv_id)
@@ -119,7 +127,9 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
     id = String.to_integer(id)
     Process.send_after(self(), {:commit_delete, id}, 260)
 
-    {:noreply, update(socket, :deleting_block_ids, &MapSet.put(&1, id))}
+    {:noreply,
+     update(socket, :deleting_block_ids, &MapSet.put(&1, id))
+     |> assign(inserted_block_id: nil)}
   end
 
   def handle_event("toggle-drawer", _, socket) do
@@ -138,6 +148,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
     )
 
     socket
+    |> assign(:inserted_block_id, nil)
     |> assign(
       :blocks,
       CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
@@ -158,6 +169,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
     |> CmsPageVariantBlocks.add_cms_page_variant_block_embedded_element(embedded_field)
 
     socket
+    |> assign(:inserted_block_id, nil)
     |> assign(
       :blocks,
       CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
@@ -217,6 +229,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
         :blocks,
         CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
       )
+      |> assign(inserted_block_id: nil)
       |> then(&{:noreply, &1})
     else
       {:noreply, socket}
@@ -233,6 +246,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
       :blocks,
       CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
     )
+    |> assign(inserted_block_id: nil)
     |> then(&{:noreply, &1})
   end
 
@@ -245,6 +259,7 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
       :blocks,
       CmsPageVariantBlocks.list_blocks_for_page_variant(socket.assigns.cms_page_variant.id)
     )
+    |> assign(inserted_block_id: nil)
     |> update(:deleting_block_ids, &MapSet.delete(&1, id))
     |> then(&{:noreply, &1})
   rescue

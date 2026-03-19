@@ -105,6 +105,8 @@
           block={block}
           published={@cms_page_variant.published_at != nil}
           deleting={MapSet.member?(@deleting_block_ids, block.id)}
+          animate_in={to_string(@inserted_block_id == block.id)}
+          ghost_height={@ghost_height}
         />
       </div>
     </div>
