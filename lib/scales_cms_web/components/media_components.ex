@@ -10,22 +10,24 @@ defmodule ScalesCmsWeb.MediaComponents do
   import ScalesCmsWeb.CoreComponents
   alias ScalesCmsWeb.CmsMediaLibraryLive.MediaLibraryUtils
 
+  attr :id, :string, required: true
   attr :item, :map, required: true
   attr :target, :any, default: nil
   attr :with_context_button, :boolean, default: false
   attr :show_date, :boolean, default: false
+  attr :keep_aspect, :boolean, default: false
 
   def media_preview(%{item: %{type: "image"}} = assigns) do
     ~H"""
     <div
       class="group relative bg-gray-200 rounded-lg overflow-hidden p-2"
-      id={"media-item-#{@item.id}"}
+      id={"media-item-#{@id}"}
       phx-hook="ContextMenu"
       data-id={@item.id}
       data-type="media"
     >
       <div
-        id={"media-preview-#{@item.id}"}
+        id={"media-preview-#{@id}"}
         phx-hook="ImagePreview"
         data-type={@item.type}
         class="relative w-full aspect-[3/2] bg-gray-200 rounded-lg overflow-hidden"
@@ -40,12 +42,12 @@ defmodule ScalesCmsWeb.MediaComponents do
 
         <div class="absolute inset-0 media-preview-el">
           <img
-            id={"image-library-#{@item.id}"}
+            id={"image-library-#{@id}"}
             data-media-el
             data-loaded="false"
             src={@item.display_url}
             phx-update="ignore"
-            class="w-full h-full object-cover"
+            class={["w-full h-full", if(@keep_aspect, do: "object-contain", else: "object-cover")]}
             alt={@item.name}
           />
         </div>
@@ -53,7 +55,7 @@ defmodule ScalesCmsWeb.MediaComponents do
         <button
           :if={@with_context_button}
           phx-hook="ContextMenuButton"
-          id={"context-menu-btn-#{@item.id}"}
+          id={"context-menu-btn-#{@id}"}
           data-type="media"
           data-id={@item.id}
           class="absolute h-[24px] w-[24px] top-2 right-2 bg-white hover:bg-gray-200 rounded text-primary transition-colors"
@@ -84,13 +86,13 @@ defmodule ScalesCmsWeb.MediaComponents do
     ~H"""
     <div
       class="group relative bg-gray-200 rounded-lg overflow-hidden p-2"
-      id={"media-item-#{@item.id}"}
+      id={"media-item-#{@id}"}
       phx-hook="ContextMenu"
       data-id={@item.id}
       data-type="media"
     >
       <div
-        id={"media-preview-#{@item.id}"}
+        id={"media-preview-#{@id}"}
         phx-hook="VideoPreview"
         data-type={@item.type}
         class="relative w-full aspect-[3/2] bg-gray-200 rounded-lg overflow-hidden"
@@ -105,7 +107,7 @@ defmodule ScalesCmsWeb.MediaComponents do
 
         <div class="absolute inset-0 media-preview-el">
           <video
-            id={"video-player-#{@item.id}"}
+            id={"video-player-#{@id}"}
             data-media-el
             data-playable
             data-loaded="false"
@@ -113,7 +115,10 @@ defmodule ScalesCmsWeb.MediaComponents do
             muted
             playsinline
             phx-update="ignore"
-            class="absolute inset-0 w-full h-full object-cover"
+            class={[
+              "absolute inset-0 w-full h-full",
+              if(@keep_aspect, do: "object-contain", else: "object-cover")
+            ]}
           >
             <source src={@item.display_url} />
           </video>
@@ -133,7 +138,7 @@ defmodule ScalesCmsWeb.MediaComponents do
         <button
           :if={@with_context_button}
           phx-hook="ContextMenuButton"
-          id={"context-menu-btn-#{@item.id}"}
+          id={"context-menu-btn-#{@id}"}
           data-type="media"
           data-id={@item.id}
           class="absolute h-[24px] w-[24px] top-2 right-2 bg-white hover:bg-gray-200 rounded text-primary transition-colors"
@@ -164,13 +169,13 @@ defmodule ScalesCmsWeb.MediaComponents do
     ~H"""
     <div
       class="group relative bg-gray-200 rounded-lg overflow-hidden p-2"
-      id={"media-item-#{@item.id}"}
+      id={"media-item-#{@id}"}
       phx-hook="ContextMenu"
       data-id={@item.id}
       data-type="media"
     >
       <div
-        id={"media-preview-#{@item.id}"}
+        id={"media-preview-#{@id}"}
         phx-hook="LottiePreview"
         data-type={@item.type}
         class="relative w-full aspect-[3/2] bg-gray-200 rounded-lg overflow-hidden"
@@ -185,14 +190,14 @@ defmodule ScalesCmsWeb.MediaComponents do
 
         <div class="absolute inset-0 media-preview-el">
           <dotlottie-wc
-            id={"lottie-player-#{@item.id}"}
+            id={"lottie-player-#{@id}"}
             data-media-el
             data-playable
             data-loaded="false"
             src={@item.display_url}
             background="white"
             speed="1"
-            class="h-full w-full object-cover"
+            class={["h-full w-full", if(@keep_aspect, do: "object-contain", else: "object-cover")]}
             direction="1"
             playMode="normal"
             loop
@@ -216,7 +221,7 @@ defmodule ScalesCmsWeb.MediaComponents do
         <button
           :if={@with_context_button}
           phx-hook="ContextMenuButton"
-          id={"context-menu-btn-#{@item.id}"}
+          id={"context-menu-btn-#{@id}"}
           data-type="media"
           data-id={@item.id}
           class="absolute h-[24px] w-[24px] top-2 right-2 bg-white hover:bg-gray-200 rounded text-primary transition-colors"
@@ -247,7 +252,7 @@ defmodule ScalesCmsWeb.MediaComponents do
     ~H"""
     <div class="group relative bg-gray-200 rounded-lg overflow-hidden p-2">
       <div
-        id={"media-preview-#{@item.id}"}
+        id={"media-preview-#{@id}"}
         data-type={@item.type}
         class="relative w-full aspect-[3/2] bg-gray-200 rounded-lg overflow-hidden"
       >
@@ -258,7 +263,7 @@ defmodule ScalesCmsWeb.MediaComponents do
         <button
           :if={@with_context_button}
           phx-hook="ContextMenuButton"
-          id={"context-menu-btn-#{@item.id}"}
+          id={"context-menu-btn-#{@id}"}
           data-type="media"
           data-id={@item.id}
           class="absolute h-[24px] w-[24px] top-2 right-2 bg-white hover:bg-gray-200 rounded text-primary transition-colors"

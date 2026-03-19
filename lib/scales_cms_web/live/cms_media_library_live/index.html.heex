@@ -123,7 +123,19 @@
     </div>
 
     <div class="grid gap-4" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));">
-      <.media_preview :for={item <- @media_items} item={item} with_context_button show_date />
+      <div
+        :for={item <- @media_items}
+        id={"media-container-#{item.id}"}
+        phx-value-id={item.id}
+        phx-click="show_media_preview_modal"
+      >
+        <.media_preview
+          id={item.id}
+          item={item}
+          with_context_button
+          show_date
+        />
+      </div>
     </div>
 
     <%!-- Empty State (shown when no items) --%>
@@ -197,6 +209,19 @@
       </:actions>
     </.simple_form>
   </div>
+</.modal>
+
+<.modal
+  id="media-preview-modal"
+  on_cancel={JS.push("hide_media_preview_modal")}
+>
+  <.media_preview
+    :if={!is_nil(@media_preview)}
+    id={"preview-#{@media_preview.id}"}
+    item={@media_preview}
+    show_date
+    keep_aspect
+  />
 </.modal>
 
 <.context_menu context_menu={@context_menu}>

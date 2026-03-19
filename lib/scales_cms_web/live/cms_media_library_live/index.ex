@@ -21,6 +21,7 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.Index do
           Map.put(item, :display_url, S3Upload.get_presigned_url_for_display(item.url))
         end)
       )
+      |> assign(:media_preview, nil)
       |> assign(
         :edit_form,
         to_form(CmsMediaLibrary.change_media_library_item(%CmsMediaLibraryItem{}))
@@ -75,6 +76,25 @@ defmodule ScalesCmsWeb.CmsMediaLibraryLive.Index do
   # This event is used to trigger the upload process.
   def handle_event("validate", _, socket) do
     {:noreply, socket}
+  end
+
+  def handle_event("show_media_preview_modal", %{"id" => id}, socket) do
+    item =
+      CmsMediaLibrary.get_media_library_item!(id)
+
+    item = Map.put(item, :display_url, S3Upload.get_presigned_url_for_display(item.url))
+
+    {:noreply,
+     socket
+     |> assign(:media_preview, item)
+     |> open_modal("media-preview-modal")}
+  end
+
+  def handle_event("hide_media_preview_modal", _params, socket) do
+    {:noreply,
+     socket
+     |> assign(:media_preview, nil)
+     |> close_modal("media-preview-modal")}
   end
 
   def handle_event("show_delete_modal", %{"id" => id}, socket) do
