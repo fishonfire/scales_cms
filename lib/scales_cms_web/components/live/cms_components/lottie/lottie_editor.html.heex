@@ -24,16 +24,32 @@
         autoplay
       />
 
-      <.media_library_button modal_id={"media-library-modal-#{@block.id}-modal"} type="lottie" />
+      <.media_library_button
+        modal_id={"media-library-modal-#{@block.id}-modal"}
+        type="lottie"
+        disabled={@disabled}
+      />
     </div>
 
     <.simple_form for={@form} phx-change="store-properties" phx-target={@myself}>
-      <.input type="text" field={@form[:title]} label="Title" phx-debounce="400" />
-      <.input type="text" field={@form[:subtitle]} label="Subtitle" phx-debounce="400" />
+      <.input
+        type="text"
+        field={@form[:title]}
+        label="Title"
+        phx-debounce="400"
+        disabled={@disabled}
+      />
+      <.input
+        type="text"
+        field={@form[:subtitle]}
+        label="Subtitle"
+        phx-debounce="400"
+        disabled={@disabled}
+      />
 
       <div class="my-2">
-        <.input type="checkbox" field={@form[:autoplay]} label="Autoplay" />
-        <.input type="checkbox" field={@form[:looping]} label="Looping" />
+        <.input type="checkbox" field={@form[:autoplay]} label="Autoplay" disabled={@disabled} />
+        <.input type="checkbox" field={@form[:looping]} label="Looping" disabled={@disabled} />
       </div>
     </.simple_form>
   </.live_component>

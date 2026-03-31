@@ -87,6 +87,9 @@ defmodule ScalesCmsWeb.CmsRouter do
           live "/page_builder/:id", PageBuilderLive.Edit, :edit
           live "/page_builder/:id/edit", PageBuilderLive.Edit, :edit_variant
 
+          live "/block_templates", CmsBlockTemplatesLive.Index, :index
+          live "/block_templates/:id", CmsBlockTemplatesLive.Edit, :edit
+
           live "/media", CmsMediaLibraryLive.Index, :index
         end
 

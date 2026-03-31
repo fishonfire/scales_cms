@@ -77,7 +77,10 @@ defmodule ScalesCms.Cms.CmsPageLocaleLatestVariants do
       cms_page in ScalesCms.Cms.CmsPage,
       on: cpv.cms_page_id == cms_page.id
     )
-    |> where([cpv, cms_page], cpv.locale == ^locale and is_nil(cms_page.deleted_at))
+    |> where(
+      [cpv, cms_page],
+      cpv.locale == ^locale and is_nil(cms_page.deleted_at)
+    )
     |> limit(^size)
     |> offset(^offset)
     |> repo().all()

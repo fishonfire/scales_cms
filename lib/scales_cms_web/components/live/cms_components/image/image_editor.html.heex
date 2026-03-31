@@ -7,20 +7,22 @@
     published={@published}
   >
     <div class="flex items-start gap-4">
-      <img
-        :if={Map.get(@block.properties || %{}, "image_path", nil) != nil}
-        src={
-          S3Upload.get_presigned_url_for_display(
-            Map.get(@block.properties || %{}, "image_path", nil)
-          )
-        }
-        class="max-w-[200px] max-h-[200px] object-cover rounded-lg"
-      />
+      <div class="w-[200px] h-[200px]">
+        <img
+          :if={Map.get(@block.properties || %{}, "image_path", nil) != nil}
+          src={
+            S3Upload.get_presigned_url_for_display(
+              Map.get(@block.properties || %{}, "image_path", nil)
+            )
+          }
+          class="object-cover rounded-lg"
+        />
+      </div>
 
       <.media_library_button
         modal_id={"media-library-modal-#{@block.id}-modal"}
         type="image"
-        disabled={@published}
+        disabled={@disabled}
       />
     </div>
 

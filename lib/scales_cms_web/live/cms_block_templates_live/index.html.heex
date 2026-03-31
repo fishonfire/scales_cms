@@ -1,0 +1,235 @@
+<div class="container">
+  <.header class="mb-4">
+    {gettext("Block templates")}
+    <:actions>
+      <div class="flex space-x-4">
+        <.live_component id="locale_switcher" module={LocaleSwitcher} class="flex" />
+
+        <.button class="btn-primary" phx-click="new">
+          <.icon name="hero-plus" /> {gettext("New block template")}
+        </.button>
+      </div>
+    </:actions>
+  </.header>
+
+  <.form
+    :let={f}
+    class="w-60 mb-4"
+    for={to_form(%{"query" => @query})}
+    phx-change="search"
+    phx-submit="search"
+  >
+    <.input
+      type="search"
+      field={f[:query]}
+      placeholder={gettext("Search by directory or page")}
+      class="input w-full"
+      phx-debounce="300"
+      autocomplete="off"
+    />
+  </.form>
+
+  <table class="cms-table w-full">
+    <thead>
+      <tr>
+        <th></th>
+        <th>{gettext("Title")}</th>
+        <th
+          class="select-none"
+          aria-sort={
+            if @sort_by == "component_type" do
+              if @sort_order == "asc", do: "ascending", else: "descending"
+            else
+              "none"
+            end
+          }
+        >
+          <button
+            type="button"
+            class="cursor-pointer select-none w-full text-left"
+            phx-click="sort"
+            phx-value-column="component_type"
+          >
+            <span class="inline-flex items-center gap-1">
+              {gettext("Component type")}
+              <%= if @sort_by == "component_type" do %>
+                <%= if @sort_order == "asc" do %>
+                  <.icon name="hero-chevron-up" class="w-4 h-4" />
+                <% else %>
+                  <.icon name="hero-chevron-down" class="w-4 h-4" />
+                <% end %>
+              <% else %>
+                <.icon name="hero-chevron-up-down" class="w-4 h-4 opacity-50" />
+              <% end %>
+            </span>
+          </button>
+        </th>
+
+        <th
+          class="select-none"
+          aria-sort={
+            if @sort_by == "updated" do
+              if @sort_order == "asc", do: "ascending", else: "descending"
+            else
+              "none"
+            end
+          }
+        >
+          <button
+            type="button"
+            class="cursor-pointer select-none w-full text-left"
+            phx-click="sort"
+            phx-value-column="updated"
+          >
+            <span class="inline-flex items-center gap-1">
+              {gettext("Updated")}
+              <%= if @sort_by == "updated" do %>
+                <%= if @sort_order == "asc" do %>
+                  <.icon name="hero-chevron-up" class="w-4 h-4" />
+                <% else %>
+                  <.icon name="hero-chevron-down" class="w-4 h-4" />
+                <% end %>
+              <% else %>
+                <.icon name="hero-chevron-up-down" class="w-4 h-4 opacity-50" />
+              <% end %>
+            </span>
+          </button>
+        </th>
+        <th
+          class="select-none"
+          aria-sort={
+            if @sort_by == "created" do
+              if @sort_order == "asc", do: "ascending", else: "descending"
+            else
+              "none"
+            end
+          }
+        >
+          <button
+            type="button"
+            class="cursor-pointer select-none w-full text-left"
+            phx-click="sort"
+            phx-value-column="created"
+          >
+            <span class="inline-flex items-center gap-1">
+              {gettext("Created")}
+              <%= if @sort_by == "created" do %>
+                <%= if @sort_order == "asc" do %>
+                  <.icon name="hero-chevron-up" class="w-4 h-4" />
+                <% else %>
+                  <.icon name="hero-chevron-down" class="w-4 h-4" />
+                <% end %>
+              <% else %>
+                <.icon name="hero-chevron-up-down" class="w-4 h-4 opacity-50" />
+              <% end %>
+            </span>
+          </button>
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        :for={block_template <- @block_templates}
+        id={"block_template-#{block_template.id}"}
+        phx-hook="ContextMenu"
+        data-id={block_template.id}
+        data-type="block_template"
+      >
+        <td
+          phx-click="open"
+          phx-value-id={block_template.id}
+          class="w-8 cursor-pointer"
+        >
+          <.icon name="hero-code-bracket-square icon-small" />
+        </td>
+        <td
+          phx-click="open"
+          phx-value-id={block_template.id}
+          class="cursor-pointer"
+        >
+          {block_template.name}
+        </td>
+        <td>
+          {block_template.component_type}
+        </td>
+        <td>
+          {ScalesCmsWeb.Helpers.Date.human_readable_date(block_template.updated_at)}
+        </td>
+        <td>
+          {ScalesCmsWeb.Helpers.Date.human_readable_date(block_template.inserted_at)}
+        </td>
+        <td class="text-right controls">
+          <button
+            phx-click="open"
+            phx-value-id={block_template.id}
+            class="edit"
+          >
+            <.icon name="hero-pencil" class="icon-small" />
+          </button>
+
+          <span
+            phx-click={
+              JS.dispatch("ultra-confirm",
+                detail: %{
+                  message: gettext("Are you sure you want to delete this template?"),
+                  description: gettext("This will delete all language variants of this template.")
+                }
+              )
+            }
+            phx-ultra-confirm-ok={JS.push("delete")}
+            phx-value-id={block_template.id}
+            class="delete cursor-pointer"
+          >
+            <.icon name="hero-trash" class="icon-small" />
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div :if={@max_page > 1} class="flex my-4">
+    <PaginationComponent.render
+      id="cms-block-template-pagination"
+      page={@page}
+      per_page={@per_page}
+      max_page={@max_page}
+      target={nil}
+    />
+  </div>
+</div>
+
+<.modal
+  :if={@new_block_template}
+  id="cms-block-template-modal"
+  on_cancel={hide_modal("cms-block-template-modal")}
+>
+  <.live_component
+    module={ScalesCmsWeb.CmsBlockTemplatesLive.NewFormComponent}
+    id={:new_block_template}
+    cms_block_template={@new_block_template}
+    locale={@locale}
+  />
+</.modal>
+
+<.context_menu context_menu={@context_menu}>
+  <:menu_slots :let={menu}>
+    <button
+      type="button"
+      phx-click="open"
+      phx-value-id={menu.id}
+      class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+    >
+      {gettext("Edit")}
+    </button>
+
+    <button
+      type="button"
+      phx-click="delete"
+      phx-value-id={menu.id}
+      class="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
+    >
+      {gettext("Delete")}
+    </button>
+  </:menu_slots>
+</.context_menu>

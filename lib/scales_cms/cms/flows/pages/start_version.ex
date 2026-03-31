@@ -36,7 +36,9 @@ defmodule ScalesCms.Cms.Flows.Pages.StartVersion do
         sort_order: block.sort_order,
         component_type: block.component_type,
         properties: block.properties,
-        cms_page_variant_id: new_page_variant.id
+        cms_page_variant_id: new_page_variant.id,
+        block_template_family_id: block.block_template_family_id,
+        block_template_mode: block.block_template_mode
       })
     end)
   end

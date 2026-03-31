@@ -1,0 +1,156 @@
+<div class="flex min-h-screen flex-row bg-white">
+  <div class="container">
+    <.header class="mb-4">
+      <div class="flex min-w-0 flex-1 items-center space-x-2">
+        <h2 class="shrink-0">
+          <.link patch={~p"/cms/block_templates"} class="p-0 m-0">
+            {gettext("Block templates")}
+          </.link>
+        </h2>
+
+        <h2 class="shrink-0">&gt;</h2>
+
+        <h2 class="min-w-0 truncate">
+          {@cms_block_template.name}
+        </h2>
+      </div>
+      <:actions>
+        <div class="flex space-x-4">
+          <.live_component id="locale_switcher" module={LocaleSwitcher} class="flex" />
+
+          <.button
+            :if={@cms_block_template.published_at == nil}
+            class="btn-primary"
+            phx-click={
+              JS.dispatch("ultra-confirm",
+                detail: %{
+                  message: gettext("Are you sure you want to publish this template?"),
+                  description:
+                    gettext(
+                      "After publishing you are not able to change the component type and mode."
+                    )
+                }
+              )
+            }
+            phx-ultra-confirm-ok={JS.push("publish")}
+          >
+            {gettext("Publish")}
+          </.button>
+        </div>
+      </:actions>
+    </.header>
+
+    <.render_preview
+      id="template-block"
+      block={@cms_block_template}
+      locale={@locale}
+      template_builder
+    />
+  </div>
+
+  <aside
+    id="drawer-sidebar"
+    class={"relative top-0 right-0 z-40 h-screen overflow-hidden transition-all duration-300 #{if @drawer_open, do: "w-[390px]", else: "w-[64px]"}"}
+    aria-label="Sidebar"
+  >
+    <div class="fixed h-full bg-slate-100 border-l border-slate-200 transition-all">
+      <div
+        :if={@drawer_open}
+        class="flex items-center justify-between gap-2 px-[24px] pt-[16px] pb-[8px]"
+      >
+        <div>
+          <h2 class="mt-[24px] mb-[4px] font-semibold text-2xl">
+            {gettext("Template information")}
+          </h2>
+
+          <p class="mb-[16px] text-xs">
+            {gettext("Change information about this template")}
+          </p>
+        </div>
+
+        <div class="chevron-container">
+          <button
+            type="button"
+            class="chevron-wrapper rotate-180"
+            phx-click="toggle-drawer"
+            aria-expanded={to_string(@drawer_open)}
+            aria-controls="default-drawer-close"
+            aria-label="Close component drawer"
+          >
+            <.svg type="chevron" id="chevron_open" width="12" height="12" />
+          </button>
+        </div>
+      </div>
+
+      <div
+        :if={!@drawer_open}
+        class="flex items-center justify-between px-[16px] pt-[16px] pb-[8px]"
+      >
+        <div class="chevron-container">
+          <button
+            type="button"
+            class="chevron-wrapper"
+            phx-click="toggle-drawer"
+            aria-expanded={to_string(!@drawer_open)}
+            aria-controls="default-drawer-open"
+            aria-label="Open component drawer"
+          >
+            <.svg type="chevron" id="chevron_close" width="12" height="12" />
+          </button>
+        </div>
+      </div>
+
+      <div :if={@drawer_open} class="h-[calc(100%-57px)] overflow-y-auto px-[24px] pb-[24px]">
+        <.simple_form for={@form} phx-change="update">
+          <div class="gap-1 bg-white rounded p-2">
+            <.label for={@form[:template_mode].id}>
+              {gettext("Component type")}
+            </.label>
+            <.input
+              disabled={!is_nil(@cms_block_template.published_at)}
+              field={@form[:component_type]}
+              type="select"
+              options={component_type_options()}
+            />
+
+            <p :if={is_nil(@cms_block_template.published_at)} class="text-xs italic mt-4">
+              * {gettext("This cannot be edited after the template has been published")}
+            </p>
+          </div>
+          <div class="gap-1 bg-white rounded p-2">
+            <.label for={@form[:template_mode].id}>
+              {gettext("Template mode")}
+            </.label>
+            <.input
+              disabled={!is_nil(@cms_block_template.published_at)}
+              field={@form[:template_mode]}
+              type="select"
+              options={template_mode_options()}
+            />
+
+            <p
+              :if={@form[:template_mode].value}
+              class="mt-2 items-center gap-1 text-xs"
+            >
+              <span class={[
+                "inline-block h-2 w-2 rounded-full",
+                case @form[:template_mode].value do
+                  :live -> "bg-green-500"
+                  :snapshot -> "bg-blue"
+                  :detached -> "bg-gray-600"
+                  _ -> "bg-slate-300"
+                end
+              ]} />
+
+              {template_mode_description(@form[:template_mode].value)}
+            </p>
+
+            <p :if={is_nil(@cms_block_template.published_at)} class="text-xs italic mt-4">
+              * {gettext("This cannot be edited after the template has been published")}
+            </p>
+          </div>
+        </.simple_form>
+      </div>
+    </div>
+  </aside>
+</div>

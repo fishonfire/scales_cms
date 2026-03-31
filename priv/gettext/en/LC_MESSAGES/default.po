@@ -21,13 +21,13 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: lib/scales_cms_web/components/live/cms_components/button_collection/button_collection_editor.ex:150
-#: lib/scales_cms_web/components/live/cms_components/image_button_collection/image_button_collection_editor.html.heex:31
+#: lib/scales_cms_web/components/live/cms_components/button_collection/button_collection_editor.ex:173
+#: lib/scales_cms_web/components/live/cms_components/image_button_collection/image_button_collection_editor.html.heex:34
 #, elixir-autogen, elixir-format
 msgid "Add button"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:153
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:176
 #, elixir-autogen, elixir-format
 msgid "All"
 msgstr ""
@@ -43,18 +43,18 @@ msgstr ""
 msgid "Attempting to reconnect"
 msgstr ""
 
-#: lib/scales_cms_web/components/live/cms_components/button_collection/button_collection_editor.ex:98
-#: lib/scales_cms_web/components/live/cms_components/image_button_collection/image_button_collection_editor.html.heex:16
+#: lib/scales_cms_web/components/live/cms_components/button_collection/button_collection_editor.ex:118
+#: lib/scales_cms_web/components/live/cms_components/image_button_collection/image_button_collection_editor.html.heex:17
 #, elixir-autogen, elixir-format
 msgid "Button"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:107
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:129
 #, elixir-autogen, elixir-format
 msgid "Component library"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.ex:39
+#: lib/scales_cms_web/live/page_builder_live/edit.ex:47
 #, elixir-autogen, elixir-format
 msgid "Could not find the page"
 msgstr ""
@@ -69,6 +69,7 @@ msgstr ""
 msgid "Create a new page"
 msgstr ""
 
+#: lib/scales_cms_web/live/cms_block_templates_live/index.html.heex:115
 #: lib/scales_cms_web/live/cms_directory_live/index.html.heex:80
 #, elixir-autogen, elixir-format
 msgid "Created"
@@ -101,7 +102,7 @@ msgstr ""
 msgid "Directory updated successfully"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:111
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:133
 #, elixir-autogen, elixir-format
 msgid "Drag & drop the components and start building your page"
 msgstr ""
@@ -112,7 +113,7 @@ msgid "Edit directory"
 msgstr ""
 
 #: lib/scales_cms_web/live/cms_page_live/show.html.heex:53
-#: lib/scales_cms_web/live/page_builder_live/edit.ex:281
+#: lib/scales_cms_web/live/page_builder_live/edit.ex:263
 #, elixir-autogen, elixir-format
 msgid "Edit page"
 msgstr ""
@@ -132,7 +133,7 @@ msgstr ""
 msgid "Hang in there while we get back on track"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:70
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:73
 #, elixir-autogen, elixir-format
 msgid "If you want to keep editing this page please start a new version"
 msgstr ""
@@ -179,7 +180,7 @@ msgstr ""
 msgid "Page created successfully"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.ex:183
+#: lib/scales_cms_web/live/page_builder_live/edit.ex:185
 #, elixir-autogen, elixir-format
 msgid "Page published"
 msgstr ""
@@ -201,8 +202,9 @@ msgstr ""
 msgid "Publish"
 msgstr ""
 
-#: lib/scales_cms_web/components/live/cms_components/dev/dev_editor.ex:69
-#: lib/scales_cms_web/components/live/cms_components/video/video_editor.html.heex:37
+#: lib/scales_cms_web/components/live/cms_components/dev/dev_editor.ex:88
+#: lib/scales_cms_web/components/live/cms_components/video/video_editor.html.heex:46
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:195
 #: lib/scales_cms_web/live/page_builder_live/edit.html.heex:61
 #, elixir-autogen, elixir-format
 msgid "Save"
@@ -229,7 +231,7 @@ msgid "Select page"
 msgstr ""
 
 #: lib/scales_cms_web/components/dashboard/dashboard_tiles.ex:38
-#: lib/scales_cms_web/components/menu/menu_items.ex:32
+#: lib/scales_cms_web/components/menu/menu_items.ex:38
 #, elixir-autogen, elixir-format
 msgid "Settings"
 msgstr ""
@@ -245,7 +247,7 @@ msgid "Something went wrong!"
 msgstr ""
 
 #: lib/scales_cms_web/live/page_builder_live/edit.html.heex:50
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:74
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:77
 #, elixir-autogen, elixir-format
 msgid "Start new version"
 msgstr ""
@@ -261,11 +263,12 @@ msgstr ""
 msgid "The file is too large"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:69
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:72
 #, elixir-autogen, elixir-format
 msgid "This page has been published. You can not edit this page anymore"
 msgstr ""
 
+#: lib/scales_cms_web/live/cms_block_templates_live/index.html.heex:36
 #: lib/scales_cms_web/live/cms_directory_live/index.html.heex:62
 #: lib/scales_cms_web/live/cms_page_live/show.html.heex:25
 #: lib/scales_cms_web/live/page_builder_live/edit.html.heex:57
@@ -334,12 +337,12 @@ msgstr ""
 msgid "Get page statistics in CSV"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.ex:203
+#: lib/scales_cms_web/live/page_builder_live/edit.ex:204
 #, elixir-autogen, elixir-format
 msgid "Page edited"
 msgstr ""
 
-#: lib/scales_cms_web/live/page_builder_live/edit.ex:280
+#: lib/scales_cms_web/live/page_builder_live/edit.ex:262
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Show page"
 msgstr ""
@@ -391,6 +394,7 @@ msgstr ""
 msgid "Read the CMS handbook and guides"
 msgstr ""
 
+#: lib/scales_cms_web/live/cms_block_templates_live/index.html.heex:25
 #: lib/scales_cms_web/live/cms_directory_live/index.html.heex:34
 #, elixir-autogen, elixir-format
 msgid "Search by directory or page"
@@ -417,12 +421,12 @@ msgstr ""
 msgid "An error occurred"
 msgstr ""
 
-#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:193
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:151
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Are you sure you want to remove this item from the media library?"
 msgstr ""
 
-#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:201
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:159
 #, elixir-autogen, elixir-format
 msgid "Cancel"
 msgstr ""
@@ -433,14 +437,16 @@ msgstr ""
 msgid "Cancel upload"
 msgstr ""
 
+#: lib/scales_cms_web/live/cms_block_templates_live/index.html.heex:229
 #: lib/scales_cms_web/live/cms_directory_live/index.html.heex:381
 #: lib/scales_cms_web/live/cms_directory_live/index.html.heex:411
-#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:208
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:166
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:219
 #, elixir-autogen, elixir-format
 msgid "Delete"
 msgstr ""
 
-#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:190
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:148
 #, elixir-autogen, elixir-format
 msgid "Delete media item"
 msgstr ""
@@ -457,7 +463,7 @@ msgid "Locale"
 msgstr ""
 
 #: lib/scales_cms_web/components/dashboard/dashboard_tiles.ex:32
-#: lib/scales_cms_web/components/menu/menu_items.ex:27
+#: lib/scales_cms_web/components/menu/menu_items.ex:33
 #: lib/scales_cms_web/live/cms_media_library_live/media_library_modal.html.heex:8
 #, elixir-autogen, elixir-format
 msgid "Media Library"
@@ -468,12 +474,7 @@ msgstr ""
 msgid "Media library"
 msgstr ""
 
-#: lib/scales_cms_web/live/cms_media_library_live/media_library_modal.html.heex:208
-#, elixir-autogen, elixir-format
-msgid "No media files found."
-msgstr ""
-
-#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:219
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:134
 #, elixir-autogen, elixir-format
 msgid "No media files uploaded yet."
 msgstr ""
@@ -548,8 +549,10 @@ msgstr ""
 msgid "Are you sure you want to delete %{title}?"
 msgstr ""
 
+#: lib/scales_cms_web/live/cms_block_templates_live/index.html.heex:220
 #: lib/scales_cms_web/live/cms_directory_live/index.html.heex:372
 #: lib/scales_cms_web/live/cms_directory_live/index.html.heex:397
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:210
 #, elixir-autogen, elixir-format
 msgid "Edit"
 msgstr ""
@@ -559,3 +562,78 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Open"
 msgstr ""
+
+#: lib/scales_cms_web/live/cms_block_templates_live/index.html.heex:174
+msgid "Are you sure you want to delete this template?"
+msgstr "Are you sure you want to delete this template?"
+
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:216
+msgid "Based on component"
+msgstr "Based on component"
+
+#: lib/scales_cms_web/live/cms_block_templates_live/new_form_component.ex:23
+msgid "Block template"
+msgstr "Template"
+
+#: lib/scales_cms_web/live/cms_block_templates_live/new_form_component.ex:91
+msgid "Block template created successfully"
+msgstr "Template created successfully"
+
+#: lib/scales_cms_web/components/menu/menu_items.ex:27
+#: lib/scales_cms_web/live/cms_block_templates_live/edit.html.heex:6
+#: lib/scales_cms_web/live/cms_block_templates_live/index.html.heex:3
+msgid "Block templates"
+msgstr "Templates"
+
+#: lib/scales_cms_web/live/cms_block_templates_live/index.html.heex:54
+#: lib/scales_cms_web/live/cms_block_templates_live/new_form_component.ex:48
+msgid "Component type"
+msgstr "Component type"
+
+#: lib/scales_cms_web/live/page_builder_live/edit.ex:101
+msgid "Could not insert block"
+msgstr "Could not insert component"
+
+#: lib/scales_cms_web/live/cms_block_templates_live/new_form_component.ex:24
+msgid "Create a new block template"
+msgstr "Create a new template"
+
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:88
+msgid "Drag your first component from the component library on the right and drop it here."
+msgstr "Drag your first component from the component library on the right and drop it here."
+
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:178
+msgid "Edit media item"
+msgstr "Edit media item"
+
+#: lib/scales_cms_web/live/cms_media_library_live/index.html.heex:189
+msgid "Name"
+msgstr "Name"
+
+#: lib/scales_cms_web/live/cms_block_templates_live/index.html.heex:9
+msgid "New block template"
+msgstr "New template"
+
+#: lib/scales_cms_web/components/media_components.ex:208
+msgid "Play animation"
+msgstr "Play animation"
+
+#: lib/scales_cms_web/components/media_components.ex:125
+msgid "Play video"
+msgstr "Play video"
+
+#: lib/scales_cms_web/live/cms_block_templates_live/new_form_component.ex:59
+msgid "Save block template"
+msgstr "Save as template"
+
+#: lib/scales_cms_web/live/page_builder_live/edit.ex:95
+msgid "Template could not be found"
+msgstr "Template not found"
+
+#: lib/scales_cms_web/live/cms_block_templates_live/index.html.heex:85
+msgid "Updated"
+msgstr "Updated"
+
+#: lib/scales_cms_web/live/page_builder_live/edit.html.heex:94
+msgid "You can reorder components anytime by dragging them up and down."
+msgstr "You can reorder components anytime by dragging them up and down."

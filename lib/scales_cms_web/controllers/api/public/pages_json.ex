@@ -22,18 +22,23 @@ defmodule ScalesCmsWeb.Api.Public.PagesJSON do
       slug: page.page.slug,
       directory_id: page.page.cms_directory_id,
       locale: page.locale,
-      blocks: for(block <- page.blocks, do: block(%{block: block, api_version: api_version}))
+      blocks:
+        for(
+          block <- page.blocks,
+          do: block(%{block: block, api_version: api_version, locale: page.locale})
+        )
     }
   end
 
-  def block(%{block: block, api_version: api_version}) do
+  def block(%{block: block, api_version: api_version, locale: locale}) do
     component = ScalesCmsWeb.Components.CmsComponents.get_component(block.component_type)
 
     if component != nil do
-      component.serialize(
-        api_version,
-        block
-      )
+      with {:ok, resolved_block} <- ScalesCms.Helpers.BlockResolver.resolve_block(block, locale),
+           component <-
+             ScalesCmsWeb.Components.CmsComponents.get_component(resolved_block.component_type) do
+        component.serialize(api_version, resolved_block)
+      end
     end
   end
 end

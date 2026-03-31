@@ -26,6 +26,30 @@ defmodule ScalesCmsWeb.Components.HelperComponents.BlockWrapper do
   attr :block, ScalesCms.Cms.CmsPageVariantBlock
 
   @impl Phoenix.LiveComponent
+  def render(%{block: %ScalesCms.Cms.CmsBlockTemplate{}} = assigns) do
+    ~H"""
+    <div class="block-wrapper">
+      <div class="w-full flex justify-between align-center bg-lightGrey py-[8px] transition-all ease-in-out delay-150 duration-300 ">
+        <div class="align-middle ml-[12px] text-sm font-semibold leading-[32px]">
+          {@component.title()}
+        </div>
+        <div class="flex gap-[8px] items-center">
+          <div class="loading-indicator w-[24px] h-[24px] items-center justify-center flex">
+            <.svg type="spinner" width="24" height="24" />
+          </div>
+        </div>
+      </div>
+      <div class={" grid #{if @closed, do: "grid-rows-[0fr]", else: "grid-rows-[1fr]"} transition-all ease-in-out delay-150 duration-300"}>
+        <ul class="grid gap-2 overflow-hidden">
+          <li class="px-[12px] py-[12px]">
+            {render_slot(@inner_block)}
+          </li>
+        </ul>
+      </div>
+    </div>
+    """
+  end
+
   def render(assigns) do
     ~H"""
     <div class="block-wrapper">

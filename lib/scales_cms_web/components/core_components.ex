@@ -328,7 +328,7 @@ defmodule ScalesCmsWeb.CoreComponents do
           name={@name}
           value="true"
           checked={@checked}
-          class={["rounded border-zinc-300 text-zinc-900 focus:ring-0", @class]}
+          class={["rounded border-zinc-300 text-zinc-900 focus:ring-0 disabled:bg-gray-100", @class]}
           {@rest}
         />
         {@label}
@@ -346,7 +346,7 @@ defmodule ScalesCmsWeb.CoreComponents do
         id={@id}
         name={@name}
         class={[
-          "mt-1 block w-full rounded border border-gray-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm sm:leading-6",
+          "mt-1 block w-full rounded border border-gray-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm sm:leading-6 disabled:bg-gray-100",
           @class
         ]}
         multiple={@multiple}
@@ -368,7 +368,7 @@ defmodule ScalesCmsWeb.CoreComponents do
         id={@id}
         name={@name}
         class={[
-          "mt-1 block w-full rounded text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 min-h-[6rem]",
+          "mt-1 block w-full rounded text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 min-h-[6rem] disabled:bg-gray-100",
           @errors == [] && "border-zinc-300 focus:border-zinc-400",
           @errors != [] && "border-rose-400 focus:border-rose-400",
           @class
@@ -400,7 +400,7 @@ defmodule ScalesCmsWeb.CoreComponents do
           id={@id}
           value={Phoenix.HTML.Form.normalize_value(@type, @value)}
           class={[
-            "mt-1 block w-full rounded text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 pl-10",
+            "mt-1 block w-full rounded text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 pl-10 disabled:bg-gray-100",
             @errors == [] && "border-zinc-300 focus:border-zinc-400",
             @errors != [] && "border-rose-400 focus:border-rose-400",
             @class
@@ -424,7 +424,7 @@ defmodule ScalesCmsWeb.CoreComponents do
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "mt-1 block w-full rounded text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
+          "mt-1 block w-full rounded text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 disabled:bg-gray-100",
           @errors == [] && "border-zinc-300 focus:border-zinc-400",
           @errors != [] && "border-rose-400 focus:border-rose-400",
           @class
@@ -655,7 +655,7 @@ defmodule ScalesCmsWeb.CoreComponents do
 
       <.media_library_button modal_id="media-library-modal-123" />
       <.media_library_button modal_id="media-library-modal-123" type="video" />
-      <.media_library_button modal_id="media-library-modal-123" type="image" disabled={@published} />
+      <.media_library_button modal_id="media-library-modal-123" type="image" disabled={@disabled} />
   """
   attr :modal_id, :string, required: true, doc: "The ID of the media library modal to open"
 

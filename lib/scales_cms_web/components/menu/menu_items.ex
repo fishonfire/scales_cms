@@ -24,6 +24,12 @@ defmodule ScalesCmsWeb.Components.MenuItems do
       alternative_routes: ["/cms/page_builder/*", "/cms/directories/*", "/cms/pages/*"]
     },
     %ScalesCmsWeb.Components.MenuItem{
+      title: gettext("Block templates"),
+      icon: "hero-code-bracket-square",
+      route: "/cms/block_templates",
+      alternative_routes: ["/cms/block_templates/*"]
+    },
+    %ScalesCmsWeb.Components.MenuItem{
       title: gettext("Media Library"),
       icon: "hero-photo",
       route: "/cms/media"

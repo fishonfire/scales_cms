@@ -94,6 +94,7 @@
           {gettext("You can reorder components anytime by dragging them up and down.")}
         </p>
       </div>
+
       <div
         class="drop-zone flex min-h-16 flex-1 flex-col"
         id="page-drop-zone"
@@ -107,6 +108,7 @@
           deleting={MapSet.member?(@deleting_block_ids, block.id)}
           animate_in={to_string(@inserted_block_id == block.id)}
           ghost_height={@ghost_height}
+          locale={@cms_page_variant.locale}
         />
       </div>
     </div>
@@ -127,7 +129,7 @@
             {gettext("Component library")}
           </h2>
 
-          <p :if={@drawer_open} class="mb-[32px] text-xs">
+          <p class="mb-[32px] text-xs">
             {gettext("Drag & drop the components and start building your page")}
           </p>
         </div>
@@ -165,42 +167,57 @@
       </div>
 
       <div :if={@drawer_open} class="h-[calc(100%-57px)] overflow-y-auto px-[24px] pb-[24px]">
-        <ul class="flex justify-between rounded bg-white">
+        <ul class="flex flex-wrap gap-1 rounded bg-white p-1">
           <li
             phx-value-category="All"
             phx-click="select-component-category"
-            class={"cursor-pointer rounded m-[4px] p-[8px] px-[16px] font-semibold transition-all hover:bg-gray-50 #{if @active_category == "All", do: "bg-gray-100", else: ""}"}
+            class={"cursor-pointer rounded px-[16px] py-[8px] font-semibold transition-all hover:bg-gray-50 #{if @active_category == "All", do: "bg-gray-100", else: ""}"}
           >
             {gettext("All")}
           </li>
 
           <li
-            :for={category <- @categories}
+            :for={category <- Enum.reject(@categories, &(&1 == "All"))}
             phx-value-category={category}
             phx-click="select-component-category"
-            class={"cursor-pointer rounded m-[4px] p-[8px] px-[16px] font-semibold transition-all hover:bg-gray-50 #{if @active_category == category, do: "bg-gray-100", else: ""}"}
+            class={"cursor-pointer rounded px-[16px] py-[8px] font-semibold transition-all hover:bg-gray-50 #{if @active_category == category, do: "bg-gray-100", else: ""}"}
           >
             {category}
           </li>
         </ul>
 
-        <div id="drawer" class="drawer mt-4" phx-hook="Drag">
+        <div
+          id="drawer"
+          class="drawer mt-4"
+          phx-hook={if @cms_page_variant.published_at == nil, do: "Drag", else: nil}
+        >
           <div
             :for={
-              {type, component} <-
-                ScalesCmsWeb.Components.CmsComponents.get_components_for_category(
-                  @active_category
+              {key, item} <-
+                ScalesCmsWeb.Components.CmsComponents.get_insertables_for_category(
+                  @active_category,
+                  @cms_page_variant.locale
                 )
             }
-            id={type}
+            id={key}
             class={"my-[8px] rounded bg-white p-2 #{if @cms_page_variant.published_at == nil, do: "draggable"}"}
-            data-id={type}
+            data-id={key}
           >
-            {component.render_draweritem(%{
-              type: type,
-              component: component,
-              published: @cms_page_variant.published_at != nil
-            })}
+            <%= case item.type do %>
+              <% :component -> %>
+                {item.component.render_draweritem(%{
+                  type: key,
+                  component: item.component,
+                  published: @cms_page_variant.published_at != nil
+                })}
+              <% :template -> %>
+                <.drawer_preview
+                  title={item.title}
+                  description={"#{gettext("Based on component")}: #{item.component_type}"}
+                  icon_type={item.icon_type || "cms_block"}
+                  published={@cms_page_variant.published_at != nil}
+                />
+            <% end %>
           </div>
         </div>
       </div>
