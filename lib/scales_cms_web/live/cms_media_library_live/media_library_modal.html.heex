@@ -153,7 +153,7 @@
             phx-click={JS.push("media_selected", target: @target, value: %{id: item.id})}
             phx-value-id={item.id}
           >
-            <.media_preview item={item} />
+            <.media_preview item={item} id={item.id} />
           </div>
         </div>
       </section>

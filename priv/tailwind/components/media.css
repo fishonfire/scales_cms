@@ -6,4 +6,8 @@
     .media-preview-el:has([data-loaded="true"]) {
         @apply opacity-100;
     }
+
+    .placeholder {
+        @apply absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-300 to-gray-400 transition;
+    }
 }
