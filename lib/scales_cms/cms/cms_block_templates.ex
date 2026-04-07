@@ -236,6 +236,7 @@ defmodule ScalesCms.Cms.CmsBlockTemplates do
 
   def fetch_cms_block_templates("", offset, limit, opts) do
     CmsBlockTemplate
+    |> maybe_filter_by_template_mode(opts[:template_mode])
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
     |> scope_on_locale(opts[:locale])
     |> limit(^limit)
@@ -246,6 +247,7 @@ defmodule ScalesCms.Cms.CmsBlockTemplates do
   def fetch_cms_block_templates(query, offset, limit, opts) do
     CmsBlockTemplate
     |> where([cd], ilike(cd.name, ^"%#{query}%"))
+    |> maybe_filter_by_template_mode(opts[:template_mode])
     |> apply_sorting(opts[:sort_by], opts[:sort_order])
     |> scope_on_locale(opts[:locale])
     |> limit(^limit)
@@ -263,17 +265,21 @@ defmodule ScalesCms.Cms.CmsBlockTemplates do
       10
 
   """
-  def count_block_templates(query \\ "")
+  def count_block_templates(query \\ "", opts \\ [])
 
-  def count_block_templates("") do
+  def count_block_templates("", opts) do
     CmsBlockTemplate
+    |> maybe_filter_by_template_mode(opts[:template_mode])
+    |> scope_on_locale(opts[:locale])
     |> select([cd], count(cd.id))
     |> repo().one()
   end
 
-  def count_block_templates(query) do
+  def count_block_templates(query, opts) do
     CmsBlockTemplate
     |> where([cd], ilike(cd.name, ^"%#{query}%"))
+    |> maybe_filter_by_template_mode(opts[:template_mode])
+    |> scope_on_locale(opts[:locale])
     |> select([cd], count(cd.id))
     |> repo().one()
   end
@@ -281,6 +287,12 @@ defmodule ScalesCms.Cms.CmsBlockTemplates do
   def scope_on_locale(query, locale) do
     query |> where([cd], ilike(cd.locale, ^"%#{locale}%"))
   end
+
+  defp maybe_filter_by_template_mode(query, mode) when mode in ["live", "snapshot"] do
+    where(query, [t], t.template_mode == ^String.to_existing_atom(mode))
+  end
+
+  defp maybe_filter_by_template_mode(query, _mode), do: query
 
   def get_for_page_variant(template_family_id, page_variant_id) do
     page_variant = CmsPageVariants.get_cms_page_variant!(page_variant_id)

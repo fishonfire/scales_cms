@@ -35,7 +35,11 @@ defmodule ScalesCms.Cms.Flows.Pages.StartVersion do
       CmsPageVariantBlocks.create_cms_page_variant_block(%{
         sort_order: block.sort_order,
         component_type: block.component_type,
-        properties: block.properties,
+        properties:
+          if(is_nil(block.block_template_mode) || block.block_template_mode == :detached,
+            do: block.properties,
+            else: %{}
+          ),
         cms_page_variant_id: new_page_variant.id,
         block_template_family_id: block.block_template_family_id,
         block_template_mode: block.block_template_mode

@@ -134,12 +134,7 @@
             >
               <span class={[
                 "inline-block h-2 w-2 rounded-full",
-                case @form[:template_mode].value do
-                  :live -> "bg-green-500"
-                  :snapshot -> "bg-blue"
-                  :detached -> "bg-gray-600"
-                  _ -> "bg-slate-300"
-                end
+                ScalesCmsWeb.Helpers.TemplateMode.dot_class(@form[:template_mode].value)
               ]} />
 
               {template_mode_description(@form[:template_mode].value)}

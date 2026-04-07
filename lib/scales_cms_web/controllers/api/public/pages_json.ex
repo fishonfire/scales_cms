@@ -31,14 +31,10 @@ defmodule ScalesCmsWeb.Api.Public.PagesJSON do
   end
 
   def block(%{block: block, api_version: api_version, locale: locale}) do
-    component = ScalesCmsWeb.Components.CmsComponents.get_component(block.component_type)
-
-    if component != nil do
-      with {:ok, resolved_block} <- ScalesCms.Helpers.BlockResolver.resolve_block(block, locale),
-           component <-
-             ScalesCmsWeb.Components.CmsComponents.get_component(resolved_block.component_type) do
-        component.serialize(api_version, resolved_block)
-      end
+    with {:ok, resolved_block} <- ScalesCms.Helpers.BlockResolver.resolve_block(block, locale),
+         component when not is_nil(component) <-
+           ScalesCmsWeb.Components.CmsComponents.get_component(resolved_block.component_type) do
+      component.serialize(api_version, resolved_block)
     end
   end
 end

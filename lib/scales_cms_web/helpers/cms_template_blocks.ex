@@ -31,6 +31,7 @@ defmodule ScalesCmsWeb.Helpers.CmsBlockTemplates do
   """
   def build_filter_path(
         query,
+        template_mode,
         sort_by,
         sort_order,
         page \\ nil,
@@ -41,6 +42,7 @@ defmodule ScalesCmsWeb.Helpers.CmsBlockTemplates do
     params =
       %{}
       |> maybe_add_param("query", query)
+      |> maybe_add_param("template_mode", template_mode)
       |> maybe_add_param("sort_by", sort_by)
       |> maybe_add_param("sort_order", if(sort_by != "", do: sort_order, else: ""))
       |> maybe_add_pagination_param("page", page)

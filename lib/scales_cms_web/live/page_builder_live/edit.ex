@@ -138,6 +138,74 @@ defmodule ScalesCmsWeb.PageBuilderLive.Edit do
      |> assign(:inserted_block_id, nil)}
   end
 
+  def handle_event("detach-template", %{"id" => id}, socket) do
+    id = String.to_integer(id)
+
+    case id
+         |> CmsPageVariantBlocks.get_cms_page_variant_block!()
+         |> CmsPageVariantBlocks.detach_cms_page_variant_block(
+           socket.assigns.cms_page_variant.locale
+         ) do
+      {:ok, _block} ->
+        {:noreply,
+         socket
+         |> assign(:inserted_block_id, nil)
+         |> reload_blocks()}
+
+      {:error, :template_not_found} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, gettext("Template could not be found"))
+         |> assign(:inserted_block_id, nil)}
+
+      {:error, _reason} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, gettext("Could not detach template"))
+         |> assign(:inserted_block_id, nil)}
+    end
+  rescue
+    Ecto.NoResultsError ->
+      {:noreply,
+       socket
+       |> put_flash(:error, gettext("Could not find the block"))
+       |> assign(:inserted_block_id, nil)}
+  end
+
+  def handle_event("reattach-template", %{"id" => id}, socket) do
+    id = String.to_integer(id)
+
+    case id
+         |> CmsPageVariantBlocks.get_cms_page_variant_block!()
+         |> CmsPageVariantBlocks.reattach_cms_page_variant_block(
+           socket.assigns.cms_page_variant.locale
+         ) do
+      {:ok, _block} ->
+        {:noreply,
+         socket
+         |> assign(:inserted_block_id, nil)
+         |> reload_blocks()}
+
+      {:error, :template_not_found} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, gettext("Template could not be found"))
+         |> assign(:inserted_block_id, nil)}
+
+      {:error, _reason} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, gettext("Could not reattach template"))
+         |> assign(:inserted_block_id, nil)}
+    end
+  rescue
+    Ecto.NoResultsError ->
+      {:noreply,
+       socket
+       |> put_flash(:error, gettext("Could not find the block"))
+       |> assign(:inserted_block_id, nil)}
+  end
+
   def handle_event("toggle-drawer", _, socket) do
     {:noreply, update(socket, :drawer_open, &(!&1))}
   end

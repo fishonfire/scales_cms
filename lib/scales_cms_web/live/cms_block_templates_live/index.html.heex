@@ -12,22 +12,41 @@
     </:actions>
   </.header>
 
-  <.form
-    :let={f}
-    class="w-60 mb-4"
-    for={to_form(%{"query" => @query})}
-    phx-change="search"
-    phx-submit="search"
-  >
-    <.input
-      type="search"
-      field={f[:query]}
-      placeholder={gettext("Search by directory or page")}
-      class="input w-full"
-      phx-debounce="300"
-      autocomplete="off"
-    />
-  </.form>
+  <div class="mb-4 flex items-end gap-4">
+    <.form
+      :let={f}
+      class="w-60"
+      for={to_form(%{"query" => @query})}
+      phx-change="search"
+      phx-submit="search"
+    >
+      <.input
+        type="search"
+        field={f[:query]}
+        placeholder={gettext("Search by directory or page")}
+        class="input w-full"
+        phx-debounce="300"
+        autocomplete="off"
+      />
+    </.form>
+
+    <.form
+      :let={f}
+      class="w-48"
+      for={to_form(%{"template_mode" => @template_mode})}
+      phx-change="filter-mode"
+    >
+      <.input
+        type="select"
+        field={f[:template_mode]}
+        options={[
+          {gettext("All"), ""},
+          {gettext("Live"), "live"},
+          {gettext("Snapshot"), "snapshot"}
+        ]}
+      />
+    </.form>
+  </div>
 
   <table class="cms-table w-full">
     <thead>
@@ -64,6 +83,7 @@
             </span>
           </button>
         </th>
+        <th>{gettext("Mode")}</th>
 
         <th
           class="select-none"
@@ -152,6 +172,18 @@
         </td>
         <td>
           {block_template.component_type}
+        </td>
+        <td>
+          <span class={[
+            "inline-flex items-center gap-2 rounded-full px-2.5 py-0.5 text-xs font-medium",
+            ScalesCmsWeb.Helpers.TemplateMode.badge_text_class(block_template.template_mode)
+          ]}>
+            <span class={[
+              "inline-block h-2 w-2 rounded-full",
+              ScalesCmsWeb.Helpers.TemplateMode.dot_class(block_template.template_mode)
+            ]} />
+            {block_template.template_mode}
+          </span>
         </td>
         <td>
           {ScalesCmsWeb.Helpers.Date.human_readable_date(block_template.updated_at)}

@@ -37,6 +37,7 @@ defmodule ScalesCmsWeb.CmsBlockTemplatesLive.Index do
   defp fetch_list(socket, params) do
     locale = socket.assigns.locale
     query = Map.get(params, "query", "")
+    template_mode = Map.get(params, "template_mode", "")
     sort_by = Map.get(params, "sort_by", "")
     sort_order = Map.get(params, "sort_order", "asc")
     page = params |> Map.get("page", "1") |> String.to_integer()
@@ -47,18 +48,22 @@ defmodule ScalesCmsWeb.CmsBlockTemplatesLive.Index do
         query,
         (page - 1) * per_page,
         per_page,
+        template_mode: template_mode,
         sort_by: sort_by,
         sort_order: sort_order,
         locale: locale
       )
 
-    total_count = CmsBlockTemplates.count_block_templates(query)
+    total_count =
+      CmsBlockTemplates.count_block_templates(query, template_mode: template_mode, locale: locale)
+
     max_page = ceil(total_count / per_page)
 
     socket
     |> assign(:block_templates, block_templates)
     |> assign(:current_block_template, nil)
     |> assign(:query, query)
+    |> assign(:template_mode, template_mode)
     |> assign(:sort_by, sort_by)
     |> assign(:sort_order, sort_order)
     |> assign(:page, page)
@@ -112,6 +117,7 @@ defmodule ScalesCmsWeb.CmsBlockTemplatesLive.Index do
   end
 
   def handle_event("search", %{"query" => query}, socket) do
+    template_mode = socket.assigns.template_mode
     sort_by = socket.assigns.sort_by
     sort_order = socket.assigns.sort_order
     per_page = socket.assigns.per_page
@@ -121,6 +127,28 @@ defmodule ScalesCmsWeb.CmsBlockTemplatesLive.Index do
       to:
         CmsBlockTemplatesHelper.build_filter_path(
           query,
+          template_mode,
+          sort_by,
+          sort_order,
+          1,
+          per_page
+        )
+    )
+    |> then(&{:noreply, &1})
+  end
+
+  def handle_event("filter-mode", %{"template_mode" => template_mode}, socket) do
+    query = socket.assigns.query
+    sort_by = socket.assigns.sort_by
+    sort_order = socket.assigns.sort_order
+    per_page = socket.assigns.per_page
+
+    socket
+    |> push_patch(
+      to:
+        CmsBlockTemplatesHelper.build_filter_path(
+          query,
+          template_mode,
           sort_by,
           sort_order,
           1,
@@ -132,6 +160,7 @@ defmodule ScalesCmsWeb.CmsBlockTemplatesLive.Index do
 
   def handle_event("sort", %{"column" => column}, socket) do
     query = socket.assigns.query
+    template_mode = socket.assigns.template_mode
     current_sort_by = socket.assigns.sort_by
     current_sort_order = socket.assigns.sort_order
     per_page = socket.assigns.per_page
@@ -153,6 +182,7 @@ defmodule ScalesCmsWeb.CmsBlockTemplatesLive.Index do
       to:
         CmsBlockTemplatesHelper.build_filter_path(
           query,
+          template_mode,
           new_sort_by,
           new_sort_order,
           1,
@@ -164,6 +194,7 @@ defmodule ScalesCmsWeb.CmsBlockTemplatesLive.Index do
 
   def handle_event("paginate", %{"page" => page, "per-page" => per_page}, socket) do
     query = socket.assigns.query
+    template_mode = socket.assigns.template_mode
     sort_by = socket.assigns.sort_by
     sort_order = socket.assigns.sort_order
 
@@ -175,6 +206,7 @@ defmodule ScalesCmsWeb.CmsBlockTemplatesLive.Index do
       to:
         CmsBlockTemplatesHelper.build_filter_path(
           query,
+          template_mode,
           sort_by,
           sort_order,
           page,
