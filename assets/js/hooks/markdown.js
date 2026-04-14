@@ -16,7 +16,7 @@ const isBlankParagraph = (node) => {
 
 const serializeParagraph = (state, node) => {
   if (isBlankParagraph(node)) {
-    state.write("<p>&nbsp;</p>");
+    state.write("&nbsp;");
     state.closeBlock(node);
     return;
   }
