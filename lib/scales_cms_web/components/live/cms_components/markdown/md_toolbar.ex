@@ -53,7 +53,12 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Md.MdToolbar do
         >
           Quote
         </button>
-        <button type="button" class="tiptap-toolbar-button" data-command="codeBlock" title="Code block">
+        <button
+          type="button"
+          class="tiptap-toolbar-button"
+          data-command="codeBlock"
+          title="Code block"
+        >
           Code
         </button>
         <button
