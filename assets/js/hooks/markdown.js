@@ -1,4 +1,4 @@
-import { Editor, Mark, mergeAttributes } from "@tiptap/core";
+import { Editor } from "@tiptap/core";
 import {
   MarkdownSerializer,
   defaultMarkdownSerializer,

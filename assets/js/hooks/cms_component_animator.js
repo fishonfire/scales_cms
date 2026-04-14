@@ -43,7 +43,7 @@ const CMSComponentAnimator = {
     el.style.opacity = "1";
 
     const cleanup = () => {
-      el.style.maxHeight = `${el.scrollHeight}px`; // keep flexible for future resizes
+      el.style.maxHeight = null; // remove the fixed cap so future content growth is not clipped
       el.removeEventListener("transitionend", cleanup);
     };
 
