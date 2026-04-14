@@ -1,6 +1,6 @@
 defmodule ScalesCmsWeb.Components.CmsComponents.Header.HeaderEditor do
   @moduledoc """
-  The MD editor, rendering the Trix WYSIWYG editor for the MD component
+  Editor for the header component
   """
   alias ScalesCmsWeb.Components.HelperComponents.BlockWrapper
   alias ScalesCmsWeb.Components.CmsComponents.Header.HeaderProperties

@@ -1,6 +1,6 @@
 defmodule ScalesCmsWeb.Components.CmsComponents.CTAButton.CTAButtonEditor do
   @moduledoc """
-  The MD editor, rendering the Trix WYSIWYG editor for the MD component
+  Editor for the CTA button component
   """
   alias ScalesCmsWeb.Components.HelperComponents.BlockWrapper
   alias ScalesCmsWeb.Components.CmsComponents.CTAButton.CTAButtonProperties

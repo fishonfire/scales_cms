@@ -22,8 +22,6 @@
     <link :if={has_custom_css()} rel="stylesheet" href={custom_asset_path(:css)} />
     <script :if={has_custom_js()} src={custom_asset_path(:js)} defer>
     </script>
-
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css" />
   </head>
   <body class="bg-white">
     {@inner_content}

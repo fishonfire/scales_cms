@@ -1,6 +1,6 @@
 defmodule ScalesCmsWeb.Components.CmsComponents.Md.MdEditor do
   @moduledoc """
-  The MD editor, rendering the Trix WYSIWYG editor for the MD component
+  The MD editor, rendering the TipTap WYSIWYG editor for the MD component
   """
   alias ScalesCmsWeb.Components.HelperComponents.BlockWrapper
   alias ScalesCmsWeb.Components.CmsComponents.Md.{MdProperties, MdToolbar}
@@ -71,25 +71,24 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Md.MdEditor do
         <div
           id={"markdown-#{@block.id}"}
           phx-hook="Markdown"
+          data-input-id={"markdown-#{@block.id}-content"}
           data-disabled={to_string(@disabled)}
           phx-block-id={@block.id}
           class="m-[4px]"
         >
-          <trix-toolbar id={"markdown-#{@block.id}-toolbar"}>
-            <MdToolbar.render :if={!@disabled} id={"markdown-#{@block.id}-toolbar-content"} />
-          </trix-toolbar>
-          <trix-editor
-            class="trix-editor"
+          <MdToolbar.render id={"markdown-#{@block.id}-toolbar"} />
+          <div
+            data-markdown-editor
+            class="tiptap-editor"
             id={"markdown-#{@block.id}-editor"}
-            toolbar={"markdown-#{@block.id}-toolbar"}
             phx-update="ignore"
-            disabled={@disabled}
           >
-          </trix-editor>
+          </div>
         </div>
 
         <.simple_form for={@form} phx-change="store-properties" phx-target={@myself}>
           <.input
+            type="textarea"
             phx-debounce="400"
             class="hidden"
             field={@form[:content]}

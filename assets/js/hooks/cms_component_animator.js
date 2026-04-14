@@ -11,14 +11,12 @@ const CMSComponentAnimator = {
       return;
     }
 
-    // Keep height in sync for normal layout changes
-    this.setInitialHeight();
-
     this.maybeAnimateIn();
   },
 
   setInitialHeight() {
-    this.el.style.maxHeight = `${this.el.scrollHeight}px`;
+    // Keep max height big so that it always takes up all space it needs.
+    this.el.style.maxHeight = `99999px`;
   },
 
   maybeAnimateIn() {

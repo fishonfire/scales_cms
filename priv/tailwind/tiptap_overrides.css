@@ -1,0 +1,102 @@
+.tiptap-toolbar {
+  @apply mb-3 flex flex-wrap gap-2 rounded-lg border border-slate-200 bg-slate-50 p-2;
+}
+
+.tiptap-toolbar-group {
+  @apply flex flex-wrap gap-1 rounded-md border border-slate-200 bg-white p-1;
+}
+
+.tiptap-toolbar-button {
+  @apply rounded-md px-3 py-1.5 text-sm font-medium text-slate-700 transition;
+}
+
+.tiptap-toolbar-button:hover:not(:disabled) {
+  @apply bg-slate-100 text-slate-900;
+}
+
+.tiptap-toolbar-button.is-active {
+  @apply bg-slate-900 text-white;
+}
+
+.tiptap-toolbar-button:disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+
+.tiptap-editor {
+  @apply w-full rounded-lg border border-slate-200 bg-white p-4;
+}
+
+.tiptap-editor.is-disabled {
+  @apply bg-slate-50;
+}
+
+.tiptap-editor .tiptap-content {
+  @apply min-h-40 outline-none;
+}
+
+.tiptap-editor a:not(.no-underline) {
+  @apply underline;
+}
+
+.tiptap-editor a:visited {
+  color: green;
+}
+
+.tiptap-editor ul {
+  list-style-type: disc;
+  padding-left: 1rem;
+}
+
+.tiptap-editor ol {
+  list-style-type: decimal;
+  padding-left: 1rem;
+}
+
+.tiptap-editor pre {
+  display: inline-block;
+  width: 100%;
+  vertical-align: top;
+  font-family: monospace;
+  font-size: 1.5em;
+  padding: 0.5em;
+  white-space: pre;
+  background-color: #eee;
+  overflow-x: auto;
+}
+
+.tiptap-editor blockquote {
+  border: 0 solid #ccc;
+  border-left-width: 0.3em;
+  margin-left: 0.3em;
+  padding-left: 0.6em;
+}
+
+.tiptap-editor h1 {
+  font-size: 2rem;
+  line-height: 2;
+  @apply font-semibold;
+}
+
+.tiptap-editor h2 {
+  font-size: 1.5rem;
+  line-height: 1.5;
+  @apply mb-4 font-semibold;
+}
+
+.tiptap-editor h3 {
+  font-size: 1.4rem;
+  line-height: 1.4;
+  @apply mb-4 font-semibold;
+}
+
+.tiptap-editor h4 {
+  font-size: 1.3rem;
+  line-height: 1.3;
+  @apply mb-4 font-semibold;
+}
+
+.tiptap-editor h5 {
+  font-size: 1.2rem;
+  line-height: 1.2;
+  @apply mb-4 font-semibold;
+}
