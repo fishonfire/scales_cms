@@ -28,9 +28,28 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Md.MdEditor do
   end
 
   @impl Phoenix.LiveComponent
-  def handle_event("store-properties", %{"md_properties" => properties}, socket) do
+  def handle_event(
+        "store-properties",
+        %{"md_properties" => properties},
+        %{assigns: %{block: %ScalesCms.Cms.CmsPageVariantBlock{}}} = socket
+      ) do
     with _block <-
            ScalesCms.Cms.CmsPageVariantBlocks.update_cms_page_variant_block(
+             socket.assigns.block,
+             %{properties: properties}
+           ) do
+      {:noreply, socket}
+    end
+  end
+
+  @impl Phoenix.LiveComponent
+  def handle_event(
+        "store-properties",
+        %{"md_properties" => properties},
+        %{assigns: %{block: %ScalesCms.Cms.CmsBlockTemplate{}}} = socket
+      ) do
+    with _block <-
+           ScalesCms.Cms.CmsBlockTemplates.update_cms_block_template(
              socket.assigns.block,
              %{properties: properties}
            ) do
@@ -52,19 +71,19 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Md.MdEditor do
         <div
           id={"markdown-#{@block.id}"}
           phx-hook="Markdown"
-          data-disabled={to_string(@published)}
+          data-disabled={to_string(@disabled)}
           phx-block-id={@block.id}
           class="m-[4px]"
         >
           <trix-toolbar id={"markdown-#{@block.id}-toolbar"}>
-            <MdToolbar.render :if={!@published} id={"markdown-#{@block.id}-toolbar-content"} />
+            <MdToolbar.render :if={!@disabled} id={"markdown-#{@block.id}-toolbar-content"} />
           </trix-toolbar>
           <trix-editor
             class="trix-editor"
             id={"markdown-#{@block.id}-editor"}
             toolbar={"markdown-#{@block.id}-toolbar"}
             phx-update="ignore"
-            disabled={@published}
+            disabled={@disabled}
           >
           </trix-editor>
         </div>

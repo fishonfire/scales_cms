@@ -29,9 +29,28 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Button.ButtonEditor do
   end
 
   @impl Phoenix.LiveComponent
-  def handle_event("store-properties", %{"button_properties" => properties}, socket) do
+  def handle_event(
+        "store-properties",
+        %{"button_properties" => properties},
+        %{assigns: %{block: %ScalesCms.Cms.CmsPageVariantBlock{}}} = socket
+      ) do
     with _block <-
            ScalesCms.Cms.CmsPageVariantBlocks.update_cms_page_variant_block(
+             socket.assigns.block,
+             %{properties: properties}
+           ) do
+      {:noreply, socket}
+    end
+  end
+
+  @impl Phoenix.LiveComponent
+  def handle_event(
+        "store-properties",
+        %{"button_properties" => properties},
+        %{assigns: %{block: %ScalesCms.Cms.CmsBlockTemplate{}}} = socket
+      ) do
+    with _block <-
+           ScalesCms.Cms.CmsBlockTemplates.update_cms_block_template(
              socket.assigns.block,
              %{properties: properties}
            ) do
@@ -50,35 +69,39 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Button.ButtonEditor do
         component={ScalesCmsWeb.Components.CmsComponents.Button}
         published={@published}
       >
-        <.simple_form for={@form} phx-change="store-properties" phx-target={@myself}>
+        <.simple_form
+          for={@form}
+          phx-change="store-properties"
+          phx-target={@myself}
+        >
           <.input
             type="select"
             field={@form[:bg_color_variant]}
             options={Buttons.get_button_color_variants()}
             label="Background color"
-            disabled={@published}
+            disabled={@disabled}
           />
-          <.input type="text" field={@form[:title]} label="Title" disabled={@published} />
+          <.input type="text" field={@form[:title]} label="Title" disabled={@disabled} />
 
           <.live_component
             id={"page-input-#{@block.id}"}
             module={ScalesCmsWeb.Components.HelperComponents.PageSearch}
             field={@form[:page_id]}
-            disabled={@published}
+            disabled={@disabled}
           />
 
           <.input
             type="text"
             field={@form[:url]}
             label="URL"
-            disabled={@published}
+            disabled={@disabled}
             phx-debounce="400"
           />
           <.input
             type="textarea"
             field={@form[:payload]}
             label="Payload"
-            disabled={@published}
+            disabled={@disabled}
             phx-debounce="400"
           />
         </.simple_form>

@@ -97,7 +97,7 @@ defmodule ScalesCmsWeb.Components.HelperComponents.PageSearch do
         <.label>{gettext("Page")}</.label>
 
         <div
-          class="flex mt-2 p-2 border justify-between block w-full rounded text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 border-zinc-300 disabled:border-zinc-100 focus:border-zinc-400"
+          class={"flex mt-2 p-2 border justify-between block w-full rounded text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 border-zinc-300 disabled:border-zinc-100 focus:border-zinc-400 #{if @disabled, do: "bg-gray-100", else: ""}"}
           phx-click="toggle-open"
           phx-target={@myself}
           class="cursor-pointer"

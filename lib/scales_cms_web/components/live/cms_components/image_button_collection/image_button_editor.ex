@@ -1,5 +1,6 @@
 defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButtonEditor do
   @moduledoc false
+  alias ScalesCms.Cms.CmsBlockTemplates
   use ScalesCmsWeb, :live_component
   alias ScalesCmsWeb.Components.CmsComponents.ImageButton.ImageButtonProperties
   alias ScalesCms.Cms.CmsPageVariantBlocks
@@ -42,7 +43,11 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
     save(properties, String.to_integer(index), socket)
   end
 
-  def handle_event("media_selected", %{"id" => id}, socket) do
+  def handle_event(
+        "media_selected",
+        %{"id" => id},
+        %{assigns: %{block: %ScalesCms.Cms.CmsPageVariantBlock{}}} = socket
+      ) do
     item = ScalesCms.Cms.CmsMediaLibrary.get_media_library_item!(id)
 
     properties =
@@ -69,13 +74,67 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ImageButtonCollection.ImageButto
     end
   end
 
-  defp save(properties, index, socket) do
+  def handle_event(
+        "media_selected",
+        %{"id" => id},
+        %{assigns: %{block: %ScalesCms.Cms.CmsBlockTemplate{}}} = socket
+      ) do
+    item = ScalesCms.Cms.CmsMediaLibrary.get_media_library_item!(id)
+
+    properties =
+      socket.assigns.button
+      |> Map.put("image_path", item.url)
+      |> Map.put("image_url", S3Upload.get_presigned_url_for_display(item.url))
+
+    buttons =
+      Map.get(socket.assigns.block.properties, "buttons", [])
+      |> List.replace_at(socket.assigns.index, properties)
+
+    modal_id = "media-library-modal-#{socket.assigns.block.id}-#{socket.assigns.index}-modal"
+
+    with {:ok, block} <-
+           CmsBlockTemplates.update_cms_block_template(
+             socket.assigns.block,
+             %{properties: Map.merge(socket.assigns.block.properties, %{"buttons" => buttons})}
+           ) do
+      notify_parent({:saved, block})
+
+      socket
+      |> close_modal(modal_id)
+      |> then(&{:noreply, &1})
+    end
+  end
+
+  defp save(
+         properties,
+         index,
+         %{assigns: %{block: %ScalesCms.Cms.CmsPageVariantBlock{}}} = socket
+       ) do
     buttons =
       Map.get(socket.assigns.block.properties, "buttons", [])
       |> List.replace_at(index, properties)
 
     with {:ok, block} <-
            CmsPageVariantBlocks.update_cms_page_variant_block(
+             socket.assigns.block,
+             %{properties: Map.merge(socket.assigns.block.properties, %{"buttons" => buttons})}
+           ) do
+      notify_parent({:saved, block})
+      {:noreply, socket}
+    end
+  end
+
+  defp save(
+         properties,
+         index,
+         %{assigns: %{block: %ScalesCms.Cms.CmsBlockTemplate{}}} = socket
+       ) do
+    buttons =
+      Map.get(socket.assigns.block.properties, "buttons", [])
+      |> List.replace_at(index, properties)
+
+    with {:ok, block} <-
+           CmsBlockTemplates.update_cms_block_template(
              socket.assigns.block,
              %{properties: Map.merge(socket.assigns.block.properties, %{"buttons" => buttons})}
            ) do

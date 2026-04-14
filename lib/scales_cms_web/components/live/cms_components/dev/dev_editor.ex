@@ -28,9 +28,28 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Dev.DevEditor do
   end
 
   @impl Phoenix.LiveComponent
-  def handle_event("store-properties", %{"dev_properties" => properties}, socket) do
+  def handle_event(
+        "store-properties",
+        %{"dev_properties" => properties},
+        %{assigns: %{block: %ScalesCms.Cms.CmsPageVariantBlock{}}} = socket
+      ) do
     with _block <-
            ScalesCms.Cms.CmsPageVariantBlocks.update_cms_page_variant_block(
+             socket.assigns.block,
+             %{properties: properties}
+           ) do
+      {:noreply, socket}
+    end
+  end
+
+  @impl Phoenix.LiveComponent
+  def handle_event(
+        "store-properties",
+        %{"dev_properties" => properties},
+        %{assigns: %{block: %ScalesCms.Cms.CmsBlockTemplate{}}} = socket
+      ) do
+    with _block <-
+           ScalesCms.Cms.CmsBlockTemplates.update_cms_block_template(
              socket.assigns.block,
              %{properties: properties}
            ) do
@@ -54,14 +73,14 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Dev.DevEditor do
             type="text"
             field={@form[:component_type]}
             label="Custom component name"
-            disabled={@published}
+            disabled={@disabled}
           />
 
           <.input
             type="textarea"
             field={@form[:properties]}
             label="Properties payload"
-            disabled={@published}
+            disabled={@disabled}
           />
 
           <:actions>

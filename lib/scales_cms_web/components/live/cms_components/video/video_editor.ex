@@ -30,7 +30,11 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
   end
 
   @impl Phoenix.LiveComponent
-  def handle_event("media_selected", %{"id" => id}, socket) do
+  def handle_event(
+        "media_selected",
+        %{"id" => id},
+        %{assigns: %{block: %ScalesCms.Cms.CmsPageVariantBlock{}}} = socket
+      ) do
     item = ScalesCms.Cms.CmsMediaLibrary.get_media_library_item!(id)
 
     properties =
@@ -51,11 +55,57 @@ defmodule ScalesCmsWeb.Components.CmsComponents.Video.VideoEditor do
   end
 
   @impl Phoenix.LiveComponent
-  def handle_event("store-properties", %{"video_properties" => properties}, socket) do
+  def handle_event(
+        "media_selected",
+        %{"id" => id},
+        %{assigns: %{block: %ScalesCms.Cms.CmsBlockTemplate{}}} = socket
+      ) do
+    item = ScalesCms.Cms.CmsMediaLibrary.get_media_library_item!(id)
+
+    properties =
+      socket.assigns.block.properties
+      |> Map.put("video_path", item.url)
+      |> Map.put("video_url", nil)
+
+    with {:ok, block} <-
+           ScalesCms.Cms.CmsBlockTemplates.update_cms_block_template(
+             socket.assigns.block,
+             %{properties: properties}
+           ) do
+      socket
+      |> assign(block: block)
+      |> close_modal("media-library-modal-#{socket.assigns.block.id}-modal")
+      |> then(&{:noreply, &1})
+    end
+  end
+
+  @impl Phoenix.LiveComponent
+  def handle_event(
+        "store-properties",
+        %{"video_properties" => properties},
+        %{assigns: %{block: %ScalesCms.Cms.CmsPageVariantBlock{}}} = socket
+      ) do
     properties = Map.merge(socket.assigns.block.properties, properties)
 
     with {:ok, _block} <-
            ScalesCms.Cms.CmsPageVariantBlocks.update_cms_page_variant_block(
+             socket.assigns.block,
+             %{properties: properties}
+           ) do
+      {:noreply, socket}
+    end
+  end
+
+  @impl Phoenix.LiveComponent
+  def handle_event(
+        "store-properties",
+        %{"video_properties" => properties},
+        %{assigns: %{block: %ScalesCms.Cms.CmsBlockTemplate{}}} = socket
+      ) do
+    properties = Map.merge(socket.assigns.block.properties, properties)
+
+    with {:ok, _block} <-
+           ScalesCms.Cms.CmsBlockTemplates.update_cms_block_template(
              socket.assigns.block,
              %{properties: properties}
            ) do

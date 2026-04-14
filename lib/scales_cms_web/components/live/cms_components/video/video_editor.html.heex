@@ -12,7 +12,11 @@
         </video>
       <% end %>
 
-      <.media_library_button modal_id={"media-library-modal-#{@block.id}-modal"} type="video" />
+      <.media_library_button
+        modal_id={"media-library-modal-#{@block.id}-modal"}
+        type="video"
+        disabled={@disabled}
+      />
     </div>
 
     <.simple_form for={@form} phx-change="store-properties" phx-target={@myself}>
@@ -22,15 +26,20 @@
         field={@form[:video_url]}
         label="Video url"
       />
-      <.input type="text" field={@form[:title]} label="Title" />
-      <.input type="text" field={@form[:subtitle]} label="Subtitle" />
+      <.input type="text" field={@form[:title]} label="Title" disabled={@disabled} />
+      <.input type="text" field={@form[:subtitle]} label="Subtitle" disabled={@disabled} />
 
       <div class="my-2">
-        <.input type="checkbox" field={@form[:autoplay]} label="Autoplay" />
-        <.input type="checkbox" field={@form[:controls]} label="Controls" />
-        <.input type="checkbox" field={@form[:fullscreen]} label="Fullscreen" />
-        <.input type="checkbox" field={@form[:looping]} label="Looping" />
-        <.input type="checkbox" field={@form[:mute]} label="Mute" />
+        <.input type="checkbox" field={@form[:autoplay]} label="Autoplay" disabled={@disabled} />
+        <.input type="checkbox" field={@form[:controls]} label="Controls" disabled={@disabled} />
+        <.input
+          type="checkbox"
+          field={@form[:fullscreen]}
+          label="Fullscreen"
+          disabled={@disabled}
+        />
+        <.input type="checkbox" field={@form[:looping]} label="Looping" disabled={@disabled} />
+        <.input type="checkbox" field={@form[:mute]} label="Mute" disabled={@disabled} />
       </div>
 
       <:actions>

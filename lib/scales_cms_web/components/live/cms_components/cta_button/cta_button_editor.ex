@@ -29,9 +29,28 @@ defmodule ScalesCmsWeb.Components.CmsComponents.CTAButton.CTAButtonEditor do
   end
 
   @impl Phoenix.LiveComponent
-  def handle_event("store-properties", %{"cta_button_properties" => properties}, socket) do
+  def handle_event(
+        "store-properties",
+        %{"cta_button_properties" => properties},
+        %{assigns: %{block: %ScalesCms.Cms.CmsPageVariantBlock{}}} = socket
+      ) do
     with _block <-
            ScalesCms.Cms.CmsPageVariantBlocks.update_cms_page_variant_block(
+             socket.assigns.block,
+             %{properties: properties}
+           ) do
+      {:noreply, socket}
+    end
+  end
+
+  @impl Phoenix.LiveComponent
+  def handle_event(
+        "store-properties",
+        %{"cta_button_properties" => properties},
+        %{assigns: %{block: %ScalesCms.Cms.CmsBlockTemplate{}}} = socket
+      ) do
+    with _block <-
+           ScalesCms.Cms.CmsBlockTemplates.update_cms_block_template(
              socket.assigns.block,
              %{properties: properties}
            ) do
@@ -56,27 +75,27 @@ defmodule ScalesCmsWeb.Components.CmsComponents.CTAButton.CTAButtonEditor do
             field={@form[:bg_color_variant]}
             options={Buttons.get_button_color_variants()}
             label="Background color"
-            disabled={@published}
+            disabled={@disabled}
           />
           <.input
             type="text"
             field={@form[:title]}
             label="Title"
-            disabled={@published}
+            disabled={@disabled}
             phx-debounce="400"
           />
           <.input
             type="text"
             field={@form[:subtitle]}
             label="Subtitle"
-            disabled={@published}
+            disabled={@disabled}
             phx-debounce="400"
           />
           <.input
             type="text"
             field={@form[:icon]}
             label="Icon"
-            disabled={@published}
+            disabled={@disabled}
             phx-debounce="400"
           />
 
@@ -84,21 +103,21 @@ defmodule ScalesCmsWeb.Components.CmsComponents.CTAButton.CTAButtonEditor do
             id={"page-input-#{@block.id}"}
             module={ScalesCmsWeb.Components.HelperComponents.PageSearch}
             field={@form[:page_id]}
-            disabled={@published}
+            disabled={@disabled}
           />
 
           <.input
             type="text"
             field={@form[:url]}
             label="URL"
-            disabled={@published}
+            disabled={@disabled}
             phx-debounce="400"
           />
           <.input
             type="textarea"
             field={@form[:payload]}
             label="Payload"
-            disabled={@published}
+            disabled={@disabled}
             phx-debounce="400"
           />
         </.simple_form>

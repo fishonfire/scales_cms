@@ -1,15 +1,18 @@
 <div>
   <div class="mb-4">
     <.label>{gettext("Image")}</.label>
-    <img
-      :if={Map.get(@button || %{}, "image_path", nil) != nil}
-      src={S3Upload.get_presigned_url_for_display(Map.get(@button, "image_path", nil))}
-      class="max-w-[200px] max-h-[200px] object-cover mb-2"
-    />
+    <div class="w-[200px] h-[200px] mb-2">
+      <img
+        :if={Map.get(@button || %{}, "image_path", nil) != nil}
+        src={S3Upload.get_presigned_url_for_display(Map.get(@button, "image_path", nil))}
+        class="object-cover"
+      />
+    </div>
 
     <.media_library_button
       modal_id={"media-library-modal-#{@block.id}-#{@index}-modal"}
       type="image"
+      disabled={@disabled}
     />
   </div>
 
@@ -33,6 +36,7 @@
       field={@form[:title]}
       label="Title"
       phx-debounce="400"
+      disabled={@disabled}
     />
     <.input
       id={"subtitle-#{@index}-#{@block.id}"}
@@ -40,6 +44,7 @@
       field={@form[:subtitle]}
       label="Subtitle"
       phx-debounce="400"
+      disabled={@disabled}
     />
 
     <.input
@@ -48,6 +53,7 @@
       field={@form[:icon]}
       label="Icon"
       phx-debounce="400"
+      disabled={@disabled}
     />
 
     <.live_component
@@ -55,6 +61,7 @@
       module={ScalesCmsWeb.Components.HelperComponents.PageSearch}
       field={@form[:page_id]}
       field_id={"page-input-#{@block.id}-#{@index}"}
+      disabled={@disabled}
     />
 
     <.input
@@ -63,6 +70,7 @@
       field={@form[:url]}
       label="URL"
       phx-debounce="400"
+      disabled={@disabled}
     />
     <.input
       id={"payload-#{@index}-#{@block.id}"}
@@ -70,6 +78,7 @@
       field={@form[:payload]}
       label="Payload"
       phx-debounce="400"
+      disabled={@disabled}
     />
   </.simple_form>
 </div>

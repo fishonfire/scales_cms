@@ -1,13 +1,14 @@
 defmodule ScalesCmsWeb.Components.HelperComponents.DrawerComponents do
   @moduledoc """
-  A drawer preview for the component library
+  Shared drawer preview for the component library.
+  Supports both regular components and template-backed insertables.
   """
   use ScalesCmsWeb, :live_component
 
-  attr :description, :string
-  attr :icon_type, :string
-  attr :title, :string
-  attr :published, :boolean
+  attr :title, :string, required: true
+  attr :description, :string, default: nil
+  attr :icon_type, :string, default: "cms_block"
+  attr :published, :boolean, default: false
 
   def drawer_preview(assigns) do
     ~H"""
@@ -16,9 +17,12 @@ defmodule ScalesCmsWeb.Components.HelperComponents.DrawerComponents do
         <.svg type={@icon_type} class="w-[40px] h-[30px]" />
       </div>
 
-      <div class="grow">
-        <p class="font-semibold">{@title}</p>
-        <p class="text-xs text-gray-500">{@description}</p>
+      <div class="grow min-w-0">
+        <p class="truncate font-semibold">{@title}</p>
+
+        <p :if={@description} class="text-xs text-gray-500">
+          {@description}
+        </p>
       </div>
 
       <.icon :if={!@published} name="hero-arrows-pointing-out" class="hero-arrow" />

@@ -2,6 +2,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
   @moduledoc """
   The button collection editor component for the CMS
   """
+  alias ScalesCms.Cms.CmsBlockTemplates
   alias ScalesCmsWeb.Components.HelperComponents.BlockWrapper
   alias ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectionWrapper
   alias ScalesCmsWeb.Components.CmsComponents.Button.ButtonProperties
@@ -51,7 +52,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
   def handle_event(
         "store-properties",
         %{"button_properties" => properties, "index" => index},
-        socket
+        %{assigns: %{block: %ScalesCms.Cms.CmsPageVariantBlock{}}} = socket
       ) do
     buttons =
       Map.get(socket.assigns.block.properties, "buttons", [])
@@ -59,6 +60,25 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
 
     with {:ok, block} <-
            CmsPageVariantBlocks.update_cms_page_variant_block(
+             socket.assigns.block,
+             %{properties: Map.merge(socket.assigns.block.properties, %{"buttons" => buttons})}
+           ) do
+      {:noreply, socket |> assign_forms(block) |> assign(block: block)}
+    end
+  end
+
+  @impl Phoenix.LiveComponent
+  def handle_event(
+        "store-properties",
+        %{"button_properties" => properties, "index" => index},
+        %{assigns: %{block: %ScalesCms.Cms.CmsBlockTemplate{}}} = socket
+      ) do
+    buttons =
+      Map.get(socket.assigns.block.properties, "buttons", [])
+      |> List.replace_at(String.to_integer(index), properties)
+
+    with {:ok, block} <-
+           CmsBlockTemplates.update_cms_block_template(
              socket.assigns.block,
              %{properties: Map.merge(socket.assigns.block.properties, %{"buttons" => buttons})}
            ) do
@@ -109,7 +129,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
                 field={button[:bg_color_variant]}
                 options={Buttons.get_button_color_variants()}
                 label="Background color"
-                disabled={@published}
+                disabled={@disabled}
               />
               <.input
                 id={"title-#{index}"}
@@ -117,13 +137,14 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
                 field={button[:title]}
                 label="Title"
                 phx-debounce="400"
+                disabled={@disabled}
               />
 
               <.live_component
                 id={"page-input-#{@block.id}-#{index}"}
                 module={ScalesCmsWeb.Components.HelperComponents.PageSearch}
                 field={button[:page_id]}
-                disabled={@published}
+                disabled={@disabled}
               />
 
               <.input
@@ -132,6 +153,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
                 field={button[:url]}
                 label="URL"
                 phx-debounce="400"
+                disabled={@disabled}
               />
               <.input
                 id={"payload-#{index}"}
@@ -139,6 +161,7 @@ defmodule ScalesCmsWeb.Components.CmsComponents.ButtonCollection.ButtonCollectio
                 field={button[:payload]}
                 label="Payload"
                 phx-debounce="400"
+                disabled={@disabled}
               />
             </.simple_form>
           </.live_component>

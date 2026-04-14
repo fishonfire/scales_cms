@@ -4,6 +4,8 @@ defmodule ScalesCms.Cms.CmsPageVariantBlocks do
   """
 
   import Ecto.Query, warn: false
+  alias ScalesCms.Cms.CmsBlockTemplates
+  alias ScalesCms.Helpers.BlockResolver
   alias ScalesCms.Cms.CmsPageVariantBlock
   import ScalesCms, only: [repo: 0]
 
@@ -78,6 +80,38 @@ defmodule ScalesCms.Cms.CmsPageVariantBlocks do
     |> CmsPageVariantBlock.changeset(attrs)
     |> repo().update()
   end
+
+  def detach_cms_page_variant_block(%CmsPageVariantBlock{} = cms_page_variant_block, locale) do
+    with {:ok, resolved_block} <-
+           BlockResolver.resolve_block_from_template(cms_page_variant_block, locale) do
+      update_cms_page_variant_block(cms_page_variant_block, %{
+        component_type: resolved_block.component_type,
+        properties: resolved_block.properties || %{},
+        block_template_mode: :detached
+      })
+    end
+  end
+
+  def reattach_cms_page_variant_block(
+        %CmsPageVariantBlock{block_template_family_id: family_id} = cms_page_variant_block,
+        locale
+      )
+      when not is_nil(family_id) do
+    case CmsBlockTemplates.get_by_family_and_locale(family_id, locale) do
+      nil ->
+        {:error, :template_not_found}
+
+      template ->
+        update_cms_page_variant_block(cms_page_variant_block, %{
+          component_type: template.component_type,
+          properties: %{},
+          block_template_mode: template.template_mode
+        })
+    end
+  end
+
+  def reattach_cms_page_variant_block(%CmsPageVariantBlock{}, _locale),
+    do: {:error, :template_not_found}
 
   @doc """
   Deletes a cms_page_variant_block.

@@ -8,6 +8,8 @@ defmodule ScalesCms.Cms.CmsPageVariantBlock do
     field :component_type, :string
     field :properties, :map
     field :cms_page_variant_id, :id
+    field :block_template_family_id, Ecto.UUID
+    field :block_template_mode, Ecto.Enum, values: [:live, :snapshot, :detached]
 
     timestamps(type: :utc_datetime)
   end
@@ -15,7 +17,14 @@ defmodule ScalesCms.Cms.CmsPageVariantBlock do
   @doc false
   def changeset(cms_page_variant_block, attrs) do
     cms_page_variant_block
-    |> cast(attrs, [:sort_order, :component_type, :properties, :cms_page_variant_id])
+    |> cast(attrs, [
+      :sort_order,
+      :component_type,
+      :properties,
+      :cms_page_variant_id,
+      :block_template_family_id,
+      :block_template_mode
+    ])
     |> validate_required([:sort_order, :component_type])
   end
 

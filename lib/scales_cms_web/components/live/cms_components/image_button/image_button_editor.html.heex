@@ -7,20 +7,22 @@
     published={@published}
   >
     <div class="mb-4">
-      <img
-        :if={Map.get(@block.properties || %{}, "image_path", nil) != nil}
-        src={
-          S3Upload.get_presigned_url_for_display(
-            Map.get(@block.properties || %{}, "image_path", nil)
-          )
-        }
-        class="max-w-[200px] max-h-[200px] object-cover mb-2"
-      />
+      <div class="w-[200px] h-[200px] mb-2">
+        <img
+          :if={Map.get(@block.properties || %{}, "image_path", nil) != nil}
+          src={
+            S3Upload.get_presigned_url_for_display(
+              Map.get(@block.properties || %{}, "image_path", nil)
+            )
+          }
+          class="object-cover"
+        />
+      </div>
 
       <.media_library_button
         modal_id={"media-library-modal-#{@block.id}-modal"}
         type="image"
-        disabled={@published}
+        disabled={@disabled}
       />
     </div>
 
@@ -36,21 +38,21 @@
         type="text"
         field={@form[:title]}
         label="Title"
-        disabled={@published}
+        disabled={@disabled}
         phx-debounce="400"
       />
       <.input
         type="text"
         field={@form[:subtitle]}
         label="Subtitle"
-        disabled={@published}
+        disabled={@disabled}
         phx-debounce="400"
       />
       <.input
         type="text"
         field={@form[:icon]}
         label="Icon"
-        disabled={@published}
+        disabled={@disabled}
         phx-debounce="400"
       />
 
@@ -58,21 +60,21 @@
         id={"page-input-#{@block.id}"}
         module={ScalesCmsWeb.Components.HelperComponents.PageSearch}
         field={@form[:page_id]}
-        disabled={@published}
+        disabled={@disabled}
       />
 
       <.input
         type="text"
         field={@form[:url]}
         label="URL"
-        disabled={@published}
+        disabled={@disabled}
         phx-debounce="400"
       />
       <.input
         type="textarea"
         field={@form[:payload]}
         label="Payload"
-        disabled={@published}
+        disabled={@disabled}
         phx-debounce="400"
       />
     </.simple_form>
