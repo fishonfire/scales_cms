@@ -1,11 +1,14 @@
 {
   "dependencies": {
     "@lottiefiles/dotlottie-wc": "^0.9.7",
+    "@tiptap/core": "^2.26.1",
+    "@tiptap/extension-link": "^3.22.3",
+    "@tiptap/pm": "^3.22.3",
+    "@tiptap/starter-kit": "^3.22.3",
     "flowbite": "^2.5.2",
     "marked": "^16.4.1",
     "showdown": "^2.1.0",
     "sortablejs": "^1.15.4",
-    "trix": "^2.1.12",
     "turndown": "^7.2.0"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"

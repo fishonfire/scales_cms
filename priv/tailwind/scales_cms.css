@@ -9,6 +9,6 @@
 
 /* This file is for your main application CSS */
 
-@import "./trix_overrides.css";
+@import "./tiptap_overrides.css";
 @import "./sortable.css";
 @import "./tables.css";

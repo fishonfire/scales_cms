@@ -11,14 +11,12 @@ const CMSComponentAnimator = {
       return;
     }
 
-    // Keep height in sync for normal layout changes
-    this.setInitialHeight();
-
     this.maybeAnimateIn();
   },
 
   setInitialHeight() {
-    this.el.style.maxHeight = `${this.el.scrollHeight}px`;
+    // Keep max height big so that it always takes up all space it needs.
+    this.el.style.maxHeight = `99999px`;
   },
 
   maybeAnimateIn() {
@@ -45,7 +43,7 @@ const CMSComponentAnimator = {
     el.style.opacity = "1";
 
     const cleanup = () => {
-      el.style.maxHeight = `${el.scrollHeight}px`; // keep flexible for future resizes
+      el.style.maxHeight = null; // remove the fixed cap so future content growth is not clipped
       el.removeEventListener("transitionend", cleanup);
     };
 

@@ -1,6 +1,6 @@
 defmodule ScalesCmsWeb.Components.CmsComponents.Button.ButtonEditor do
   @moduledoc """
-  The MD editor, rendering the Trix WYSIWYG editor for the MD component
+  Editor for the button component
   """
   alias ScalesCmsWeb.Components.HelperComponents.BlockWrapper
   alias ScalesCmsWeb.Components.CmsComponents.Button.ButtonProperties
