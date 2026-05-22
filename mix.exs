@@ -118,7 +118,7 @@ defmodule ScalesCms.MixProject do
       description: "A page builder annex CMS made by Fish on Fire",
       licenses: ["GPL-3.0-or-later"],
       links: %{github: "https://github.com/fishonfire/scales_cms"},
-      files: ~w(dist lib CHANGELOG.md LICENSE mix.exs README.md)
+      files: ~w(dist lib priv/tailwind CHANGELOG.md LICENSE mix.exs README.md)
     ]
   end
 
