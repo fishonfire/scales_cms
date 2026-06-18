@@ -23,9 +23,30 @@ config :scales_cms,
   repo: CmsDemo.Repo
 ```
 This will allow the CMS to use your application's endpoint and repo.
-- Run `mix scales_cms.generate_migrations` to generate the migrations for the CMS. These migrations
-are now part of your application. You could modify them, but no modifications are supported currently.
+- Create a migration to set up the ScalesCMS database tables:
+```
+mix ecto.gen.migration add_scales_cms
+```
+Then open the generated migration file and add:
+```elixir
+defmodule MyApp.Repo.Migrations.AddScalesCms do
+  use Ecto.Migration
+
+  def up, do: ScalesCms.Migration.up(version: 11)
+  def down, do: ScalesCms.Migration.down(version: 1)
+end
+```
 - Run `mix ecto.migrate` to run the migrations.
+
+When a new version of ScalesCMS is released that includes schema changes, generate a new migration and call `up` with the new version number:
+```elixir
+defmodule MyApp.Repo.Migrations.UpgradeScalesCmsV12 do
+  use Ecto.Migration
+
+  def up, do: ScalesCms.Migration.up(version: 12)
+  def down, do: ScalesCms.Migration.down(version: 12)
+end
+```
 
 ## Setup tailwind for the admin interface
 - Add `tailwind` to your list of dependencies in `mix.exs`
