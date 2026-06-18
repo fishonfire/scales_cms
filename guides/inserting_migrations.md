@@ -1,12 +1,27 @@
 ## Inserting migrations
-To insert the migrations in your host application run the following mix task:
 
-```bash
-mix scales_cms.generate_migrations
+- Create a migration to set up the ScalesCMS database tables:
+
 ```
+mix ecto.gen.migration add_scales_cms
+```
+Then open the generated migration file and add:
+```elixir
+defmodule MyApp.Repo.Migrations.AddScalesCms do
+  use Ecto.Migration
 
-et voila, the migrations are inserted in your host application. Now run the ecto migration;
+  def up, do: ScalesCms.Migration.up(version: 11)
+  def down, do: ScalesCms.Migration.down(version: 1)
+end
+```
+- Run `mix ecto.migrate` to run the migrations.
 
-```bash
-mix ecto.migrate
+When a new version of ScalesCMS is released that includes schema changes, generate a new migration and call `up` with the new version number:
+```elixir
+defmodule MyApp.Repo.Migrations.UpgradeScalesCmsV12 do
+  use Ecto.Migration
+
+  def up, do: ScalesCms.Migration.up(version: 12)
+  def down, do: ScalesCms.Migration.down(version: 12)
+end
 ```
